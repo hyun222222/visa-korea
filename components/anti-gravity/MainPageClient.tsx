@@ -15,16 +15,9 @@ import { ActiveCampaignList } from "@/components/anti-gravity/ActiveCampaignList
 export function MainPageClient() {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const handleCreateCampaign = (newCampaign: any) => {
-        setCampaigns((prev) => [
-            {
-                id: prev.length + 1,
-                participants: 1,
-                status: "모집 시작",
-                ...newCampaign,
-            },
-            ...prev,
-        ]);
+    const handleCreateCampaign = (_newCampaign: any) => {
+        // Campaign is already saved to Supabase by CreateCampaignModal
+        // and redirects to the board page automatically
     };
 
     return (
