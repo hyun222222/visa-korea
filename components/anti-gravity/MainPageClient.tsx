@@ -10,37 +10,9 @@ import { LeakDiagnosisTest } from "@/components/anti-gravity/LeakDiagnosisTest";
 import { StateLiabilityTest } from "@/components/anti-gravity/StateLiabilityTest";
 import { ConsumerDiagnosisTest } from "@/components/anti-gravity/ConsumerDiagnosisTest";
 import { SocialProof } from "@/components/anti-gravity/SocialProof";
-
-// Mock Data for Campaigns (Lifted state)
-const INITIAL_CAMPAIGNS = [
-    {
-        id: 1,
-        title: "A 쇼핑몰 개인정보 유출 집단소송",
-        category: "개인정보 침해",
-        participants: 1240,
-        status: "원고 모집 중",
-        description: "2024년 1월 발생한 대규모 해킹 사태에 대한 손해배상 청구 소송입니다.",
-    },
-    {
-        id: 2,
-        title: "B 아파트 1단지 지하주차장 누수",
-        category: "아파트 하자",
-        participants: 45,
-        status: "증거 수집 중",
-        description: "지하 2층 주차장 천장 누수 및 균열에 대한 시공사 책임 규명.",
-    },
-    {
-        id: 3,
-        title: "C 게임사 확률 조작 피해 보상",
-        category: "소비자 피해",
-        participants: 8900,
-        status: "소송 준비 중",
-        description: "확률형 아이템 정보 허위 표시에 따른 부당 이득 반환 청구.",
-    },
-];
+import { ActiveCampaignList } from "@/components/anti-gravity/ActiveCampaignList";
 
 export function MainPageClient() {
-    const [campaigns, setCampaigns] = useState(INITIAL_CAMPAIGNS);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleCreateCampaign = (newCampaign: any) => {
@@ -60,6 +32,8 @@ export function MainPageClient() {
             <Hero onCreateCampaign={() => setIsModalOpen(true)} />
 
             <SocialProof />
+
+            <ActiveCampaignList />
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full space-y-32 mt-24">
 
