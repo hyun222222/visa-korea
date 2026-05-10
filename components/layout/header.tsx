@@ -10,7 +10,8 @@ export function Header() {
                     <Scale className="h-6 w-6 text-blue-600" />
                     <div className="flex flex-col">
                         <span className="text-lg font-bold text-slate-900 leading-none">김앤현 법률사무소</span>
-                        <span className="text-[10px] text-slate-500 font-medium">Kim& Hyun Law office</span>
+                        <span className="text-[10px] text-slate-500 font-medium">Kim&Hyun Law Office</span>
+                        <span className="text-[9px] text-blue-600 font-medium leading-tight mt-0.5">출입국 행정 관련 법률분쟁 | Immigration & Administrative Legal Disputes</span>
                     </div>
                 </Link>
 
