@@ -52,8 +52,7 @@ export const metadata: Metadata = {
   },
 };
 
-import { Header } from "@/components/layout/header";
-import { Footer } from "@/components/layout/footer";
+import { ConditionalChrome } from "@/components/layout/ConditionalChrome";
 
 export default function RootLayout({
   children,
@@ -105,11 +104,7 @@ export default function RootLayout({
           `}
         </Script>
 
-        <div className="flex min-h-screen flex-col bg-slate-50">
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-        </div>
+        <ConditionalChrome>{children}</ConditionalChrome>
       </body>
     </html>
   );
