@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { Users, ArrowRight, Loader2 } from "lucide-react";
+import { ArrowRight, Loader2 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 
 const CATEGORY_DISPLAY_NAMES: Record<string, string> = {
@@ -11,20 +10,6 @@ const CATEGORY_DISPLAY_NAMES: Record<string, string> = {
     'apartment-defect': '아파트 하자',
     'state-liability': '국가 배상',
     'consumer-damage': '소비자 집단 피해',
-};
-
-const CATEGORY_COLORS: Record<string, string> = {
-    'data-leak': 'from-red-500/20 to-red-600/5 border-red-500/30',
-    'apartment-defect': 'from-blue-500/20 to-blue-600/5 border-blue-500/30',
-    'state-liability': 'from-amber-500/20 to-amber-600/5 border-amber-500/30',
-    'consumer-damage': 'from-emerald-500/20 to-emerald-600/5 border-emerald-500/30',
-};
-
-const CATEGORY_TEXT_COLORS: Record<string, string> = {
-    'data-leak': 'text-red-400',
-    'apartment-defect': 'text-blue-400',
-    'state-liability': 'text-amber-400',
-    'consumer-damage': 'text-emerald-400',
 };
 
 interface Campaign {
@@ -72,70 +57,66 @@ export function ActiveCampaignList() {
         return (
             <section className="py-16">
                 <div className="flex justify-center">
-                    <Loader2 className="h-8 w-8 text-indigo-500 animate-spin" />
+                    <Loader2 className="h-6 w-6 text-[#4a5ba3] animate-spin" />
                 </div>
             </section>
         );
     }
 
     if (error || campaigns.length === 0) {
-        return null; // Don't show section if no campaigns or error
+        return null;
     }
 
     return (
-        <section className="py-16">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center mb-12">
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-indigo-200 to-white">
-                        🔥 진행 중인 소송 모임
+        <section className="py-20 bg-white">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="mb-10">
+                    <p className="text-xs uppercase r text-[#4a5ba3] font-bold mb-3">
+                        Now Active
+                    </p>
+                    <h2 className="text-2xl md:text-3xl font-bold text-[#00074e] mb-2">
+                        진행 중인 소송 모임
                     </h2>
-                    <p className="text-slate-400 max-w-2xl mx-auto">
-                        지금 참여할 수 있는 소송 모임입니다. 같은 피해를 입으셨다면 함께하세요.
+                    <p className="text-[#00074e]/70">
+                        지금 참여할 수 있는 소송 모임입니다. 같은 피해라면 함께하세요.
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {campaigns.map((campaign, index) => {
-                        const categoryName = CATEGORY_DISPLAY_NAMES[campaign.category] || campaign.category;
-                        const colorClass = CATEGORY_COLORS[campaign.category] || 'from-indigo-500/20 to-indigo-600/5 border-indigo-500/30';
-                        const textColor = CATEGORY_TEXT_COLORS[campaign.category] || 'text-indigo-400';
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-[#d5e5ff] border border-[#d5e5ff] rounded-lg overflow-hidden">
+                    {campaigns.map((campaign) => {
+                        const categoryName =
+                            CATEGORY_DISPLAY_NAMES[campaign.category] || campaign.category;
 
                         return (
-                            <motion.div
+                            <Link
                                 key={campaign.id}
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.5, delay: index * 0.1 }}
+                                href={`/anti-gravity/board/${campaign.id}`}
+                                className="group bg-white p-6 hover:bg-[#f6f9ff] transition-colors flex flex-col"
                             >
-                                <Link href={`/anti-gravity/board/${campaign.id}`}>
-                                    <div className={`bg-gradient-to-br ${colorClass} border rounded-2xl p-6 hover:scale-[1.02] transition-all duration-300 cursor-pointer group h-full`}>
-                                        <div className="flex items-center justify-between mb-3">
-                                            <span className={`text-xs font-bold tracking-wider uppercase ${textColor}`}>
-                                                {categoryName}
-                                            </span>
-                                            <span className="text-xs text-slate-500">
-                                                {new Date(campaign.created_at).toLocaleDateString('ko-KR')}
-                                            </span>
-                                        </div>
+                                <div className="flex items-center justify-between mb-3">
+                                    <span className="text-xs font-bold text-[#4a5ba3] ">
+                                        {categoryName}
+                                    </span>
+                                    <span className="text-xs text-[#4a5ba3]/70 font-mono">
+                                        {new Date(campaign.created_at).toLocaleDateString('ko-KR')}
+                                    </span>
+                                </div>
 
-                                        <h3 className="text-lg font-bold text-white mb-2 group-hover:text-indigo-300 transition-colors">
-                                            {campaign.title}
-                                        </h3>
+                                <h3 className="text-base font-bold text-[#00074e] mb-2 line-clamp-2">
+                                    {campaign.title}
+                                </h3>
 
-                                        <p className="text-sm text-slate-400 mb-4 line-clamp-2">
-                                            {campaign.description || '설명이 없습니다.'}
-                                        </p>
+                                <p className="text-sm text-[#00074e]/70 mb-5 line-clamp-2 flex-1">
+                                    {campaign.description || '설명이 없습니다.'}
+                                </p>
 
-                                        <div className="flex items-center justify-between">
-                                            <div className="flex items-center gap-1.5 text-slate-400">
-                                                <Users className="h-4 w-4" />
-                                                <span className="text-sm font-medium">참여하기</span>
-                                            </div>
-                                            <ArrowRight className="h-4 w-4 text-slate-500 group-hover:text-indigo-400 group-hover:translate-x-1 transition-all" />
-                                        </div>
-                                    </div>
-                                </Link>
-                            </motion.div>
+                                <div className="flex items-center justify-between pt-4 border-t border-[#d5e5ff]">
+                                    <span className="text-sm font-bold text-[#00074e]">
+                                        참여하기
+                                    </span>
+                                    <ArrowRight className="h-4 w-4 text-[#4a5ba3]/60 group-hover:text-[#4a5ba3] group-hover:translate-x-0.5 transition-all" />
+                                </div>
+                            </Link>
                         );
                     })}
                 </div>

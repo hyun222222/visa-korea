@@ -1,13 +1,9 @@
 import type { Metadata } from "next";
-import { Inter, Outfit } from "next/font/google";
 import Link from "next/link";
-import { Scale, ArrowLeft } from "lucide-react";
-
-const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
 
 export const metadata: Metadata = {
-    title: "바로소 | 무중력 소송 플랫폼",
-    description: "기울어진 운동장을 바로 세우다. 변호사 없이 가능한 지급명령, 소액소송, 집단소송 플랫폼 바로소.",
+    title: "balawso | 김앤현 법률사무소",
+    description: "변호사 없이도 가능한 지급명령·소액소송·집단소송 안내. 김앤현 법률사무소에서 운영합니다.",
 };
 
 export default function AntiGravityLayout({
@@ -16,44 +12,45 @@ export default function AntiGravityLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <div className={`${outfit.variable} font-sans bg-slate-950 text-slate-50 min-h-screen selection:bg-indigo-500/30 selection:text-indigo-200`}>
-            {/* Dark Mode Header */}
-            <header className="fixed top-0 w-full z-50 border-b border-white/10 bg-slate-950/80 backdrop-blur-md">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                        <Link href="/anti-gravity" className="flex items-center gap-2 group">
-                            <div className="relative">
-                                <Scale className="h-6 w-6 text-indigo-400 group-hover:rotate-12 transition-transform duration-500" />
-                                <div className="absolute inset-0 bg-indigo-500/20 blur-lg rounded-full" />
-                            </div>
-                            <span className="font-bold text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400">
-                                balawso
-                            </span>
-                        </Link>
-                    </div>
+        <div className="font-sans bg-white text-[#00074e] min-h-screen antialiased">
+            <header className="sticky top-0 w-full z-50 bg-white/90 backdrop-blur border-b border-[#d5e5ff]">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+                    <Link href="/anti-gravity" className="font-bold text-lg tracking-tight text-[#00074e]">
+                        balawso
+                    </Link>
 
-                    <nav className="flex items-center gap-6">
-                        <Link href="/" className="text-sm text-slate-400 hover:text-white transition-colors flex items-center gap-1">
-                            <ArrowLeft className="h-4 w-4" />
-                            메인으로 돌아가기
+                    <nav className="flex items-center gap-6 text-sm text-[#00074e]/70">
+                        <Link href="#categories" className="hover:text-[#00074e] transition-colors">
+                            소송 분야
+                        </Link>
+                        <Link href="#diagnosis" className="hover:text-[#00074e] transition-colors">
+                            자가진단
+                        </Link>
+                        <Link href="/" className="hover:text-[#00074e] transition-colors">
+                            메인
                         </Link>
                     </nav>
                 </div>
             </header>
 
-            <main className="pt-16 min-h-screen">
+            <main className="min-h-screen">
                 {children}
             </main>
 
-            {/* Dark Mode Footer */}
-            <footer className="border-t border-white/10 bg-slate-950 py-12">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                    <p className="text-slate-500 text-sm">
-                        © {new Date().getFullYear()} 바로소. Powered by 김앤현 법률사무소.
-                    </p>
-                    <p className="text-slate-600 text-xs mt-2">
-                        본 서비스는 프로토타입이며, 실제 법적 효력은 변호사의 검토가 필요합니다.
-                    </p>
+            <footer className="border-t border-[#d5e5ff] bg-white">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+                    <div className="flex flex-col sm:flex-row justify-between gap-4 text-sm text-[#00074e]/60">
+                        <div>
+                            <p className="text-[#00074e] font-bold">balawso</p>
+                            <p className="mt-1">김앤현 법률사무소에서 운영합니다.</p>
+                        </div>
+                        <div className="text-left sm:text-right">
+                            <p>© {new Date().getFullYear()} balawso</p>
+                            <p className="mt-1 text-xs text-[#00074e]/50">
+                                본 페이지의 정보는 일반 안내이며, 구체적 사안은 변호사 상담을 권장합니다.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </footer>
         </div>

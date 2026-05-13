@@ -36,3 +36,7 @@ output_*.json
 ruling.txt
 
 .vercel
+
+# Build / install logs (local-only)
+.npm-install.log
+.build.log

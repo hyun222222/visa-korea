@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     title: "바로소 | 집단소송 플랫폼 - 뭉치면 승소합니다",
     description: "같은 피해, 같은 분노 — 혼자 포기하지 마세요. 지금 바로 동료를 찾고 함께 소송에 참여하세요.",
     url: 'https://www.balawso.com',
-    siteName: '바로소 (BAROSO)',
+    siteName: '바로소 (balawso)',
     locale: 'ko_KR',
     type: 'website',
     images: [
@@ -69,7 +69,7 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "LegalService",
-              "name": "바로소 (BAROSO) - 김앤현 법률사무소",
+              "name": "바로소 (balawso) - 김앤현 법률사무소",
               "description": "집단소송, 소비자 피해, 개인정보 유출, 아파트 하자 소송을 위한 집단 소송 플랫폼. 같은 피해를 입은 사람들과 함께 권리를 찾으세요.",
               "url": "https://www.balawso.com",
               "telephone": "+82-10-5534-6843",
