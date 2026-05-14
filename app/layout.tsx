@@ -7,36 +7,36 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair" });
 
 export const metadata: Metadata = {
-  title: "Korea Visa Law | Immigration Attorney in Seoul - Kim&Hyun Law Office",
-  description: "Professional Korean immigration law services. Specializing in visa applications, residence permits, permanent residence (F-5), work visas (E-7), and naturalization. Licensed attorneys in Seoul, South Korea.",
-  keywords: ["Korea visa", "Korean immigration lawyer", "Seoul attorney", "F-5 visa", "E-7 visa", "F-2 visa", "permanent residence Korea", "work visa Korea", "immigration law Seoul"],
-  authors: [{ name: "Kim&Hyun Law Office" }],
-  creator: "Kim&Hyun Law Office",
-  publisher: "Kim&Hyun Law Office",
-  metadataBase: new URL('https://koreavisalaw.com'),
+  title: "바로소 | 집단소송 플랫폼 - 혼자면 포기하지만, 뭉치면 승소합니다",
+  description: "집단소송, 소비자 피해, 개인정보 유출, 아파트 하자 — 같은 피해를 입은 사람들과 함께 소송에 참여하세요. 바로소는 김앤현 법률사무소가 운영하는 집단 소송 플랫폼입니다.",
+  keywords: ["집단소송", "집단소송 플랫폼", "소비자 피해", "개인정보 유출 소송", "아파트 하자 소송", "바로소", "김앤현 법률사무소"],
+  authors: [{ name: "김앤현 법률사무소" }],
+  creator: "김앤현 법률사무소",
+  publisher: "김앤현 법률사무소",
+  metadataBase: new URL('https://www.balawso.com'),
   alternates: {
     canonical: '/',
   },
   openGraph: {
-    title: "Korea Visa Law | Immigration Attorney - Kim&Hyun Law Office",
-    description: "Professional Korean immigration law services. Licensed attorneys specializing in visa applications, residence permits, and naturalization in Seoul.",
-    url: 'https://koreavisalaw.com',
-    siteName: 'Kim&Hyun Law Office',
-    locale: 'en_US',
+    title: "바로소 | 집단소송 플랫폼 - 뭉치면 승소합니다",
+    description: "같은 피해, 같은 분노 — 혼자 포기하지 마세요. 지금 바로 동료를 찾고 함께 소송에 참여하세요.",
+    url: 'https://www.balawso.com',
+    siteName: '바로소 (BAROSO)',
+    locale: 'ko_KR',
     type: 'website',
     images: [
       {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Kim&Hyun Law Office - Korean Immigration Lawyers',
+        alt: '바로소 - 집단소송 플랫폼',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: "Korea Visa Law | Immigration Attorney",
-    description: "Professional Korean immigration law services in Seoul",
+    title: "바로소 | 집단소송 플랫폼",
+    description: "혼자면 포기하지만, 뭉치면 승소합니다. 같은 피해자를 찾고 함께 소송하세요.",
     images: ['/og-image.jpg'],
   },
   robots: {
@@ -69,9 +69,9 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "LegalService",
-              "name": "Kim&Hyun Law Office",
-              "description": "Professional legal services in Korean immigration law, specializing in visa applications, residence permits, and naturalization matters.",
-              "url": "https://koreavisalaw.com",
+              "name": "바로소 (BAROSO) - 김앤현 법률사무소",
+              "description": "집단소송, 소비자 피해, 개인정보 유출, 아파트 하자 소송을 위한 집단 소송 플랫폼. 같은 피해를 입은 사람들과 함께 권리를 찾으세요.",
+              "url": "https://www.balawso.com",
               "telephone": "+82-10-5534-6843",
               "email": "info@kimnhyun.com",
               "address": {
@@ -84,8 +84,8 @@ export default function RootLayout({
                 "@type": "Country",
                 "name": "South Korea"
               },
-              "serviceType": ["Immigration Law", "Visa Services", "Legal Consultation"],
-              "logo": "https://koreavisalaw.com/logo.png"
+              "serviceType": ["집단소송", "소비자 피해 소송", "개인정보 유출 소송", "아파트 하자 소송"],
+              "logo": "https://www.balawso.com/logo.png"
             })
           }}
         />

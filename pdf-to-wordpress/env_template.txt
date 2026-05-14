@@ -1,0 +1,7 @@
+# Google Gemini API Key (Get it from: https://aistudio.google.com/app/apikey)
+GOOGLE_API_KEY=AIzaSy...
+
+# WordPress Configuration
+WORDPRESS_URL=https://your-wordpress-site.com
+WORDPRESS_USER=your_username
+WORDPRESS_APP_PASSWORD=xxxx xxxx xxxx xxxx

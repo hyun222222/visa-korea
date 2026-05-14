@@ -6,8 +6,7 @@ export function Footer() {
                     <div className="space-y-3">
                         <h3 className="text-lg font-bold text-slate-900">김앤현 법률사무소</h3>
                         <p className="text-sm text-slate-500 leading-relaxed">
-                            개인회생/파산 전문 법률사무소입니다.<br />
-                            의뢰인의 새 출발을 위해 최선을 다하겠습니다.
+                            의뢰인들의 정당한 소송을 지원하는 바로소
                         </p>
                     </div>
 
@@ -17,15 +16,6 @@ export function Footer() {
                             <li>Attorney: Kim Hyun-jung</li>
                             <li>Tel: +82 10-5534-6843</li>
                             <li>Address: 16 Beobwon-ro, Seocho-gu, Seoul, South Korea</li>
-                        </ul>
-                    </div>
-
-                    <div className="space-y-3">
-                        <h4 className="font-semibold text-slate-900">서비스 안내</h4>
-                        <ul className="space-y-2 text-sm text-slate-600">
-                            <li>개인회생 자가 진단</li>
-                            <li>신청서 자동 작성</li>
-                            <li>무료 법률 상담</li>
                         </ul>
                     </div>
                 </div>
