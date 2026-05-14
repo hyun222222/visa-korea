@@ -1,6 +1,5 @@
 "use client";
 
-import { RealTimeTicker } from "./RealTimeTicker";
 import { SearchBar } from "./SearchBar";
 import { CategoryChips } from "./CategoryChips";
 
@@ -11,10 +10,8 @@ interface HeroProps {
 export function Hero({ onCreateCampaign }: HeroProps) {
     return (
         <section className="w-full">
-            <RealTimeTicker />
-
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
-                <p className="text-sm font-bold text-[#4a5ba3] mb-5">
+                <p className="text-sm font-bold text-[#4a5ba3] tracking-wide mb-5">
                     balawso · 김앤현 법률사무소
                 </p>
 
@@ -27,21 +24,6 @@ export function Hero({ onCreateCampaign }: HeroProps) {
                     개인정보 유출, 아파트 하자, 국가배상, 소비자 피해.<br />
                     balawso는 같은 사건의 피해자가 모여 함께 절차를 진행할 수 있도록 돕습니다.
                 </p>
-
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-8 gap-y-3 mb-10 pb-10 border-b border-[#d5e5ff] text-sm">
-                    <div>
-                        <p className="text-[#00074e]/60">현재 참여 원고</p>
-                        <p className="font-mono font-bold text-[#4a5ba3] text-base mt-0.5">12,450명</p>
-                    </div>
-                    <div>
-                        <p className="text-[#00074e]/60">청구 권리액</p>
-                        <p className="font-mono font-bold text-[#4a5ba3] text-base mt-0.5">3,500억 원</p>
-                    </div>
-                    <div>
-                        <p className="text-[#00074e]/60">진행 사건</p>
-                        <p className="font-mono font-bold text-[#4a5ba3] text-base mt-0.5">47건</p>
-                    </div>
-                </div>
 
                 <div className="flex flex-col sm:flex-row gap-3 mb-12">
                     <button

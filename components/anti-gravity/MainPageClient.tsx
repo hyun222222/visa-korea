@@ -8,7 +8,6 @@ import { DefectDiagnosisTest } from "@/components/anti-gravity/DefectDiagnosisTe
 import { LeakDiagnosisTest } from "@/components/anti-gravity/LeakDiagnosisTest";
 import { StateLiabilityTest } from "@/components/anti-gravity/StateLiabilityTest";
 import { ConsumerDiagnosisTest } from "@/components/anti-gravity/ConsumerDiagnosisTest";
-import { SocialProof } from "@/components/anti-gravity/SocialProof";
 import { ActiveCampaignList } from "@/components/anti-gravity/ActiveCampaignList";
 
 const SECTIONS = [
@@ -48,8 +47,6 @@ export function MainPageClient() {
     return (
         <div className="flex flex-col">
             <Hero onCreateCampaign={() => setIsModalOpen(true)} />
-
-            <SocialProof />
 
             <ActiveCampaignList />
 
