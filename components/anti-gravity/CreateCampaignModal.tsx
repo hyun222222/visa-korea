@@ -67,13 +67,19 @@ export function CreateCampaignModal({ isOpen, onClose, onSubmit }: CreateCampaig
             }
 
             // 2. Insert Campaign Data
+            // Coerce empty strings -> null so DB CHECK constraints (URL format etc.) pass.
+            const trim = (v: unknown) => (typeof v === "string" ? v.trim() : v);
+            const nullIfEmpty = (v: unknown) => {
+                const t = trim(v);
+                return typeof t === "string" && t.length === 0 ? null : t;
+            };
             const { data, error } = await supabase
                 .from('campaigns')
                 .insert({
                     category: selectedCategory,
-                    title: formData.title,
-                    description: formData.description,
-                    open_chat_link: formData.openChatLink,
+                    title: trim(formData.title) as string,
+                    description: nullIfEmpty(formData.description),
+                    open_chat_link: nullIfEmpty(formData.openChatLink),
                     evidence_url: evidenceUrl,
                     metadata: formData, // Store all other dynamic fields
                     status: 'active',
