@@ -2,28 +2,11 @@ import { VisaCalculators } from "@/components/calculators/VisaCalculators";
 import { VisaRequirementsTable } from "@/components/calculators/VisaRequirementsTable";
 import { FileText, Scale, Shield, BookOpen, Building2, MapPin, Phone, Mail } from "lucide-react";
 import { FadeIn } from "@/components/ui/animate-wrapper";
+import Link from "next/link";
 
 export default function Home() {
     return (
         <div className="min-h-screen bg-slate-50 font-sans selection:bg-primary/10 selection:text-primary">
-            {/* Navigation Header */}
-            <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
-                <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between items-center h-16">
-                        <div className="flex items-center gap-2">
-                            <Scale className="h-6 w-6 text-primary" />
-                            <span className="font-serif font-bold text-xl text-slate-900">Kim&Hyun Law</span>
-                        </div>
-                        <div className="hidden md:flex items-center gap-6">
-                            <a href="#about" className="text-slate-600 hover:text-primary transition-colors font-medium">About</a>
-                            <a href="#calculators" className="text-slate-600 hover:text-primary transition-colors font-medium">자격 자가진단</a>
-                            <a href="#requirements" className="text-slate-600 hover:text-primary transition-colors font-medium">Requirements</a>
-                            <a href="#contact" className="px-4 py-2 bg-primary text-white rounded-md font-medium hover:bg-primary/90 transition-colors">Get Started</a>
-                        </div>
-                    </div>
-                </nav>
-            </header>
-
             {/* Hero Section */}
             <div className="relative bg-white border-b border-slate-200">
                 <div className="max-w-7xl mx-auto py-20 px-4 sm:py-24 sm:px-6 lg:px-8">
@@ -190,79 +173,6 @@ export default function Home() {
                     </div>
                 </section>
             </main>
-
-            {/* Footer */}
-            <footer className="bg-slate-900 text-white mt-24">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
-                        {/* Law Office Info */}
-                        <div className="md:col-span-2">
-                            <div className="flex items-center gap-2 mb-4">
-                                <Scale className="h-6 w-6 text-secondary" />
-                                <span className="font-serif font-bold text-xl">Kim&Hyun Law Office</span>
-                            </div>
-                            <p className="text-slate-400 mb-4 leading-relaxed">
-                                Professional legal services in Korean immigration law, administrative litigation, and legal consulting.
-                            </p>
-                            <p className="text-slate-500 text-sm">
-                                Licensed to practice law in the Republic of Korea
-                            </p>
-                        </div>
-
-                        {/* Legal Services */}
-                        <div>
-                            <h3 className="font-serif font-bold text-lg mb-4">Legal Services</h3>
-                            <ul className="space-y-2 text-slate-400">
-                                <li>Immigration & Visa Law</li>
-                                <li>Administrative Litigation</li>
-                                <li>Administrative Appeals</li>
-                                <li>Legal Document Drafting</li>
-                                <li>Legal Consultation</li>
-                            </ul>
-                        </div>
-
-                        {/* Contact */}
-                        <div>
-                            <h3 className="font-serif font-bold text-lg mb-4">Contact</h3>
-                            <ul className="space-y-2 text-slate-400">
-                                <li>
-                                    <a href="https://wa.me/821055346843" target="_blank" rel="noopener noreferrer" className="hover:text-secondary transition-colors">
-                                        010-5534-6843
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="mailto:info@kimnhyun.com" className="hover:text-secondary transition-colors">
-                                        info@kimnhyun.com
-                                    </a>
-                                </li>
-                                <li className="text-slate-500 text-sm pt-2">
-                                    Seoul, South Korea
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    {/* Legal Disclaimer */}
-                    <div className="mt-12 pt-8 border-t border-slate-800">
-                        <div className="bg-slate-800 rounded-lg p-6 mb-6">
-                            <h4 className="font-semibold text-amber-400 mb-3 flex items-center gap-2">
-                                <Shield className="h-5 w-5" />
-                                Important Legal Notice
-                            </h4>
-                            <p className="text-slate-300 text-sm leading-relaxed">
-                                The information provided on this website is for general reference purposes only and does not constitute legal advice.
-                                The visa eligibility assessments and calculations are informational tools and have no legal binding effect.
-                                For specific legal matters, please contact Kim&Hyun Law Office for professional consultation.
-                            </p>
-                        </div>
-
-                        <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-500">
-                            <p>© {new Date().getFullYear()} Kim&Hyun Law Office. All rights reserved.</p>
-                            <p>Attorney advertising. Prior results do not guarantee similar outcomes.</p>
-                        </div>
-                    </div>
-                </div>
-            </footer>
         </div>
     );
 }

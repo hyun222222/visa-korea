@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routes import visa, application, forms
+from routes import visa, application, forms, post
 
 app = FastAPI(
     title="Visa Korea API",
@@ -21,6 +21,7 @@ app.add_middleware(
 app.include_router(visa.router, prefix="/api/visa", tags=["Visa"])
 app.include_router(application.router, prefix="/api/applications", tags=["Applications"])
 app.include_router(forms.router, prefix="/api/forms", tags=["Forms"])
+app.include_router(post.router, prefix="/api/posts", tags=["Posts"])
 
 @app.get("/")
 async def root():

@@ -11,6 +11,7 @@ import {
     parseMarkdownToBlocks,
     blocksToMarkdown
 } from "@/lib/blog-db";
+import { getBoardPosts, createBoardPost, updateBoardPost, deleteBoardPost, BoardPost } from '@/lib/board-db';
 import { BLOG_CATEGORIES, BlogPost, BlogCategoryId } from "@/lib/blog-posts";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -30,14 +31,37 @@ import {
     Loader2,
     X,
     Calendar,
-    PenTool
+    PenTool,
+    MessageSquare
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+
+const BOARD_CATEGORIES = ["Notice", "Visa News", "Q&A"] as const;
+type BoardCategoryType = typeof BOARD_CATEGORIES[number];
+
+const BOARD_CATEGORY_LABELS: Record<BoardCategoryType, string> = {
+    "Notice": "공지사항",
+    "Visa News": "비자 뉴스",
+    "Q&A": "Q&A",
+};
 
 export default function AdminDashboardPage() {
     const router = useRouter();
     const [loading, setLoading] = useState(true);
     const [posts, setPosts] = useState<BlogPost[]>([]);
+
+    // Tab State
+    const [activeTab, setActiveTab] = useState<'blog' | 'board'>('blog');
+
+    // Board State
+    const [boardPosts, setBoardPosts] = useState<BoardPost[]>([]);
+    const [boardLoading, setBoardLoading] = useState(true);
+    const [boardFormTitle, setBoardFormTitle] = useState("");
+    const [boardFormCategory, setBoardFormCategory] = useState<BoardCategoryType>("Notice");
+    const [boardFormContent, setBoardFormContent] = useState("");
+    const [boardEditingId, setBoardEditingId] = useState<string | null>(null);
+    const [isBoardEditorOpen, setIsBoardEditorOpen] = useState(false);
+    const [isBoardSaving, setIsBoardSaving] = useState(false);
     
     // Auth State
     const [userEmail, setUserEmail] = useState<string | null>(null);
@@ -70,6 +94,7 @@ export default function AdminDashboardPage() {
             } else {
                 setUserEmail(session.user.email || "Admin");
                 fetchPosts();
+                fetchBoardPosts();
             }
         };
         checkAuth();
@@ -80,6 +105,77 @@ export default function AdminDashboardPage() {
         const data = await getSupabasePosts();
         setPosts(data);
         setLoading(false);
+    };
+
+    const fetchBoardPosts = async () => {
+        setBoardLoading(true);
+        try {
+            const result = await getBoardPosts();
+            setBoardPosts(result.posts);
+        } catch (err) {
+            console.error("Failed to fetch board posts:", err);
+        } finally {
+            setBoardLoading(false);
+        }
+    };
+
+    const handleBoardCreateNew = () => {
+        setBoardEditingId(null);
+        setBoardFormTitle("");
+        setBoardFormCategory("Notice");
+        setBoardFormContent("");
+        setIsBoardEditorOpen(true);
+    };
+
+    const handleBoardEdit = (post: BoardPost) => {
+        setBoardEditingId(post.id);
+        setBoardFormTitle(post.title);
+        setBoardFormCategory(post.category as BoardCategoryType);
+        setBoardFormContent(post.content);
+        setIsBoardEditorOpen(true);
+    };
+
+    const handleBoardDelete = async (id: string) => {
+        if (!confirm("정말 이 게시글을 영구 삭제하시겠습니까?")) return;
+        try {
+            await deleteBoardPost(id);
+            alert("성공적으로 삭제되었습니다.");
+            fetchBoardPosts();
+        } catch (err: any) {
+            alert(`삭제 실패: ${err.message}`);
+        }
+    };
+
+    const handleBoardSave = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!boardFormTitle.trim() || !boardFormContent.trim()) {
+            alert("제목과 본문은 필수 입력 사항입니다.");
+            return;
+        }
+        setIsBoardSaving(true);
+        try {
+            if (boardEditingId) {
+                await updateBoardPost(boardEditingId, {
+                    title: boardFormTitle,
+                    category: boardFormCategory,
+                    content: boardFormContent,
+                });
+            } else {
+                await createBoardPost({
+                    title: boardFormTitle,
+                    category: boardFormCategory,
+                    content: boardFormContent,
+                    is_published: true,
+                });
+            }
+            setIsBoardEditorOpen(false);
+            fetchBoardPosts();
+            alert("게시글이 저장되었습니다.");
+        } catch (err: any) {
+            alert(`저장 중 오류 발생: ${err.message}`);
+        } finally {
+            setIsBoardSaving(false);
+        }
     };
 
     const handleLogout = async () => {
@@ -238,22 +334,35 @@ export default function AdminDashboardPage() {
                         <div>
                             <h2 className="text-2xl font-serif font-bold text-slate-100 flex items-center gap-2">
                                 <PenTool className="h-5 w-5 text-blue-500" />
-                                블로그 기사 관리
+                                {activeTab === 'blog' ? '블로그 기사 관리' : '게시판 관리'}
                             </h2>
                             <p className="text-xs text-slate-400 mt-1">
-                                Supabase 실시간 연동 중. 여기에 올라간 글은 사이트 블로그 페이지에 즉시 노출됩니다.
+                                {activeTab === 'blog'
+                                    ? 'Supabase 실시간 연동 중. 여기에 올라간 글은 사이트 블로그 페이지에 즉시 노출됩니다.'
+                                    : 'Supabase 실시간 연동 중. 여기에 올라간 글은 사이트 게시판 페이지에 즉시 노출됩니다.'}
                             </p>
                         </div>
                         <Button 
-                            onClick={handleCreateNew} 
+                            onClick={activeTab === 'blog' ? handleCreateNew : handleBoardCreateNew} 
                             className="bg-blue-600 hover:bg-blue-700 text-white font-medium gap-2 shadow-lg transition-transform duration-200 hover:-translate-y-0.5"
                         >
                             <Plus className="h-4 w-4" />
-                            새 칼럼 작성
+                            {activeTab === 'blog' ? '새 칼럼 작성' : '새 게시글 작성'}
                         </Button>
                     </div>
 
-                    {/* Posts list grid */}
+                    {/* Tab Buttons */}
+                    <div className="flex gap-2 border-b border-slate-800 mb-6">
+                        <button onClick={() => setActiveTab('blog')} className={`px-4 py-2.5 text-sm font-medium border-b-2 transition-colors ${activeTab === 'blog' ? 'border-blue-500 text-blue-400' : 'border-transparent text-slate-500 hover:text-slate-300'}`}>
+                            <BookOpen className="h-4 w-4 inline mr-2" />블로그 관리
+                        </button>
+                        <button onClick={() => setActiveTab('board')} className={`px-4 py-2.5 text-sm font-medium border-b-2 transition-colors ${activeTab === 'board' ? 'border-blue-500 text-blue-400' : 'border-transparent text-slate-500 hover:text-slate-300'}`}>
+                            <MessageSquare className="h-4 w-4 inline mr-2" />게시판 관리
+                        </button>
+                    </div>
+
+                    {/* Blog Posts Tab */}
+                    {activeTab === 'blog' && (
                     <Card className="bg-slate-950 border-slate-800 text-slate-200">
                         <CardHeader className="border-b border-slate-800">
                             <CardTitle className="text-sm font-semibold tracking-wider text-slate-300 uppercase">
@@ -328,6 +437,85 @@ export default function AdminDashboardPage() {
                             )}
                         </CardContent>
                     </Card>
+                    )}
+
+                    {/* Board Posts Tab */}
+                    {activeTab === 'board' && (
+                    <Card className="bg-slate-950 border-slate-800 text-slate-200">
+                        <CardHeader className="border-b border-slate-800">
+                            <CardTitle className="text-sm font-semibold tracking-wider text-slate-300 uppercase">
+                                현재 등록된 게시판 글 목록
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent className="p-0">
+                            {boardLoading ? (
+                                <div className="flex flex-col items-center justify-center py-20 gap-3">
+                                    <Loader2 className="h-8 w-8 text-blue-500 animate-spin" />
+                                    <p className="text-xs text-slate-400">데이터베이스 로드 중...</p>
+                                </div>
+                            ) : boardPosts.length === 0 ? (
+                                <div className="text-center py-20 space-y-4">
+                                    <MessageSquare className="h-12 w-12 mx-auto text-slate-700" />
+                                    <p className="text-sm text-slate-400 font-medium">등록된 게시판 글이 없습니다.</p>
+                                    <Button onClick={handleBoardCreateNew} variant="link" className="text-blue-500">
+                                        첫 번째 게시글 작성하기
+                                    </Button>
+                                </div>
+                            ) : (
+                                <div className="overflow-x-auto">
+                                    <table className="w-full text-left border-collapse">
+                                        <thead>
+                                            <tr className="border-b border-slate-800 text-xs font-semibold text-slate-400 uppercase bg-slate-900/50">
+                                                <th className="px-6 py-4">분류</th>
+                                                <th className="px-6 py-4">제목</th>
+                                                <th className="px-6 py-4">작성일</th>
+                                                <th className="px-6 py-4 text-right">작업</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="divide-y divide-slate-800/60 text-sm">
+                                            {boardPosts.map((post) => (
+                                                <tr key={post.id} className="hover:bg-slate-900/30 transition-colors">
+                                                    <td className="px-6 py-4 whitespace-nowrap">
+                                                        <Badge className="bg-slate-800 text-slate-300 border-slate-700">
+                                                            {BOARD_CATEGORY_LABELS[post.category as BoardCategoryType] || post.category}
+                                                        </Badge>
+                                                    </td>
+                                                    <td className="px-6 py-4">
+                                                        <div className="font-semibold text-slate-200 line-clamp-1">{post.title}</div>
+                                                        <div className="text-xs text-slate-500 mt-0.5 line-clamp-1">{post.content.substring(0, 60)}...</div>
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap text-xs text-slate-400 font-mono">
+                                                        {new Date(post.created_at).toLocaleDateString('ko-KR')}
+                                                    </td>
+                                                    <td className="px-6 py-4 text-right whitespace-nowrap space-x-2">
+                                                        <Button 
+                                                            variant="outline" 
+                                                            size="sm" 
+                                                            onClick={() => handleBoardEdit(post)}
+                                                            className="border-slate-800 hover:bg-slate-800 hover:text-white text-slate-400 h-8"
+                                                        >
+                                                            <Edit className="h-3.5 w-3.5" />
+                                                            <span className="hidden sm:inline ml-1.5">수정</span>
+                                                        </Button>
+                                                        <Button 
+                                                            variant="outline" 
+                                                            size="sm" 
+                                                            onClick={() => handleBoardDelete(post.id)}
+                                                            className="border-slate-800 hover:bg-red-950/40 hover:text-red-400 hover:border-red-900/40 text-slate-500 h-8"
+                                                        >
+                                                            <Trash2 className="h-3.5 w-3.5" />
+                                                            <span className="hidden sm:inline ml-1.5">삭제</span>
+                                                        </Button>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            )}
+                        </CardContent>
+                    </Card>
+                    )}
                 </div>
             </main>
 
@@ -549,6 +737,94 @@ export default function AdminDashboardPage() {
                                         </span>
                                     ) : (
                                         "발행 완료"
+                                    )}
+                                </Button>
+                            </div>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
+
+            {/* Board Editor Modal */}
+            <AnimatePresence>
+                {isBoardEditorOpen && (
+                    <div className="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.98, y: 15 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.98, y: 15 }}
+                            className="bg-slate-900 border border-slate-800 w-full max-w-2xl rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh]"
+                        >
+                            {/* Board Editor Header */}
+                            <div className="bg-slate-950 border-b border-slate-800 px-6 py-4 flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                    <MessageSquare className="h-5 w-5 text-blue-500" />
+                                    <h3 className="font-serif font-bold text-slate-100">
+                                        {boardEditingId ? "게시글 수정" : "새 게시글 작성"}
+                                    </h3>
+                                </div>
+                                <button onClick={() => setIsBoardEditorOpen(false)} className="text-slate-400 hover:text-white transition-colors">
+                                    <X className="h-5 w-5" />
+                                </button>
+                            </div>
+
+                            {/* Board Editor Form Body */}
+                            <form onSubmit={handleBoardSave} className="flex-1 overflow-y-auto p-6 space-y-6 text-slate-200">
+                                {/* Title */}
+                                <div className="space-y-1.5">
+                                    <Label htmlFor="boardTitle" className="text-xs font-semibold text-slate-400 uppercase">제목 (Title) *</Label>
+                                    <Input
+                                        id="boardTitle"
+                                        value={boardFormTitle}
+                                        onChange={(e) => setBoardFormTitle(e.target.value)}
+                                        placeholder="게시글 제목을 입력하세요"
+                                        className="bg-slate-950 border-slate-800 focus-visible:ring-blue-500"
+                                        required
+                                    />
+                                </div>
+
+                                {/* Category */}
+                                <div className="space-y-1.5">
+                                    <Label htmlFor="boardCategory" className="text-xs font-semibold text-slate-400 uppercase">분류 (Category) *</Label>
+                                    <select
+                                        id="boardCategory"
+                                        value={boardFormCategory}
+                                        onChange={(e) => setBoardFormCategory(e.target.value as BoardCategoryType)}
+                                        className="flex h-9 w-full rounded-md border border-slate-800 bg-slate-950 px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-blue-500"
+                                    >
+                                        {BOARD_CATEGORIES.map((cat) => (
+                                            <option key={cat} value={cat}>{BOARD_CATEGORY_LABELS[cat]}</option>
+                                        ))}
+                                    </select>
+                                </div>
+
+                                {/* Content */}
+                                <div className="space-y-1.5">
+                                    <Label htmlFor="boardContent" className="text-xs font-semibold text-slate-400 uppercase">본문 내용 (Content) *</Label>
+                                    <textarea
+                                        id="boardContent"
+                                        value={boardFormContent}
+                                        onChange={(e) => setBoardFormContent(e.target.value)}
+                                        placeholder="게시글 본문을 입력하세요..."
+                                        className="flex min-h-[240px] w-full rounded-md border border-slate-800 bg-slate-950 px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-blue-500 resize-none"
+                                        required
+                                    />
+                                </div>
+                            </form>
+
+                            {/* Board Editor Footer */}
+                            <div className="bg-slate-950 border-t border-slate-800 px-6 py-4 flex justify-end gap-3">
+                                <Button type="button" variant="outline" onClick={() => setIsBoardEditorOpen(false)} className="border-slate-850 text-slate-400 hover:bg-slate-800">
+                                    취소
+                                </Button>
+                                <Button type="button" onClick={handleBoardSave} disabled={isBoardSaving} className="bg-blue-600 hover:bg-blue-700 text-white font-medium">
+                                    {isBoardSaving ? (
+                                        <span className="flex items-center gap-1.5">
+                                            <Loader2 className="h-4 w-4 animate-spin" />
+                                            저장 중...
+                                        </span>
+                                    ) : (
+                                        "저장 완료"
                                     )}
                                 </Button>
                             </div>

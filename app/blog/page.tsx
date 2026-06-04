@@ -29,7 +29,8 @@ export const metadata: Metadata = {
 };
 
 export default async function BlogIndexPage() {
-    const posts = await getSupabasePosts();
+    const allPosts = await getSupabasePosts();
+    const posts = allPosts.filter(p => !p.slug.endsWith('-en') && !p.slug.endsWith('-zh') && !p.slug.endsWith('-ja'));
     
     return (
         <div className="bg-slate-50">
