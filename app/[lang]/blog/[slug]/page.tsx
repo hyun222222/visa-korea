@@ -2,6 +2,8 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Calendar, Clock, ChevronLeft, MessageCircle, ClipboardCheck } from "lucide-react";
+
+export const revalidate = 0;
 import {
     getCategoryById,
     type BlogBlock,

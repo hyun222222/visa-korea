@@ -4,6 +4,8 @@ import { BlogIndexClient } from "@/components/blog/BlogIndexClient";
 import { BLOG_CATEGORIES, BlogCategoryId } from "@/lib/blog-posts";
 import { notFound } from "next/navigation";
 
+export const revalidate = 0;
+
 const TRANSLATIONS = {
     ko: {
         title: "Korea Visa Law Blog | Immigration & Investment Insights — Kim&Hyun Law Office",

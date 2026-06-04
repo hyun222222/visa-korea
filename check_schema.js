@@ -22,15 +22,12 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 
 async function test() {
     const supabase = createClient(supabaseUrl, supabaseAnonKey);
-    console.log('Attempting signup...');
-    const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
-        email: 'tempseeder@kimnhyun.com',
-        password: 'TempPassword123!',
-    });
-    if (signUpError) {
-        console.error('Signup failed:', signUpError);
+    console.log('Fetching all blog posts from Supabase...');
+    const { data, error } = await supabase.from('blog_posts').select('slug, title, published_at').order('published_at', { ascending: false });
+    if (error) {
+        console.error('Error fetching blog posts:', error);
     } else {
-        console.log('Signup success:', signUpData);
+        console.log('Blog posts in database:', data);
     }
 }
 
