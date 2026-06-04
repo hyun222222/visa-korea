@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Calendar, Clock, ChevronLeft, MessageCircle, ClipboardCheck } from "lucide-react";
 
-export const revalidate = 0;
+export const dynamic = 'force-dynamic';
 import {
     getCategoryById,
     type BlogBlock,

@@ -4,7 +4,7 @@ import { BlogIndexClient } from "@/components/blog/BlogIndexClient";
 import { BLOG_CATEGORIES, BlogCategoryId } from "@/lib/blog-posts";
 import { notFound } from "next/navigation";
 
-export const revalidate = 0;
+export const dynamic = 'force-dynamic';
 
 const TRANSLATIONS = {
     ko: {

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { getSupabasePosts } from "@/lib/blog-db";
 import { BlogIndexClient } from "@/components/blog/BlogIndexClient";
 
-export const revalidate = 0;
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
     title: "Korea Visa Law Blog | Immigration & Investment Insights — Kim&Hyun Law Office",
