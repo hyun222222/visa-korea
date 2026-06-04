@@ -17,6 +17,8 @@ export function Header() {
                 <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600">
                     <Link href="/check" className="hover:text-blue-600 transition-colors">자격 자가 진단</Link>
                     <Link href="/apply" className="hover:text-blue-600 transition-colors">신청서 작성</Link>
+                    <Link href="/blog" className="hover:text-blue-600 transition-colors">Blog</Link>
+                    <Link href="/board" className="hover:text-blue-600 transition-colors">게시판</Link>
                 </nav>
 
                 <div className="flex items-center gap-2">
