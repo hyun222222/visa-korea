@@ -3,16 +3,21 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Calendar, Clock, ChevronLeft, MessageCircle, ClipboardCheck } from "lucide-react";
 import {
-    blogPosts,
-    blogPostsSortedByDate,
-    getPostBySlug,
     getCategoryById,
     type BlogBlock,
 } from "@/lib/blog-posts";
+import { getSupabasePostBySlug, getSupabasePosts } from "@/lib/blog-db";
 
-// Required for `output: 'export'` — pre-render every post at build.
+// Pre-render pages that exist in the database at build time.
+// Other pages will be generated on-demand at runtime.
 export async function generateStaticParams() {
-    return blogPosts.map((post) => ({ slug: post.slug }));
+    try {
+        const posts = await getSupabasePosts();
+        return posts.map((post) => ({ slug: post.slug }));
+    } catch (e) {
+        console.error("Error in generateStaticParams:", e);
+        return [];
+    }
 }
 
 interface RouteParams {
@@ -21,7 +26,7 @@ interface RouteParams {
 
 export async function generateMetadata({ params }: RouteParams): Promise<Metadata> {
     const { slug } = await params;
-    const post = getPostBySlug(slug);
+    const post = await getSupabasePostBySlug(slug);
     if (!post) {
         return {
             title: "찾을 수 없는 글 | Korea Visa Law",
@@ -53,15 +58,16 @@ export async function generateMetadata({ params }: RouteParams): Promise<Metadat
 
 export default async function BlogPostPage({ params }: RouteParams) {
     const { slug } = await params;
-    const post = getPostBySlug(slug);
+    const post = await getSupabasePostBySlug(slug);
     if (!post) {
         notFound();
     }
 
     const category = getCategoryById(post.category);
 
-    // Related posts: same category, exclude current, max 3
-    const related = blogPostsSortedByDate
+    // Fetch related posts from database
+    const allPosts = await getSupabasePosts();
+    const related = allPosts
         .filter((p) => p.category === post.category && p.slug !== post.slug)
         .slice(0, 3);
 

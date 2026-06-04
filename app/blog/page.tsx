@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { blogPostsSortedByDate } from "@/lib/blog-posts";
+import { getSupabasePosts } from "@/lib/blog-db";
 import { BlogIndexClient } from "@/components/blog/BlogIndexClient";
 
 export const metadata: Metadata = {
@@ -28,7 +28,9 @@ export const metadata: Metadata = {
     },
 };
 
-export default function BlogIndexPage() {
+export default async function BlogIndexPage() {
+    const posts = await getSupabasePosts();
+    
     return (
         <div className="bg-slate-50">
             {/* Page header */}
@@ -48,7 +50,7 @@ export default function BlogIndexPage() {
                 </div>
             </section>
 
-            <BlogIndexClient posts={blogPostsSortedByDate} />
+            <BlogIndexClient posts={posts} />
         </div>
     );
 }
