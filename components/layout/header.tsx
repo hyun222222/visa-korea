@@ -62,10 +62,10 @@ export function Header() {
     };
 
     const m = {
-        ko: { about: "소개", check: "자가진단", medical: "의료관광 비자", board: "게시판", contact: "상담 신청" },
-        en: { about: "About", check: "Eligibility Check", medical: "Medical Visa", board: "Q&A Board", contact: "Consultation" },
-        zh: { about: "关于我们", check: "签证评估", medical: "医疗签证", board: "问答板块", contact: "法律咨询" },
-        ja: { about: "紹介", check: "適性診断", medical: "医療ビザ", board: "掲示板", contact: "相談申込み" }
+        ko: { about: "소개", check: "자가진단", medical: "의료관광 비자", board: "게시판", blog: "블로그", contact: "상담 신청" },
+        en: { about: "About", check: "Eligibility Check", medical: "Medical Visa", board: "Q&A Board", blog: "Blog", contact: "Consultation" },
+        zh: { about: "关于我们", check: "签证评估", medical: "医疗签证", board: "问答板块", blog: "博客", contact: "法律咨询" },
+        ja: { about: "紹介", check: "適性診断", medical: "医療ビザ", board: "掲示板", blog: "ブログ", contact: "相談申込み" }
     }[currentLang];
 
     return (
@@ -84,6 +84,7 @@ export function Header() {
                     <Link href={`/${currentLang}#about`} className="hover:text-blue-600 transition-colors">{m.about}</Link>
                     <Link href={`/${currentLang}#calculators`} className="hover:text-blue-600 transition-colors">{m.check}</Link>
                     <Link href={`/${currentLang}/medical-visa`} className="hover:text-amber-600 text-amber-700 font-semibold transition-colors bg-amber-50 px-2 py-0.5 rounded border border-amber-250/30">{m.medical}</Link>
+                    <Link href={currentLang === 'ko' ? '/blog' : `/${currentLang}/blog`} className="hover:text-blue-600 transition-colors">{m.blog}</Link>
                     <Link href="/board" className="hover:text-blue-600 transition-colors">{m.board}</Link>
                 </nav>
 
@@ -138,6 +139,7 @@ export function Header() {
                             <MobileNavLink href={`/${currentLang}#about`} label={m.about} onClick={() => setMobileOpen(false)} />
                             <MobileNavLink href={`/${currentLang}#calculators`} label={m.check} onClick={() => setMobileOpen(false)} />
                             <MobileNavLink href={`/${currentLang}/medical-visa`} label={m.medical} onClick={() => setMobileOpen(false)} />
+                            <MobileNavLink href={currentLang === 'ko' ? '/blog' : `/${currentLang}/blog`} label={m.blog} onClick={() => setMobileOpen(false)} />
                             <MobileNavLink href="/board" label={m.board} onClick={() => setMobileOpen(false)} />
 
                             <div className="pt-3 mt-2 border-t border-slate-100 space-y-2">
