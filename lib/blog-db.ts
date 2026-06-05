@@ -109,7 +109,8 @@ export async function getSupabasePosts(): Promise<BlogPost[]> {
         const { data, error } = await supabase
             .from('blog_posts')
             .select('*')
-            .order('published_at', { ascending: false });
+            .order('published_at', { ascending: false })
+            .order('created_at', { ascending: false });
 
         if (error) {
             console.error("Supabase SELECT error, using static fallback:", error);

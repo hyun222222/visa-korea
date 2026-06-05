@@ -23,11 +23,11 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 async function test() {
     const supabase = createClient(supabaseUrl, supabaseAnonKey);
     console.log('Fetching all blog posts from Supabase...');
-    const { data, error } = await supabase.from('blog_posts').select('slug, title, published_at').order('published_at', { ascending: false });
+    const { data, error } = await supabase.from('blog_posts').select('*').limit(1);
     if (error) {
         console.error('Error fetching blog posts:', error);
     } else {
-        console.log('Blog posts in database:', data);
+        console.log('Column names in database:', Object.keys(data[0]));
     }
 }
 
