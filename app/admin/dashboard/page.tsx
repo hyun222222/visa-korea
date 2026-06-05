@@ -69,6 +69,7 @@ export default function AdminDashboardPage() {
     // Editor Form State
     const [isEditorOpen, setIsEditorOpen] = useState(false);
     const [editMode, setEditMode] = useState(false);
+    const [autoTranslate, setAutoTranslate] = useState(true);
     
     // Form fields
     const [formSlug, setFormSlug] = useState("");
@@ -271,9 +272,62 @@ export default function AdminDashboardPage() {
             } else {
                 await createSupabasePost(payload);
             }
+
+            // Auto translate and publish
+            if (autoTranslate) {
+                const targetLangs = ["en", "zh", "ja"] as const;
+                await Promise.all(
+                    targetLangs.map(async (lang) => {
+                        const res = await fetch("/api/translate", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                                title: payload.title,
+                                excerpt: payload.excerpt,
+                                body: payload.body,
+                                keywords: payload.keywords,
+                                targetLang: lang,
+                            }),
+                        });
+
+                        if (!res.ok) {
+                            throw new Error(`${lang.toUpperCase()} 번역 요청이 실패했습니다.`);
+                        }
+
+                        const translated = await res.json();
+
+                        const langPayload = {
+                            slug: `${payload.slug}-${lang}`,
+                            title: translated.title,
+                            titleEn: payload.titleEn || undefined,
+                            excerpt: translated.excerpt,
+                            category: payload.category,
+                            keywords: translated.keywords || [],
+                            readMinutes: payload.readMinutes,
+                            author: payload.author,
+                            body: translated.body,
+                            publishedAt: payload.publishedAt,
+                        };
+
+                        if (editMode) {
+                            const oldLangSlug = `${oldSlug}-${lang}`;
+                            try {
+                                await updateSupabasePost(oldLangSlug, langPayload);
+                            } catch (e) {
+                                await createSupabasePost(langPayload);
+                            }
+                        } else {
+                            await createSupabasePost(langPayload);
+                        }
+                    })
+                );
+            }
+
             setIsEditorOpen(false);
             fetchPosts();
-            alert("게시글이 저장되었습니다.");
+            alert("게시글이 저장되었습니다." + (autoTranslate ? " (다국어 번역 완료)" : ""));
         } catch (err: any) {
             alert(`저장 중 오류 발생: ${err.message}`);
         } finally {
@@ -725,20 +779,31 @@ export default function AdminDashboardPage() {
                             </form>
 
                             {/* Editor Footer */}
-                            <div className="bg-slate-950 border-t border-slate-800 px-6 py-4 flex justify-end gap-3">
-                                <Button type="button" variant="outline" onClick={() => setIsEditorOpen(false)} className="border-slate-850 text-slate-400 hover:bg-slate-800">
-                                    취소
-                                </Button>
-                                <Button type="button" onClick={handleSave} disabled={isSaving} className="bg-blue-600 hover:bg-blue-700 text-white font-medium">
-                                    {isSaving ? (
-                                        <span className="flex items-center gap-1.5">
-                                            <Loader2 className="h-4 w-4 animate-spin" />
-                                            저장 중...
-                                        </span>
-                                    ) : (
-                                        "발행 완료"
-                                    )}
-                                </Button>
+                            <div className="bg-slate-950 border-t border-slate-800 px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+                                <label className="flex items-center gap-2 cursor-pointer select-none text-xs text-slate-400 hover:text-slate-200">
+                                    <input
+                                        type="checkbox"
+                                        checked={autoTranslate}
+                                        onChange={(e) => setAutoTranslate(e.target.checked)}
+                                        className="h-4 w-4 rounded border-slate-800 bg-slate-950 text-blue-600 focus:ring-blue-500/50"
+                                    />
+                                    <span>한글 저장 시 다국어(영어, 중국어, 일본어)로 자동 번역하여 일괄 발행</span>
+                                </label>
+                                <div className="flex gap-3 w-full sm:w-auto justify-end">
+                                    <Button type="button" variant="outline" onClick={() => setIsEditorOpen(false)} className="border-slate-850 text-slate-400 hover:bg-slate-800 text-xs sm:text-sm">
+                                        취소
+                                    </Button>
+                                    <Button type="button" onClick={handleSave} disabled={isSaving} className="bg-blue-600 hover:bg-blue-700 text-white font-medium text-xs sm:text-sm">
+                                        {isSaving ? (
+                                            <span className="flex items-center gap-1.5">
+                                                <Loader2 className="h-4 w-4 animate-spin" />
+                                                저장 중...
+                                            </span>
+                                        ) : (
+                                            "발행 완료"
+                                        )}
+                                    </Button>
+                                </div>
                             </div>
                         </motion.div>
                     </div>
