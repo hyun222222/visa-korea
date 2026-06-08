@@ -62,10 +62,10 @@ export function Header() {
     };
 
     const m = {
-        ko: { about: "소개", check: "자가진단", medical: "의료관광 비자", board: "게시판", blog: "블로그", contact: "상담 신청" },
-        en: { about: "About", check: "Eligibility Check", medical: "Medical Visa", board: "Q&A Board", blog: "Blog", contact: "Consultation" },
-        zh: { about: "关于我们", check: "签证评估", medical: "医疗签证", board: "问答板块", blog: "博客", contact: "法律咨询" },
-        ja: { about: "紹介", check: "適性診断", medical: "医療ビザ", board: "掲示板", blog: "ブログ", contact: "相談申込み" }
+        ko: { about: "소개", check: "자가진단", medical: "의료관광 비자", board: "게시판", blog: "블로그", contact: "상담 신청", invest: "한국 투자 가이드" },
+        en: { about: "About", check: "Eligibility Check", medical: "Medical Visa", board: "Q&A Board", blog: "Blog", contact: "Consultation", invest: "Investing in Korea" },
+        zh: { about: "关于我们", check: "签证评估", medical: "医疗签证", board: "问答板块", blog: "博客", contact: "法律咨询", invest: "投资韩国" },
+        ja: { about: "紹介", check: "適性診断", medical: "医療ビザ", board: "掲示板", blog: "ブログ", contact: "相談申込み", invest: "韓国投資" }
     }[currentLang];
 
     return (
@@ -87,6 +87,7 @@ export function Header() {
                     <Link href={`/${currentLang}#about`} className="px-2.5 py-1.5 rounded-full hover:text-blue-600 hover:bg-slate-50 transition-all duration-200 whitespace-nowrap shrink-0">{m.about}</Link>
                     <Link href={`/${currentLang}#calculators`} className="px-2.5 py-1.5 rounded-full hover:text-blue-600 hover:bg-slate-50 transition-all duration-200 whitespace-nowrap shrink-0">{m.check}</Link>
                     <Link href={`/${currentLang}/medical-visa`} className="px-2.5 py-1.5 rounded-full text-amber-700 hover:text-amber-800 bg-amber-50 hover:bg-amber-100/70 border border-amber-200/50 hover:border-amber-300 transition-all duration-200 whitespace-nowrap font-semibold shadow-sm shrink-0">{m.medical}</Link>
+                    <Link href={`/${currentLang}/investing-in-korea`} className="px-2.5 py-1.5 rounded-full hover:text-blue-600 hover:bg-slate-50 transition-all duration-200 whitespace-nowrap shrink-0">{m.invest}</Link>
                     <Link href={currentLang === 'ko' ? '/blog' : `/${currentLang}/blog`} className="px-2.5 py-1.5 rounded-full hover:text-blue-600 hover:bg-slate-50 transition-all duration-200 whitespace-nowrap shrink-0">{m.blog}</Link>
                     <Link href="/board" className="px-2.5 py-1.5 rounded-full hover:text-blue-600 hover:bg-slate-50 transition-all duration-200 whitespace-nowrap shrink-0">{m.board}</Link>
                 </nav>
@@ -155,6 +156,7 @@ export function Header() {
                             <MobileNavLink href={`/${currentLang}#about`} label={m.about} onClick={() => setMobileOpen(false)} />
                             <MobileNavLink href={`/${currentLang}#calculators`} label={m.check} onClick={() => setMobileOpen(false)} />
                             <MobileNavLink href={`/${currentLang}/medical-visa`} label={m.medical} onClick={() => setMobileOpen(false)} />
+                            <MobileNavLink href={`/${currentLang}/investing-in-korea`} label={m.invest} onClick={() => setMobileOpen(false)} />
                             <MobileNavLink href={currentLang === 'ko' ? '/blog' : `/${currentLang}/blog`} label={m.blog} onClick={() => setMobileOpen(false)} />
                             <MobileNavLink href="/board" label={m.board} onClick={() => setMobileOpen(false)} />
 
