@@ -14,6 +14,7 @@ import {
   AlertTriangle
 } from "lucide-react";
 import { FadeIn } from "@/components/ui/animate-wrapper";
+import { GOOGLE_FORM_URL } from "@/lib/constants";
 
 type Lang = "ko" | "en" | "zh" | "ja";
 
@@ -666,12 +667,14 @@ export default function InvestingClientPage({ lang }: { lang: Lang }) {
             </p>
             
             <div className="flex flex-wrap justify-center gap-4 pt-4">
-              <Link 
-                href={`/${currentLang}#contact`}
+              <a 
+                href={GOOGLE_FORM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="px-8 py-3.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl font-bold text-sm shadow-md hover:shadow-lg transition-all active:scale-95 duration-150"
               >
                 {t.btnRequest}
-              </Link>
+              </a>
               <a 
                 href="https://wa.me/821055346843"
                 target="_blank"

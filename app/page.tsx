@@ -3,6 +3,7 @@ import { VisaRequirementsTable } from "@/components/calculators/VisaRequirements
 import { FileText, Scale, Shield, BookOpen, Building2, MapPin, Phone, Mail } from "lucide-react";
 import { FadeIn } from "@/components/ui/animate-wrapper";
 import Link from "next/link";
+import { GOOGLE_FORM_URL } from "@/lib/constants";
 
 export default function Home() {
     return (
@@ -165,7 +166,9 @@ export default function Home() {
                             </p>
                         </div>
                         <a
-                            href="mailto:info@kimnhyun.com"
+                            href={GOOGLE_FORM_URL}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="inline-flex items-center justify-center px-8 py-4 border border-transparent text-base font-medium rounded-md text-primary bg-white hover:bg-slate-50 transition-colors shadow-md"
                         >
                             Contact Kim&Hyun

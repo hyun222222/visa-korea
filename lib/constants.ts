@@ -12,3 +12,6 @@ export const MINIMUM_COST_OF_LIVING_2025 = {
     5: 4012345,
     6: 4589012,
 };
+
+export const GOOGLE_FORM_URL = "https://forms.gle/4u6nZkMee5jN6K9t8"; // Replace this with your actual Google Form URL
+

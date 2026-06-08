@@ -4,6 +4,7 @@ import { FileText, Scale, Shield, BookOpen, Building2, MapPin, Phone, Mail } fro
 import { FadeIn } from "@/components/ui/animate-wrapper";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { GOOGLE_FORM_URL } from "@/lib/constants";
 
 const TRANSLATIONS = {
     ko: {
@@ -291,7 +292,9 @@ export default async function LocalizedPage({ params }: { params: Promise<{ lang
                             </p>
                         </div>
                         <a
-                            href="mailto:info@kimnhyun.com"
+                            href={GOOGLE_FORM_URL}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="inline-flex items-center justify-center px-8 py-4 border border-transparent text-base font-medium rounded-md text-primary bg-white hover:bg-slate-50 transition-colors shadow-md"
                         >
                             {t.contactButton}
