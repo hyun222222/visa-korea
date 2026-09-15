@@ -1,4 +1,5 @@
 "use client";
+import {consultationHref} from "@/lib/brand";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -96,22 +97,7 @@ export default function AttractionRegistrationPage() {
                             성공적으로 접수되었습니다. 담당 자문단이 상세 적격 검토 문서를 메일 또는 메신저로 발송해 드리겠습니다.
                         </div>
                     ) : (
-                        <form onSubmit={handleSubmit} className="space-y-4">
-                            <input 
-                                type="text" 
-                                required 
-                                value={bizName}
-                                onChange={(e) => setBizName(e.target.value)}
-                                placeholder="병원명 또는 회사명 및 담당자 연락처"
-                                className="w-full h-11 bg-white border border-slate-200 rounded-lg px-4 text-sm text-slate-900 focus:outline-none focus:border-blue-500 transition-colors"
-                            />
-                            <button 
-                                type="submit" 
-                                className="w-full h-11 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg text-sm transition-colors shadow-xs"
-                            >
-                                무료 자격 검증 신청하기
-                            </button>
-                        </form>
+                        <div className="kh-note"><p>상담 내용은 종합사이트에서 접수합니다. 상담 방식·비용을 안내받고 필요한 자료 전달 방법을 확인하세요.</p><a className="kh-button" href={consultationHref("ko")}>상담 안내 ↗</a></div>
                     )}
                 </div>
 

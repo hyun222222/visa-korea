@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: var(--font-inter);
-  --font-serif: var(--font-playfair);
+  --font-sans: Pretendard, "Noto Sans KR", Arial, sans-serif;
+  --font-serif: Georgia, "Batang", serif;
 
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
@@ -45,11 +45,11 @@
   --popover: 0 0% 100%;
   --popover-foreground: 222.2 84% 4.9%;
 
-  --primary: 235 66% 30%;
+  --primary: 209 25% 29%;
   /* Navy #1a237e */
   --primary-foreground: 210 40% 98%;
 
-  --secondary: 38 48% 56%;
+  --secondary: 12 44% 49%;
   /* Gold #c5a059 */
   --secondary-foreground: 222.2 47.4% 11.2%;
 
@@ -64,7 +64,7 @@
 
   --border: 214.3 31.8% 91.4%;
   --input: 214.3 31.8% 91.4%;
-  --ring: 235 66% 30%;
+  --ring: 209 25% 29%;
 
   --radius: 0.5rem;
 }
@@ -98,3 +98,5 @@
   --input: 217.2 32.6% 17.5%;
   --ring: 212.7 26.8% 83.9%;
 }
+/* Shared Kim & Hyun / adkorealaw brand. No remote font download. */
+body{margin:0;color:#202c39;background:#f6f7f8;font-family:Pretendard,"Noto Sans KR",Arial,sans-serif;line-height:1.75}a,button,summary{touch-action:manipulation}a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #b55746;outline-offset:5px}.kh-family{display:flex;justify-content:space-between;padding:10px 4vw;background:#34495d;color:white;font-size:.8rem;letter-spacing:.12em}.kh-header{background:#202c39;color:white;display:flex;gap:26px;align-items:center;padding:24px 4vw;position:relative;z-index:50}.kh-brand{display:flex;align-items:baseline;gap:16px;margin-right:auto;white-space:nowrap}.kh-brand strong{font-size:1.8rem;letter-spacing:-.05em}.kh-brand span{font-size:.8rem;color:#bcc7d2}.kh-header nav{display:flex;gap:22px;font-size:.94rem}.kh-contact,.kh-button{background:#b55746;color:white;padding:13px 23px;border-radius:40px;font-weight:600;display:inline-block}.kh-languages{position:relative}.kh-languages summary{cursor:pointer}.kh-languages>div{position:absolute;right:0;top:100%;background:#202c39;padding:16px;min-width:130px;box-shadow:0 8px 18px #0003}.kh-languages a{display:block;padding:5px}.kh-toggle{display:none}.kh-hero{background:#202c39;color:white;padding:90px 6vw 100px}.kh-hero .kh-inner{max-width:1120px;margin:auto}.kh-eyebrow{display:block;font-size:.85rem;letter-spacing:.17em;color:#ccd6e0;margin-bottom:30px}.kh-hero h1{font-family:Georgia,Batang,serif;font-size:clamp(2.5rem,5vw,4.8rem);font-weight:400;line-height:1.35;white-space:pre-line;max-width:980px;letter-spacing:-.025em}.kh-hero p{max-width:720px;font-size:1.15rem;color:#d7dfe6;margin:30px 0}.kh-container{max-width:1240px;padding:80px 30px;margin:auto}.kh-container h2{font-family:Georgia,Batang,serif;font-size:2.25rem;font-weight:400;line-height:1.4;margin-bottom:25px}.kh-section{margin:0 0 90px}.kh-section p{margin-bottom:22px}.kh-columns{display:grid;grid-template-columns:1fr 1fr;gap:35px}.kh-profile{display:flex;gap:26px;padding:32px;background:#eaf0f3}.kh-profile img{width:160px;height:228px;object-fit:cover;object-position:center;filter:grayscale(1)}.kh-profile h3{font-size:1.5rem;margin-bottom:12px}.kh-profile p{font-size:1rem;color:#526474}.kh-steps{counter-reset:step;display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid #b9c4ce}.kh-steps li{padding:30px 25px;border-bottom:1px solid #b9c4ce;list-style:none}.kh-steps li:before{counter-increment:step;content:'0' counter(step);display:block;color:#b55746;font-size:.85rem;margin-bottom:12px}.kh-steps h3{font-size:1.15rem;margin-bottom:10px}.kh-note{background:#edf1f4;padding:22px;border-left:3px solid #34495d;font-size:1rem}.kh-footer{padding:55px 6vw;background:#202c39;color:#d8e0e8}.kh-footer strong{font-size:1.8rem;color:white}.kh-footer small{font-size:.85rem}.kh-footer nav{display:flex;flex-wrap:wrap;gap:24px;margin:25px 0}.kh-footer p{margin:10px 0}.kh-tools .rounded-xl,.kh-tools .rounded-2xl{border-radius:4px}.kh-tools .bg-blue-600{background:#34495d}.kh-tools .text-blue-600{color:#34495d}@media(max-width:1200px){.kh-header nav{display:none}.kh-toggle{display:block}.kh-header nav.is-open{display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:#202c39;padding:25px 6vw}.kh-brand span{display:none}}@media(max-width:760px){.kh-family span{display:none}.kh-family{justify-content:flex-end}.kh-header{padding:20px;gap:17px}.kh-brand strong{font-size:1.35rem}.kh-contact{padding:9px 12px;font-size:.85rem}.kh-hero{padding:65px 24px}.kh-container{padding:55px 22px}.kh-columns,.kh-steps{grid-template-columns:1fr}.kh-profile{padding:22px;gap:20px}.kh-profile img{width:120px;height:171px}.kh-footer{padding:40px 24px}}

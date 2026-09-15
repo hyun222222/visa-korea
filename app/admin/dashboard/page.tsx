@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
+import { isVisaContentAdmin } from "@/lib/admin-auth";
 import { 
     getSupabasePosts, 
     createSupabasePost, 
@@ -90,7 +91,7 @@ export default function AdminDashboardPage() {
     useEffect(() => {
         const checkAuth = async () => {
             const { data: { session } } = await supabase.auth.getSession();
-            if (!session) {
+            if (!session || !await isVisaContentAdmin()) {
                 router.push("/admin");
             } else {
                 setUserEmail(session.user.email || "Admin");

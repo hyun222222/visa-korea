@@ -1,3 +1,4 @@
+import {visaPublic} from '@/lib/brand';
 import { MetadataRoute } from 'next'
 import { getSupabasePosts } from '@/lib/blog-db'
 
@@ -8,6 +9,7 @@ export const revalidate = 3600
 const SITE_URL = 'https://koreavisalaw.com'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+    if (!visaPublic) return [];
     const now = new Date()
 
     const corePages: MetadataRoute.Sitemap = [

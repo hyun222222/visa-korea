@@ -1,4 +1,5 @@
-import { supabase } from './supabase';
+import { supabase, hasSupabaseConfig } from './supabase';
+import { requireVisaContentAdmin } from './admin-auth';
 import { blogPostsSortedByDate, getPostBySlug, BlogPost, BlogBlock } from './blog-posts';
 
 /**
@@ -102,9 +103,10 @@ export function blocksToMarkdown(blocks: BlogBlock[]): string {
 }
 
 /**
- * Fetch all posts from Supabase database (falls back to local static posts if offline or empty).
+ * Configured production data is authoritative; never resurrect removed static posts.
  */
 export async function getSupabasePosts(): Promise<BlogPost[]> {
+    if (!hasSupabaseConfig) return blogPostsSortedByDate;
     try {
         const { data, error } = await supabase
             .from('blog_posts')
@@ -113,25 +115,26 @@ export async function getSupabasePosts(): Promise<BlogPost[]> {
             .order('created_at', { ascending: false });
 
         if (error) {
-            console.error("Supabase SELECT error, using static fallback:", error);
-            return blogPostsSortedByDate;
+            console.error("Supabase blog list unavailable");
+            return [];
         }
 
         if (!data || data.length === 0) {
-            return blogPostsSortedByDate;
+            return [];
         }
 
         return data.map(mapDbPostToBlogPost);
     } catch (err) {
-        console.error("Supabase exception, using static fallback:", err);
-        return blogPostsSortedByDate;
+        console.error("Supabase blog list unavailable");
+        return [];
     }
 }
 
 /**
- * Fetch a single post by slug from Supabase (falls back to local static posts if offline).
+ * The static review content is used only when no database is configured.
  */
 export async function getSupabasePostBySlug(slug: string): Promise<BlogPost | undefined> {
+    if (!hasSupabaseConfig) return getPostBySlug(slug);
     try {
         const { data, error } = await supabase
             .from('blog_posts')
@@ -140,18 +143,18 @@ export async function getSupabasePostBySlug(slug: string): Promise<BlogPost | un
             .maybeSingle();
 
         if (error) {
-            console.error(`Supabase SELECT by slug (${slug}) error, using fallback:`, error);
-            return getPostBySlug(slug);
+            console.error('Supabase blog post unavailable');
+            return undefined;
         }
 
         if (!data) {
-            return getPostBySlug(slug);
+            return undefined;
         }
 
         return mapDbPostToBlogPost(data);
     } catch (err) {
-        console.error(`Supabase exception for slug ${slug}, using fallback:`, err);
-        return getPostBySlug(slug);
+        console.error('Supabase blog post unavailable');
+        return undefined;
     }
 }
 
@@ -159,6 +162,7 @@ export async function getSupabasePostBySlug(slug: string): Promise<BlogPost | un
  * Insert a new blog post into Supabase.
  */
 export async function createSupabasePost(post: Omit<BlogPost, 'readMinutes' | 'publishedAt'> & { readMinutes?: number, publishedAt?: string }) {
+    await requireVisaContentAdmin();
     const { data, error } = await supabase
         .from('blog_posts')
         .insert([{
@@ -184,6 +188,7 @@ export async function createSupabasePost(post: Omit<BlogPost, 'readMinutes' | 'p
  * Update an existing blog post in Supabase.
  */
 export async function updateSupabasePost(slug: string, post: Partial<BlogPost>) {
+    await requireVisaContentAdmin();
     const updateData: any = {};
     if (post.title !== undefined) updateData.title = post.title;
     if (post.titleEn !== undefined) updateData.title_en = post.titleEn;
@@ -211,12 +216,15 @@ export async function updateSupabasePost(slug: string, post: Partial<BlogPost>) 
  * Delete a blog post from Supabase by slug.
  */
 export async function deleteSupabasePost(slug: string) {
-    const { error } = await supabase
+    await requireVisaContentAdmin();
+    const { data, error } = await supabase
         .from('blog_posts')
         .delete()
-        .eq('slug', slug);
+        .eq('slug', slug)
+        .select('slug');
     
     if (error) throw error;
+    if (!data?.length) throw new Error('삭제할 글이 없거나 관리자 권한이 없습니다.');
     return true;
 }
 

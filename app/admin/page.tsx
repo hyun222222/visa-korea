@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
+import { isVisaContentAdmin } from "@/lib/admin-auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -22,7 +23,7 @@ export default function AdminLoginPage() {
         // Check if user is already logged in
         const checkUser = async () => {
             const { data: { session } } = await supabase.auth.getSession();
-            if (session) {
+            if (session && await isVisaContentAdmin()) {
                 router.push("/admin/dashboard");
             } else {
                 setInitializing(false);
@@ -55,8 +56,11 @@ export default function AdminLoginPage() {
                 return;
             }
 
-            if (data.session) {
+            if (data.session && await isVisaContentAdmin()) {
                 router.push("/admin/dashboard");
+            } else {
+                setErrorMsg("사무소 관리자 권한이 없는 계정입니다.");
+                setLoading(false);
             }
         } catch (err: any) {
             setErrorMsg("로그인 중 서버 요류가 발생했습니다.");

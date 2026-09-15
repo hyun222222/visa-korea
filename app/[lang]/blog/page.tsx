@@ -1,3 +1,4 @@
+import {visaOrigin} from '@/lib/brand';
 import type { Metadata } from "next";
 import { getSupabasePosts } from "@/lib/blog-db";
 import { BlogIndexClient } from "@/components/blog/BlogIndexClient";
@@ -90,3 +91,5 @@ export function generateStaticParams() {
         { lang: "ja" }
     ];
 }
+
+export async function generateMetadata({params}:{params:Promise<{lang:string}>}):Promise<Metadata>{const {lang}=await params;if(!supportedLangs.includes(lang as Lang))notFound();const t=TRANSLATIONS[lang as Lang];return {title:t.header+' | Kim & Hyun',description:t.description,alternates:{canonical:visaOrigin+(lang==='ko'?'/blog':'/'+lang+'/blog'),languages:Object.fromEntries(supportedLangs.map(l=>[l,visaOrigin+(l==='ko'?'/blog':'/'+l+'/blog')]))}};}

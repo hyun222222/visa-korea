@@ -1,3 +1,4 @@
+import {visaOrigin} from '@/lib/brand';
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -125,7 +126,7 @@ export async function generateMetadata({ params }: RouteParams): Promise<Metadat
         openGraph: {
             title: post.title,
             description: post.excerpt,
-            url: `https://koreavisalaw.com/${lang}/blog/${post.slug}`,
+            url: `${visaOrigin}/${lang}/blog/${post.slug}`,
             siteName: "Kim&Hyun Law Office",
             type: "article",
             publishedTime: post.publishedAt,
@@ -185,16 +186,16 @@ export default async function BlogPostPage({ params }: RouteParams) {
                         author: {
                             "@type": "Organization",
                             name: post.author,
-                            url: "https://koreavisalaw.com",
+                            url: visaOrigin,
                         },
                         publisher: {
                             "@type": "LegalService",
                             name: "Kim&Hyun Law Office",
-                            url: "https://koreavisalaw.com",
+                            url: visaOrigin,
                         },
                         mainEntityOfPage: {
                             "@type": "WebPage",
-                            "@id": `https://koreavisalaw.com/${lang}/blog/${post.slug}`,
+                            "@id": `${visaOrigin}/${lang}/blog/${post.slug}`,
                         },
                         articleSection: category ? getCategoryLabel(category, lang) : undefined,
                         keywords: post.keywords.join(", "),

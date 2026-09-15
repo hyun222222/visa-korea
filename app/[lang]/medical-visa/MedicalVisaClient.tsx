@@ -1,4 +1,5 @@
 "use client";
+import {consultationHref} from "@/lib/brand";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -432,116 +433,7 @@ export default function MedicalVisaClient({ lang }: { lang: string }) {
                             <p className="font-bold">{t.contactForm.success}</p>
                         </motion.div>
                     ) : (
-                        <form onSubmit={handleSubmit} className="space-y-6">
-                            <div className="grid md:grid-cols-2 gap-6">
-                                <div className="space-y-1.5">
-                                    <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">{t.contactForm.name}</label>
-                                    <input 
-                                        type="text" 
-                                        required 
-                                        value={formName}
-                                        onChange={(e) => setFormName(e.target.value)}
-                                        className="w-full h-11 bg-white border border-slate-200 rounded-lg px-4 text-sm text-slate-900 focus:outline-none focus:border-blue-500 transition-colors"
-                                    />
-                                </div>
-                                <div className="space-y-1.5">
-                                    <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">{t.contactForm.email}</label>
-                                    <input 
-                                        type="email" 
-                                        required 
-                                        value={formEmail}
-                                        onChange={(e) => setFormEmail(e.target.value)}
-                                        className="w-full h-11 bg-white border border-slate-200 rounded-lg px-4 text-sm text-slate-900 focus:outline-none focus:border-blue-500 transition-colors"
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="grid md:grid-cols-2 gap-6">
-                                <div className="space-y-1.5">
-                                    <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">{t.contactForm.phone}</label>
-                                    <input 
-                                        type="text" 
-                                        required 
-                                        value={formPhone}
-                                        onChange={(e) => setFormPhone(e.target.value)}
-                                        placeholder="+82 10-0000-0000"
-                                        className="w-full h-11 bg-white border border-slate-200 rounded-lg px-4 text-sm text-slate-900 focus:outline-none focus:border-blue-500 transition-colors"
-                                    />
-                                </div>
-                                <div className="space-y-1.5">
-                                    <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">{t.contactForm.channel}</label>
-                                    <input 
-                                        type="text" 
-                                        value={formChannel}
-                                        onChange={(e) => setFormChannel(e.target.value)}
-                                        placeholder="WeChat ID / LINE ID / Kakao ID"
-                                        className="w-full h-11 bg-white border border-slate-200 rounded-lg px-4 text-sm text-slate-900 focus:outline-none focus:border-blue-500 transition-colors"
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="space-y-1.5">
-                                <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">{t.contactForm.message}</label>
-                                <textarea 
-                                    required 
-                                    value={formMessage}
-                                    onChange={(e) => setFormMessage(e.target.value)}
-                                    className="w-full min-h-[120px] bg-white border border-slate-200 rounded-lg p-4 text-sm text-slate-900 focus:outline-none focus:border-blue-500 transition-colors resize-none"
-                                />
-                            </div>
-
-                            <div className="space-y-1.5">
-                                <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">{t.contactForm.file}</label>
-                                <div className="flex items-center justify-center w-full">
-                                    <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-slate-200 border-dashed rounded-lg cursor-pointer bg-slate-50 hover:bg-slate-100 transition-colors">
-                                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                                            <Upload className="w-8 h-8 text-slate-400 mb-2" />
-                                            <p className="text-xs text-slate-500">{formFile ? formFile.name : "클릭하여 서류 파일 첨부"}</p>
-                                        </div>
-                                        <input 
-                                            type="file" 
-                                            className="hidden" 
-                                            onChange={(e) => { if(e.target.files) setFormFile(e.target.files[0]); }}
-                                        />
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div className="space-y-3 pt-2">
-                                <div className="flex items-start gap-2.5">
-                                    <input 
-                                        type="checkbox" 
-                                        id="consent" 
-                                        required 
-                                        checked={formConsent}
-                                        onChange={(e) => setFormConsent(e.target.checked)}
-                                        className="mt-1 h-4 w-4 bg-white border-slate-300 text-blue-600 focus:ring-0 rounded cursor-pointer"
-                                    />
-                                    <label htmlFor="consent" className="text-xs text-slate-500 cursor-pointer select-none leading-relaxed">
-                                        {t.contactForm.sensitiveConsent}
-                                    </label>
-                                </div>
-                                <p className="text-[10px] text-slate-450 leading-normal bg-slate-50 p-3 rounded-lg border border-slate-200 text-slate-500">
-                                    <AlertCircle className="h-3.5 w-3.5 inline mr-1 text-blue-600 align-middle" />
-                                    {t.contactForm.sensitiveNotice}
-                                </p>
-                            </div>
-
-                            <button
-                                type="submit"
-                                disabled={isSubmitting || !formConsent}
-                                className="w-full h-12 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-bold rounded-lg transition-colors flex items-center justify-center gap-2 shadow-xs"
-                            >
-                                {isSubmitting ? (
-                                    <>
-                                        <Loader2 className="h-4 w-4 animate-spin" />
-                                        {t.contactForm.sending}
-                                    </>
-                                ) : (
-                                    t.contactForm.submit
-                                )}
-                            </button>
-                        </form>
+                        <div className="kh-note"><p>{lang==='ko'?'상담은 김앤현 종합사이트에서 접수합니다. 개인정보와 자료는 접수 안내를 확인한 뒤 전달해 주세요.':lang==='zh'?'请通过律所主站的英语咨询页面联系。请先确认隐私说明和材料提交方式。':lang==='ja'?'総合サイトの英語相談ページからお問い合わせください。個人情報と資料の共有方法を先にご確認ください。':'Use the main consultation page. Review the privacy notice and document-sharing instructions before sending personal records.'}</p><a className="kh-button" href={consultationHref(lang)}>{lang==='ko'?'상담 안내':lang==='zh'?'咨询指南（英语）':lang==='ja'?'相談案内（英語）':'Consultation'} ↗</a></div>
                     )}
                 </section>
 

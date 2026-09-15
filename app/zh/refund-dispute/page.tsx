@@ -1,4 +1,5 @@
 "use client";
+import {consultationHref} from "@/lib/brand";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -75,21 +76,7 @@ export default function ChineseRefundDisputePage() {
                             提交成功！中文律师将尽快与您联系，提供具体维权建议。
                         </div>
                     ) : (
-                        <form onSubmit={handleSubmit} className="space-y-4">
-                            <textarea 
-                                required 
-                                value={complaint}
-                                onChange={(e) => setComplaint(e.target.value)}
-                                placeholder="请填写手术名称、消费金额、涉案中介姓名/机构，以及目前的退款诉求。"
-                                className="w-full min-h-[100px] bg-white border border-slate-200 rounded-lg p-4 text-sm text-slate-900 focus:outline-none focus:border-blue-500 resize-none transition-colors"
-                            />
-                            <button 
-                                type="submit" 
-                                className="w-full h-11 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg text-sm transition-colors shadow-xs"
-                            >
-                                申请免费案情评估
-                            </button>
-                        </form>
+                        <div className="kh-note"><p>请通过律所主站咨询页面联系。我们将说明咨询方式、费用和材料提交方法。主站咨询页面为英语。</p><a className="kh-button" href={consultationHref("zh")}>咨询指南（英语） ↗</a></div>
                     )}
                 </div>
 

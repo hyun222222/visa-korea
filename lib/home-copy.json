@@ -1,0 +1,67 @@
+{
+ "ko": {
+  "title":"한국에서의 다음 계획,\n체류자격부터 살펴봅니다.",
+  "intro":"취업, 가족, 사업, 치료. 한국에 머무는 목적과 현재 체류 상태를 확인하고, 신청에 필요한 자료와 대응 순서를 함께 정리합니다.",
+  "about":"사정을 듣고, 자료와 절차를 함께 봅니다.",
+  "hyunjung":"김현정 변호사",
+  "bio":"변호사·세무사·변리사. 출입국민원대행기관 등록(2026). 체류 계획과 사업·재산 관련 쟁점이 맞물린 사안을 함께 검토합니다.",
+  "younghoon":"김영훈 대표변호사",
+  "youngBio":"전 서울중앙지방법원 판사·전 대법원 재판연구관. 분쟁의 사실관계와 기록, 처분 이유를 살피는 경험을 김앤현의 업무에 연결합니다.",
+  "stepsTitle":"상담부터 결과 안내까지",
+  "steps":[["상담","현재 비자와 만료일, 한국에서 하려는 일을 먼저 듣습니다. 상담 방식과 비용을 안내합니다."],["자료검토","여권·체류·고용·가족·사업 자료 중 사안에 필요한 항목을 정하고 전달 방법을 안내합니다."],["전략수립","신청 유형, 보완할 자료와 예상 쟁점을 설명하고 위임 범위·보수를 서면으로 정합니다."],["서류 준비·제출","위임한 범위에 따라 신청서와 설명자료를 준비합니다. 본인 출석이나 별도 절차가 필요한지 확인합니다."],["심사 대응","보완요구·면담·처분이 있으면 내용과 기한을 확인합니다. 불복 절차는 필요성과 별도 위임 범위를 검토합니다."],["결과·후속 안내","통지 내용을 설명하고 체류기간과 다음 절차를 확인합니다. 허가 여부는 심사기관의 판단에 달려 있습니다."]],
+  "tools":"체류자격을 살펴보는 참고 도구",
+  "toolsNote":"자가점검 결과는 허가 판정이 아닙니다. 계산기에 쓰인 소득·점수·연령 등의 기준과 자료 작성 시점을 확인하고, 신청 당시의 요건은 하이코리아 안내 또는 상담을 통해 다시 확인하세요.",
+  "library":"비자 유형별 안내",
+  "fees":"업무 범위에 따라 상담료와 착수보수, 추가 업무 비용을 사전에 설명합니다. 성과보수 약정이 있는 경우 적용 조건을 별도로 확인하며, 지급 방식은 계약서에 정합니다.",
+  "cta":"체류 계획과 준비자료를 상담해 보세요.","official":"하이코리아 공식 안내"
+ },
+ "en": {
+  "title":"Your next chapter in Korea\nstarts with your status.",
+  "intro":"Work, family, business or treatment. We review your purpose of stay and current status, then explain the documents and steps relevant to your plans.",
+  "about":"Your circumstances, documents and next steps.",
+  "hyunjung":"Kim Hyun-jung, Attorney",
+  "bio":"Attorney, tax accountant and patent attorney. Registered immigration application agency (2026). Reviews matters where immigration plans intersect with business and property issues.",
+  "younghoon":"Younghoon Kim, Principal Attorney",
+  "youngBio":"Former judge of the Seoul Central District Court and former research judge at the Supreme Court. Brings experience in reviewing facts, records and reasons for decisions to the firm's work.",
+  "stepsTitle":"From consultation to the next step",
+  "steps":[["Consultation","We ask about your current status, expiry date and plans in Korea, and explain consultation arrangements and fees."],["Document review","We identify the passport, status, employment, family or business records relevant to the matter and explain how to share them."],["Planning","We explain the application route, evidence gaps and potential issues. The scope and fees are agreed in writing."],["Preparation and filing","We prepare application and supporting materials within the agreed scope, and check any personal attendance requirements."],["Review-stage response","We review requests for additional documents, interviews or decisions and their deadlines. Appeals require a separate scope assessment."],["Outcome and follow-up","We explain the decision and relevant next steps. Approval is determined by the competent authority."]],
+  "tools":"Tools to explore your status",
+  "toolsNote":"A self-check is not an approval decision. Check the date and assumptions behind income, points and age criteria. Confirm the requirements applicable when you apply through Hi Korea or a consultation.",
+  "library":"Visa types and purposes",
+  "fees":"Consultation fees, initial fees and charges for additional work are explained before engagement. If an outcome-related fee is agreed, its conditions and payment arrangements are set out in the contract.",
+  "cta":"Discuss your plans and supporting documents.","official":"Official Hi Korea guidance"
+ },
+ "zh": {
+  "title":"在韩国的下一步，\n从确认居留资格开始。",
+  "intro":"就业、家庭、经营或治疗。我们先了解您的居留目的和当前状态，再说明相关材料与办理顺序。",
+  "about":"了解实际情况，核对材料与程序。",
+  "hyunjung":"Kim Hyun-jung 律师",
+  "bio":"律师、税务师、专利代理师。出入境民愿代办机构登记（2026）。共同审查居留计划与企业、财产问题相互关联的事项。",
+  "younghoon":"Younghoon Kim 代表律师",
+  "youngBio":"曾任首尔中央地方法院法官、大法院裁判研究官。将审查事实、案卷与决定理由的经验用于律所业务。",
+  "stepsTitle":"从咨询到结果说明",
+  "steps":[["咨询","了解当前签证、到期日和在韩国的计划，并说明咨询方式及费用。"],["材料审查","确定与事项有关的护照、居留、雇佣、家庭或经营资料，并告知提交方式。"],["制定方案","说明申请类型、需补充的证据及可能的争点，以书面约定服务范围和费用。"],["准备与提交","在委托范围内准备申请书和说明材料，并确认是否需要本人出席。"],["审查应对","收到补件要求、面谈通知或决定时，核对内容与期限。救济程序需另行评估委托范围。"],["结果说明","说明通知内容与后续步骤。是否许可由主管机关决定。"]],
+  "tools":"居留资格参考工具",
+  "toolsNote":"自查结果不是许可决定。请查看收入、积分、年龄等规则的资料日期和适用前提，并通过Hi Korea或咨询确认申请时适用的要求。",
+  "library":"签证类型与用途",
+  "fees":"委托前说明咨询费、初始代理费及额外工作的费用。如约定与结果有关的报酬，将在合同中明确适用条件和支付方式。",
+  "cta":"咨询您的居留计划与准备材料。","official":"Hi Korea官方指南"
+ },
+ "ja": {
+  "title":"韓国での次の計画を、\n在留資格の確認から。",
+  "intro":"就職、家族、事業、治療。滞在目的と現在の在留状況を確認し、必要な資料と手続きの順序をご案内します。",
+  "about":"事情を伺い、資料と手続きを検討します。",
+  "hyunjung":"キム・ヒョンジョン弁護士",
+  "bio":"弁護士・税務士・弁理士。出入国民願代行機関登録（2026）。在留計画と事業・財産の問題が関連する事項を検討します。",
+  "younghoon":"キム・ヨンフン代表弁護士",
+  "youngBio":"元ソウル中央地方法院判事・元大法院裁判研究官。事実関係、記録、判断理由を検討してきた経験を業務に生かします。",
+  "stepsTitle":"相談から結果のご案内まで",
+  "steps":[["相談","現在のビザ、期限、韓国での計画を伺い、相談方法と費用をご案内します。"],["資料検討","事案に必要な旅券、在留、雇用、家族、事業資料と共有方法を確認します。"],["方針の策定","申請の種類、補足資料、想定される争点を説明し、業務範囲と費用を書面で定めます。"],["準備・提出","委任された範囲で申請書と説明資料を準備し、本人の出席等が必要かを確認します。"],["審査への対応","追加資料、面談、処分の通知があれば内容と期限を確認します。不服申立ては別途業務範囲を検討します。"],["結果と今後の案内","通知内容と次の手続きを説明します。許可の判断は担当機関が行います。"]],
+  "tools":"在留資格を検討する参考ツール",
+  "toolsNote":"自己確認の結果は許可の判定ではありません。所得・点数・年齢等の基準の作成時点と前提を確認し、申請時の要件はHi Koreaまたは相談で改めて確認してください。",
+  "library":"ビザの種類と目的",
+  "fees":"相談料、着手報酬、追加業務の費用を事前にご説明します。結果に応じた報酬を合意する場合は、適用条件と支払方法を契約書に定めます。",
+  "cta":"在留計画と準備資料をご相談ください。","official":"Hi Korea公式案内"
+ }
+}
+

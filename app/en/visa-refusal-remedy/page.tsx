@@ -1,4 +1,5 @@
 "use client";
+import {consultationHref} from "@/lib/brand";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -75,21 +76,7 @@ export default function EnglishVisaRefusalRemedyPage() {
                             Submitted successfully. An immigration lawyer will review your details and reach out within 24 hours.
                         </div>
                     ) : (
-                        <form onSubmit={handleSubmit} className="space-y-4">
-                            <textarea 
-                                required 
-                                value={caseDetails}
-                                onChange={(e) => setCaseDetails(e.target.value)}
-                                placeholder="State the visa category, denial reason code, and any previous visa history."
-                                className="w-full min-h-[100px] bg-white border border-slate-200 rounded-lg p-4 text-sm text-slate-900 focus:outline-none focus:border-blue-500 transition-colors resize-none"
-                            />
-                            <button 
-                                type="submit" 
-                                className="w-full h-11 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg text-sm transition-colors shadow-xs"
-                            >
-                                Request Case Review
-                            </button>
-                        </form>
+                        <div className="kh-note"><p>Use the main consultation page to contact the office. We will explain arrangements, fees and how to share documents.</p><a className="kh-button" href={consultationHref("en")}>Consultation ↗</a></div>
                     )}
                 </div>
 

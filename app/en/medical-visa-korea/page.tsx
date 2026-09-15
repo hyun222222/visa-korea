@@ -1,4 +1,5 @@
 "use client";
+import {consultationHref} from "@/lib/brand";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -72,22 +73,7 @@ export default function EnglishMedicalVisaPage() {
                             Success! The C-3-3/G-1-10 document checklists have been sent to your email.
                         </div>
                     ) : (
-                        <form onSubmit={handleSubmit} className="space-y-4">
-                            <input 
-                                type="email" 
-                                required 
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                placeholder="Your Email Address"
-                                className="w-full h-11 bg-white border border-slate-200 rounded-lg px-4 text-sm text-slate-900 focus:outline-none focus:border-blue-500 transition-colors"
-                            />
-                            <button 
-                                type="submit" 
-                                className="w-full h-11 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg text-sm transition-colors shadow-xs"
-                            >
-                                Send Requirements Checklist
-                            </button>
-                        </form>
+                        <div className="kh-note"><p>Use the main consultation page to contact the office. We will explain arrangements, fees and how to share documents.</p><a className="kh-button" href={consultationHref("en")}>Consultation ↗</a></div>
                     )}
                 </div>
 

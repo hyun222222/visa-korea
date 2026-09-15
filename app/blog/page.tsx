@@ -1,3 +1,4 @@
+import {visaOrigin} from '@/lib/brand';
 import type { Metadata } from "next";
 import { getSupabasePosts } from "@/lib/blog-db";
 import { BlogIndexClient } from "@/components/blog/BlogIndexClient";
@@ -24,7 +25,7 @@ export const metadata: Metadata = {
         title: "Korea Visa Law Blog — Kim&Hyun Law Office",
         description:
             "한국 비자·이민·법인설립 실무를 변호사가 직접 정리하는 법률 칼럼.",
-        url: "https://koreavisalaw.com/blog",
+        url: `${visaOrigin}/blog`,
         siteName: "Kim&Hyun Law Office",
         type: "website",
     },

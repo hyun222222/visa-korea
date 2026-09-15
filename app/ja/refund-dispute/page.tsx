@@ -1,4 +1,5 @@
 "use client";
+import {consultationHref} from "@/lib/brand";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -75,21 +76,7 @@ export default function JapaneseRefundDisputePage() {
                             受け付けました。担当弁護士がカルテや経緯を確認し、早急に解決方針をご案内いたします。
                         </div>
                     ) : (
-                        <form onSubmit={handleSubmit} className="space-y-4">
-                            <textarea 
-                                required 
-                                value={complaint}
-                                onChange={(e) => setComplaint(e.target.value)}
-                                placeholder="施術された部位、支払った金額、トラブルの経緯について簡単にご記入ください。"
-                                className="w-full min-h-[100px] bg-white border border-slate-200 rounded-lg p-4 text-sm text-slate-900 focus:outline-none focus:border-blue-500 resize-none transition-colors"
-                            />
-                            <button 
-                                type="submit" 
-                                className="w-full h-11 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg text-sm transition-colors shadow-xs"
-                            >
-                                無料案情評価を申し込む
-                            </button>
-                        </form>
+                        <div className="kh-note"><p>総合サイトの相談ページからお問い合わせください。方法・費用と資料の共有方法をご案内します。相談ページは英語です。</p><a className="kh-button" href={consultationHref("ja")}>相談案内（英語） ↗</a></div>
                     )}
                 </div>
 

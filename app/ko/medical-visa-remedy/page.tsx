@@ -1,4 +1,5 @@
 "use client";
+import {consultationHref} from "@/lib/brand";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -96,21 +97,7 @@ export default function MedicalVisaRemedyPage() {
                             접수되었습니다. 거부 사유에 관한 법률 검토 결과를 남겨주신 연락처로 발송해 드리겠습니다.
                         </div>
                     ) : (
-                        <form onSubmit={handleSubmit} className="space-y-4">
-                            <textarea 
-                                required 
-                                value={reason}
-                                onChange={(e) => setReason(e.target.value)}
-                                placeholder="거부된 비자 종류, 불허 사유 문구 및 진행 상황을 입력해 주세요."
-                                className="w-full min-h-[100px] bg-white border border-slate-200 rounded-lg p-4 text-sm text-slate-900 focus:outline-none focus:border-blue-500 resize-none transition-colors"
-                            />
-                            <button 
-                                type="submit" 
-                                className="w-full h-11 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg text-sm transition-colors shadow-xs"
-                            >
-                                무료 비자 자문 접수하기
-                            </button>
-                        </form>
+                        <div className="kh-note"><p>상담 내용은 종합사이트에서 접수합니다. 상담 방식·비용을 안내받고 필요한 자료 전달 방법을 확인하세요.</p><a className="kh-button" href={consultationHref("ko")}>상담 안내 ↗</a></div>
                     )}
                 </div>
 

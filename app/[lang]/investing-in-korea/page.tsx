@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: titles[lang] || titles.en,
     description: descriptions[lang] || descriptions.en,
     alternates: {
-      canonical: `/investing-in-korea`,
+      canonical: `/${lang}/investing-in-korea`,
       languages: {
         ko: "/ko/investing-in-korea",
         en: "/en/investing-in-korea",

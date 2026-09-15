@@ -1,4 +1,5 @@
 import { supabase } from './supabase';
+import { requireVisaContentAdmin } from './admin-auth';
 
 export interface BoardPost {
     id: string;
@@ -68,17 +69,17 @@ export async function getBoardPosts(): Promise<{ posts: BoardPost[]; isLocal: bo
 
         if (error) {
             console.error("Supabase posts SELECT error:", error);
-            return { posts: getLocalPosts(), isLocal: true };
+            return { posts: [], isLocal: false };
         }
 
         if (!data || data.length === 0) {
-            return { posts: getLocalPosts(), isLocal: true };
+            return { posts: [], isLocal: false };
         }
 
         return { posts: data as BoardPost[], isLocal: false };
     } catch (err) {
         console.error("Supabase posts exception:", err);
-        return { posts: getLocalPosts(), isLocal: true };
+        return { posts: [], isLocal: false };
     }
 }
 
@@ -92,9 +93,7 @@ export async function createBoardPost(post: {
     category: string;
     is_published?: boolean;
 }): Promise<{ post: BoardPost; isLocal: boolean }> {
-    if (!isSupabaseConfigured()) {
-        return { post: createLocalPost(post), isLocal: true };
-    }
+    await requireVisaContentAdmin();
 
     try {
         const { data, error } = await supabase
@@ -111,8 +110,7 @@ export async function createBoardPost(post: {
         if (error) throw error;
         return { post: data as BoardPost, isLocal: false };
     } catch (err) {
-        console.error("Supabase create failed, using localStorage:", err);
-        return { post: createLocalPost(post), isLocal: true };
+        throw new Error('게시글이 서버에 저장되지 않았습니다. 로그인과 관리자 권한을 확인한 뒤 다시 시도해 주세요.');
     }
 }
 
@@ -126,9 +124,7 @@ export async function updateBoardPost(id: string, updates: {
     category?: string;
     is_published?: boolean;
 }): Promise<{ post: BoardPost; isLocal: boolean }> {
-    if (!isSupabaseConfigured()) {
-        return { post: updateLocalPost(id, updates), isLocal: true };
-    }
+    await requireVisaContentAdmin();
 
     try {
         const { data, error } = await supabase
@@ -141,8 +137,7 @@ export async function updateBoardPost(id: string, updates: {
         if (error) throw error;
         return { post: data as BoardPost, isLocal: false };
     } catch (err) {
-        console.error("Supabase update failed, using localStorage:", err);
-        return { post: updateLocalPost(id, updates), isLocal: true };
+        throw new Error('수정 내용이 서버에 저장되지 않았습니다. 로그인과 관리자 권한을 확인한 뒤 다시 시도해 주세요.');
     }
 }
 
@@ -151,23 +146,20 @@ export async function updateBoardPost(id: string, updates: {
 // ──────────────────────────────────────────────
 
 export async function deleteBoardPost(id: string): Promise<{ success: boolean; isLocal: boolean }> {
-    if (!isSupabaseConfigured()) {
-        deleteLocalPost(id);
-        return { success: true, isLocal: true };
-    }
+    await requireVisaContentAdmin();
 
     try {
-        const { error } = await supabase
+        const { data, error } = await supabase
             .from('posts')
             .delete()
-            .eq('id', id);
+            .eq('id', id)
+            .select('id');
 
         if (error) throw error;
+        if (!data?.length) throw new Error('삭제할 글이 없거나 관리자 권한이 없습니다.');
         return { success: true, isLocal: false };
     } catch (err) {
-        console.error("Supabase delete failed, using localStorage:", err);
-        deleteLocalPost(id);
-        return { success: true, isLocal: true };
+        throw new Error('게시글이 삭제되지 않았습니다. 로그인과 관리자 권한을 확인한 뒤 다시 시도해 주세요.');
     }
 }
 
@@ -176,12 +168,8 @@ export async function deleteBoardPost(id: string): Promise<{ success: boolean; i
 // ──────────────────────────────────────────────
 
 export async function isAdminLoggedIn(): Promise<boolean> {
-    try {
-        const { data: { session } } = await supabase.auth.getSession();
-        return !!session;
-    } catch {
-        return false;
-    }
+    const {isVisaContentAdmin} = await import('./admin-auth');
+    return isVisaContentAdmin();
 }
 
 // ──────────────────────────────────────────────

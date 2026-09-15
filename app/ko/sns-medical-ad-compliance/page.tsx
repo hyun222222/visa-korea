@@ -1,4 +1,5 @@
 "use client";
+import {consultationHref} from "@/lib/brand";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -96,22 +97,7 @@ export default function SnsMedicalAdCompliance() {
                             접수되었습니다. 변호사가 직접 해당 광고 채널을 모니터링한 뒤 결과를 안내해 드리겠습니다.
                         </div>
                     ) : (
-                        <form onSubmit={handleAuditSubmit} className="space-y-4">
-                            <input 
-                                type="url" 
-                                required 
-                                value={auditUrl}
-                                onChange={(e) => setAuditUrl(e.target.value)}
-                                placeholder="체크가 필요한 인스타그램, 웹사이트, 소홍서 계정 주소"
-                                className="w-full h-11 bg-white border border-slate-200 rounded-lg px-4 text-sm text-slate-900 focus:outline-none focus:border-blue-500 transition-colors"
-                            />
-                            <button 
-                                type="submit" 
-                                className="w-full h-11 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg text-sm transition-colors shadow-xs"
-                            >
-                                무료 자문 접수 신청하기
-                            </button>
-                        </form>
+                        <div className="kh-note"><p>상담 내용은 종합사이트에서 접수합니다. 상담 방식·비용을 안내받고 필요한 자료 전달 방법을 확인하세요.</p><a className="kh-button" href={consultationHref("ko")}>상담 안내 ↗</a></div>
                     )}
                 </div>
 
