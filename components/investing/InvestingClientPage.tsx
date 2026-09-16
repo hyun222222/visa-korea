@@ -14,7 +14,7 @@ import {
   AlertTriangle
 } from "lucide-react";
 import { FadeIn } from "@/components/ui/animate-wrapper";
-import { GOOGLE_FORM_URL } from "@/lib/constants";
+import { consultationHref } from "@/lib/brand";
 
 type Lang = "ko" | "en" | "zh" | "ja";
 
@@ -299,15 +299,15 @@ const CHECKLIST_ITEMS: ChecklistItem[] = [
   },
   {
     id: 2,
-    ko: "내가 처음부터 직접 설립하는 회사가 아니라, 이미 존재하거나 설립 중이던 한국 법인에 투자한다.",
-    en: "I am investing in an existing Korean company, not a company I am establishing myself from scratch.",
-    zh: "投资于已存在或设立中的韩国法人，而不是自己从头设立新公司。",
-    ja: "新規に直接設立する会社ではなく、既に存在しているか設立中の韓国法人に投資する。",
+    ko: "신설 법인 설립인지 기존 법인 주식 취득인지 투자 방식을 정했고, 투자자와 실제 업무를 설명할 수 있다.",
+    en: "I have identified whether I will form a new corporation or acquire shares in an existing one, and can explain who will invest and what work I will do.",
+    zh: "已确定是新设法人还是收购现有法人股份，并能说明投资主体和本人拟从事的工作。",
+    ja: "新規法人の設立か既存法人の株式取得かを整理し、投資主体と自分が行う業務を説明できる。",
     law: {
-      ko: "대구지법 2012구합29, 서울고법 2024누52900",
-      en: "Daegu Dist. Court 2012guhap29; Seoul High Court 2024nu52900",
-      zh: "大邱地方法院 2012Guhap29 / 首尔高等法院 2024Nu52900",
-      ja: "大邱地裁 2012クハプ29 / ソウル高裁 2024ヌ52900"
+      ko: "KOTRA Invest KOREA 기업투자비자 안내",
+      en: "KOTRA Invest KOREA: Corporate Investor Visa",
+      zh: "KOTRA Invest KOREA：企业投资签证指南",
+      ja: "KOTRA Invest KOREA：企業投資ビザ案内"
     }
   },
   {
@@ -360,7 +360,7 @@ export default function InvestingClientPage({ lang }: { lang: Lang }) {
   const [resultVisible, setResultVisible] = useState(false);
 
   const checkedCount = checkedItems.filter(Boolean).length;
-  const isItem3Checked = checkedItems[2]; // Index 2 is "investing in an existing company"
+  const hasInvestmentStructure = checkedItems[2];
 
   const toggleCheck = (index: number) => {
     const next = [...checkedItems];
@@ -409,14 +409,14 @@ export default function InvestingClientPage({ lang }: { lang: Lang }) {
   const getWarningText = () => {
     switch (currentLang) {
       case "ko":
-        return "기존 법인 투자가 아니라 직접 회사를 설립하는 경우라면 적합한 비자 유형이 달라질 수 있어, 변호사와 상의해 볼 지점입니다.";
+        return "신설 법인을 설립·운영하는 투자자도 D-8 신청 대상이 될 수 있습니다. 투자자, 자금 경로, 지분과 실제 업무를 정리해 적용 요건을 확인하세요. 법인 설립만으로 비자가 보장되지는 않습니다.";
       case "zh":
-        return "如果您计划自己成立公司，而不是投资现有公司，适合的签证类型可能会有所不同，这是非常值得与律师讨论的关键点。";
+        return "设立并经营新法人的投资者也可能符合D-8申请条件。请确认投资主体、资金路径、持股和实际工作；设立法人不保证签证获批。";
       case "ja":
-        return "既存の法人への投資ではなく、ご自身で直接会社を設立される場合、適したビザの種類が異なる可能性があり、弁護士とご相談いただく価値がある点です。";
+        return "新規法人を設立・運営する投資家もD-8の申請対象となり得ます。投資主体、資金経路、持分と実際の業務を整理してください。法人設立だけでビザが保証されるわけではありません。";
       case "en":
       default:
-        return "If you plan to set up a company yourself rather than invest in an existing one, the visa category that fits may differ — this is a point worth discussing with an attorney.";
+        return "An investor who establishes and operates a new corporation may also qualify to apply for D-8 status. Review the investor, funding route, ownership and actual role; incorporation alone does not guarantee a visa.";
     }
   };
 
@@ -636,7 +636,7 @@ export default function InvestingClientPage({ lang }: { lang: Lang }) {
                   <p>
                     {getResultText(checkedCount)}
                   </p>
-                  {!isItem3Checked && (
+                  {!hasInvestmentStructure && (
                     <p className="text-amber-300 border-t border-slate-800 pt-3 text-xs flex gap-1.5 items-start font-light leading-relaxed">
                       <AlertTriangle className="h-4 w-4 shrink-0 mt-0.5 text-amber-400" />
                       <span>{getWarningText()}</span>
@@ -668,7 +668,7 @@ export default function InvestingClientPage({ lang }: { lang: Lang }) {
             
             <div className="flex flex-wrap justify-center gap-4 pt-4">
               <a 
-                href={GOOGLE_FORM_URL}
+                href={consultationHref(currentLang)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-8 py-3.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl font-bold text-sm shadow-md hover:shadow-lg transition-all active:scale-95 duration-150"
@@ -696,6 +696,11 @@ export default function InvestingClientPage({ lang }: { lang: Lang }) {
               <span className="font-bold text-xs uppercase text-slate-500">{t.disclaimerTitle}</span>
               <p className="text-xs leading-relaxed font-light">
                 {t.disclaimerDesc}
+              </p>
+              <p className="text-xs leading-relaxed">
+                <a href="https://www.investkorea.org/ik-en/cntnts/i-358/web.do" target="_blank" rel="noopener noreferrer" className="underline">
+                  KOTRA Invest KOREA — Corporate Investor Visa (D-8)
+                </a>
               </p>
             </div>
           </div>
