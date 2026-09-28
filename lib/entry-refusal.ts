@@ -1,10 +1,10 @@
 export const entryCopy = {
   ko: {
     title: '한국 공항에서 입국을 거절당했나요?',
-    description: '인천·김포·김해·제주 등 한국 국제공항 입국거절·송환 대기 중 변호사 상담 안내. 본인 또는 가족·초청인이 공항과 송환 예정 시각을 알려주시면 대응 가능 여부와 비용을 안내합니다.',
-    intro: '공항에서 입국이 거절되었다면, 지금 어디에 있는지와 송환 예정 시각부터 알려주세요. 김앤현 법률사무소는 통지서에 적힌 사유와 실제 방문 목적을 확인하고, 현재 단계에서 가능한 대응을 검토합니다.',
+    description: '인천·김포·김해·제주 등 한국 공항 입국불허 긴급 대응. 접수가 열려 있으면 사전 상담 없이 온라인 위임계약 서명·PayPal 결제·비공개 서류 제출을 진행할 수 있습니다. 업무 범위와 비용을 확인하세요.',
+    intro: '김앤현 법률사무소가 입국불허 사유와 핵심 자료를 검토하고 초기 대응을 진행합니다. 접수가 열려 있으면 사전 연락 없이 온라인에서 위임계약 서명과 PayPal 결제, 서류 제출까지 진행할 수 있습니다.',
     contact: '입국불허 상담 문의', call: '사무소 전화', other: 'English',
-    urgent: '아직 공항에 있다면', urgentText: '공항·터미널, 통지받은 시각, 송환 항공편과 예정 시각, 연락 가능한 방법을 먼저 정리하세요. 즉시 대응 가능 여부를 사무소에 확인하세요. 문의나 결제만으로 송환이 정지되거나 공항 방문이 확정되지는 않습니다.',
+    urgent: '아직 공항에 있다면', urgentText: '공항·터미널, 통지받은 시각, 송환 항공편과 예정 시각, 연락 가능한 방법을 먼저 정리하세요. 온라인 신청 화면에서 접수 가능 여부를 확인할 수 있습니다. 문의나 결제만으로 송환이 정지되거나 공항 방문이 확정되지는 않습니다.',
     sections: [
       ['상황에 따라 대응이 달라집니다', [
         '추가 심사 중: 아직 최종 입국불허 통지를 받지 않았다면, 입국재심 등 추가 심사 단계일 수 있습니다. 방문 목적, 숙소, 귀국 일정과 이를 설명할 자료를 사실대로 정리합니다.',
@@ -49,11 +49,11 @@ export const entryCopy = {
     sources: '근거와 자료', date: '자료 확인: 2026-09-28',
   },
   en: {
-    title: 'Denied Entry to Korea? Speak to a Lawyer',
-    description: 'Denied entry at Incheon, Gimpo, Gimhae or Jeju airport? Travelers, family and hosts can ask Kim & Hyun about lawyer availability, consultation scope and fees before return.',
-    intro: 'Tell us where you are and when your return flight is scheduled. Kim & Hyun Law Office reviews the reasons in your refusal notice and the evidence of your intended visit to assess the options available at your current stage.',
+    title: 'Denied Entry at a Korean Airport?',
+    description: 'Legal assistance for entry refusal at Incheon, Gimpo, Gimhae or Jeju. When intake is open, sign online, pay with PayPal and submit documents privately. Review scope and fees.',
+    intro: 'Kim & Hyun Law Office reviews your refusal reasons and key documents and provides initial legal support. When intake is open, sign the agreement, pay with PayPal and submit documents online without contacting us first.',
     contact: 'Ask about a consultation', call: 'Call the office', other: '한국어',
-    urgent: 'Still at the airport?', urgentText: 'Prepare the airport and terminal, when you received the decision, your return flight and departure time, and a way to reach you. Contact the office to check availability. An inquiry or payment does not stop your return flight or confirm an airport visit by a lawyer.',
+    urgent: 'Still at the airport?', urgentText: 'Prepare the airport and terminal, when you received the decision, your return flight and departure time, and a way to reach you. Check availability on the online application page. An inquiry or payment does not stop your return flight or confirm an airport visit by a lawyer.',
     sections: [
       ['Your current stage matters', [
         'Still undergoing additional screening: If you have not received a final refusal, you may be in secondary inspection. Organize truthful information about your visit, accommodation and return plans, with supporting evidence.',
