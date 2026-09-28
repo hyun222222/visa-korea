@@ -35,3 +35,26 @@ Optional API mode: `AIRPORT_PAYMENT_MODE=api`, `PAYPAL_CLIENT_ID`, `PAYPAL_CLIEN
 ## Deployment status
 
 Source code and UI can deploy in unavailable mode without collecting personal data. Production operation remains gated by the above environment variables and migration. Do not represent a build or mocked UI test as a completed live payment/upload test.
+
+## Verified connection update — 2026-09-28
+
+- Production SUPABASE_SERVICE_ROLE_KEY registered in Vercel (secret).
+- Resend existing kimnhyun.com domain was already verified. Dedicated sending-only key restricted to that domain registered as RESEND_API_KEY in Vercel Production and Supabase custom SMTP.
+- SMTP persisted after reload: info@kimnhyun.com, Kim & Hyun | Korea Visa Law, smtp.resend.com:465, username resend. Credentials are not stored in this document.
+- AIRPORT_NOTIFY_FROM and AIRPORT_NOTIFY_TO configured for info@kimnhyun.com.
+- PayPal saved and verified: USD 3300, quantity 1, no shipping address, return URL https://koreavisalaw.com/en/entry-refusal/apply.
+- Both exact Supabase authentication redirect URLs registered.
+- Commit 8933ab2 deployed successfully; KO/EN apply pages return 200 and noindex. API returns ready=false/open=false.
+- Still pending: actual email-delivery test, end-to-end owner isolation / signing / payment report / document tests, approved bilingual privacy notice and retention policy, final desk opening. Do not claim live intake is enabled.
+- First unused airport mail key remains in Resend following interrupted setup; v2 is the configured key. Review/revoke unused key with applicable confirmation before cleanup.
+
+
+## Verification update — 2026-09-28 (second pass)
+
+- Bilingual airport-specific privacy notice implemented in lib/airport-privacy.ts. General processing and international transfer controls precede email authentication; sensitive data consent is separate and optional. ID/passport numbers must be masked.
+- Retention is an office policy: evidence/contract/payment records five years after closure, uploads 90 days, unsuccessful applications 90 days, test records seven days. Monthly staff review is required; automatic deletion is NOT implemented or claimed.
+- English title localized. Build passed.
+- tests/airport-flow.cjs: 23 checks passed against the actual route and contract modules with isolated in-memory provider doubles. Covers owner isolation, signatures, consent, slot protection, hosted payment reporting, admin-only verification, upload validation and optional PayPal fixture reconciliation. This is NOT live PayPal or live storage upload testing.
+- Actual Supabase signInWithOtp to the existing office account succeeded; Resend email 01a0e774-80b4-72b4-a219-5be35194fa33 shows Delivered. User click/session confirmation pending.
+- Live anonymous SELECT on all three airport tables returned PostgreSQL 42501; private bucket listing disclosed no files.
+- No actual payment, live contract signing or customer document was submitted. AIRPORT_ENABLED remains off.

@@ -1,0 +1,51 @@
+// Actual route/validation/contract modules; isolated in-memory provider doubles.
+// No live account, charge, email or production document is created.
+const fs=require('fs'),vm=require('vm'),path=require('path'),assert=require('node:assert/strict');
+const ts=require('typescript'),crypto=require('node:crypto');
+const root=path.resolve(__dirname,'..'),tables={airport_cases:[],airport_documents:[],airport_desk:[{id:true,is_open:true,active_case:null}]},files=new Map();
+let notices=0,mode='hosted',providerOrder=null;
+const users={alice:{id:'alice'},bob:{id:'bob'},admin:{id:'admin'}};
+function builder(table){let filters=[],op='read',payload,head=false,count=false;
+ const q={select(_cols,opts={}){head=opts.head;count=opts.count;return q},eq(k,v){filters.push(x=>x[k]===v);return q},in(k,v){filters.push(x=>v.includes(x[k]));return q},order(){return q},limit(){return q},update(v){op='update';payload=v;return q},insert(v){op='insert';payload=v;return q},single(){return execute(true)},then(a,b){return execute(false).then(a,b)}};
+ async function execute(single){let rows=tables[table].filter(x=>filters.every(f=>f(x)));if(op==='insert'){rows=[{id:crypto.randomUUID(),...payload}];tables[table].push(...rows)}if(op==='update')rows.forEach(x=>Object.assign(x,payload));return {data:head?null:single?(rows[0]||null):structuredClone(rows),error:single&&!rows.length?new Error('missing'):null,count:count?rows.length:undefined}}
+ return q;
+}
+const db={from:builder,auth:{async getUser(token){return {data:{user:users[token]},error:!users[token]}}},storage:{from(){return {async upload(p,b){files.set(p,b);return {error:null}},async remove(paths){paths.forEach(p=>files.delete(p));return {error:null}},async createSignedUrl(p){return {data:{signedUrl:'https://private.invalid/'+encodeURIComponent(p)},error:null}}}}},
+ async rpc(name,p){if(name==='is_visa_content_admin')return {data:false};let desk=tables.airport_desk[0];if(name==='reserve_airport_case'){if(!desk.is_open||desk.active_case)return {error:true};tables.airport_cases.push({id:p.p_id,user_id:p.p_user,details:p.p_details,agreement:p.p_agreement,agreement_hash:p.p_hash,agreement_version:p.p_version,privacy_notice:p.p_privacy,status:'signed',signed_at:new Date().toISOString()});desk.active_case=p.p_id;return {data:p.p_id}}
+ if(name==='lock_airport_payment')return {error:desk.active_case!==p.p_id};return {error:true}}};
+const env={...process.env,AIRPORT_ENABLED:'true',NEXT_PUBLIC_SUPABASE_URL:'https://test.invalid',NEXT_PUBLIC_SUPABASE_ANON_KEY:'test-anon',SUPABASE_SERVICE_ROLE_KEY:'test-service',RESEND_API_KEY:'test-key',AIRPORT_NOTIFY_FROM:'test@example.invalid',AIRPORT_NOTIFY_TO:'office@example.invalid'};
+const cache={};function load(file){file=path.resolve(file);if(cache[file])return cache[file];const out={};cache[file]=out;const req=id=>{if(id==='server-only')return {};if(id==='next/server')return {NextResponse:{json:(v,o)=>new Response(JSON.stringify(v),{...o,headers:{...o?.headers,'Content-Type':'application/json'}})}};if(id==='@supabase/supabase-js')return {createClient:(_u,_k,o)=>o?.global?{rpc:async()=>({data:o.global.headers.Authorization==='Bearer admin',error:null})}:db};if(id.startsWith('@/'))return load(path.join(root,id.slice(2)+'.ts'));if(id.startsWith('.'))return load(path.resolve(path.dirname(file),id+'.ts'));return require(id)};
+ const ctx={exports:out,require:req,process:{env},Buffer,URL,Request,Response,File,FormData,fetch:async()=>{notices++;return new Response('{}',{status:200})},console,setTimeout};
+ vm.runInNewContext(ts.transpileModule(fs.readFileSync(file,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText,ctx,{filename:file});return out;}
+const server=load(path.join(root,'lib/airport-server.ts'));server.automaticPayment=()=>mode==='api';server.paypal=async()=>providerOrder;
+const route=load(path.join(root,'app/api/airport/route.ts'));
+const base={traveler:'Test Traveler',signer:'Test Traveler',signature:'Test Traveler',role:'self',authority:true,airport:'ICN',stage:'refused',returnAt:new Date(Date.now()+4*3600000).toISOString(),unknownReturn:false,contact:'test@example.invalid',language:'en',purpose:'Synthetic integration test',relatedParties:'none',consent:true,privacyConsent:true,transferConsent:true,sensitiveConsent:false,lang:'en'};
+let passed=[];async function post(action,extra={},token='alice',origin='https://test.invalid'){const r=await route.POST(new Request('https://test.invalid/api/airport',{method:'POST',headers:{Origin:origin,'Content-Type':'application/json',Authorization:'Bearer '+token},body:JSON.stringify({action,...extra})}));return {status:r.status,body:await r.json()}}
+async function check(name,fn){await fn();passed.push(name)}
+(async()=>{let id,preview;
+ await check('email-token authentication rejects unknown user',async()=>assert.notEqual((await post('sign',{details:base},'invalid')).status,200));
+ await check('privacy preview contains complete agreement and exact price',async()=>{preview=(await post('preview',{details:base})).body;assert.match(preview.agreement,/3,300/);assert.equal(preview.hash.length,64)});
+ await check('missing separate transfer consent rejected',async()=>assert.notEqual((await post('preview',{details:{...base,transferConsent:false}})).status,200));
+ await check('altered agreement hash rejected',async()=>assert.equal((await post('sign',{details:base,hash:'tampered'})).status,409));
+ await check('signature snapshot stored with privacy notice and owner',async()=>{const r=await post('sign',{details:base,hash:preview.hash});assert.equal(r.status,200);id=r.body.id;assert.equal(tables.airport_cases[0].agreement,preview.agreement);assert.match(tables.airport_cases[0].privacy_notice,/Supabase/)});
+ await check('one active case prevents second booking',async()=>assert.equal((await post('sign',{details:base,hash:preview.hash},'bob')).status,409));
+ await check('other user cannot read contract',async()=>{const r=await route.GET(new Request('https://test.invalid/api/airport?id='+id,{headers:{Authorization:'Bearer bob'}}));assert.notEqual(r.status,200)});
+ await check('hosted checkout uses authorized USD3300 link',async()=>{const r=await post('order',{id});assert.equal(r.body.url,server.hostedPaymentUrl)});
+ async function upload(token,content,name='proof.pdf',type='application/pdf'){const form=new FormData();form.set('file',new File([content],name,{type}));return route.PUT(new Request('https://test.invalid/api/airport?id='+id,{method:'PUT',headers:{Origin:'https://test.invalid',Authorization:'Bearer '+token},body:form}))}
+ await check('upload before payment step denied',async()=>assert.equal((await upload('alice','%PDF-test')).status,403));
+ await check('customer report remains unverified and not paid',async()=>{assert.equal((await post('payment-report',{id,reference:'TEST-REFERENCE'})).status,200);assert.equal(tables.airport_cases[0].status,'payment_review');assert.equal(notices,1)});
+ await check('valid PDF uploads to private provider and metadata',async()=>{assert.equal((await upload('alice','%PDF-1.4\nsynthetic')).status,200);assert.equal(files.size,1);assert.equal(tables.airport_documents.length,1)});
+ await check('spoofed PDF content rejected',async()=>assert.equal((await upload('alice','malicious text')).status,400));
+ await check('oversize file rejected',async()=>assert.equal((await upload('alice',Buffer.alloc(3*1024*1024+1))).status,400));
+ await check('other user cannot upload',async()=>assert.notEqual((await upload('bob','%PDF-test')).status,200));
+ await check('owner downloads but other user cannot',async()=>{let document=tables.airport_documents[0].id;assert.equal((await post('download',{id,document})).status,200);assert.notEqual((await post('download',{id,document},'bob')).status,200)});
+ await check('customer cannot approve own payment',async()=>assert.notEqual((await post('admin-confirm-payment',{id,reference:'TEST-RECEIPT',amount:'3300.00',currency:'USD'})).status,200));
+ await check('admin incorrect amount rejected',async()=>assert.equal((await post('admin-confirm-payment',{id,reference:'TEST-RECEIPT',amount:'1.00',currency:'USD'},'admin')).status,400));
+ await check('admin verified receipt updates paid state',async()=>{assert.equal((await post('admin-confirm-payment',{id,reference:'TEST-RECEIPT',amount:'3300.00',currency:'USD'},'admin')).status,200);assert.equal(tables.airport_cases[0].status,'paid')});
+ await check('paid case cannot create duplicate checkout',async()=>assert.equal((await post('order',{id})).status,409));
+ await check('cross-origin mutation rejected',async()=>assert.equal((await post('admin-open',{open:true},'admin','https://evil.invalid')).status,403));
+ await check('optional API mode rejects forged amount',async()=>{mode='api';tables.airport_cases[0].status='signed';tables.airport_cases[0].paypal_order_id='TEST';providerOrder={status:'COMPLETED',purchase_units:[{custom_id:id,payments:{captures:[{id:'capture',status:'COMPLETED',amount:{currency_code:'USD',value:'1.00'}}]}}]};assert.equal((await post('capture',{id})).body.paid,false)});
+ await check('optional API mode accepts matched provider fixture',async()=>{providerOrder.purchase_units[0].payments.captures[0].amount.value='3300.00';assert.equal((await post('capture',{id})).body.paid,true)});
+ await check('disabled intake cannot collect data',async()=>{env.AIRPORT_ENABLED='false';assert.equal((await post('sign',{details:base,hash:preview.hash})).status,503)});
+ console.log(JSON.stringify({provider:'ISOLATED DOUBLES; NOT live SMTP/Supabase/PayPal',passed:passed.length,checks:passed},null,2));
+})().catch(e=>{console.error(e);process.exitCode=1});

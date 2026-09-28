@@ -1,6 +1,6 @@
 import {NextResponse} from 'next/server';
 import {randomUUID} from 'node:crypto';
-import {admin,airportReady,automaticPayment,hostedPaymentUrl,notifyOffice,contract,contractVersion,db,hash,identity,paypal} from '@/lib/airport-server';
+import {admin,privacyNotice,airportReady,automaticPayment,hostedPaymentUrl,notifyOffice,contract,contractVersion,db,hash,identity,paypal} from '@/lib/airport-server';
 import {AIRPORT_PRICE,validateDetails,validUpload} from '@/lib/airport-validation';
 export const runtime='nodejs';
 export const dynamic='force-dynamic';
@@ -37,7 +37,7 @@ export async function GET(req:Request){
   if(id){const c=await owned(req,id); if(c.status==='signed'&&c.paypal_order_id)await verifyPayment(c); const fresh=await owned(req,id); const docs=await db().from('airport_documents').select('id,name,created_at').eq('case_id',id); return json({case:fresh,documents:docs.data||[]});}
   const desk=await db().from('airport_desk').select('*').eq('id',true).single();
   if(desk.error)return json({ready:false,open:false});
-  return json({ready:true,open:desk.data.is_open&&!desk.data.active_case,version:contractVersion,mode:automaticPayment()?'api':'hosted',privacy:{ko:process.env.AIRPORT_PRIVACY_KO,en:process.env.AIRPORT_PRIVACY_EN}});
+  return json({ready:true,open:desk.data.is_open&&!desk.data.active_case,version:contractVersion,mode:automaticPayment()?'api':'hosted',privacy:{ko:privacyNotice('ko'),en:privacyNotice('en')}});
  }catch{return json({error:'Unable to load. Sign in again or contact the office.'},400);}
 }
 export async function POST(req:Request){
@@ -53,7 +53,7 @@ export async function POST(req:Request){
   if(b.action==='sign'){
     const user=await identity(req),d=validateDetails(b.details),agreement=contract(d);
     if(b.hash!==hash(agreement))return json({error:'Agreement changed. Review the contract again.'},409);
-    const id=randomUUID(),privacy=process.env[d.lang==='ko'?'AIRPORT_PRIVACY_KO':'AIRPORT_PRIVACY_EN']!;
+    const id=randomUUID(),privacy=privacyNotice(d.lang);
     const result=await db().rpc('reserve_airport_case',{p_id:id,p_user:user.id,p_details:d,p_agreement:agreement,p_hash:hash(agreement),p_version:contractVersion,p_privacy:privacy});
     if(result.error)return json({error:'Intake is closed or another case has reserved the slot.'},409);
     return json({id});
