@@ -12,5 +12,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   })));
   // Anchors are page sections, not separate canonical URLs. Do not invent lastmod dates.
   const posts = await getSupabasePosts();
-  return [...core, {url: `${origin}/blog`}, ...posts.map(post => ({url: `${origin}/blog/${post.slug}`}))];
+  return [...core, ...['ko','en'].map(lang=>({url:`${origin}/${lang}/entry-refusal`,alternates:{languages:{ko:`${origin}/ko/entry-refusal`,en:`${origin}/en/entry-refusal`}}})), {url: `${origin}/blog`}, ...posts.map(post => ({url: `${origin}/blog/${post.slug}`}))];
 }
