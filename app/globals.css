@@ -124,6 +124,59 @@ body{margin:0;color:#202c39;background:#f6f7f8;font-family:Pretendard,"Noto Sans
 .ai-contract {white-space:pre-wrap;overflow-wrap:anywhere;max-height:460px;overflow:auto;padding:20px;background:#f5f4ef;border:1px solid #ccd1d5;font:inherit;font-size:15px;line-height:1.8;margin:16px 0;}
 .ai-flow summary {cursor:pointer;font-weight:700;padding:12px 0;}
 @media(max-width:640px){.ai-fields{grid-template-columns:1fr}.ai-flow{padding-top:24px}.ai-steps{display:grid;grid-template-columns:1fr 1fr;font-size:14px}.ai-contract{padding:12px}}
+/* Airport self-check: local, optional preparation questions and contact results. */
+.airport-check{scroll-margin-top:24px;padding:32px 0;border-top:3px solid #34495d;border-bottom:1px solid #b9c4ce;}
+.airport-check .kh-eyebrow{color:#526474;margin-bottom:12px;}
+.airport-check h3{font-size:1.2rem;font-weight:700;margin:26px 0 18px;}
+.airport-check h4{font-size:1.05rem;font-weight:700;margin:22px 0 14px;}
+.airport-check-intro{font-size:1.06rem;}
+.airport-check-share-note{font-size:.86rem;color:#526474;line-height:1.7;}
+.airport-check-group{margin:30px 0;}
+.airport-check-question{min-width:0;margin:0 0 22px;padding:18px 20px;border:1px solid #b9c4ce;background:#fff;}
+.airport-check-question legend{max-width:100%;padding:0 7px;font-weight:700;line-height:1.6;}
+.airport-check .airport-check-hint{margin:0 0 15px;color:#526474;font-size:.92rem;line-height:1.65;}
+.airport-check-options{display:flex;flex-wrap:wrap;gap:10px;}
+.airport-check-option{display:flex;align-items:center;justify-content:center;gap:9px;padding:11px 20px;min-height:48px;border:1px solid #8997a3;cursor:pointer;font-weight:600;}
+.airport-check-option[data-selected=true]{background:#202c39;border-color:#202c39;color:white;}
+.airport-check-option:focus-within{outline:3px solid #b55746;outline-offset:3px;}
+.airport-check-option input{width:18px;height:18px;accent-color:#b55746;flex-shrink:0;}
+.airport-check-progress{font-size:.9rem;color:#526474;}
+.airport-check-error{color:#922e24;font-weight:600;}
+.airport-check-actions{display:flex;flex-wrap:wrap;align-items:center;gap:14px 20px;margin:20px 0;}
+.airport-check-actions .kh-button{cursor:pointer;border:0;font:inherit;font-weight:600;min-height:48px;text-decoration:none!important;}
+.airport-check-result:focus{outline:3px solid #b55746;outline-offset:8px;}
+.airport-check-contacts{padding:10px 0 18px;border-top:1px solid #b9c4ce;}
+.airport-check-summary{margin:18px 0;}
+.airport-check summary{padding:12px 0;cursor:pointer;font-weight:600;}
+.airport-check-summary pre{white-space:pre-wrap;overflow-wrap:anywhere;font:inherit;font-size:.9rem;padding:18px;background:#edf1f4;}
+.airport-check-missing{padding-left:22px;}
+.airport-check-missing-details{margin-top:24px;border-top:1px solid #b9c4ce;border-bottom:1px solid #b9c4ce;}
+.airport-check-missing-details>summary{min-height:48px;padding:16px 0;}
+.airport-check-missing li{margin-bottom:18px;}
+.airport-check-missing p{margin:6px 0;font-size:.94rem;}
+.airport-check-service{padding:8px 22px 12px;background:#edf1f4;border-left:3px solid #34495d;}
+.airport-check-reset{display:flex;gap:14px;flex-wrap:wrap;margin-top:24px;}
+.airport-check-reset button{padding:10px 16px;min-height:44px;border:1px solid #8997a3;background:white;cursor:pointer;font:inherit;}
+@media(max-width:640px){.airport-check{padding-top:22px;}.airport-check-question{padding:12px;margin-bottom:20px;}.airport-check-options{gap:7px;}.airport-check-option{flex:1;padding:10px 6px;font-size:.9rem;gap:6px;}.airport-check-actions{align-items:stretch;}.airport-check-actions .kh-button{text-align:center;}.airport-check-service{padding:6px 15px 10px;}}
+/* Reason-specific document preparation, shared by public and private intake pages. */
+.airport-documents{overflow-wrap:anywhere;scroll-margin-top:24px;}
+.airport-documents h3{font-size:1.15rem;font-weight:700;margin:28px 0 16px;}
+.airport-documents-priority{list-style:decimal;padding-left:24px;}
+.airport-documents-priority li{padding-left:4px;margin-bottom:18px;}
+.airport-documents-groups,.airport-documents-email{border-top:1px solid #b9c4ce;}
+.airport-documents-groups details,.airport-documents-email{border-bottom:1px solid #b9c4ce;}
+.airport-documents summary{cursor:pointer;min-height:48px;padding:16px 4px;font-weight:700;line-height:1.6;}
+.airport-documents-detail{padding:8px 4px 18px;}
+.airport-documents-detail ul{list-style:disc;padding-left:22px;}
+.airport-documents-detail li{margin-bottom:14px;}
+.airport-documents .er-payment-note{font-size:.93rem;color:#526474;}
+.airport-documents-email{margin-top:28px;}
+.airport-documents-memo{white-space:pre-wrap;overflow-wrap:anywhere;font:inherit;font-size:.93rem;background:#edf1f4;padding:20px;border-left:3px solid #34495d;}
+.airport-documents-delivery{margin-top:28px;font-weight:600;}
+.airport-documents a:not(.kh-button){text-decoration:underline;text-underline-offset:4px;}
+.airport-documents-sources{font-size:.85rem;color:#526474;}
+#application-start{scroll-margin-top:24px;}
+@media(max-width:640px){.airport-documents-memo{padding:14px;}.airport-documents summary{padding:16px 0;}}
 /* Optional support stays separate from the primary online application action. */
 .airport-contact{margin:28px 0;padding:20px 0;border-top:1px solid #b9c4ce;border-bottom:1px solid #b9c4ce;color:#202c39;}
 .airport-contact>strong{display:block;font-size:1.05rem;}

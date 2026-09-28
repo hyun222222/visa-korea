@@ -1,7 +1,7 @@
 export const entryCopy = {
   ko: {
     title: '한국 공항에서 입국을 거절당했나요?',
-    description: '인천·김포·김해·제주 등 한국 공항 입국불허 긴급 대응. 온라인 위임계약 서명·PayPal 결제 후 사건 서류는 이메일로 전달합니다. 접수 가능 여부와 업무 범위·비용을 확인하세요.',
+    description: '한국 공항 입국불허 긴급 대응. 불허 통지서·심사 문답·초청장·예약·귀국·자금 자료를 사유별로 준비하세요. 온라인 계약·PayPal 결제 후 이메일로 전달합니다.',
     intro: '김앤현 법률사무소가 입국불허 사유와 핵심 자료를 검토하고 초기 대응을 진행합니다. 접수가 열려 있으면 사전 연락 없이 온라인에서 위임계약 서명과 PayPal 결제를 진행할 수 있습니다. 실제 사건 서류는 결제 후 접수번호와 함께 info@kimnhyun.com으로 보내주세요.',
     contact: '입국불허 상담 문의', call: '사무소 전화', other: 'English',
     urgent: '아직 공항에 있다면', urgentText: '공항·터미널, 통지받은 시각, 송환 항공편과 예정 시각, 연락 가능한 방법을 먼저 정리하세요. 온라인 신청 화면에서 접수 가능 여부를 확인할 수 있습니다. 문의나 결제만으로 송환이 정지되거나 공항 방문이 확정되지는 않습니다.',
@@ -16,13 +16,7 @@ export const entryCopy = {
         '통지서 검토: 어떤 요건을 증명하지 못했다고 판단했는지, 설명받은 내용과 서면이 일치하는지 확인합니다.',
         '방문 목적과 증거: 여행 일정, 숙박·진료 예약, 초청 경위, 가족·사업 관계 등 실제 목적을 뒷받침하는 자료를 심사 당시 진술과 대조합니다.',
         '형사·체류 이력: 기소유예, 형사처벌, 과거 불법체류나 출입국 위반의 구체적 내용과 이번 결정의 관련성을 확인합니다.',
-        '대응 범위: 설명자료 작성, 관서 연락·면회 가능성, 행정쟁송의 대상·기간·실익을 검토합니다. 서면 제출, 공항 방문 및 소송대리는 별도 수임 범위를 정한 뒤 진행합니다.'
-      ]],
-      ['상담 전에 준비할 자료', [
-        '입국 불허가 통지서 전체와 받은 시각. 통지서가 없다면 교부 여부를 확인하세요.',
-        '사증·K-ETA 승인 정보, 항공권, 숙소·진료·방문 예약 등 실제 목적을 확인할 자료.',
-        '심사에서 받은 질문과 본인의 답변, 사용한 언어와 통역 여부를 기억나는 범위에서 정리한 메모.',
-        '과거 출입국·형사처분 자료와 한국에 다시 들어와야 하는 이유. 처음 문의할 때는 연락처와 상황 개요만 보내고, 여권 전체·형사기록은 사무소가 안내하는 방법으로 전달하세요.'
+        '대응 범위: 긴급 패키지는 주된 대응 서면 1건과 제출 안내·가능한 초기 연락을 약정 한도 안에서 제공합니다. 공항 방문·통역·소송과 추가 업무는 별도 합의가 필요합니다.'
       ]],
       ['비자가 있어도 입국을 거절할 수 있나요?', [
         '사증 발급이나 K-ETA 승인은 공항 입국심사와 구별됩니다. 출입국관리법 제12조는 여권·사증 등 요건과 입국목적·체류자격의 부합 여부 등을 심사하도록 정하고 있습니다. 유효한 비자만으로 입국이 보장되지는 않습니다.'
@@ -45,12 +39,12 @@ export const entryCopy = {
     paymentIntro: '사전 유료 상담 없이 패키지를 의뢰하는 방식입니다. 입국불허 사유와 핵심자료 검토, 사실관계 확인 통화 1회, 사건에 맞는 주된 대응 서면 1건, 제출 방법 및 가능한 범위의 초기 연락, 종료 보고를 포함합니다. 변호사 업무 한도는 최대 3시간입니다.',
     paymentPending: '가격은 USD 3,300입니다. 현재 PayPal 결제 연결을 준비 중이며, 온라인 결제와 긴급 접수는 아직 열리지 않았습니다.',
     paymentLimit: '해외 결제에 PayPal을 이용할 수 있는지는 결제자와 계정의 조건에 따라 달라집니다. 한국 PayPal 계정 간 국내 결제는 지원되지 않습니다. 국내 결제 방법은 사무소로 문의하세요.',
-    noGuarantee: '김앤현은 정부기관이 아닌 독립된 법률사무소입니다. 입국 허가, 송환 중단, 대응 시각 또는 사건 결과를 보장하지 않습니다.',
+    noGuarantee: '김앤현은 정부기관이 아닌 독립된 법률사무소입니다. 입국 허가·송환 중단·기관의 처리 시각이나 사건 결과를 보장하지 않습니다. 첫 연락 약속과 환불 조건은 위임계약에 따릅니다.',
     sources: '근거와 자료', date: '자료 확인: 2026-09-28',
   },
   en: {
     title: 'Denied Entry at a Korean Airport?',
-    description: 'Legal assistance for entry refusal at Korean airports. Sign online, pay with PayPal and email your case documents. Check availability, scope and fees.',
+    description: 'Denied entry at a Korean airport? Prepare refusal notices, interview notes, invitations, bookings and funds evidence. Sign online, pay and email documents.',
     intro: 'Kim & Hyun Law Office reviews your refusal reasons and key documents and provides initial legal support. When intake is open, sign the agreement and pay with PayPal online without contacting us first. After payment, email your case documents to info@kimnhyun.com with your case reference.',
     contact: 'Ask about a consultation', call: 'Call the office', other: '한국어',
     urgent: 'Still at the airport?', urgentText: 'Prepare the airport and terminal, when you received the decision, your return flight and departure time, and a way to reach you. Check availability on the online application page. An inquiry or payment does not stop your return flight or confirm an airport visit by a lawyer.',
@@ -65,13 +59,7 @@ export const entryCopy = {
         'The refusal notice: Which entry requirement was considered unmet, and does the written reason match what you were told?',
         'Evidence of your visit: Itineraries, accommodation or medical appointments, invitations, family or business ties, and how these match your interview answers.',
         'Criminal and immigration history: The specific facts behind a prosecution disposition, conviction, overstay or immigration violation and their connection to the refusal.',
-        'Possible next steps: Explanatory documents, contact with the authority, access to counsel and the grounds, deadlines and practical value of a legal challenge. Filing documents, airport attendance and litigation require a separately agreed scope.'
-      ]],
-      ['Documents to prepare', [
-        'The complete refusal notice and the time you received it. If you do not have it, ask whether it has been issued.',
-        'Visa or K-ETA information, flights, accommodation, medical appointments and evidence of the actual purpose of your trip.',
-        'A record of interview questions and your answers, the language used and whether an interpreter was present, as accurately as you can remember.',
-        'Relevant previous immigration or criminal decisions and why you need to return to Korea. Send contact details and a short summary first. Share full passport copies and criminal records only through the method the office provides.'
+        'Scope: The urgent package provides one principal response document, submission guidance and feasible initial contact within the agreed limit. Airport attendance, interpretation, litigation and additional work require a separate agreement.'
       ]],
       ['Can entry be refused with a valid visa?', [
         'Yes. A visa or K-ETA approval is separate from border inspection. Article 12 of the Immigration Act requires examination of entry requirements, including whether the purpose of the visit is consistent with the permitted status. A valid visa alone does not guarantee admission.'
@@ -94,7 +82,7 @@ export const entryCopy = {
     paymentIntro: 'Request the package without purchasing a preliminary consultation. Includes review of refusal reasons and key documents, one fact-finding call, one principal response document suited to the case, submission guidance and initial contact where feasible, and a closing report. Attorney work is limited to 3 hours.',
     paymentPending: 'The package price is USD 3,300. PayPal checkout is being prepared; online payment and urgent package intake are not yet open.',
     paymentLimit: 'PayPal availability for international payments depends on the payer and account conditions. Domestic payments between Korean PayPal accounts are not supported. Contact the office about domestic payment arrangements.',
-    noGuarantee: 'Kim & Hyun is an independent law office, not a government agency. Admission, suspension of return, response times and case outcomes are not guaranteed.',
+    noGuarantee: 'Kim & Hyun is an independent law office, not a government agency. Admission, suspension of return, the timing of an authority’s action and case outcomes are not guaranteed. The first-contact commitment and refund terms are governed by the engagement agreement.',
     sources: 'Sources and materials', date: 'Materials checked: September 28, 2026',
   }
 } as const;
