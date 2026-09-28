@@ -1,13 +1,14 @@
 import {visaOrigin} from '@/lib/brand';
 import Link from "next/link";
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { Calendar, Clock, ChevronLeft, MessageCircle, ClipboardCheck } from "lucide-react";
 
 export const dynamic = 'force-dynamic';
 import {
     getCategoryById,
     type BlogBlock,
+    type BlogCategory,
 } from "@/lib/blog-posts";
 import { getSupabasePostBySlug, getSupabasePosts } from "@/lib/blog-db";
 
@@ -54,7 +55,7 @@ const UI_TEXTS = {
     }
 };
 
-const getCategoryLabel = (cat: any, lang: string) => {
+const getCategoryLabel = (cat: BlogCategory, lang: string) => {
     if (lang === 'en') return cat.labelEn;
     if (lang === 'zh') {
         const mapping: Record<string, string> = {
@@ -81,6 +82,26 @@ const getCategoryLabel = (cat: any, lang: string) => {
 
 const supportedLangs = ["ko", "en", "zh", "ja"] as const;
 type Lang = typeof supportedLangs[number];
+const postLanguage = (slug: string): Lang => (slug.match(/-(en|zh|ja)$/)?.[1] as Lang | undefined) ?? 'ko';
+const canonicalPostPath = (slug: string) => `${postLanguage(slug) === 'ko' ? '' : `/${postLanguage(slug)}`}/blog/${slug}`;
+
+async function getCanonicalPost(lang: string, slug: string) {
+    if (!supportedLangs.includes(lang as Lang)) notFound();
+    const post = await getSupabasePostBySlug(slug);
+    if (!post) notFound();
+    if (postLanguage(post.slug) === 'ko' || postLanguage(post.slug) !== lang) {
+        permanentRedirect(canonicalPostPath(post.slug));
+    }
+    return post;
+}
+
+async function postAlternates(slug: string) {
+    const posts = await getSupabasePosts();
+    const baseSlug = slug.replace(/-(en|zh|ja)$/, '');
+    return Object.fromEntries(posts
+        .filter(post => post.slug.replace(/-(en|zh|ja)$/, '') === baseSlug)
+        .map(post => [postLanguage(post.slug), `${visaOrigin}${canonicalPostPath(post.slug)}`]));
+}
 
 interface RouteParams {
     params: Promise<{ lang: string; slug: string }>;
@@ -97,8 +118,6 @@ export async function generateStaticParams() {
                 params.push({ lang: "zh", slug: post.slug });
             } else if (post.slug.endsWith("-ja")) {
                 params.push({ lang: "ja", slug: post.slug });
-            } else {
-                params.push({ lang: "ko", slug: post.slug });
             }
         });
         return params;
@@ -110,19 +129,14 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: RouteParams): Promise<Metadata> {
     const { lang, slug } = await params;
-    const post = await getSupabasePostBySlug(slug);
-    if (!post) {
-        return {
-            title: "Not Found | Korea Visa Law",
-        };
-    }
+    const post = await getCanonicalPost(lang, slug);
     const cat = getCategoryById(post.category);
     const resolvedCatLabel = cat ? getCategoryLabel(cat, lang) : "";
     return {
         title: `${post.title} | Korea Visa Law Blog`,
         description: post.excerpt,
         keywords: post.keywords,
-        alternates: { canonical: `/${lang}/blog/${post.slug}` },
+        alternates: { canonical: canonicalPostPath(post.slug), languages: await postAlternates(post.slug) },
         openGraph: {
             title: post.title,
             description: post.excerpt,
@@ -144,15 +158,8 @@ export async function generateMetadata({ params }: RouteParams): Promise<Metadat
 export default async function BlogPostPage({ params }: RouteParams) {
     const { lang, slug } = await params;
 
-    if (!supportedLangs.includes(lang as Lang)) {
-        notFound();
-    }
-
+    const post = await getCanonicalPost(lang, slug);
     const t = UI_TEXTS[lang as Lang];
-    const post = await getSupabasePostBySlug(slug);
-    if (!post) {
-        notFound();
-    }
 
     const category = getCategoryById(post.category);
 
@@ -182,7 +189,7 @@ export default async function BlogPostPage({ params }: RouteParams) {
                         headline: post.title,
                         description: post.excerpt,
                         datePublished: post.publishedAt,
-                        dateModified: post.publishedAt,
+                        inLanguage: lang,
                         author: {
                             "@type": "Organization",
                             name: post.author,
@@ -199,7 +206,7 @@ export default async function BlogPostPage({ params }: RouteParams) {
                         },
                         articleSection: category ? getCategoryLabel(category, lang) : undefined,
                         keywords: post.keywords.join(", "),
-                    }),
+                    }).replace(/</g, '\\u003c'),
                 }}
             />
 

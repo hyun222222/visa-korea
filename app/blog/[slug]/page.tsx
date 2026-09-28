@@ -1,7 +1,7 @@
 import {visaOrigin} from '@/lib/brand';
 import Link from "next/link";
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { Calendar, Clock, ChevronLeft, MessageCircle, ClipboardCheck } from "lucide-react";
 
 export const dynamic = 'force-dynamic';
@@ -11,12 +11,30 @@ import {
 } from "@/lib/blog-posts";
 import { getSupabasePostBySlug, getSupabasePosts } from "@/lib/blog-db";
 
+const postLanguage = (slug: string) => /-(en|zh|ja)$/.exec(slug)?.[1] ?? 'ko';
+const canonicalPostPath = (slug: string) => `${postLanguage(slug) === 'ko' ? '' : `/${postLanguage(slug)}`}/blog/${slug}`;
+
+async function getCanonicalPost(slug: string) {
+    const post = await getSupabasePostBySlug(slug);
+    if (!post) notFound();
+    if (postLanguage(post.slug) !== 'ko') permanentRedirect(canonicalPostPath(post.slug));
+    return post;
+}
+
+async function postAlternates(slug: string) {
+    const posts = await getSupabasePosts();
+    const baseSlug = slug.replace(/-(en|zh|ja)$/, '');
+    return Object.fromEntries(posts
+        .filter(post => post.slug.replace(/-(en|zh|ja)$/, '') === baseSlug)
+        .map(post => [postLanguage(post.slug), `${visaOrigin}${canonicalPostPath(post.slug)}`]));
+}
+
 // Pre-render pages that exist in the database at build time.
 // Other pages will be generated on-demand at runtime.
 export async function generateStaticParams() {
     try {
         const posts = await getSupabasePosts();
-        return posts.map((post) => ({ slug: post.slug }));
+        return posts.filter(post => postLanguage(post.slug) === 'ko').map((post) => ({ slug: post.slug }));
     } catch (e) {
         console.error("Error in generateStaticParams:", e);
         return [];
@@ -29,18 +47,13 @@ interface RouteParams {
 
 export async function generateMetadata({ params }: RouteParams): Promise<Metadata> {
     const { slug } = await params;
-    const post = await getSupabasePostBySlug(slug);
-    if (!post) {
-        return {
-            title: "찾을 수 없는 글 | Korea Visa Law",
-        };
-    }
+    const post = await getCanonicalPost(slug);
     const cat = getCategoryById(post.category);
     return {
         title: `${post.title} | Korea Visa Law Blog`,
         description: post.excerpt,
         keywords: post.keywords,
-        alternates: { canonical: `/blog/${post.slug}` },
+        alternates: { canonical: `/blog/${post.slug}`, languages: await postAlternates(post.slug) },
         openGraph: {
             title: post.title,
             description: post.excerpt,
@@ -61,17 +74,14 @@ export async function generateMetadata({ params }: RouteParams): Promise<Metadat
 
 export default async function BlogPostPage({ params }: RouteParams) {
     const { slug } = await params;
-    const post = await getSupabasePostBySlug(slug);
-    if (!post) {
-        notFound();
-    }
+    const post = await getCanonicalPost(slug);
 
     const category = getCategoryById(post.category);
 
     // Fetch related posts from database
     const allPosts = await getSupabasePosts();
     const related = allPosts
-        .filter((p) => p.category === post.category && p.slug !== post.slug)
+        .filter((p) => p.category === post.category && p.slug !== post.slug && postLanguage(p.slug) === 'ko')
         .slice(0, 3);
 
     return (
@@ -86,7 +96,7 @@ export default async function BlogPostPage({ params }: RouteParams) {
                         headline: post.title,
                         description: post.excerpt,
                         datePublished: post.publishedAt,
-                        dateModified: post.publishedAt,
+                        inLanguage: 'ko',
                         author: {
                             "@type": "Organization",
                             name: post.author,
@@ -103,7 +113,7 @@ export default async function BlogPostPage({ params }: RouteParams) {
                         },
                         articleSection: category?.label,
                         keywords: post.keywords.join(", "),
-                    }),
+                    }).replace(/</g, '\\u003c'),
                 }}
             />
 

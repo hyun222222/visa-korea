@@ -1,18 +1,35 @@
-# Korea Visa Law · 김앤현 법률사무소
+# Korea Visa Law — Kim & Hyun Law Office / 김앤현 법률사무소
 
-> 김앤현 법률사무소의 한국 비자·체류·출입국 업무 안내입니다. 개별 허가 결과를 보장하지 않습니다.
+> Public guidance from an independent Korean law office about visas, residence and entry refusal at Korean airports. The office is not an immigration authority. Admission, a visa, postponement of return or any other outcome is not guaranteed.
 
-## Languages
-- [한국어](https://koreavisalaw.com/ko)
-- [English](https://koreavisalaw.com/en)
-- [中文](https://koreavisalaw.com/zh)
-- [日本語](https://koreavisalaw.com/ja)
+## Airport entry refusal
 
-## Sources and guidance
-- [비자·출입국 칼럼](https://koreavisalaw.com/blog): 각 글의 작성일과 적용 조건을 확인합니다.
-- [김앤현 소개](https://kimnhyun.com/about/): 변호사 경력과 사무소 정보의 공식 원문.
-- [상담 안내](https://kimnhyun.com/consultation/?field=immigration&source=koreavisalaw.com)
-- [대한민국 출입국·외국인정책본부](https://www.immigration.go.kr/): 법령·체류제도 확인.
+- [Denied entry at a Korean airport — English](https://koreavisalaw.com/en/entry-refusal): Current-status and document self-check, preparation examples, legal service scope, fees and contact options. For refusal during airport entry inspection, not an online K-ETA refusal.
+- [한국 공항 입국불허 대응 — 한국어](https://koreavisalaw.com/ko/entry-refusal): 현재 상황·준비서류 점검, 쟁점별 자료 준비 예시, 업무 범위·비용과 연락 방법. 온라인 K-ETA 신청 거절과 공항 입국불허를 구별합니다.
 
-전화 010-5534-6843 / 02-3477-7600 · info@kimnhyun.com
-서울 서초구 법원로 16 정곡빌딩 동관 502호
+The airport response package is USD 3,300 for up to 3 hours of attorney work in total. It includes review of refusal reasons and key records, one fact-finding call, one principal response document appropriate to the case, submission guidance and feasible initial contact, and a closing report. Airport attendance, interpretation, litigation and additional work require a separate agreement. Availability and the complete engagement terms are stated on the public service page and in the engagement process.
+
+The self-check identifies preparation gaps; it does not predict admission or legal success. Document examples are not a universal mandatory airport checklist. Actual case documents are emailed to info@kimnhyun.com with the case reference after signing and paying; they are not uploaded to the website.
+
+## Public language pages
+
+- [한국어 홈](https://koreavisalaw.com/ko)
+- [English home](https://koreavisalaw.com/en)
+- [中文首页](https://koreavisalaw.com/zh)
+- [日本語ホーム](https://koreavisalaw.com/ja)
+- [한국어 법률정보](https://koreavisalaw.com/blog)
+- [English legal insights](https://koreavisalaw.com/en/blog)
+- [中文法律信息](https://koreavisalaw.com/zh/blog)
+- [日本語法律情報](https://koreavisalaw.com/ja/blog)
+
+## Office and primary references
+
+- [Kim & Hyun — official lawyer and office information](https://kimnhyun.com/about/)
+- [대한민국 출입국·외국인정책본부 / Korea Immigration Service](https://www.immigration.go.kr/): Official immigration information.
+- [출입국관리법 제12조 / Immigration Act, Article 12](https://www.law.go.kr/법령/출입국관리법/제12조): Korean statutory entry-inspection requirements; check the current law and applicable facts.
+- [Korean Embassy in Nigeria — entry-refusal guidance](https://www.mofa.go.kr/ng-en/brd/m_23700/view.do?seq=31): Official explanation of entry inspection and supporting records.
+- [Public sitemap](https://koreavisalaw.com/sitemap.xml): Canonical public pages; account, contract, payment and case-record pages are excluded.
+
+Telephone: +82-10-5534-6843 / +82-2-3477-7600. Email: info@kimnhyun.com.
+Address: 502, East Wing, Jeonggok Building, 16 Beobwon-ro, Seocho-gu, Seoul, Republic of Korea.
+서울 서초구 법원로 16 정곡빌딩 동관 502호.

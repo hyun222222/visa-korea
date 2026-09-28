@@ -1,8 +1,11 @@
 export const entryCopy = {
   ko: {
     title: '한국 공항에서 입국을 거절당했나요?',
-    description: '한국 공항 입국불허 긴급 대응. 불허 통지서·심사 문답·초청장·예약·귀국·자금 자료를 사유별로 준비하세요. 온라인 계약·PayPal 결제 후 이메일로 전달합니다.',
+    searchTitle: '한국 공항 입국불허 대응 변호사 | 코리아비자로',
+    description: '한국 공항 입국불허에 대한 변호사의 통지서·핵심자료 검토, 대응 서면 작성과 초기 대응 안내. 준비서류 점검, 업무 범위·USD 3,300 비용, 온라인 위임계약·결제 절차를 확인하세요.',
     intro: '김앤현 법률사무소가 입국불허 사유와 핵심 자료를 검토하고 초기 대응을 진행합니다. 접수가 열려 있으면 사전 연락 없이 온라인에서 위임계약 서명과 PayPal 결제를 진행할 수 있습니다. 실제 사건 서류는 결제 후 접수번호와 함께 info@kimnhyun.com으로 보내주세요.',
+    firstStepsTitle: '공항 입국불허 후 무엇부터 확인하나요?',
+    firstSteps: '받은 통지서와 안내를 보관하고, 현재 공항·터미널과 송환 항공편의 출발 시각을 한국시간으로 정리하세요. 실제 심사 질문·답변을 메모한 뒤, 방문 목적·숙소·귀국 일정·비용 부담을 설명하는 기존 자료가 있는지 아래에서 점검할 수 있습니다. 점검 결과는 입국 가능성이나 사건 결과를 예측하지 않습니다.',
     contact: '입국불허 상담 문의', call: '사무소 전화', other: 'English',
     urgent: '아직 공항에 있다면', urgentText: '공항·터미널, 통지받은 시각, 송환 항공편과 예정 시각, 연락 가능한 방법을 먼저 정리하세요. 온라인 신청 화면에서 접수 가능 여부를 확인할 수 있습니다. 문의나 결제만으로 송환이 정지되거나 공항 방문이 확정되지는 않습니다.',
     sections: [
@@ -10,7 +13,7 @@ export const entryCopy = {
         '추가 심사 중: 아직 최종 입국불허 통지를 받지 않았다면, 입국재심 등 추가 심사 단계일 수 있습니다. 방문 목적, 숙소, 귀국 일정과 이를 설명할 자료를 사실대로 정리합니다.',
         '입국불허 통지 후 공항 대기 중: 통지서의 거절 사유를 확인하고 추가 설명·자료 제출과 이의 제기의 가능 여부, 접수 방법을 해당 관서에 확인합니다. 변호사 면회 등 조력 방법은 현장 운영과 시간에 따라 검토합니다.',
         '이미 송환된 경우: 통지서, 심사 당시 문답, 제출 자료와 재입국 필요성을 검토합니다. 취소소송 등 불복 가능성과 다음 입국을 준비할 때 보완할 사항을 구분합니다.',
-        '출발 전 비자 또는 K-ETA가 거절된 경우: 공항의 입국불허와 다른 결정입니다. 결정한 기관과 통지 내용을 확인한 뒤 별도의 상담 범위를 안내합니다.'
+        '출발 전 비자 또는 K-ETA 신청이 거절된 경우: 공항의 입국불허와 다른 결정이며, 이 공항 긴급 대응 패키지의 대상이 아닙니다.'
       ]],
       ['변호사는 무엇을 검토하나요?', [
         '통지서 검토: 어떤 요건을 증명하지 못했다고 판단했는지, 설명받은 내용과 서면이 일치하는지 확인합니다.',
@@ -44,8 +47,11 @@ export const entryCopy = {
   },
   en: {
     title: 'Denied Entry at a Korean Airport?',
-    description: 'Denied entry at a Korean airport? Prepare refusal notices, interview notes, invitations, bookings and funds evidence. Sign online, pay and email documents.',
+    searchTitle: 'Korean Airport Entry Refusal Lawyer | Korea Visa Law',
+    description: 'Legal review, a response document and initial support for entry refusal at a Korean airport. Check documents, the USD 3,300 scope and online engagement process.',
     intro: 'Kim & Hyun Law Office reviews your refusal reasons and key documents and provides initial legal support. When intake is open, sign the agreement and pay with PayPal online without contacting us first. After payment, email your case documents to info@kimnhyun.com with your case reference.',
+    firstStepsTitle: 'What should I check after entry is refused at a Korean airport?',
+    firstSteps: 'Keep the notice and instructions you received, and record your airport, terminal and assigned return flight departure in Korean time. Note the actual inspection questions and your answers. Then check below for existing evidence of your visit purpose, accommodation, return plans and funding. This check does not predict admission or the outcome of a case.',
     contact: 'Ask about a consultation', call: 'Call the office', other: '한국어',
     urgent: 'Still at the airport?', urgentText: 'Prepare the airport and terminal, when you received the decision, your return flight and departure time, and a way to reach you. Check availability on the online application page. An inquiry or payment does not stop your return flight or confirm an airport visit by a lawyer.',
     sections: [
@@ -53,7 +59,7 @@ export const entryCopy = {
         'Still undergoing additional screening: If you have not received a final refusal, you may be in secondary inspection. Organize truthful information about your visit, accommodation and return plans, with supporting evidence.',
         'Refused entry and waiting at the airport: Check the notice. The available process for further explanations, supporting documents or objections must be confirmed with the office handling your case. Lawyer access depends on the applicable arrangements and timing.',
         'Already returned abroad: We review the notice, interview history, documents and reasons for returning to Korea. A possible challenge to the decision and preparation for a future trip are separate issues.',
-        'Visa or K-ETA refused before travel: This is different from refusal at the border. We first identify the decision, the authority and the notice to explain the appropriate consultation scope.'
+        'Visa or K-ETA application refused before travel: This is different from refusal at the border and is not covered by this airport emergency response package.'
       ]],
       ['What can a lawyer review?', [
         'The refusal notice: Which entry requirement was considered unmet, and does the written reason match what you were told?',
