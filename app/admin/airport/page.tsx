@@ -2,6 +2,8 @@
 import {useEffect,useRef,useState} from 'react';
 import {supabase} from '@/lib/supabase';
 import {isVisaContentAdmin} from '@/lib/admin-auth';
+import {AirportNotificationTest} from '@/components/airport-notification-test';
+import {AirportVerification} from '@/components/airport-verification';
 type Case={id:string;status:string;details:{traveler:string;contact:string};agreement:string;created_at:string;payer_reference?:string};
 type Diagnostics={ok:boolean;diagnosticId?:string;stages?:Record<string,boolean>;error?:string};
 const diagnosticLabels:Record<string,string>={databaseRead:'서버 데이터베이스 연결',privateBucket:'저장소 비공개 설정',upload:'가상 PDF 업로드',download:'다운로드 원본 일치',publicReadBlocked:'외부 공개 접근 차단',cleanup:'테스트 파일 삭제 확인'};
@@ -39,5 +41,5 @@ export default function AirportAdmin(){
  <button disabled={busy} onClick={()=>run(async(epoch)=>{const b=await api(epoch,'admin-files',{id:c.id});assertCurrent(epoch);const container=document.getElementById(`files-${c.id}`);if(!container)return;container.replaceChildren();for(const file of b.files){const a=document.createElement('a');a.href=file.url;a.textContent=file.name;a.target='_blank';a.rel='noopener noreferrer';container.append(a,document.createElement('br'));}})}>비공개 자료 링크 발급 (60초)</button><div id={`files-${c.id}`}/>
  {['signed','payment_review'].includes(c.status)&&<form onSubmit={e=>{e.preventDefault();const f=new FormData(e.currentTarget);run(async(epoch)=>{await api(epoch,'admin-confirm-payment',{id:c.id,reference:f.get('reference'),amount:'3300.00',currency:'USD'});await load(epoch);});}}><p>PayPal 판매자 화면에서 이 고객의 USD 3,300 실제 수취를 확인한 후 기록하세요. 고객 입력만으로 승인하지 마세요.</p><input name="reference" required placeholder="확인한 실제 PayPal 거래번호"/><label className="ai-check"><input type="checkbox" required/>수취인·금액·통화·고객 일치 및 결제 완료를 확인했습니다.</label><button disabled={busy}>사무소 결제 확인 기록</button></form>}
  {active===c.id&&<button disabled={busy} onClick={()=>{if(confirm('업무 종료 또는 미결제 주문 취소를 확인했나요? 종료하면 접수는 닫힌 상태가 됩니다.'))run(async(epoch)=>{await api(epoch,'admin-release',{id:c.id});await load(epoch);});}}>사건 종료 후 자리 해제</button>}</section>)}
- </>}</main>;
+ </>}<AirportNotificationTest/><AirportVerification/></main>;
 }

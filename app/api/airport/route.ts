@@ -29,12 +29,20 @@ async function verifyPayment(c:Record<string,unknown>){
 export async function GET(req:Request){
  try{
   const url=new URL(req.url),id=url.searchParams.get('id');
-  if(!airportReady())return json({ready:false,open:false});
   if(url.searchParams.get('mine')==='true'){
     const user=await identity(req);const cases=await db().from('airport_cases').select('id,status,created_at').eq('user_id',user.id).order('created_at',{ascending:false}).limit(10);
     if(cases.error)throw cases.error;return json({cases:cases.data});
   }
-  if(id){const c=await owned(req,id); if(c.status==='signed'&&c.paypal_order_id)await verifyPayment(c); const fresh=await owned(req,id); const docs=await db().from('airport_documents').select('id,name,created_at').eq('case_id',id); return json({case:fresh,documents:docs.data||[]});}
+  if(id){
+    const c=await owned(req,id);
+    // Existing clients retain access to their records while new intake is disabled.
+    // Do not reconcile payment or send notifications as a side effect in disabled mode.
+    if(airportReady()&&c.status==='signed'&&c.paypal_order_id)await verifyPayment(c);
+    const fresh=await owned(req,id),docs=await db().from('airport_documents').select('id,name,created_at').eq('case_id',id);
+    if(docs.error)throw docs.error;
+    return json({case:fresh,documents:docs.data||[]});
+  }
+  if(!airportReady())return json({ready:false,open:false});
   const desk=await db().from('airport_desk').select('*').eq('id',true).single();
   if(desk.error)return json({ready:false,open:false});
   return json({ready:true,open:desk.data.is_open&&!desk.data.active_case,version:contractVersion,mode:automaticPayment()?'api':'hosted',privacy:{ko:privacyNotice('ko'),en:privacyNotice('en')}});
@@ -43,9 +51,17 @@ export async function GET(req:Request){
 export async function POST(req:Request){
  try{
   if(!originOK(req))return json({error:'Invalid origin'},403);
-  if(!airportReady())return json({error:'Online intake is not yet available.'},503);
   if(Number(req.headers.get('content-length')||0)>50000)return json({error:'Request too large'},413);
   const b=await req.json();
+  if(b.action==='download'){
+    await owned(req,b.id);
+    const file=await db().from('airport_documents').select('path').eq('id',b.document).eq('case_id',b.id).single();
+    if(file.error||!file.data)throw new Error('File unavailable');
+    const link=await db().storage.from('airport-private').createSignedUrl(file.data.path,60,{download:true});
+    if(link.error)throw link.error;
+    return json({url:link.data.signedUrl});
+  }
+  if(!airportReady())return json({error:'Online intake is not yet available.'},503);
   if(b.action==='preview'){
     const d=validateDetails(b.details);
     return json({agreement:contract(d),hash:hash(contract(d)),version:contractVersion});
@@ -100,14 +116,6 @@ export async function POST(req:Request){
     if(typeof b.reference!=='string'||!/^[A-Za-z0-9-]{6,80}$/.test(b.reference)||b.amount!==AIRPORT_PRICE||b.currency!=='USD')return json({error:'Confirm the actual USD 3300.00 transaction in PayPal first.'},400);
     const update=await db().from('airport_cases').update({status:'paid',paypal_capture_id:b.reference,payment_confirmed_by:a.id,paid_at:new Date().toISOString()}).eq('id',b.id).in('status',['signed','payment_review']);
     if(update.error)throw update.error;return json({ok:true});
-  }
-  if(b.action==='download'){
-    await owned(req,b.id);
-    const file=await db().from('airport_documents').select('path').eq('id',b.document).eq('case_id',b.id).single();
-    if(!file.data)throw new Error('File unavailable');
-    const link=await db().storage.from('airport-private').createSignedUrl(file.data.path,60,{download:true});
-    if(link.error)throw link.error;
-    return json({url:link.data.signedUrl});
   }
   if(b.action==='admin-list'){
     await admin(req);
