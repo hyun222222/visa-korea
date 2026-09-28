@@ -1,38 +1,81 @@
 'use client';
-import {useEffect,useState} from 'react';
+import {useEffect,useRef,useState} from 'react';
 import {supabase} from '@/lib/supabase';
 import {airportPrivacy} from '@/lib/airport-privacy';
 import {airportContracts} from '@/lib/airport-contracts';
 import {AIRPORT_CODES,type AirportDetails} from '@/lib/airport-validation';
 type CaseRecord={id:string;status:string;agreement:string;agreement_hash:string;signed_at:string;details:AirportDetails};
+class ChangedSessionError extends Error {}
+function emptyDetails(lang:'ko'|'en'):AirportDetails{return {traveler:'',signer:'',role:'self',authority:false,airport:'ICN',stage:'refused',returnAt:'',unknownReturn:false,contact:'',language:lang,purpose:'',relatedParties:'',signature:'',consent:false,privacyConsent:false,transferConsent:false,sensitiveConsent:false,lang};}
 export function AirportIntake({lang}:{lang:'ko'|'en'}){
  const ko=lang==='ko',t=(a:string,b:string)=>ko?a:b;
  const [ready,setReady]=useState(false),[open,setOpen]=useState(false),[loading,setLoading]=useState(true),[privacy,setPrivacy]=useState(airportPrivacy[lang]),[mode,setMode]=useState('hosted');
- const [session,setSession]=useState(false),[email,setEmail]=useState(''),[otp,setOtp]=useState(''),[sent,setSent]=useState(false),[message,setMessage]=useState(''),[busy,setBusy]=useState(false);
+ const [userId,setUserId]=useState<string|null>(null),[authStatus,setAuthStatus]=useState<'signed-out'|'checking'|'verified'|'unverified'>('signed-out');
+ const userRef=useRef<string|null>(null),authEpoch=useRef(0),refreshSequence=useRef(0),readyRef=useRef(false);
+ const session=!!userId&&authStatus==='verified';
+ const [email,setEmail]=useState(''),[otp,setOtp]=useState(''),[sent,setSent]=useState(false),[message,setMessage]=useState(''),[busy,setBusy]=useState(false);
  const [c,setCase]=useState<CaseRecord|null>(null),[docs,setDocs]=useState<{id:string;name:string}[]>([]),[agreement,setAgreement]=useState(''),[digest,setDigest]=useState(''),[accepted,setAccepted]=useState(false),[privacyOK,setPrivacyOK]=useState(false),[transferOK,setTransferOK]=useState(false),[sensitiveOK,setSensitiveOK]=useState(false),[reference,setReference]=useState('');
- const [d,setD]=useState<AirportDetails>({traveler:'',signer:'',role:'self',authority:false,airport:'ICN',stage:'refused',returnAt:'',unknownReturn:false,contact:'',language:lang,purpose:'',relatedParties:'',signature:'',consent:false,privacyConsent:false,transferConsent:false,sensitiveConsent:false,lang});
+ const [d,setD]=useState<AirportDetails>(()=>emptyDetails(lang));
  function field(key:keyof AirportDetails,value:string|boolean){setD(v=>({...v,[key]:value}));setAgreement('');setAccepted(false);}
+ function rememberCase(id:string){
+  if(!userRef.current)return;
+  sessionStorage.setItem(`airport-case:${userRef.current}`,id);
+  const url=new URL(location.href);url.searchParams.set('case',id);history.replaceState(null,'',`${url.pathname}${url.search}${url.hash}`);
+ }
  async function api(action:string,extra:Record<string,unknown>={}){
+  const epoch=authEpoch.current;
   const {data:{session:s}}=await supabase.auth.getSession();
+  if(epoch!==authEpoch.current||s?.user.id!==userRef.current)throw new ChangedSessionError();
   const r=await fetch('/api/airport',{method:'POST',headers:{'Content-Type':'application/json',...(s?{Authorization:`Bearer ${s.access_token}`}:{})},body:JSON.stringify({action,...extra})});
-  const body=await r.json();if(!r.ok)throw new Error(body.error);return body;
+  const body=await r.json();if(epoch!==authEpoch.current)throw new ChangedSessionError();if(!r.ok)throw new Error(body.error);return body;
  }
  async function refresh(id:string){
-  const {data:{session:s}}=await supabase.auth.getSession();if(!s)return;
-  const r=await fetch(`/api/airport?id=${encodeURIComponent(id)}`,{headers:{Authorization:`Bearer ${s.access_token}`}}),b=await r.json();if(!r.ok)throw new Error(b.error);setCase(b.case);setDocs(b.documents);
+  if(!readyRef.current)return;
+  const epoch=authEpoch.current,sequence=++refreshSequence.current;
+  const {data:{session:s}}=await supabase.auth.getSession();if(!s||s.user.id!==userRef.current||epoch!==authEpoch.current)throw new ChangedSessionError();
+  const r=await fetch(`/api/airport?id=${encodeURIComponent(id)}`,{headers:{Authorization:`Bearer ${s.access_token}`}}),b=await r.json();
+  if(epoch!==authEpoch.current||sequence!==refreshSequence.current||!readyRef.current)throw new ChangedSessionError();
+  if(!r.ok)throw new Error(b.error);
+  if(b.ready===false)return;
+  if(b.case?.id!==id||!Array.isArray(b.documents))throw new Error(t('접수 정보를 확인할 수 없습니다.','Unable to verify case information.'));
+  setCase(b.case);setDocs(b.documents);rememberCase(id);
  }
- async function run(fn:()=>Promise<void>){setBusy(true);setMessage('');try{await fn();}catch(e){setMessage(e instanceof Error?e.message:t('처리할 수 없습니다. 다시 확인해 주세요.','Unable to complete the request.'));}finally{setBusy(false);}}
+ async function run(fn:()=>Promise<void>){const epoch=authEpoch.current;setBusy(true);setMessage('');try{await fn();}catch(e){if(epoch===authEpoch.current&&!(e instanceof ChangedSessionError))setMessage(e instanceof Error?e.message:t('처리할 수 없습니다. 다시 확인해 주세요.','Unable to complete the request.'));}finally{if(epoch===authEpoch.current)setBusy(false);}}
  useEffect(()=>{
-  fetch('/api/airport').then(r=>r.json()).then(b=>{setReady(b.ready===true);setOpen(b.open===true);setPrivacy(b.privacy?.[lang]||airportPrivacy[lang]);setMode(b.mode||'hosted');}).catch(()=>setMessage(t('접수 상태를 확인할 수 없습니다.','Unable to check availability.'))).finally(()=>setLoading(false));
-  supabase.auth.getSession().then(({data})=>{setSession(!!data.session);const id=new URLSearchParams(location.search).get('case')||sessionStorage.getItem('airport-case');if(id&&data.session)refresh(id).catch(()=>setMessage(t('기존 접수를 불러오지 못했습니다.','Unable to load your existing case.')));});
-  const {data:{subscription}}=supabase.auth.onAuthStateChange((_event,s)=>setSession(!!s));return()=>subscription.unsubscribe();
+  let live=true,events=0;const controller=new AbortController();
+  fetch('/api/airport',{signal:controller.signal}).then(r=>r.json()).then(b=>{if(!live)return;readyRef.current=b.ready===true;setReady(b.ready===true);setOpen(b.open===true);setPrivacy(b.privacy?.[lang]||airportPrivacy[lang]);setMode(b.mode||'hosted');}).catch(()=>{if(live)setMessage(t('접수 상태를 확인할 수 없습니다.','Unable to check availability.'));}).finally(()=>{if(live)setLoading(false);});
+  function updateIdentity(id:string|null){
+   if(!live||id===userRef.current)return;
+   const previous=userRef.current;userRef.current=id;authEpoch.current++;refreshSequence.current++;
+   setUserId(id);setAuthStatus(id?'checking':'signed-out');setCase(null);setDocs([]);setAgreement('');setDigest('');setAccepted(false);setReference('');setD(emptyDetails(lang));setSensitiveOK(false);setPrivacyOK(false);setTransferOK(false);setEmail('');setOtp('');setSent(false);setMessage('');setBusy(false);
+   sessionStorage.removeItem('airport-case');
+   if(previous){const url=new URL(location.href);url.searchParams.delete('case');url.searchParams.delete('approved');url.searchParams.delete('cancelled');history.replaceState(null,'',`${url.pathname}${url.search}${url.hash}`);}
+  }
+  const {data:{subscription}}=supabase.auth.onAuthStateChange((_event,s)=>{events++;updateIdentity(s?.user.id||null);});
+  supabase.auth.getSession().then(({data})=>{if(events===0)updateIdentity(data.session?.user.id||null);});
+  return()=>{live=false;controller.abort();subscription.unsubscribe();authEpoch.current++;refreshSequence.current++;};
  // eslint-disable-next-line react-hooks/exhaustive-deps
  },[lang]);
  useEffect(()=>{
-  if(!session||!ready||c)return;
-  (async()=>{const {data:{session:s}}=await supabase.auth.getSession();if(!s)return;const r=await fetch('/api/airport?mine=true',{headers:{Authorization:`Bearer ${s.access_token}`}});const b=await r.json();if(r.ok){const current=b.cases?.find((v:{status:string})=>['signed','payment_review','paid'].includes(v.status));if(current){sessionStorage.setItem('airport-case',current.id);history.replaceState(null,'',`?case=${current.id}`);await refresh(current.id);}}})().catch(()=>setMessage(t('접수 이력을 불러오지 못했습니다.','Unable to load case history.')));
+  if(!userId)return;
+  let live=true;const epoch=authEpoch.current,controller=new AbortController();
+  (async()=>{const {data:{session:s}}=await supabase.auth.getSession();if(!s||s.user.id!==userId)throw new ChangedSessionError();const r=await fetch('/api/airport/diagnostics',{signal:controller.signal,headers:{Authorization:`Bearer ${s.access_token}`}});const b=await r.json();if(live&&epoch===authEpoch.current)setAuthStatus(r.ok&&b.authenticated===true?'verified':'unverified');})().catch(()=>{if(live&&epoch===authEpoch.current)setAuthStatus('unverified');});
+  return()=>{live=false;controller.abort();};
+ },[userId]);
+ useEffect(()=>{
+  if(!session||!ready||!userId)return;
+  let live=true;const epoch=authEpoch.current,sequence=refreshSequence.current;
+  (async()=>{
+   const {data:{session:s}}=await supabase.auth.getSession();if(!s||s.user.id!==userId||epoch!==authEpoch.current)return;
+   const r=await fetch('/api/airport?mine=true',{headers:{Authorization:`Bearer ${s.access_token}`}}),b=await r.json();if(!live||epoch!==authEpoch.current||sequence!==refreshSequence.current)return;
+   if(!r.ok)throw new Error(b.error);if(!Array.isArray(b.cases))return;
+   const saved=new URLSearchParams(location.search).get('case')||sessionStorage.getItem(`airport-case:${userId}`);
+   const current=b.cases.find((v:{id:string})=>v.id===saved)||b.cases.find((v:{status:string})=>['signed','payment_review','paid'].includes(v.status));
+   if(current)await refresh(current.id);
+  })().catch(e=>{if(live&&epoch===authEpoch.current&&!(e instanceof ChangedSessionError))setMessage(t('접수 이력을 불러오지 못했습니다.','Unable to load case history.'));});
+  return()=>{live=false;};
  // eslint-disable-next-line react-hooks/exhaustive-deps
- },[session,ready]);
+ },[session,ready,userId]);
  function download(text:string,name:string){const url=URL.createObjectURL(new Blob([text],{type:'text/plain;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download=name;a.click();URL.revokeObjectURL(url);}
  const details=()=>({...d,returnAt:d.returnAt?new Date(`${d.returnAt}:00+09:00`).toISOString():'',consent:true,privacyConsent:privacyOK,transferConsent:transferOK,sensitiveConsent:sensitiveOK});
  return <main className="kh-container ai-flow">
@@ -41,11 +84,12 @@ export function AirportIntake({lang}:{lang:'ko'|'en'}){
   <p className="ai-price">USD 3,300 · {t('변호사 업무 최대 3시간','Up to 3 hours of attorney work')}</p>
   <ol className="ai-steps"><li>{t('서류 준비','Prepare')}</li><li>{t('정보·계약 서명','Details & signature')}</li><li>{t('PayPal 결제','PayPal payment')}</li><li>{t('서류 전달','Send documents')}</li></ol>
   <p className="kh-note">{t('입국 허가·송환 중단 등 특정 결과를 보장하지 않습니다. 공항 방문·통역·소송은 별도 계약입니다.','Admission, suspension of return and other outcomes are not guaranteed. Airport attendance, interpretation and litigation require a separate agreement.')}</p>
+  {userId&&<p role="status" className="kh-note">{authStatus==='verified'?t('이메일 로그인 확인 완료. 온라인 접수 상태와 관계없이 인증은 완료되었습니다.','Email sign-in verified. Authentication is complete regardless of whether intake is open.'):authStatus==='checking'?t('서버에서 이메일 로그인을 확인하고 있습니다…','Verifying your email sign-in with the server…'):t('서버에서 로그인을 확인하지 못했습니다. 페이지를 새로고침하거나 다시 로그인해 주세요.','The server could not verify your sign-in. Refresh this page or sign in again.')}</p>}
   {message&&<p role="alert" className="kh-note">{message}</p>}
   <section className="kh-section"><h2>{t('1. 지금 준비할 서류','1. Documents to prepare')}</h2><p>{t('가지고 있는 자료부터 준비하세요. 없는 자료를 만들거나 사실과 다른 내용을 적지 마세요. 이 단계에서는 파일을 전송하지 않습니다.','Prepare the records you already have. Do not fabricate documents or statements. No files are transmitted at this step.')}</p><ul><li>{t('입국불허 통지서 전체 또는 현재 받은 안내','Complete refusal notice or current instructions received')}</li><li>{t('여권 인적사항면·비자 또는 입국 관련 승인 자료','Passport identity page and visa or entry authorization')}</li><li>{t('한국행·송환 항공편, 출발 예정 시각','Inbound and return flights with departure times')}</li><li>{t('숙소·일정·초청장 등 실제 방문 목적을 보여주는 자료','Accommodation, itinerary, invitation and evidence of the actual visit purpose')}</li><li>{t('심사 질문과 답변 메모, 가족·초청인 연락처','Notes of inspection questions and answers; family or host contact')}</li></ul><p>{t('결제 후 PDF·JPG·PNG를 파일당 3MB, 최대 20개까지 비공개 제출합니다.','After payment, submit PDF, JPG or PNG files privately, up to 3 MB each and 20 files.')}</p></section>
   {loading?<p>{t('접수 상태 확인 중…','Checking availability…')}</p>:!ready?<section className="kh-note"><h2>{t('온라인 접수 연결 준비 중','Online intake is being connected')}</h2><p>{t('계약 서명 저장과 비공개 서류 보관 연결을 마친 뒤 결제를 열겠습니다. 현재 이 화면에서는 서명·결제·자료를 받지 않습니다.','Payment will open once contract storage and private document delivery are connected. Signatures, payments and documents are not accepted on this screen yet.')}</p><details><summary>{t('위임계약서 미리보기','Preview engagement agreement')}</summary><pre className="ai-contract">{airportContracts[lang]}</pre></details></section>:!c&&!open?<section className="kh-note"><h2>{t('현재 신규 긴급 접수 마감','New urgent intake is closed')}</h2><p>{t('이미 접수했다면 아래에서 같은 이메일로 로그인하세요.','If you already applied, sign in below using the same email.')}</p></section>:null}
 <section className="kh-section"><details><summary>{t('개인정보 처리·국외이전 안내','Privacy and international transfers')}</summary><pre className="ai-contract">{privacy}</pre></details><p>{t('주민등록번호·여권번호·외국인등록번호는 가리고 제출하세요.','Mask national ID, passport and alien registration numbers before submission.')}</p>{ready&&<><label className="ai-check"><input type="checkbox" checked={privacyOK} onChange={e=>setPrivacyOK(e.target.checked)}/>{t('개인정보 수집·이용에 동의합니다.','I consent to collection and use of personal information.')}</label><label className="ai-check"><input type="checkbox" checked={transferOK} onChange={e=>setTransferOK(e.target.checked)}/>{t('안내된 국외 이전에 별도로 동의합니다.','I separately consent to the described international transfers.')}</label></>}</section>
-  {ready&&!session&&<section className="kh-section"><h2>{t('2. 이메일 확인','2. Verify your email')}</h2><p>{t('계약 사본과 제출 자료에 본인만 접근하도록 이메일로 로그인합니다. PayPal 결제 후에도 같은 이메일을 사용하세요.','Sign in by email to protect your contract and files. Use the same email when returning from PayPal.')}</p><label>{t('이메일','Email')}<input type="email" value={email} onChange={e=>setEmail(e.target.value)} autoComplete="email"/></label><button disabled={busy||!email||!privacyOK||!transferOK} className="kh-button" onClick={()=>run(async()=>{const {error}=await supabase.auth.signInWithOtp({email,options:{emailRedirectTo:location.href}});if(error)throw error;setSent(true);setMessage(t('이메일의 로그인 링크 또는 인증번호를 확인하세요.','Check your email for the sign-in link or code.'));})}>{t('이메일 인증 보내기','Send sign-in email')}</button>{sent&&<><label>{t('인증번호가 온 경우 입력','If you received a code, enter it')}<input value={otp} onChange={e=>setOtp(e.target.value)} autoComplete="one-time-code"/></label><button disabled={busy||!otp} onClick={()=>run(async()=>{const {error}=await supabase.auth.verifyOtp({email,token:otp,type:'email'});if(error)throw error;const id=sessionStorage.getItem('airport-case');if(id)await refresh(id);})}>{t('확인','Verify')}</button></>}</section>}
+  {ready&&!session&&<section className="kh-section"><h2>{t('2. 이메일 확인','2. Verify your email')}</h2><p>{t('계약 사본과 제출 자료에 본인만 접근하도록 이메일로 로그인합니다. PayPal 결제 후에도 같은 이메일을 사용하세요.','Sign in by email to protect your contract and files. Use the same email when returning from PayPal.')}</p><label>{t('이메일','Email')}<input type="email" value={email} onChange={e=>setEmail(e.target.value)} autoComplete="email"/></label><button disabled={busy||!email||!privacyOK||!transferOK} className="kh-button" onClick={()=>run(async()=>{const {error}=await supabase.auth.signInWithOtp({email,options:{emailRedirectTo:location.href}});if(error)throw error;setSent(true);setMessage(t('이메일의 로그인 링크 또는 인증번호를 확인하세요.','Check your email for the sign-in link or code.'));})}>{t('이메일 인증 보내기','Send sign-in email')}</button>{sent&&<><label>{t('인증번호가 온 경우 입력','If you received a code, enter it')}<input value={otp} onChange={e=>setOtp(e.target.value)} autoComplete="one-time-code"/></label><button disabled={busy||!otp} onClick={()=>run(async()=>{const {error}=await supabase.auth.verifyOtp({email,token:otp,type:'email'});if(error)throw error;const id=userRef.current?sessionStorage.getItem(`airport-case:${userRef.current}`):null;if(id)await refresh(id);})}>{t('확인','Verify')}</button></>}</section>}
   {ready&&session&&!c&&open&&<section className="kh-section"><h2>{t('2. 사건 정보와 계약 서명','2. Case details and agreement')}</h2>
     <div className="ai-fields">
     {(['traveler','signer','contact','relatedParties'] as const).map((key,i)=><label key={key}>{[t('여행자 성명','Traveler full name'),t('서명자 성명','Signer full name'),t('연락처·국가번호','Contact including country code'),t('초청인·회사 등 관계인 이름 (없으면 없음)','Related people or companies (or none)')][i]}<input value={d[key]} onChange={e=>field(key,e.target.value)} maxLength={300}/></label>)}
@@ -63,11 +107,11 @@ export function AirportIntake({lang}:{lang:'ko'|'en'}){
     <label className="ai-check"><input type="checkbox" checked={privacyOK} onChange={e=>setPrivacyOK(e.target.checked)}/>{t('개인정보 처리·국외이전 안내를 읽고 동의합니다.','I have read and agree to the privacy and overseas transfer notice.')}</label>
     <label className="ai-check"><input type="checkbox" checked={sensitiveOK} onChange={e=>setSensitiveOK(e.target.checked)}/>{t('선택: 사건 검토에 필요한 건강·형사 관련 민감정보 처리에 별도로 동의합니다. 미동의 시 해당 자료를 제출하지 마세요.','Optional: I consent to necessary health/criminal information processing. If unchecked, do not submit such records.')}</label>
     <button className="kh-button" disabled={busy||!privacyOK||!transferOK} onClick={()=>run(async()=>{const b=await api('preview',{details:details()});setAgreement(b.agreement);setDigest(b.hash);setAccepted(false);})}>{t('기재 내용을 넣은 계약서 확인','Review the completed agreement')}</button>
-    {agreement&&<><pre className="ai-contract" tabIndex={0}>{agreement}</pre><button onClick={()=>download(agreement,'engagement-agreement.txt')}>{t('계약서 저장','Download agreement')}</button><label className="ai-check"><input type="checkbox" checked={accepted} onChange={e=>setAccepted(e.target.checked)}/>{t('전문·위임범위·USD 3,300·환불 조건에 동의하며, 입국 허가나 송환 중단을 보장하지 않음을 확인합니다.','I accept the full agreement, scope, USD 3,300 fee and refund terms, and acknowledge that admission or suspension of return is not guaranteed.')}</label><button className="kh-button" disabled={!accepted||!privacyOK||!transferOK||busy} onClick={()=>run(async()=>{const b=await api('sign',{details:details(),hash:digest});sessionStorage.setItem('airport-case',b.id);history.replaceState(null,'',`?case=${b.id}`);await refresh(b.id);})}>{t('서명 저장하고 결제로','Save signature and continue to payment')}</button></>}
+    {agreement&&<><pre className="ai-contract" tabIndex={0}>{agreement}</pre><button onClick={()=>download(agreement,'engagement-agreement.txt')}>{t('계약서 저장','Download agreement')}</button><label className="ai-check"><input type="checkbox" checked={accepted} onChange={e=>setAccepted(e.target.checked)}/>{t('전문·위임범위·USD 3,300·환불 조건에 동의하며, 입국 허가나 송환 중단을 보장하지 않음을 확인합니다.','I accept the full agreement, scope, USD 3,300 fee and refund terms, and acknowledge that admission or suspension of return is not guaranteed.')}</label><button className="kh-button" disabled={!accepted||!privacyOK||!transferOK||busy} onClick={()=>run(async()=>{const b=await api('sign',{details:details(),hash:digest});rememberCase(b.id);await refresh(b.id);})}>{t('서명 저장하고 결제로','Save signature and continue to payment')}</button></>}
   </section>}
   {c&&<><section className="kh-section"><h2>{t('3. PayPal 결제','3. PayPal payment')}</h2><p>{t('접수번호','Case reference')}: {c.id}</p><p>{t('계약 서명 저장 시각','Agreement saved')}: {new Date(c.signed_at).toLocaleString()}</p><button onClick={()=>download(`${c.agreement}\n\nSigned at: ${c.signed_at}\nSHA-256: ${c.agreement_hash}`,'signed-agreement.txt')}>{t('서명 계약 사본 저장','Download signed contract copy')}</button>
     {c.status==='signed'?<><p>{t('PayPal에서 USD 3,300을 결제한 뒤 이 화면으로 돌아오세요. 결제 화면 이동만으로 결제가 완료되지 않습니다.','Pay USD 3,300 on PayPal, then return here. Opening checkout does not confirm payment.')}</p><button className="kh-button" disabled={busy} onClick={()=>run(async()=>{const b=await api('order',{id:c.id});location.assign(b.url);})}>{t('PayPal에서 USD 3,300 지급','Pay USD 3,300 on PayPal')}</button>{mode==='hosted'?<><label>{t('결제 후 PayPal 거래번호','PayPal transaction reference after payment')}<input value={reference} onChange={e=>setReference(e.target.value)} maxLength={120}/></label><button disabled={busy||reference.length<6} onClick={()=>run(async()=>{const result=await api('payment-report',{id:c.id,reference});await refresh(c.id);if(result.warning)setMessage(result.warning);})}>{t('결제 내역 알리고 서류 제출','Report payment and send documents')}</button></>:<button disabled={busy} onClick={()=>run(async()=>{const b=await api('capture',{id:c.id});await refresh(c.id);if(!b.paid)setMessage(t('결제가 아직 확인되지 않았습니다. 재결제하지 말고 사무소로 연락해 주세요.','Payment is not confirmed. Contact the office before paying again.'));})}>{t('PayPal 결제 확인','Confirm PayPal payment')}</button>}</>:<p className="kh-note">{c.status==='paid'?t('사무소 결제 확인 완료','Payment verified'):c.status==='payment_review'?t('결제 확인 대기 — 서류는 지금 제출할 수 있습니다. 이 표시는 실제 결제 완료의 증명이 아닙니다.','Payment verification pending — you may submit documents now. This status is not proof of completed payment.'):t('종료된 접수','Closed case')}</p>}
   </section>
-  {['paid','payment_review'].includes(c.status)&&<section className="kh-section"><h2>{t('4. 필요한 서류 바로 전달','4. Send your documents')}</h2><p>{t('PDF·JPG·PNG, 파일당 3MB 이하. 한 번에 하나씩 제출하세요. 제출 성공 후 목록에 표시됩니다.','PDF, JPG or PNG, up to 3 MB each. Submit one at a time. Successfully received files appear below.')}</p><input aria-label={t('서류 선택','Choose document')} type="file" accept=".pdf,.jpg,.jpeg,.png" disabled={busy} onChange={e=>{const f=e.target.files?.[0];if(!f)return;run(async()=>{const {data:{session:s}}=await supabase.auth.getSession();const body=new FormData();body.set('file',f);const r=await fetch(`/api/airport?id=${c.id}`,{method:'PUT',headers:{Authorization:`Bearer ${s?.access_token}`},body});const b=await r.json();if(!r.ok)throw new Error(b.error);await refresh(c.id);setMessage(t('서류를 전달했습니다.','Document received.'));});e.target.value='';}}/><ul>{docs.map(file=><li key={file.id}>{file.name} <button disabled={busy} onClick={()=>run(async()=>{const b=await api('download',{id:c.id,document:file.id});location.assign(b.url);})}>{t('다운로드','Download')}</button></li>)}</ul><p>{t('추가 서류도 같은 이메일로 로그인해 이 접수번호에서 제출할 수 있습니다.','Return with the same email and case reference to submit additional documents.')}</p></section>}</>}
+  {['paid','payment_review'].includes(c.status)&&<section className="kh-section"><h2>{t('4. 필요한 서류 바로 전달','4. Send your documents')}</h2><p>{t('PDF·JPG·PNG, 파일당 3MB 이하. 한 번에 하나씩 제출하세요. 제출 성공 후 목록에 표시됩니다.','PDF, JPG or PNG, up to 3 MB each. Submit one at a time. Successfully received files appear below.')}</p><input aria-label={t('서류 선택','Choose document')} type="file" accept=".pdf,.jpg,.jpeg,.png" disabled={busy} onChange={e=>{const f=e.target.files?.[0];if(!f)return;run(async()=>{const epoch=authEpoch.current;const {data:{session:s}}=await supabase.auth.getSession();if(!s||s.user.id!==userRef.current||epoch!==authEpoch.current)throw new ChangedSessionError();const body=new FormData();body.set('file',f);const r=await fetch(`/api/airport?id=${c.id}`,{method:'PUT',headers:{Authorization:`Bearer ${s?.access_token}`},body});const b=await r.json();if(epoch!==authEpoch.current)throw new ChangedSessionError();if(!r.ok)throw new Error(b.error);await refresh(c.id);setMessage(t('서류를 전달했습니다.','Document received.'));});e.target.value='';}}/><ul>{docs.map(file=><li key={file.id}>{file.name} <button disabled={busy} onClick={()=>run(async()=>{const b=await api('download',{id:c.id,document:file.id});location.assign(b.url);})}>{t('다운로드','Download')}</button></li>)}</ul><p>{t('추가 서류도 같은 이메일로 로그인해 이 접수번호에서 제출할 수 있습니다.','Return with the same email and case reference to submit additional documents.')}</p></section>}</>}
  </main>;
 }
