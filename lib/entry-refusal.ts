@@ -1,8 +1,8 @@
 export const entryCopy = {
   ko: {
     title: '한국 공항에서 입국을 거절당했나요?',
-    description: '인천·김포·김해·제주 등 한국 공항 입국불허 긴급 대응. 접수가 열려 있으면 사전 상담 없이 온라인 위임계약 서명·PayPal 결제·비공개 서류 제출을 진행할 수 있습니다. 업무 범위와 비용을 확인하세요.',
-    intro: '김앤현 법률사무소가 입국불허 사유와 핵심 자료를 검토하고 초기 대응을 진행합니다. 접수가 열려 있으면 사전 연락 없이 온라인에서 위임계약 서명과 PayPal 결제, 서류 제출까지 진행할 수 있습니다.',
+    description: '인천·김포·김해·제주 등 한국 공항 입국불허 긴급 대응. 온라인 위임계약 서명·PayPal 결제 후 사건 서류는 이메일로 전달합니다. 접수 가능 여부와 업무 범위·비용을 확인하세요.',
+    intro: '김앤현 법률사무소가 입국불허 사유와 핵심 자료를 검토하고 초기 대응을 진행합니다. 접수가 열려 있으면 사전 연락 없이 온라인에서 위임계약 서명과 PayPal 결제를 진행할 수 있습니다. 실제 사건 서류는 결제 후 접수번호와 함께 info@kimnhyun.com으로 보내주세요.',
     contact: '입국불허 상담 문의', call: '사무소 전화', other: 'English',
     urgent: '아직 공항에 있다면', urgentText: '공항·터미널, 통지받은 시각, 송환 항공편과 예정 시각, 연락 가능한 방법을 먼저 정리하세요. 온라인 신청 화면에서 접수 가능 여부를 확인할 수 있습니다. 문의나 결제만으로 송환이 정지되거나 공항 방문이 확정되지는 않습니다.',
     sections: [
@@ -50,8 +50,8 @@ export const entryCopy = {
   },
   en: {
     title: 'Denied Entry at a Korean Airport?',
-    description: 'Legal assistance for entry refusal at Incheon, Gimpo, Gimhae or Jeju. When intake is open, sign online, pay with PayPal and submit documents privately. Review scope and fees.',
-    intro: 'Kim & Hyun Law Office reviews your refusal reasons and key documents and provides initial legal support. When intake is open, sign the agreement, pay with PayPal and submit documents online without contacting us first.',
+    description: 'Legal assistance for entry refusal at Korean airports. Sign online, pay with PayPal and email your case documents. Check availability, scope and fees.',
+    intro: 'Kim & Hyun Law Office reviews your refusal reasons and key documents and provides initial legal support. When intake is open, sign the agreement and pay with PayPal online without contacting us first. After payment, email your case documents to info@kimnhyun.com with your case reference.',
     contact: 'Ask about a consultation', call: 'Call the office', other: '한국어',
     urgent: 'Still at the airport?', urgentText: 'Prepare the airport and terminal, when you received the decision, your return flight and departure time, and a way to reach you. Check availability on the online application page. An inquiry or payment does not stop your return flight or confirm an airport visit by a lawyer.',
     sections: [

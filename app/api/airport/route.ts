@@ -1,7 +1,7 @@
 import {NextResponse} from 'next/server';
 import {randomUUID} from 'node:crypto';
 import {admin,privacyNotice,airportReady,automaticPayment,hostedPaymentUrl,notifyOffice,contract,contractVersion,db,hash,identity,paypal} from '@/lib/airport-server';
-import {AIRPORT_PRICE,validateDetails,validUpload} from '@/lib/airport-validation';
+import {AIRPORT_PRICE,validateDetails} from '@/lib/airport-validation';
 export const runtime='nodejs';
 export const dynamic='force-dynamic';
 const headers={'Cache-Control':'no-store','X-Robots-Tag':'noindex, nofollow'};
@@ -22,7 +22,7 @@ async function verifyPayment(c:Record<string,unknown>){
  const result=await db().from('airport_cases').update({status:'paid',paypal_capture_id:capture.id,paid_at:c.paid_at||new Date().toISOString()}).eq('id',c.id).eq('status','signed').select('id');
  if(result.error)throw new Error('Payment reconciliation pending');
  if(result.data?.length && process.env.RESEND_API_KEY && process.env.AIRPORT_NOTIFY_TO && process.env.AIRPORT_NOTIFY_FROM){
-   try { await fetch('https://api.resend.com/emails',{method:'POST',headers:{Authorization:`Bearer ${process.env.RESEND_API_KEY}`,'Content-Type':'application/json'},body:JSON.stringify({from:process.env.AIRPORT_NOTIFY_FROM,to:process.env.AIRPORT_NOTIFY_TO,subject:'공항 긴급 사건 결제 확인 — USD 3,300',text:`사건번호: ${c.id}\n관리자 화면에서 서명계약과 자료를 확인하세요.\nhttps://koreavisalaw.com/admin/airport`})}); } catch { /* case remains visible in administrator queue */ }
+   try { await fetch('https://api.resend.com/emails',{method:'POST',headers:{Authorization:`Bearer ${process.env.RESEND_API_KEY}`,'Content-Type':'application/json'},body:JSON.stringify({from:process.env.AIRPORT_NOTIFY_FROM,to:process.env.AIRPORT_NOTIFY_TO,subject:'공항 긴급 사건 결제 확인 — USD 3,300',text:`사건번호: ${c.id}\n관리자 화면에서 서명계약을 확인하세요. 사건 서류는 info@kimnhyun.com에서 사건번호로 확인하세요.\nhttps://koreavisalaw.com/admin/airport`})}); } catch { /* case remains visible in administrator queue */ }
  }
  return true;
 }
@@ -149,23 +149,8 @@ export async function POST(req:Request){
  }catch{return json({error:'Request could not be completed. Check your information or contact the office.'},400);}
 }
 export async function PUT(req:Request){
- try{
-  if(!originOK(req)||!airportReady())return json({error:'Unavailable'},403);
-  // Keep request below Vercel function body limit; enforce actual magic bytes as well as MIME.
-  if(Number(req.headers.get('content-length')||0)>4*1024*1024)return json({error:'Maximum 3 MB per file'},413);
-  const id=new URL(req.url).searchParams.get('id')||'',c=await owned(req,id);
-  if(!['paid','payment_review'].includes(c.status))return json({error:'Complete the payment step before uploading'},403);
-  const form=await req.formData(),file=form.get('file');
-  if(!(file instanceof File)||file.size>3*1024*1024||!validUpload(file.name,file.type,file.size))return json({error:'Use PDF, JPG or PNG up to 3 MB'},400);
-  const count=await db().from('airport_documents').select('id',{count:'exact',head:true}).eq('case_id',id);
-  if((count.count||0)>=20)return json({error:'Maximum 20 files per case'},400);
-  const bytes=Buffer.from(await file.arrayBuffer());
-  const matches=file.type==='application/pdf'?bytes.subarray(0,5).toString()==='%PDF-':file.type==='image/png'?bytes.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10])):bytes[0]===255&&bytes[1]===216&&bytes[2]===255;
-  if(!matches)return json({error:'File format does not match its content'},400);
-  const path=`${c.user_id}/${id}/${randomUUID()}.${file.type==='application/pdf'?'pdf':file.type==='image/png'?'png':'jpg'}`;
-  const upload=await db().storage.from('airport-private').upload(path,bytes,{contentType:file.type,upsert:false});if(upload.error)throw upload.error;
-  const insert=await db().from('airport_documents').insert({case_id:id,path,name:file.name.slice(0,200),mime:file.type,size:file.size});
-  if(insert.error){await db().storage.from('airport-private').remove([path]);throw insert.error;}
-  return json({ok:true});
- }catch{return json({error:'Upload failed. Your file has not been confirmed as received.'},400);}
+ if(!originOK(req))return json({error:'Invalid origin'},403);
+ // Retired upload endpoint: reject before parsing a file or accessing database/storage.
+ // Existing documents remain available only through the authenticated read/download paths.
+ return json({code:'EMAIL_DOCUMENTS_ONLY',error:'Document uploads are no longer available. Email case documents to info@kimnhyun.com and include your case number.'},410);
 }

@@ -16,7 +16,7 @@ export function EntryUrgent({lang}:{lang:'ko'|'en'}) {
   return <>
     <section className="kh-section er-urgent" id="airport-help">
       <h2>{ko?'공항 입국불허 온라인 신청과 연락 방법':'Online application and contact options'}</h2>
-      <p>{ko?'접수가 열려 있으면 사전 전화나 상담 없이 사건 정보 입력, 위임계약 서명, PayPal 결제, 서류 제출을 순서대로 진행할 수 있습니다. 문의가 필요한 경우 공항 이름과 송환 예정 시각을 알려주세요.':'When intake is open, enter your case details, sign the agreement, pay with PayPal and submit documents online without a prior call or consultation. If you need help, tell us your airport and scheduled return flight time.'}</p>
+      <p>{ko?'접수가 열려 있으면 사전 전화나 상담 없이 사건 정보 입력, 위임계약 서명, PayPal 결제를 온라인으로 진행하고, 실제 사건 서류는 info@kimnhyun.com으로 보내면 됩니다. 문의가 필요한 경우 공항 이름과 송환 예정 시각을 알려주세요.':'When intake is open, enter your case details, sign the agreement and pay with PayPal online without a prior call or consultation. Then email your case documents to info@kimnhyun.com. If you need help, tell us your airport and scheduled return flight time.'}</p>
       <div className="er-actions"><a className="kh-button" href="#traveler-help">{ko?'본인이 공항에 있습니다':'I am at the airport'}</a><a className="kh-button" href="#family-help">{ko?'가족·초청인이 문의합니다':'I am contacting for someone'}</a></div>
       <p>{ko?'송환이 임박했다면 전화로 대응 가능 여부를 확인하세요. 문의 접수만으로 변호사 배정이나 즉시 대응이 확정되지는 않습니다.':'If your return flight is imminent, call to check availability. Sending an inquiry does not confirm attorney assignment or immediate assistance.'}</p>
       <AirportContact lang={lang}/>
@@ -37,7 +37,7 @@ export function EntryUrgent({lang}:{lang:'ko'|'en'}) {
       <h2>{ko?'가족이나 초청한 사람이 공항에서 나오지 못하고 있나요?':'Is your family member or guest unable to leave arrivals?'}</h2>
       <p>{ko?'본인이 전화하거나 자료를 보내기 어렵다면 가족·초청인이 먼저 문의할 수 있습니다. 현재 공항, 연락 가능한 방법, 송환 예정 시각을 보내주세요.':'If the traveler cannot call or send documents, a family member or host can contact us first. Send the airport, a way to reach you and the scheduled return flight time.'}</p>
       <ul><li>{ko?'본인과의 관계와 현재 연락 가능 여부':'Your relationship to the traveler and whether you can reach them'}</li><li>{ko?'받아둔 통지서와 방문·초청 목적을 설명할 자료':'Any refusal notice and available evidence of the visit or invitation'}</li><li>{ko?'국내 연락 담당자 한 명과 필요한 통역 언어':'One contact person in Korea and any interpretation needs'}</li></ul>
-      <p>{ko?'온라인 신청 시 여행자를 대신하여 계약할 권한을 확인합니다. 가족·초청인이 비용을 지급하는 것만으로 대리 권한이 생기지는 않습니다. 문의에는 상황 개요만 보내고, 여권·신분증 등 사건 자료는 비공개 서류 제출 화면을 이용하세요.':'The online application checks your authority to act for the traveler. Paying as a family member or host does not by itself give authority to sign. Keep inquiries brief and use the private document submission page for passports, IDs and case files.'}</p>
+      <p>{ko?'온라인 신청 시 여행자를 대신하여 계약할 권한을 확인합니다. 가족·초청인이 비용을 지급하는 것만으로 대리 권한이 생기지는 않습니다. 문의에는 상황 개요만 보내고, 실제 사건 자료는 결제 후 접수번호를 적어 info@kimnhyun.com으로 보내주세요. 주민등록번호·여권번호·외국인등록번호는 가리고 보내세요.':'The online application checks your authority to act for the traveler. Paying as a family member or host does not by itself give authority to sign. Keep inquiries brief. After payment, email case documents to info@kimnhyun.com with the case reference, masking national ID, passport and alien registration numbers.'}</p>
       <div className="er-actions"><a className="kh-button" href={`/${lang}/entry-refusal/apply`}>{ko?'가족·초청인 온라인 신청':'Apply for a family member or guest'}</a><a href="#consultation">{ko?'업무 범위·비용·결제 안내':'Scope, fees and payment'}</a></div>
       <AirportContact lang={lang} stage="prepare"/>
     </section>

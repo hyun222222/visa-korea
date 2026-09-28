@@ -8,7 +8,7 @@ export const contractVersion='airport-3300-v2-20260928';
 export const hostedPaymentUrl='https://www.paypal.com/ncp/payment/7DDC3PVGKV7KJ';
 export function airportReady(){return Boolean(process.env.AIRPORT_ENABLED==='true' && process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY && process.env.RESEND_API_KEY && process.env.AIRPORT_NOTIFY_FROM && process.env.AIRPORT_NOTIFY_TO);}
 export async function notifyOffice(id:string,paid=false,options?:{test?:boolean}){
- const subject=paid?'공항 긴급 사건 결제 확인 — USD 3,300':'공항 긴급 사건 — 결제 확인 요청 및 서류 접수';
+ const subject=paid?'공항 긴급 사건 결제 확인 — USD 3,300':'공항 긴급 사건 — 결제 확인 요청';
  const r=await fetch('https://api.resend.com/emails',{method:'POST',headers:{Authorization:`Bearer ${process.env.RESEND_API_KEY}`,'Content-Type':'application/json','Idempotency-Key':`${id}-${paid?'paid':'review'}`},body:JSON.stringify({from:process.env.AIRPORT_NOTIFY_FROM,to:process.env.AIRPORT_NOTIFY_TO,subject:`${options?.test?'[TEST / 실제 사건 아님] ':''}${subject}`,text:`${options?.test?'이 메일은 접수 알림 발송 검증입니다. 실제 의뢰·계약·결제가 없으며 고객에게 연락할 필요가 없습니다.\n\n':''}접수번호: ${id}\n${paid?'결제 확인 완료':'고객이 결제를 알렸습니다. 실제 PayPal 수취를 확인하세요.'}\nhttps://koreavisalaw.com/admin/airport\n계약의 첫 연락 시한을 확인하세요. 고객의 결제 표시는 실제 수취 증명이 아닙니다.`})});
  if(!r.ok)throw new Error('Office notification failed');
  const result=await r.json();

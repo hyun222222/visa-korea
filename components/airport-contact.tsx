@@ -23,8 +23,8 @@ const descriptions: Record<AirportContactStage, {ko: string; en: string}> = {
     en: 'Need help with PayPal? If you are unsure whether payment went through, contact us before paying again.',
   },
   documents: {
-    ko: '서류 제출에 도움이 필요하면 연락하세요. 업로드가 열려 있으면 이 화면에서 사건 서류를 비공개로 제출할 수 있습니다.',
-    en: 'Need help submitting documents? When uploads are open, you can send case files privately on this page.',
+    ko: '사건 서류는 info@kimnhyun.com으로 보내 주세요. 서류 전달에 도움이 필요할 때 아래 연락 방법을 이용할 수 있습니다.',
+    en: 'Send case documents to info@kimnhyun.com. Use the contact options below if you need help sending them.',
   },
   availability: {
     ko: '현재 온라인 신규 접수와 결제는 열려 있지 않습니다. 문의할 수 있지만 연락만으로 사건 접수나 대응이 확정되지는 않습니다.',

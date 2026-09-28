@@ -1,6 +1,12 @@
 # Airport intake launch checklist
 
-Implemented: Korean/English preparation, authenticated intake, exact v2 agreement snapshot + hash + typed name signature, private file uploads, PayPal hosted checkout, explicit payment-review status, restricted administrator verification and file downloads. A customer payment report is never treated as verified payment.
+Implemented: Korean/English preparation, authenticated intake, exact v2 agreement snapshot + hash + typed name signature, PayPal hosted checkout, explicit payment-review status, email delivery instructions and restricted administrator verification. A customer payment report is never treated as verified payment.
+
+## Current document delivery — 2026-09-28
+
+The client signs and pays online, then emails actual case documents to info@kimnhyun.com with the case reference. New customer web uploads are disabled at the API (410 EMAIL_DOCUMENTS_ONLY, without reading multipart data or writing to storage). The mailto button opens a composer only; it neither attaches files nor confirms delivery. Receipt is checked in the office mailbox. Existing stored files remain accessible only to their authorized owners/admins; email attachments do not appear in that historical file list. Website contract snapshots, consents and payment records continue to use Supabase. Privacy notice version: airport-privacy-email-v2-20260928.
+
+Production intake was enabled and opened on 2026-09-28. Older verification entries below document the earlier disabled state and former upload flow, not current availability. Live payment/refund testing remains separate and incomplete.
 
 ## Required configuration before enabling intake
 
@@ -16,7 +22,7 @@ Implemented: Korean/English preparation, authenticated intake, exact v2 agreemen
 Authorized hosted link: `https://www.paypal.com/ncp/payment/7DDC3PVGKV7KJ`.
 Confirmed in PayPal business UI: USD 3,300. Initially quantity allowed 2 and shipping address collection enabled; these must be turned off. Return URL: `https://koreavisalaw.com/en/entry-refusal/apply`.
 
-Hosted mode is default and requires no PayPal API secret. On return, customer supplies PayPal transaction reference; status becomes `payment_review`, and document upload is permitted immediately. Staff verifies actual merchant receipt, payer, USD 3300.00, and transaction ID before marking `paid`. Initial contact deadlines remain obligations even while payment verification is pending; monitor the PayPal merchant notification as well.
+Hosted mode is default and requires no PayPal API secret. On return, customer supplies PayPal transaction reference; status becomes `payment_review`, and email document instructions are displayed immediately. Staff verifies actual merchant receipt, payer, USD 3300.00, and transaction ID before marking `paid`. Initial contact deadlines remain obligations even while payment verification is pending; monitor the PayPal merchant notification as well. Match incoming document emails by case reference and reply to confirm receipt.
 
 The hosted link may be shared or revisited outside this flow; signature-first and single-case limits are enforced on this site, not inside PayPal. Off-flow payments require manual matching/signature or refund. Do not claim absolute payment exclusion or automatic payment verification in this mode.
 
@@ -26,7 +32,7 @@ Optional API mode: `AIRPORT_PAYMENT_MODE=api`, `PAYPAL_CLIENT_ID`, `PAYPAL_CLIEN
 
 - Booking timeout is 30 minutes until checkout starts. Starting checkout reserves the desk until staff reconciles/releases it; never blindly release a payable API order.
 - One case at a time. Closing the desk blocks new cases; existing cases can finish.
-- File limit: PDF/JPEG/PNG, 3 MB per file, 20 files. File signatures are validated and names stored only in a private table. Downloads expire in 60 seconds and force attachment. There is no malware-scanning service yet; staff must use protected viewers and avoid active content.
+- New web uploads are disabled. Historical web-file downloads expire in 60 seconds and force attachment. Email attachments are not automatically ingested or malware-scanned by the website; staff must use protected viewers and avoid active content.
 - Check receipt alerts, signed contract download, payment cancellation, duplicate payments, refunds, file rejection, permissions, retention/deletion procedure and recovery after browser closure.
 - No Google Ads purchase conversion is emitted on return-page visits or customer self-report. Upload verified conversions separately after matching actual payments.
 - Current signature records email-authenticated user, supplied signer/authority, complete agreement + version/hash and server timestamp. This is not identity verification or a qualified digital signature. Verify representative authority before substantive action.
