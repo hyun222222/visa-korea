@@ -129,7 +129,9 @@ body{margin:0;color:#202c39;background:#f6f7f8;font-family:Pretendard,"Noto Sans
 .airport-contact>strong{display:block;font-size:1.05rem;}
 .airport-contact p{margin:8px 0 14px;font-size:.95rem;line-height:1.7;}
 .airport-contact-links{display:flex;flex-wrap:wrap;gap:10px;}
-.airport-contact-links a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:100px;padding:9px 18px;border:1px solid #526474;background:#fff;color:#202c39;font-weight:600;text-decoration:none!important;}
-.airport-contact-links a:hover{background:#eaf0f3;border-color:#202c39;}
+.airport-contact-links a,.airport-contact-links button{display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:100px;margin:0;padding:9px 18px;border:1px solid #526474;background:#fff;color:#202c39;font:inherit;font-weight:600;text-decoration:none!important;cursor:pointer;}
+.airport-contact-links a:hover,.airport-contact-links button:hover{background:#eaf0f3;border-color:#202c39;}
+.airport-contact .airport-kakao-help{margin:14px 0 0;font-size:.85rem;color:#526474;}
+.airport-kakao-help strong{color:#202c39;user-select:all;}
 .airport-contact small{display:block;margin-top:12px;color:#526474;font-size:.82rem;line-height:1.6;}
-@media(max-width:420px){.airport-contact-links a{flex:1 1 auto;padding:9px 12px;min-width:88px;}.airport-contact{margin:24px 0;}}
+@media(max-width:420px){.airport-contact-links a,.airport-contact-links button{flex:1 1 auto;padding:9px 12px;min-width:88px;}.airport-contact{margin:24px 0;}}
