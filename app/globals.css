@@ -106,3 +106,21 @@ body{margin:0;color:#202c39;background:#f6f7f8;font-family:Pretendard,"Noto Sans
 
 /* Airport assistance: visible actions and anchor destinations. */
 .er-actions{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin:22px 0}.er-actions a:not(.kh-button){text-decoration:underline;text-underline-offset:4px}.er-airports{display:grid;grid-template-columns:1fr 1fr;gap:12px;list-style:none;padding:0}.er-airports li{border-bottom:1px solid #b9c4ce;padding:12px 0}.er-content ul:not(.er-airports){padding-left:22px;list-style:disc}.er-content li{margin-bottom:10px}.er-content section[id]{scroll-margin-top:24px}.er-sticky{position:sticky;bottom:0;z-index:45;display:flex;justify-content:center;gap:0;background:#202c39;color:#fff;box-shadow:0 -2px 12px #0002;padding-bottom:env(safe-area-inset-bottom)}.er-sticky a{padding:16px 24px;text-align:center;min-height:48px;border-right:1px solid #526474}.er-sticky a:last-child{border:0}.er-sticky a:hover{background:#34495d}@media(max-width:600px){.er-airports{grid-template-columns:1fr}.er-sticky a{flex:1;padding:14px 8px;font-size:.85rem}.er-actions{align-items:stretch}.er-actions .kh-button{text-align:center}}
+/* Private airport intake: existing editorial brand, accessible mobile fields. */
+.ai-flow {max-width:960px;padding-top:48px;padding-bottom:80px;}
+.ai-flow h1 {font-size:clamp(28px,5vw,44px);margin:20px 0;}
+.ai-flow h2 {font-size:24px;margin-bottom:20px;}
+.ai-flow p,.ai-flow li {line-height:1.8;}
+.ai-price {font-size:22px;font-weight:700;}
+.ai-steps {display:flex;flex-wrap:wrap;gap:12px 28px;padding:20px 0;list-style-position:inside;border-bottom:1px solid #ccd1d5;}
+.ai-fields {display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.ai-flow label {display:block;margin:12px 0;font-weight:600;}
+.ai-flow input:not([type=checkbox]),.ai-flow select,.ai-flow textarea {display:block;width:100%;padding:12px;border:1px solid #8997a3;background:white;color:#202c39;border-radius:3px;min-height:48px;font:inherit;}
+.ai-flow textarea {min-height:100px;}
+.ai-flow .ai-check {display:flex;gap:12px;align-items:flex-start;line-height:1.7;}
+.ai-check input {margin-top:7px;min-width:20px;min-height:20px;}
+.ai-flow button {cursor:pointer;margin:10px 10px 10px 0;padding:12px 16px;border:1px solid #8997a3;min-height:44px;}
+.ai-flow button:disabled {cursor:not-allowed;opacity:.55;}
+.ai-contract {white-space:pre-wrap;overflow-wrap:anywhere;max-height:460px;overflow:auto;padding:20px;background:#f5f4ef;border:1px solid #ccd1d5;font:inherit;font-size:15px;line-height:1.8;margin:16px 0;}
+.ai-flow summary {cursor:pointer;font-weight:700;padding:12px 0;}
+@media(max-width:640px){.ai-fields{grid-template-columns:1fr}.ai-flow{padding-top:24px}.ai-steps{display:grid;grid-template-columns:1fr 1fr;font-size:14px}.ai-contract{padding:12px}}
