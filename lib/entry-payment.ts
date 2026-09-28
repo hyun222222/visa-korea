@@ -3,8 +3,8 @@
 export const entryPayment = {
   enabled: false,
   checkoutUrl: '',
-  displayPrice: '',
-  duration: {ko: '', en: ''},
+  displayPrice: 'USD 3,300',
+  duration: {ko: '변호사 업무 최대 3시간', en: 'Up to 3 hours of attorney work'},
   languages: {ko: '', en: ''},
   delivery: {ko: '', en: ''},
   refundTerms: {ko: '', en: ''},
