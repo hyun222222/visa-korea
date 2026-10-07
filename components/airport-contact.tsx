@@ -1,5 +1,5 @@
 import {airportContact, type AirportContactStage} from '@/lib/airport-contact';
-import {KakaoIdButton} from '@/components/kakao-id-button';
+import {KakaoLink} from '@/components/contact-actions';
 
 const descriptions: Record<AirportContactStage, {ko: string; en: string}> = {
   overview: {
@@ -39,11 +39,10 @@ export function AirportContact({lang, stage = 'overview'}: {lang: 'ko' | 'en'; s
     <p>{descriptions[stage][lang]}</p>
     <nav className="airport-contact-links" aria-label={ko ? '사무소 연락 방법' : 'Contact the office'}>
       <a href={airportContact.whatsapp} target="_blank" rel="noopener noreferrer" referrerPolicy="no-referrer">WhatsApp</a>
-      <KakaoIdButton lang={lang}/>
+      <KakaoLink lang={lang}/>
       <a href={airportContact.email} target="_blank" rel="noopener noreferrer" referrerPolicy="no-referrer">{ko ? '이메일' : 'Email'}</a>
       <a href={airportContact.phone} target="_blank" rel="noopener noreferrer" referrerPolicy="no-referrer">{ko ? '전화' : 'Call'}</a>
     </nav>
-    <p className="airport-kakao-help">{ko ? '카카오톡 ID: ' : 'KakaoTalk ID: '}<strong>{airportContact.kakaoId}</strong><br/>{ko ? '카카오톡 → 친구 추가 → ID로 추가에서 검색하세요. 자동 복사가 안 되면 위 ID를 직접 복사하세요.' : 'In KakaoTalk, open Add Friends → Add by ID and search for this ID. If copying is unavailable, select and copy the ID above.'}</p>
     <small>{ko ? '문의 회신 시각과 사건 수임 여부는 사무소 상황에 따라 달라집니다.' : 'Response times and case acceptance depend on office availability.'}</small>
   </aside>;
 }

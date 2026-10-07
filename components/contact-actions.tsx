@@ -1,0 +1,7 @@
+export const KAKAO_URL = 'https://open.kakao.com/o/saviVYPi';
+type Lang = 'ko'|'en'|'zh'|'ja';
+const words = {ko:['카카오톡 상담','바로 전화하기','상담 연락 방법'],en:['KakaoTalk','Call us','Contact the office'],zh:['KakaoTalk 咨询','拨打电话','联系事务所'],ja:['KakaoTalk相談','電話する','お問い合わせ']} as const;
+export function KakaoLink({lang='ko'}:{lang?:Lang}){return <a className="kh-kakao-link" href={KAKAO_URL} target="_blank" rel="noopener noreferrer" aria-label={words[lang][0]+(lang==='ko'?' (새 창)':' (new tab)')}>{words[lang][0]} <span aria-hidden="true">↗</span></a>}
+export function ContactActions({lang='ko'}:{lang?:Lang}){return <div className="kh-contact-actions"><a className="kh-call-link" href="tel:01055346843">{words[lang][1]}</a><KakaoLink lang={lang}/></div>}
+export function MobileContact({lang='ko'}:{lang?:Lang}){return <nav className="kh-mobile-contact" aria-label={words[lang][2]}><a className="kh-call-link" href="tel:01055346843">{words[lang][1]}</a><KakaoLink lang={lang}/></nav>}
+export function ContactEnd({lang='ko'}:{lang?:Lang}){const text={ko:['내 상황부터 이야기해 주세요.','상담 분야와 연락 가능한 시간을 알려주시면 상담 방식과 일정을 안내합니다.'],en:['Tell us about your situation.','Tell us the topic and a convenient time so we can explain consultation arrangements.'],zh:['请先说明您的情况。','请告知咨询事项和方便联系的时间，我们将说明咨询方式及安排。'],ja:['まずは状況をお聞かせください。','ご相談の内容と連絡可能な時間をお知らせください。相談方法と日程をご案内します。']}[lang];return <aside className="kh-contact-end"><div><strong>{text[0]}</strong><p>{text[1]}</p></div><ContactActions lang={lang}/></aside>}
