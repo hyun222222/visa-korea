@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, type ReactNode } from "react";
 import Link from "next/link";
 import { 
   Building2, 
@@ -351,7 +351,7 @@ const CHECKLIST_ITEMS: ChecklistItem[] = [
   }
 ];
 
-export default function InvestingClientPage({ lang }: { lang: Lang }) {
+export default function InvestingClientPage({ lang, featuredGuide }: { lang: Lang; featuredGuide?: ReactNode }) {
   const currentLang = lang;
   const t = TRANSLATIONS[currentLang];
   
@@ -443,7 +443,7 @@ export default function InvestingClientPage({ lang }: { lang: Lang }) {
       </div>
 
       <main className="max-w-6xl mx-auto py-16 px-4 sm:px-6 lg:px-8 space-y-24">
-        
+        {featuredGuide}
         {/* Section 1: Process at a Glance */}
         <section className="space-y-10">
           <div className="text-center space-y-3">

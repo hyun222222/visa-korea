@@ -4,6 +4,8 @@ import { getSupabasePosts } from "@/lib/blog-db";
 import { BlogIndexClient } from "@/components/blog/BlogIndexClient";
 import { BLOG_CATEGORIES, BlogCategoryId } from "@/lib/blog-posts";
 import { notFound } from "next/navigation";
+import {D8FeaturedGuide} from '@/components/blog/D8Guide';
+import {d8Slug} from '@/lib/d8-search';
 
 export const dynamic = 'force-dynamic';
 
@@ -78,6 +80,7 @@ export default async function LocalizedBlogIndexPage({ params }: { params: Promi
                 </div>
             </section>
 
+            {filteredPosts.some(post => post.slug === d8Slug(lang)) && <D8FeaturedGuide lang={lang}/>}
             <BlogIndexClient posts={filteredPosts} lang={lang} />
         </div>
     );

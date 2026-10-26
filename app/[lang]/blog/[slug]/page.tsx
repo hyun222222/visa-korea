@@ -11,6 +11,8 @@ import {
     type BlogCategory,
 } from "@/lib/blog-posts";
 import { getSupabasePostBySlug, getSupabasePosts } from "@/lib/blog-db";
+import {D8ConsultationGuide} from '@/components/blog/D8Guide';
+import {isD8Review, d8Updated} from '@/lib/d8-search';
 
 const UI_TEXTS = {
     ko: {
@@ -144,6 +146,7 @@ export async function generateMetadata({ params }: RouteParams): Promise<Metadat
             siteName: "Kim&Hyun Law Office",
             type: "article",
             publishedTime: post.publishedAt,
+            modifiedTime: isD8Review(post.slug) ? d8Updated : undefined,
             authors: [post.author],
             tags: [resolvedCatLabel, ...post.keywords].filter(Boolean) as string[],
         },
@@ -189,6 +192,7 @@ export default async function BlogPostPage({ params }: RouteParams) {
                         headline: post.title,
                         description: post.excerpt,
                         datePublished: post.publishedAt,
+                        dateModified: isD8Review(post.slug) ? d8Updated : undefined,
                         inLanguage: lang,
                         author: {
                             "@type": "Organization",
@@ -265,6 +269,8 @@ export default async function BlogPostPage({ params }: RouteParams) {
                     ))}
                 </div>
             </div>
+
+            {isD8Review(post.slug) && <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8"><D8ConsultationGuide lang={lang as Lang}/></div>}
 
             {/* CTA — Visa diagnosis + WhatsApp */}
             <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">

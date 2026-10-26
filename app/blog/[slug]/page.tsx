@@ -10,6 +10,8 @@ import {
     type BlogBlock,
 } from "@/lib/blog-posts";
 import { getSupabasePostBySlug, getSupabasePosts } from "@/lib/blog-db";
+import {D8ConsultationGuide} from '@/components/blog/D8Guide';
+import {isD8Review, d8Updated} from '@/lib/d8-search';
 
 const postLanguage = (slug: string) => /-(en|zh|ja)$/.exec(slug)?.[1] ?? 'ko';
 const canonicalPostPath = (slug: string) => `${postLanguage(slug) === 'ko' ? '' : `/${postLanguage(slug)}`}/blog/${slug}`;
@@ -61,6 +63,7 @@ export async function generateMetadata({ params }: RouteParams): Promise<Metadat
             siteName: "Kim&Hyun Law Office",
             type: "article",
             publishedTime: post.publishedAt,
+            modifiedTime: isD8Review(post.slug) ? d8Updated : undefined,
             authors: [post.author],
             tags: [cat?.label, ...post.keywords].filter(Boolean) as string[],
         },
@@ -96,6 +99,7 @@ export default async function BlogPostPage({ params }: RouteParams) {
                         headline: post.title,
                         description: post.excerpt,
                         datePublished: post.publishedAt,
+                        dateModified: isD8Review(post.slug) ? d8Updated : undefined,
                         inLanguage: 'ko',
                         author: {
                             "@type": "Organization",
@@ -172,6 +176,8 @@ export default async function BlogPostPage({ params }: RouteParams) {
                     ))}
                 </div>
             </div>
+
+            {isD8Review(post.slug) && <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8"><D8ConsultationGuide lang="ko"/></div>}
 
             {/* CTA — Visa diagnosis + WhatsApp */}
             <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">

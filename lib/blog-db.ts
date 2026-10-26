@@ -1,6 +1,7 @@
 import { supabase, hasSupabaseConfig } from './supabase';
 import { requireVisaContentAdmin } from './admin-auth';
 import { blogPostsSortedByDate, getPostBySlug, BlogPost, BlogBlock } from './blog-posts';
+import { correctD8Post } from './d8-search';
 
 /**
  * Parses markdown body into dynamic BlogBlocks.
@@ -123,7 +124,7 @@ export async function getSupabasePosts(): Promise<BlogPost[]> {
             return [];
         }
 
-        return data.map(mapDbPostToBlogPost);
+        return data.map(mapDbPostToBlogPost).map(correctD8Post);
     } catch (err) {
         console.error("Supabase blog list unavailable");
         return [];
@@ -151,7 +152,7 @@ export async function getSupabasePostBySlug(slug: string): Promise<BlogPost | un
             return undefined;
         }
 
-        return mapDbPostToBlogPost(data);
+        return correctD8Post(mapDbPostToBlogPost(data));
     } catch (err) {
         console.error('Supabase blog post unavailable');
         return undefined;

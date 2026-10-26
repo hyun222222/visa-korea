@@ -2,6 +2,8 @@ import {visaOrigin} from '@/lib/brand';
 import type { Metadata } from "next";
 import { getSupabasePosts } from "@/lib/blog-db";
 import { BlogIndexClient } from "@/components/blog/BlogIndexClient";
+import {D8FeaturedGuide} from '@/components/blog/D8Guide';
+import {d8Slug} from '@/lib/d8-search';
 
 export const dynamic = 'force-dynamic';
 
@@ -54,6 +56,7 @@ export default async function BlogIndexPage() {
                 </div>
             </section>
 
+            {posts.some(post => post.slug === d8Slug('ko')) && <D8FeaturedGuide lang="ko"/>}
             <BlogIndexClient posts={posts} />
         </div>
     );

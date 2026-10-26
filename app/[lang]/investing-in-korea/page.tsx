@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import InvestingClientPage from "@/components/investing/InvestingClientPage";
+import {D8FeaturedGuide} from '@/components/blog/D8Guide';
 
 const supportedLangs = ["ko", "en", "zh", "ja"] as const;
 type Lang = typeof supportedLangs[number];
@@ -50,7 +51,7 @@ export default async function LocalizedPage({ params }: Props) {
     notFound();
   }
 
-  return <InvestingClientPage lang={lang} />;
+  return <InvestingClientPage lang={lang} featuredGuide={<D8FeaturedGuide lang={lang}/>}/>;
 }
 
 export function generateStaticParams() {

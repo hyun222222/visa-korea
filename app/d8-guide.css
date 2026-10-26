@@ -1,0 +1,6 @@
+.d8-feature,.d8-review{max-width:1080px;margin:32px auto 56px;padding:32px;background:#edf1f4;border-left:3px solid #34495d;color:#202c39;overflow-wrap:anywhere}
+.d8-feature h2,.d8-review h2{font-family:Georgia,Batang,serif;font-size:clamp(1.4rem,3vw,2rem);line-height:1.4;margin:0 0 18px}
+.d8-feature p,.d8-review p{line-height:1.8;margin:0 0 18px}.d8-label{font-size:.8rem;font-weight:600;letter-spacing:.03em;color:#526474}
+.d8-read,.d8-review a:not(.kh-button){text-decoration:underline;text-underline-offset:4px}.d8-read{font-weight:600;display:inline-block;padding:10px 0}
+.d8-review ul{list-style:disc;padding-left:24px;margin:20px 0}.d8-review li{line-height:1.7;margin:8px 0}.d8-actions{display:flex;flex-wrap:wrap;gap:12px;margin:24px 0}.d8-sources{font-size:.9rem}
+@media(max-width:700px){.d8-feature,.d8-review{padding:24px;margin:24px 16px 40px}.kh-container .d8-feature{margin-left:0;margin-right:0}.d8-actions a{min-height:48px;text-align:center}}
