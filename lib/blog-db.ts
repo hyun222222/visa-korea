@@ -2,6 +2,7 @@ import { supabase, hasSupabaseConfig } from './supabase';
 import { requireVisaContentAdmin } from './admin-auth';
 import { blogPostsSortedByDate, getPostBySlug, BlogPost, BlogBlock } from './blog-posts';
 import { correctD8Post } from './d8-search';
+import { applyLegalReview } from './blog-legal-review';
 
 /**
  * Parses markdown body into dynamic BlogBlocks.
@@ -107,7 +108,7 @@ export function blocksToMarkdown(blocks: BlogBlock[]): string {
  * Configured production data is authoritative; never resurrect removed static posts.
  */
 export async function getSupabasePosts(): Promise<BlogPost[]> {
-    if (!hasSupabaseConfig) return blogPostsSortedByDate;
+    if (!hasSupabaseConfig) return blogPostsSortedByDate.map(applyLegalReview).map(correctD8Post);
     try {
         const { data, error } = await supabase
             .from('blog_posts')
@@ -124,7 +125,7 @@ export async function getSupabasePosts(): Promise<BlogPost[]> {
             return [];
         }
 
-        return data.map(mapDbPostToBlogPost).map(correctD8Post);
+        return data.map(mapDbPostToBlogPost).map(applyLegalReview).map(correctD8Post);
     } catch (err) {
         console.error("Supabase blog list unavailable");
         return [];
@@ -135,7 +136,10 @@ export async function getSupabasePosts(): Promise<BlogPost[]> {
  * The static review content is used only when no database is configured.
  */
 export async function getSupabasePostBySlug(slug: string): Promise<BlogPost | undefined> {
-    if (!hasSupabaseConfig) return getPostBySlug(slug);
+    if (!hasSupabaseConfig) {
+        const post = getPostBySlug(slug);
+        return post ? correctD8Post(applyLegalReview(post)) : undefined;
+    }
     try {
         const { data, error } = await supabase
             .from('blog_posts')
@@ -152,7 +156,7 @@ export async function getSupabasePostBySlug(slug: string): Promise<BlogPost | un
             return undefined;
         }
 
-        return correctD8Post(mapDbPostToBlogPost(data));
+        return correctD8Post(applyLegalReview(mapDbPostToBlogPost(data)));
     } catch (err) {
         console.error('Supabase blog post unavailable');
         return undefined;

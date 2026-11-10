@@ -1,90 +1,35 @@
-"use client";
-import {consultationHref} from "@/lib/brand";
-
-import { useState } from "react";
-import Link from "next/link";
-import { Shield, AlertCircle, ArrowLeft, CheckCircle, FileText, Scale } from "lucide-react";
-
-export default function JapaneseRefundDisputePage() {
-    const [complaint, setComplaint] = useState('');
-    const [submitted, setSubmitted] = useState(false);
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        setSubmitted(true);
-    };
-
-    return (
-        <div className="min-h-screen bg-slate-50 text-slate-900 font-sans py-16 px-4 selection:bg-blue-500/10 selection:text-blue-600">
-            <div className="max-w-4xl mx-auto space-y-12">
-                {/* Header Back Button */}
-                <div className="flex justify-between items-center border-b border-slate-200 pb-6">
-                    <Link href="/ja" className="text-slate-500 hover:text-slate-800 transition-colors inline-flex items-center gap-1.5 text-sm font-medium">
-                        <ArrowLeft className="h-4 w-4" /> メインページへ戻る
-                    </Link>
-                    <span className="text-xs text-blue-650 font-bold tracking-wider uppercase bg-blue-50 px-3 py-1 rounded-full border border-blue-100 text-blue-600 shadow-xs">
-                        美容整形返金トラブル法律支援
-                    </span>
-                </div>
-
-                {/* Main Hero Summary */}
-                <div className="space-y-4 text-center">
-                    <div className="inline-flex h-12 w-12 rounded-full bg-blue-50 items-center justify-center text-blue-600 mb-2 border border-blue-100 shadow-xs">
-                        <Scale className="h-6 w-6" />
-                    </div>
-                    <h1 className="text-3xl md:text-5xl font-serif font-bold text-slate-900 tracking-tight leading-tight">
-                        韓国美容整形返金トラブル解決
-                    </h1>
-                    <p className="text-slate-655 text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
-                        違法あっせん業者による過剰請求、術後の副作用、または期待通りの結果が得られず返金を希望されますか？金&賢法律事務所が病院との交渉および法的解決を代理します。
-                    </p>
-                </div>
-
-                {/* Legal Context */}
-                <div className="bg-white border border-slate-200 rounded-xl p-8 space-y-6 shadow-sm">
-                    <h2 className="text-xl font-bold text-blue-600 flex items-center gap-2">
-                        <AlertCircle className="h-5 w-5" /> 外国人患者の法的権利および返金請求の根拠
-                    </h2>
-                    <div className="space-y-4 text-sm text-slate-650 leading-relaxed">
-                        <p>
-                            韓国の医療法に基づき、医師は施術前に副作用のリスクや手数料構造について十分な**説明義務（インフォームドコンセント）**を尽くす必要があります。義務を怠っていた場合、契約解除による返金請求が可能です。
-                        </p>
-                        <p>
-                            また、無資格のあっせん業者を通じた患者誘致は、韓国では刑事処分の対象となります（医療法第27条第3項違反）。不適切なあっせん手数料の存在は、病院に対して有利に返金交渉を進める強力な材料となります。
-                        </p>
-                        <div className="bg-slate-50 p-4 rounded-lg border border-slate-200 border-l-4 border-l-blue-600">
-                            <span className="block text-xs font-bold uppercase text-slate-500 mb-2">主な法的アプローチ：</span>
-                            <ul className="list-disc pl-5 space-y-1.5 text-slate-600 text-xs">
-                                <li><strong>説明義務違反の立証:</strong> 同意書の記述内容や術前カウンセリングの証록を精査し、義務違反を追及します。</li>
-                                <li><strong>違法手数料の開示請求:</strong> 手数料の過剰上乗せ分について不당利得返還を請求します。</li>
-                                <li><strong>調停の代理申請:</strong> 韓国医療紛争調停仲裁院（K-Medi）等への調停申請を通じた迅速な合意形成。</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Intake Form */}
-                <div className="bg-white border border-slate-200 rounded-xl p-8 space-y-6 shadow-sm">
-                    <h3 className="text-xl font-bold text-slate-900 text-center">無料オンライン返金可否査定</h3>
-                    <p className="text-slate-500 text-xs text-center max-w-lg mx-auto">
-                        施術内容、お支払い金額、あっせん業者の有無、副作用の状況等をご記入ください。弁護士が返金の可能性を査定します。
-                    </p>
-
-                    {submitted ? (
-                        <div className="bg-green-50 border border-green-200 rounded-lg p-6 text-center text-green-700 text-sm">
-                            <CheckCircle className="h-8 w-8 mx-auto mb-2 text-green-600" />
-                            受け付けました。担当弁護士がカルテや経緯を確認し、早急に解決方針をご案内いたします。
-                        </div>
-                    ) : (
-                        <div className="kh-note"><p>総合サイトの相談ページからお問い合わせください。方法・費用と資料の共有方法をご案内します。相談ページは英語です。</p><a className="kh-button" href={consultationHref("ja")}>相談案内（英語） ↗</a></div>
-                    )}
-                </div>
-
-                {/* Footnote */}
-                <p className="text-center text-[10px] text-slate-400">
-                    * お客様の情報は守秘義務に基づき、厳重に保護されます。
-                </p>
-            </div>
-        </div>
-    );
-}
+import {LegalServicePage, type ServiceCopy} from '@/components/legal-service-page';
+const copy:ServiceCopy = {
+  "title": "韓国の美容医療・返金トラブル：責任と証拠の確認",
+  "intro": "結果への不満、副作用や仲介業者との問題だけで、全額返金が当然に認められるわけではありません。診療上の責任、説明義務、契約と支払関係を分けて検討します。",
+  "sections": [
+    [
+      "説明義務と返金の判断は別です",
+      "医療法第24条の2は、一定の手術・輸血・全身麻酔について説明と書面による同意を定めています。説明義務違反、賠償対象となる損害、契約解除・返金の可否は、具体的な事実と民事上の根拠に沿って判断します。"
+    ],
+    [
+      "誘致登録と民事責任を区別します",
+      "外国人患者の誘致登録は特別法に基づき確認します。無登録誘致の疑いだけで治療契約の解除や全額返金が当然に認められるものではありません。実際の行為、各当事者の役割と費用の流れを確認します。"
+    ],
+    [
+      "準備する資料",
+      "予約・広告、契約書・同意書、診療記録、領収書・送金記録、病院や仲介業者との連絡を整理します。説明、施術、症状の発生、追加診療の時系列をまとめ、元の資料は変更せず保管してください。"
+    ],
+    [
+      "手続きの選択",
+      "協議、医療紛争調停、民事訴訟の条件と実益を検討し、行政・刑事上の問題は別途確認します。受任前に範囲と費用を説明し、返金割合や解決時期は保証しません。"
+    ]
+  ],
+  "sources": [
+    [
+      "韓国医療法第24条の2（韓国語）",
+      "https://www.law.go.kr/법령/의료법/제24조의2"
+    ],
+    [
+      "外国人患者誘致登録法第6条（韓国語）",
+      "https://www.law.go.kr/법령/의료해외진출및외국인환자유치지원에관한법률/제6조"
+    ]
+  ],
+  "lang": "ja"
+};
+export default function Page(){return <LegalServicePage copy={copy}/>;}

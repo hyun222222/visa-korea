@@ -1,111 +1,43 @@
-"use client";
-import {consultationHref} from "@/lib/brand";
-
-import { useState } from "react";
-import Link from "next/link";
-import { Scale, Shield, AlertCircle, ArrowLeft, ArrowRight, CheckCircle, FileText } from "lucide-react";
-
-export default function MedicalVisaRemedyPage() {
-    const [reason, setReason] = useState('');
-    const [submitted, setSubmitted] = useState(false);
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        setSubmitted(true);
-    };
-
-    return (
-        <div className="min-h-screen bg-slate-50 text-slate-900 font-sans py-16 px-4 selection:bg-blue-500/10 selection:text-blue-600">
-            <div className="max-w-4xl mx-auto space-y-12">
-                {/* Header Back Button */}
-                <div className="flex justify-between items-center border-b border-slate-200 pb-6">
-                    <Link href="/ko" className="text-slate-500 hover:text-slate-800 transition-colors inline-flex items-center gap-1.5 text-sm font-medium">
-                        <ArrowLeft className="h-4 w-4" /> 메인으로 돌아가기
-                    </Link>
-                    <span className="text-xs text-blue-650 font-bold tracking-wider uppercase bg-blue-50 px-3 py-1 rounded-full border border-blue-100 text-blue-600 shadow-xs">
-                        2순위 행정구제 서비스
-                    </span>
-                </div>
-
-                {/* Main Hero Summary */}
-                <div className="space-y-4 text-center">
-                    <div className="inline-flex h-12 w-12 rounded-full bg-blue-50 items-center justify-center text-blue-600 mb-2 border border-blue-100 shadow-xs">
-                        <Shield className="h-6 w-6" />
-                    </div>
-                    <h1 className="text-3xl md:text-5xl font-serif font-bold text-slate-900 tracking-tight leading-tight">
-                        의료비자 거부 · 연장 행정구제
-                    </h1>
-                    <p className="text-slate-600 text-lg max-w-2xl mx-auto leading-relaxed">
-                        C-3-3(의료관광), G-1-10(장기치료) 비자 발급이 부당하게 불허되었습니까? 
-                        출입국대행 기관 등록 명의의 정밀 소명과 행정심판으로 대응합니다.
-                    </p>
-                </div>
-
-                {/* Legal Precedent & Analysis */}
-                <div className="bg-white border border-slate-200 rounded-xl p-8 space-y-6 shadow-sm">
-                    <h2 className="text-xl font-bold text-blue-600 flex items-center gap-2">
-                        <AlertCircle className="h-5 w-5" /> 재량적 거부 처분에 대한 법적 접근
-                    </h2>
-                    <div className="space-y-4 text-sm text-slate-650 leading-relaxed">
-                        <p>
-                            비자 발급은 영사의 광범위한 재량 영역에 속한다는 판례(**대법원 2015두48846**)에 따라, 단순히 서류를 다시 제출하는 것만으로는 2차 거부(Denial)를 면하기 어렵습니다.
-                        </p>
-                        <p>
-                            출입국관리공무원의 거부 처분을 번복시키기 위해서는, 비자 신청인의 재정 보증서류 보완 및 치료 목적의 정당성을 법률적으로 소명하는 **공식 변명疎明서** 작성이 필수적입니다.
-                        </p>
-                        <div className="bg-slate-50 p-4 rounded-lg border border-slate-200 border-l-4 border-l-blue-600">
-                            <span className="block text-xs font-bold uppercase text-slate-500 mb-1">비자 구제 핵심 입증 포인트</span>
-                            <ul className="list-disc pl-5 space-y-1.5 text-slate-650 text-xs">
-                                <li><strong>치료 필요성 입증:</strong> 국내 의료기관의 정밀 소견서 및 치료 세부 계획의 구체화</li>
-                                <li><strong>불법 체류 가능성 해소:</strong> 송금 경로의 증빙, 자본 출처 및 본국과의 사회적·경제적 유대 관계 규명</li>
-                                <li><strong>유치기관의 보증 신뢰성:</strong> 출입국대행 기관(김앤현 법률사무소)의 공식 대행 보증서 첨부</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Remedy Procedures */}
-                <div className="grid md:grid-cols-2 gap-6">
-                    <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
-                        <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                            <FileText className="h-5 w-5 text-blue-600" /> 행정심판 청구 대행
-                        </h3>
-                        <p className="text-xs text-slate-600 leading-relaxed">
-                            비자 거부 통지를 받은 날로부터 90일 이내에 법무부 행정심판위원회에 처분의 부당성을 다투는 법률 서면을 작성하여 행정심판 청구를 대행합니다.
-                        </p>
-                    </div>
-                    <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
-                        <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                            <CheckCircle className="h-5 w-5 text-blue-600" /> 재신청 소명 패키지
-                        </h3>
-                        <p className="text-xs text-slate-600 leading-relaxed">
-                            영사의 거부 취지를 정밀 분석하여, 재신청 시 단 한 번에 비자가 허가될 수 있도록 신원보증 및 법률 소명 일체 패키지를 제공합니다.
-                        </p>
-                    </div>
-                </div>
-
-                {/* Instant Assessment Intake Form */}
-                <div className="bg-white border border-slate-200 rounded-xl p-8 space-y-6 shadow-sm">
-                    <h3 className="text-xl font-bold text-slate-900 text-center">의료 비자 거부 무료 사전 분석 신청</h3>
-                    <p className="text-slate-550 text-xs text-center max-w-lg mx-auto">
-                        영사로부터 받은 거부 통지 사유(예: 입국목적 소명 미흡 등)를 입력해 주시면 변호사가 타당성을 검토해 드립니다.
-                    </p>
-
-                    {submitted ? (
-                        <div className="bg-green-50 border border-green-200 rounded-lg p-6 text-center text-green-700 text-sm">
-                            <CheckCircle className="h-8 w-8 mx-auto mb-2 text-green-600" />
-                            접수되었습니다. 거부 사유에 관한 법률 검토 결과를 남겨주신 연락처로 발송해 드리겠습니다.
-                        </div>
-                    ) : (
-                        <div className="kh-note"><p>상담 내용은 종합사이트에서 접수합니다. 상담 방식·비용을 안내받고 필요한 자료 전달 방법을 확인하세요.</p><a className="kh-button" href={consultationHref("ko")}>상담 안내 ↗</a></div>
-                    )}
-                </div>
-
-                {/* Footnote */}
-                <p className="text-center text-[10px] text-slate-400">
-                    ※ 본 구제 대행은 대한민국 행정심판법에 의거한 공식 절차에 따라 진행됩니다.
-                </p>
-            </div>
-        </div>
-    );
-}
+import {LegalServicePage, type ServiceCopy} from '@/components/legal-service-page';
+const copy:ServiceCopy = {
+  "title": "의료비자 불허·체류 변경 거부: 사유와 절차 확인",
+  "intro": "재외공관의 사증 발급 거부, 공항 입국불허, 국내 체류 변경·연장 불허는 서로 다릅니다. 통지서와 현재 체류 상태부터 확인합니다.",
+  "sections": [
+    [
+      "2015두48846은 국내 체류자격 변경 사건입니다",
+      "대법원 2016. 7. 14. 선고 2015두48846은 배우자를 간병하기 위한 C-3에서 F-1으로의 체류자격 변경 사건입니다. 대법원은 재량을 인정하면서도 비례원칙 위반 등을 이유로 원심을 파기환송했습니다. 영사의 의료비자 발급 사건이거나 재신청이 다시 거부될 확률을 설명한 판결이 아닙니다."
+    ],
+    [
+      "무엇을 보완해야 하나요?",
+      "불허 이유와 기존 제출자료를 비교합니다. 치료 필요성, 병원 예약·계획, 비용 부담과 실제 방문 목적의 자료 중 어떤 부분이 부족한지 검토합니다. 유치기관 보증이나 사무소 명의의 공식 소명서가 모든 신청의 필수 요건인 것은 아닙니다."
+    ],
+    [
+      "절차와 기한은 통지 종류별로 확인합니다",
+      "불복 가능성·원고적격·관할은 처분에 따라 검토합니다. 일반적인 취소심판은 안 날부터 90일·처분일부터 180일, 취소소송은 안 날부터 90일·처분일부터 1년의 제한이 있으며 법정 예외와 심판 후 기산 규정도 함께 확인합니다. 어느 위원회에나 동일하게 신청할 수 있는 것은 아닙니다."
+    ],
+    [
+      "체류 만료와 구제 절차를 함께 살핍니다",
+      "재신청이나 불복 제기만으로 체류가 자동 연장되거나 송환이 중단되지는 않습니다. 받은 통지 전체, 수령일, 체류 만료일, 신청·치료 자료를 준비하고 가능한 대응과 별도 집행정지 필요성을 확인하세요."
+    ]
+  ],
+  "sources": [
+    [
+      "대법원 2015두48846 판결 전문",
+      "https://www.law.go.kr/LSW/precInfoP.do?precSeq=187813"
+    ],
+    [
+      "KHIDI Medical Visa",
+      "https://www.medicalkorea.or.kr/en/medicalvisa"
+    ],
+    [
+      "행정심판법 제27조",
+      "https://www.law.go.kr/법령/행정심판법/제27조"
+    ],
+    [
+      "행정소송법",
+      "https://www.law.go.kr/법령/행정소송법"
+    ]
+  ],
+  "lang": "ko"
+};
+export default function Page(){return <LegalServicePage copy={copy}/>;}

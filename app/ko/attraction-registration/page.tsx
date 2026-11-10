@@ -1,111 +1,35 @@
-"use client";
-import {consultationHref} from "@/lib/brand";
-
-import { useState } from "react";
-import Link from "next/link";
-import { Scale, Shield, AlertCircle, ArrowLeft, ArrowRight, CheckCircle, FileText } from "lucide-react";
-
-export default function AttractionRegistrationPage() {
-    const [bizName, setBizName] = useState('');
-    const [submitted, setSubmitted] = useState(false);
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        setSubmitted(true);
-    };
-
-    return (
-        <div className="min-h-screen bg-slate-50 text-slate-900 font-sans py-16 px-4 selection:bg-blue-500/10 selection:text-blue-600">
-            <div className="max-w-4xl mx-auto space-y-12">
-                {/* Header Back Button */}
-                <div className="flex justify-between items-center border-b border-slate-200 pb-6">
-                    <Link href="/ko" className="text-slate-500 hover:text-slate-800 transition-colors inline-flex items-center gap-1.5 text-sm font-medium">
-                        <ArrowLeft className="h-4 w-4" /> 메인으로 돌아가기
-                    </Link>
-                    <span className="text-xs text-blue-650 font-bold tracking-wider uppercase bg-blue-50 px-3 py-1 rounded-full border border-blue-100 text-blue-600 shadow-xs">
-                        3순위 B2B 서비스
-                    </span>
-                </div>
-
-                {/* Main Hero Summary */}
-                <div className="space-y-4 text-center">
-                    <div className="inline-flex h-12 w-12 rounded-full bg-blue-50 items-center justify-center text-blue-600 mb-2 border border-blue-100 shadow-xs">
-                        <FileText className="h-6 w-6" />
-                    </div>
-                    <h1 className="text-3xl md:text-5xl font-serif font-bold text-slate-900 tracking-tight leading-tight">
-                        외국인 환자 유치기관 등록 · 전자비자
-                    </h1>
-                    <p className="text-slate-600 text-lg max-w-2xl mx-auto leading-relaxed">
-                        보건복지부 유치기관 공식 등록 대행부터 법무부 지정 우수유치기관 신청, 
-                        대리 온라인 전자비자 발급을 위한 종합 행정 및 세무 컨설팅을 제공합니다.
-                    </p>
-                </div>
-
-                {/* Requirements and Legal Basis */}
-                <div className="bg-white border border-slate-200 rounded-xl p-8 space-y-6 shadow-sm">
-                    <h2 className="text-xl font-bold text-blue-600 flex items-center gap-2">
-                        <AlertCircle className="h-5 w-5" /> 유치업자 등록 법정 요건 및 우수기관 혜택
-                    </h2>
-                    <div className="space-y-4 text-sm text-slate-650 leading-relaxed">
-                        <p>
-                            대한민국 의료 해외진출 및 외국인환자 유치 지원에 관한 법률 제6조에 의거, 무등록 유치 및 영리 알선 행위는 **형사 처벌 및 병원 영업정지**의 강력한 사법적 처분이 뒤따릅니다.
-                        </p>
-                        <p>
-                            합법적인 외국인 환자 유치를 위해서는 보건복지부에 공식 등록해야 하며, 지정 기준 충족 및 매년 사업 실적 보고를 정확히 준수해야 지침 위반 제재를 피할 수 있습니다.
-                        </p>
-                        <div className="bg-slate-50 p-4 rounded-lg border border-slate-200 border-l-4 border-l-blue-600">
-                            <span className="block text-xs font-bold uppercase text-slate-500 mb-1">유치업자 주요 등록 요건</span>
-                            <ul className="list-disc pl-5 space-y-1.5 text-slate-600 text-xs">
-                                <li><strong>자본금 요건:</strong> 법인 또는 개인 자산 규모 1억 원 이상 입증</li>
-                                <li><strong>보증보험 가입:</strong> 1억 원 이상의 인허가보증보험 가입 필수</li>
-                                <li><strong>우수유치기관 지정:</strong> 지정 시 초청서류 간소화 및 온라인 전자비자 대리 신청 권한 획득</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Professional Services */}
-                <div className="grid md:grid-cols-2 gap-6">
-                    <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
-                        <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                            <CheckCircle className="h-5 w-5 text-blue-600" /> 보건복지부 등록 대행
-                        </h3>
-                        <p className="text-xs text-slate-600 leading-relaxed">
-                            신청 서류 작성, 보증보험 증권 발급 대행, 보건산업진흥원 실적 보고 요령 교육까지 완전한 합법 등록 프로세스를 밀착 수행합니다.
-                        </p>
-                    </div>
-                    <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
-                        <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                            <Scale className="h-5 w-5 text-blue-600" /> 우수유치기관 패키지
-                        </h3>
-                        <p className="text-xs text-slate-600 leading-relaxed">
-                            법무부 고시 우수유치기관 지정을 목표로 초청 실적 누적 세무 감사, 불법 체류 방지 신원보증 프로세스 검증 전략 컨설팅을 제공합니다.
-                        </p>
-                    </div>
-                </div>
-
-                {/* Free Pre-Qualification Check Form */}
-                <div className="bg-white border border-slate-200 rounded-xl p-8 space-y-6 shadow-sm">
-                    <h3 className="text-xl font-bold text-slate-900 text-center">유치기관 등록 자격 무료 요건 진단</h3>
-                    <p className="text-slate-500 text-xs text-center max-w-lg mx-auto">
-                        자사의 설립 자본금 현황 및 주사업 종류를 기재해 주시면 등록 실무 적격성을 사전 평가해 드립니다.
-                    </p>
-
-                    {submitted ? (
-                        <div className="bg-green-50 border border-green-200 rounded-lg p-6 text-center text-green-700 text-sm">
-                            <CheckCircle className="h-8 w-8 mx-auto mb-2 text-green-600" />
-                            성공적으로 접수되었습니다. 담당 자문단이 상세 적격 검토 문서를 메일 또는 메신저로 발송해 드리겠습니다.
-                        </div>
-                    ) : (
-                        <div className="kh-note"><p>상담 내용은 종합사이트에서 접수합니다. 상담 방식·비용을 안내받고 필요한 자료 전달 방법을 확인하세요.</p><a className="kh-button" href={consultationHref("ko")}>상담 안내 ↗</a></div>
-                    )}
-                </div>
-
-                {/* Footnote */}
-                <p className="text-center text-[10px] text-slate-400">
-                    ※ 본 컨설팅은 보건복지부 지정 요건 공식 매뉴얼을 준수하여 작성됩니다.
-                </p>
-            </div>
-        </div>
-    );
-}
+import {LegalServicePage, type ServiceCopy} from '@/components/legal-service-page';
+const copy:ServiceCopy = {
+  "title": "외국인환자 유치 등록: 기관별 요건과 갱신 확인",
+  "intro": "유치의료기관과 유치사업자의 등록 요건을 나누고, 출입국민원 대행기관 등록과도 구별합니다.",
+  "sections": [
+    [
+      "등록기관과 법적 근거",
+      "의료해외진출법 제6조는 외국인환자를 유치하려는 의료기관과 그 밖의 사업자가 시·도지사에게 등록하도록 정합니다. 보건복지부에 직접 등록하는 제도로 일률적으로 설명하지 않습니다."
+    ],
+    [
+      "의료기관과 사업자의 요건",
+      "의료기관은 진료과목별 전문의 요건과 의료사고배상책임보험·공제 가입 등을 확인합니다. 유치사업자는 보증보험, 자본금, 국내 사무소 요건을 적용 기준에 따라 확인합니다. 두 유형의 보험을 동일한 상품·금액으로 안내하지 않습니다."
+    ],
+    [
+      "유효기간과 별도 지정",
+      "제6조상 등록 유효기간은 3년이며 계속 유치하려면 만료 전 갱신이 필요합니다. 유치 등록 자체가 모든 전자비자 대리신청 권한이나 우수기관 지정을 자동으로 부여하지는 않습니다."
+    ],
+    [
+      "상담 전에 준비할 자료",
+      "기관 유형, 사업자·법인 자료, 기존 등록증, 보험·공제 증서, 자본금·사무소 자료와 갱신 일정을 준비하세요. 필요한 등록·변경·갱신 절차와 위임 범위를 먼저 확인합니다."
+    ]
+  ],
+  "sources": [
+    [
+      "의료해외진출법 제6조",
+      "https://www.law.go.kr/법령/의료해외진출및외국인환자유치지원에관한법률/제6조"
+    ],
+    [
+      "KHIDI Registration System",
+      "https://www.medicalkorea.or.kr/en/registeredsystem"
+    ]
+  ],
+  "lang": "ko"
+};
+export default function Page(){return <LegalServicePage copy={copy}/>;}

@@ -1,8 +1,9 @@
 import {visaOrigin} from '@/lib/brand';
 import Link from "next/link";
 import type { Metadata } from "next";
+import { ArticleSources } from '@/components/blog/ArticleSources';
 import { notFound, permanentRedirect } from "next/navigation";
-import { Calendar, Clock, ChevronLeft, MessageCircle, ClipboardCheck } from "lucide-react";
+import { Calendar, Clock, ChevronLeft, MessageCircle, Phone } from "lucide-react";
 
 export const dynamic = 'force-dynamic';
 import {
@@ -19,40 +20,40 @@ const UI_TEXTS = {
         back: "블로그 목록으로",
         readMinutes: "분 분량",
         authorPrefix: "글 ·",
-        ctaTitle: "본인 사례에 바로 대입해보세요",
-        ctaDesc: "칼럼은 일반 가이드입니다. 실제 자격·서류·기한은 사례마다 다르므로, 자가 진단 도구로 본인 조건을 먼저 확인하시거나, 변호사에게 직접 상담하시는 것이 가장 안전합니다.",
-        ctaDiag: "비자 가능성 진단받기",
-        ctaWhatsapp: "WhatsApp 상담하기",
+        ctaTitle: "신청 자료와 통지 내용을 함께 검토합니다",
+        ctaDesc: "현재 체류자격, 만료일과 투자·고용·가족 자료를 준비하세요. 상담 범위와 비용은 수임 전에 안내합니다.",
+        ctaDiag: "전화 상담",
+        ctaWhatsapp: "카카오톡 상담",
         relatedTitle: "같은 분야의 다른 글"
     },
     en: {
         back: "Back to Blog List",
         readMinutes: "min read",
         authorPrefix: "By",
-        ctaTitle: "Apply Directly to Your Case",
-        ctaDesc: "This column is a general guide. Actual requirements vary, so check your eligibility with our diagnostic tool or consult an attorney directly.",
-        ctaDiag: "Check Visa Eligibility",
-        ctaWhatsapp: "Chat via WhatsApp",
+        ctaTitle: "Review your documents and notice",
+        ctaDesc: "Prepare your current status, expiry date and relevant investment, employment or family records. Scope and fees are explained before engagement.",
+        ctaDiag: "Call the office",
+        ctaWhatsapp: "KakaoTalk consultation",
         relatedTitle: "Related Articles"
     },
     zh: {
         back: "返回专栏列表",
         readMinutes: "分钟阅读",
         authorPrefix: "作者 ·",
-        ctaTitle: "结合您的实际案例进行评估",
-        ctaDesc: "本专栏仅供参考。实际资格和申请材料因人而异，建议先使用在线评估工具或直接向律师咨询。",
-        ctaDiag: "评估签证可能性",
-        ctaWhatsapp: "WhatsApp 法律咨询",
+        ctaTitle: "审查申请资料与通知内容",
+        ctaDesc: "请准备当前居留资格、到期日及相关投资、雇佣或家庭资料。委托前说明服务范围与费用。",
+        ctaDiag: "电话咨询",
+        ctaWhatsapp: "KakaoTalk咨询",
         relatedTitle: "同类其他文章"
     },
     ja: {
         back: "コラム一覧に戻る",
         readMinutes: "分 読了",
         authorPrefix: "著者 ·",
-        ctaTitle: "ご自身のケースで診断してみましょう",
-        ctaDesc: "コラムは一般的な案内です。実際の要件は事例ごとに異なるため、適性診断ツールで確認するか、弁護士へ直接相談することをお勧めします。",
-        ctaDiag: "ビザの可能性を診断する",
-        ctaWhatsapp: "WhatsAppで相談する",
+        ctaTitle: "申請資料と通知内容を確認します",
+        ctaDesc: "現在の在留資格、期限、投資・雇用・家族関係の資料を準備してください。委任前に業務範囲と費用をご案内します。",
+        ctaDiag: "電話で相談",
+        ctaWhatsapp: "KakaoTalkで相談",
         relatedTitle: "関連コラム"
     }
 };
@@ -146,7 +147,7 @@ export async function generateMetadata({ params }: RouteParams): Promise<Metadat
             siteName: "Kim&Hyun Law Office",
             type: "article",
             publishedTime: post.publishedAt,
-            modifiedTime: isD8Review(post.slug) ? d8Updated : undefined,
+            modifiedTime: post.modifiedAt ?? (isD8Review(post.slug) ? d8Updated : undefined),
             authors: [post.author],
             tags: [resolvedCatLabel, ...post.keywords].filter(Boolean) as string[],
         },
@@ -192,7 +193,8 @@ export default async function BlogPostPage({ params }: RouteParams) {
                         headline: post.title,
                         description: post.excerpt,
                         datePublished: post.publishedAt,
-                        dateModified: isD8Review(post.slug) ? d8Updated : undefined,
+                        dateModified: post.modifiedAt ?? (isD8Review(post.slug) ? d8Updated : undefined),
+                        citation: post.sources?.map(source => source.url),
                         inLanguage: lang,
                         author: {
                             "@type": "Organization",
@@ -268,6 +270,7 @@ export default async function BlogPostPage({ params }: RouteParams) {
                         <BlogBlockRenderer key={i} block={block} />
                     ))}
                 </div>
+                <ArticleSources post={post} lang={lang} />
             </div>
 
             {isD8Review(post.slug) && <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8"><D8ConsultationGuide lang={lang as Lang}/></div>}
@@ -286,14 +289,14 @@ export default async function BlogPostPage({ params }: RouteParams) {
                     </p>
                     <div className="flex flex-wrap gap-3">
                         <Link
-                            href={`/${lang}#calculators`}
+                            href="tel:+821055346843"
                             className="inline-flex items-center gap-2 px-5 py-3 rounded-md bg-white text-slate-900 font-semibold hover:bg-slate-100 transition-colors"
                         >
-                            <ClipboardCheck className="h-5 w-5" />
+                            <Phone className="h-5 w-5" />
                             {t.ctaDiag}
                         </Link>
                         <a
-                            href="https://wa.me/821055346843"
+                            href="https://open.kakao.com/o/saviVYPi"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-2 px-5 py-3 rounded-md bg-green-600 text-white font-semibold hover:bg-green-700 transition-colors"

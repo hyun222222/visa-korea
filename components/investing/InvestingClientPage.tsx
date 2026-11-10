@@ -165,7 +165,7 @@ const TRANSLATIONS = {
     // Section 4
     sec4Title: "韓国の資格を持つ弁護士に相談する",
     sec4Sub: "Ask an attorney",
-    sec4Desc: "状況を簡単にお送りいただければ、金賢正弁護士가検討の上、有料相談が必要な場合は費用を個別にご案内いたします。すべての問い合わせは金賢正弁護士が個別に確認し、相談は韓国の出入国・投資法に限定され、結果を保証するものではありません。",
+    sec4Desc: "状況を簡単にお送りいただければ、金賢正弁護士が検討の上、有料相談が必要な場合は費用を個別にご案内いたします。すべての問い合わせは金賢正弁護士が個別に確認し、相談は韓国の出入国・投資法に限定され、結果を保証するものではありません。",
     btnRequest: "相談を申し込む",
     btnWhatsApp: "WhatsApp",
     
@@ -178,8 +178,8 @@ const TRANSLATIONS = {
 const PROCESS_STEPS = [
   {
     num: 1,
-    ko: { title: "외국인투자 해당성 확인", desc: "통상 1억 원 이상 + 의결권 주식 10% 이상 보유 요건을 충족해야 합니다.", law: "외국인투자촉진법 시행령 제2조" },
-    en: { title: "Confirm Qualifications", desc: "Must meet the criteria of investing KRW 100M+ and holding 10%+ voting shares.", law: "Foreign Investment Promotion Act Decree Art. 2" }
+    ko: { title: "외국인투자 해당성 확인", desc: "일반적인 주식 취득 투자는 1억 원 이상과 의결권 지분 10% 이상을 기준으로 봅니다. 10% 미만 지분 취득과 임원 파견·선임 관련 예외 등은 투자 형태별로 확인합니다.", law: "외국인투자촉진법 시행령 제2조" },
+    en: { title: "Confirm Qualifications", desc: "For ordinary equity investment, review the KRW 100M minimum and 10% voting-share condition. Check applicable exceptions for a smaller equity holding with executive participation and other investment forms.", law: "Foreign Investment Promotion Act Decree Art. 2" }
   },
   {
     num: 2,
@@ -188,13 +188,13 @@ const PROCESS_STEPS = [
   },
   {
     num: 3,
-    ko: { title: "투자자금 반입 및 납입", desc: "반드시 지정된 외국환은행을 거쳐 본인 명의로 송금해야 하며, 추적 가능한 자금 출처 증빙이 필수적입니다.", law: "외국환거래법 제18조" },
-    en: { title: "Remit & Deposit Capital", desc: "Funds must be remitted under the investor's own name via a foreign exchange bank with clear traceability.", law: "Foreign Exchange Transactions Act Art. 18" }
+    ko: { title: "투자자금 반입 및 납입", desc: "해외 송금 또는 세관 신고를 거친 외화 휴대 반입 등 적법한 경로를 확인합니다. 투자자와 자금의 출처·반입·납입·사용을 연결하는 자료를 보관합니다.", law: "KOTRA 외국인투자 안내" },
+    en: { title: "Remit & Deposit Capital", desc: "Review overseas remittance or declared hand-carried foreign currency, as applicable. Preserve records linking the investor, source, entry, payment and use of funds.", law: "KOTRA investment guide" }
   },
   {
     num: 4,
-    ko: { title: "법인 설립 또는 기존주식 취득", desc: "신설 법인은 절차 완료 후 2주 이내에 설립 등기를 마쳐야 합니다.", law: "상법 제317조" },
-    en: { title: "Incorporate or Acquire Shares", desc: "For new companies, file corporate registration within 2 weeks of completing setup.", law: "Commercial Act Art. 317" }
+    ko: { title: "법인 설립 또는 기존주식 취득", desc: "회사 형태와 설립 절차에 따른 등기 기산일·기한을 확인합니다. 법인 설립과 출입국상 투자비자 요건은 별개입니다.", law: "상법 제317조" },
+    en: { title: "Incorporate or Acquire Shares", desc: "Check the registration deadline and its trigger for the company type and incorporation procedure. Incorporation and immigration eligibility are separate questions.", law: "Commercial Act Art. 317" }
   },
   {
     num: 5,
@@ -219,8 +219,8 @@ const DOCS_NEW = [
   {
     stage: { ko: "자금 반입 (Funds)", en: "Funds" },
     docs: {
-      ko: "송금인 및 송금 취지가 확인되는 외화매입증명서 또는 외화예치증명서",
-      en: "FX purchase / deposit certificate clearly showing the remitter and purpose of transfer"
+      ko: "외화매입·예치증명서, 송금내역, 휴대 반입 시 세관 신고자료 등 실제 반입 경로의 증빙",
+      en: "FX purchase/deposit certificate, transfer records and customs declaration for hand-carried funds, as applicable"
     }
   },
   {
@@ -244,7 +244,7 @@ const DOCS_EXISTING = [
     stage: { ko: "투자 신고 (Notification)", en: "Notification" },
     docs: {
       ko: "외국인투자 신고서 (기존주식 취득용), 주식양수도 합의서 (사전 신고가 원칙이나 일부 사후신고 가능)",
-      en: "Foreign investment notification form (for share acquisition), Share transfer agreement (prior notification preferred, post-acquisition notification possible under conditions)"
+      en: "Foreign investment notification form (for share acquisition), Share transfer agreement (prior notification generally required, with statutory exceptions for post-acquisition notification)"
     }
   },
   {
@@ -286,10 +286,10 @@ const CHECKLIST_ITEMS: ChecklistItem[] = [
   },
   {
     id: 1,
-    ko: "의결권 있는 주식의 10% 이상을 보유한다(또는 임원 파견·선임 권한을 수반한다).",
-    en: "I will hold 10% or more of the voting shares (or hold shares with the right to appoint/dispatch an officer).",
-    zh: "持有10%以上有表表决权股份（或拥有派遣/选任高级管理人员的权利）。",
-    ja: "議決権のある株式の10%以上を保有している（または役員の派遣・選任権限を伴う）。",
+    ko: "의결권 있는 주식 등의 10% 이상을 보유하거나, 주식 등을 소유하면서 임원을 파견·선임하는 투자 구조다.",
+    en: "The investment involves at least 10% of voting shares or equity, or ownership of shares or equity together with dispatching or appointing an officer.",
+    zh: "投资结构为持有10%以上有表决权的股份或权益，或持有股份或权益并派遣、选任高级管理人员。",
+    ja: "議決権のある株式等の10%以上を保有するか、株式等を所有し役員を派遣・選任する投資形態である。",
     law: {
       ko: "외투법 시행령 제2조 제2항",
       en: "FIPA Enforcement Decree Art. 2(2)",
@@ -304,10 +304,10 @@ const CHECKLIST_ITEMS: ChecklistItem[] = [
     zh: "已准备设立与投资经过及申请类别的审查资料，并了解直接设立公司的D-8资格可能受到争议。",
     ja: "直接設立した会社のD-8該当性が問題となり得ることを踏まえ、設立・投資の経緯と申請区分を検討する資料を準備した。",
     law: {
-      ko: "KOTRA Invest KOREA 기업투자비자 안내",
-      en: "KOTRA Invest KOREA: Corporate Investor Visa",
-      zh: "KOTRA Invest KOREA：企业投资签证指南",
-      ja: "KOTRA Invest KOREA：企業投資ビザ案内"
+      ko: "서울고법 2025. 3. 27. 선고 2024누52900",
+      en: "Seoul High Court, 27 March 2025, 2024nu52900",
+      zh: "首尔高等法院2025年3月27日2024누52900",
+      ja: "ソウル高等法院2025年3月27日2024누52900"
     }
   },
   {
@@ -317,23 +317,23 @@ const CHECKLIST_ITEMS: ChecklistItem[] = [
     zh: "投资资金以本人名义持有，且能够证明其来源。",
     ja: "投資資金が本人名義であり、その出所を立証できる。",
     law: {
-      ko: "법무부 D-8 지침, 수원지법 2024구단12447",
-      en: "MOJ D-8 guideline; Suwon Dist. Court 2024gudan12447",
-      zh: "法务部 D-8 指南 / 水原地方法院 2024Gudan12447",
-      ja: "法務部 D-8 指針 / 水原地裁 2024クダン12447"
+      ko: "KOTRA 투자자금 반입 안내",
+      en: "KOTRA guide: bringing in investment capital",
+      zh: "KOTRA投资资金入境指南",
+      ja: "KOTRA投資資金持込み案内"
     }
   },
   {
     id: 4,
-    ko: "독립된 사업장을 확보할 예정이다.",
-    en: "I will secure an independent place of business.",
-    zh: "将确保独立的营业场所。",
-    ja: "独立した事業所を確保する予定である。",
+    ko: "실제 사업공간 사용과 영업활동을 설명할 자료를 준비했다.",
+    en: "I have records showing actual use of business premises and business activity.",
+    zh: "已准备实际使用营业场所及开展经营活动的资料。",
+    ja: "事業所の実際の使用と営業活動を説明する資料を準備した。",
     law: {
-      ko: "체류연장 심사 요소(대구지법 2023구단10742 등)",
-      en: "Reviewed at extension stage (Daegu Dist. Court 2023gudan10742, etc.)",
-      zh: "延长停留期审查要素 (大邱地方法院 2023Gudan10742 等)",
-      ja: "滞留期間延長審査要素 (大邱地裁 2023クダン10742 など)"
+      ko: "사업 실체 확인을 위한 준비자료 안내",
+      en: "Document preparation for review of actual business activity",
+      zh: "实际经营情况审查的资料准备指南",
+      ja: "事業実態の確認に向けた資料準備案内"
     }
   },
   {
@@ -393,7 +393,7 @@ export default function InvestingClientPage({ lang, featuredGuide }: { lang: Lan
       case "ja":
         return (
           <>
-            6項目のうち <strong className="text-indigo-400 text-lg font-bold">{count}</strong>項目に該当します。これらの要素は D-8 ビザの審査でよく问题になりますが、合否を分ける決定的な基準ではなく、実際の判断は行政庁が事案全体を見て個別に行います。正確な検討のために、弁護士への相談をお勧めします。
+            6項目のうち <strong className="text-indigo-400 text-lg font-bold">{count}</strong>項目に該当します。これらの要素は D-8 ビザの審査でよく問題になりますが、合否を分ける決定的な基準ではなく、実際の判断は行政庁が事案全体を見て個別に行います。正確な検討のために、弁護士への相談をお勧めします。
           </>
         );
       case "en":
@@ -409,14 +409,14 @@ export default function InvestingClientPage({ lang, featuredGuide }: { lang: Lan
   const getWarningText = () => {
     switch (currentLang) {
       case "ko":
-        return "신설 법인을 설립·운영하는 투자자도 D-8 신청 대상이 될 수 있습니다. 투자자, 자금 경로, 지분과 실제 업무를 정리해 적용 요건을 확인하세요. 법인 설립만으로 비자가 보장되지는 않습니다.";
+        return "서울고법 2024누52900은 별표 1의2 제11호 가목에 관하여 해당 직접 설립 회사의 적격성을 인정하지 않았습니다. 설립·투자 순서와 신청 유형을 먼저 확인하세요. 다른 D-8 유형이나 D-9도 별도 요건 심사가 필요합니다.";
       case "zh":
-        return "设立并经营新法人的投资者也可能符合D-8申请条件。请确认投资主体、资金路径、持股和实际工作；设立法人不保证签证获批。";
+        return "首尔高等法院2024누52900依据附表1之2第11项甲目，未认可该案直接设立公司的资格。请先核对设立、投资顺序及申请类别，其他D-8类别或D-9须另行审查。";
       case "ja":
-        return "新規法人を設立・運営する投資家もD-8の申請対象となり得ます。投資主体、資金経路、持分と実際の業務を整理してください。法人設立だけでビザが保証されるわけではありません。";
+        return "ソウル高等法院2024누52900は、別表1の2第11号イ目について当該直接設立会社の該当性を否定しました。設立・投資の順序と申請区分を先に確認し、他のD-8区分やD-9も別途要件を検討します。";
       case "en":
       default:
-        return "An investor who establishes and operates a new corporation may also qualify to apply for D-8 status. Review the investor, funding route, ownership and actual role; incorporation alone does not guarantee a visa.";
+        return "Seoul High Court 2024nu52900 did not recognize the directly established company in that case under Annex 1-2 item 11(a). Review the incorporation/investment sequence and category first. Other D-8 categories and D-9 require separate eligibility assessments.";
     }
   };
 

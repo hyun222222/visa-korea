@@ -1,0 +1,2940 @@
+[
+  {
+    "slug": "d8-investor-visa-basics",
+    "before": {
+      "title": "한국 투자비자 D-8 기본 요건 — 자본금·송금·실체심사",
+      "excerpt": "외국인이 한국에서 법인을 세우고 받는 가장 일반적인 장기 체류 비자가 D-8입니다. 1억 원 자본금만 맞추면 끝이라는 오해가 많지만, 실제 심사는 송금 경로·사업 실체·대표이사 체류 적정성까지 종합적으로 봅니다.",
+      "body": [
+        {
+          "text": "D-8 (기업투자) 비자는 외국인이 한국에 법인을 설립하고 그 법인을 경영·관리하기 위해 받는 비자입니다. 출입국관리법령상 가장 보편적인 외국인 투자형 체류자격이며, F-2/F-5로 가는 디딤돌로도 자주 활용됩니다.",
+          "type": "p"
+        },
+        {
+          "text": "1. 최소 투자금 기준",
+          "type": "h2"
+        },
+        {
+          "text": "현행 실무상 D-8(기) 신청에는 1억 원 이상의 외국인투자 신고가 요구됩니다. 단, 단순히 자본금 1억 원만 맞추면 되는 것이 아니라 외국인 명의로 송금된 자금이라는 점이 핵심입니다.",
+          "type": "p"
+        },
+        {
+          "type": "list",
+          "items": [
+            "신청인 본인 명의의 해외 계좌에서 한국 법인 계좌로 직접 송금된 흔적이 있어야 함",
+            "제3자 송금, 환치기, 친지 차용금은 자금 출처 입증에서 거의 모두 보완 요청 대상",
+            "원화로 환전된 후의 입금명세서, SWIFT, 외국환은행 외국인투자신고서가 한 세트로 묶여야 함"
+          ]
+        },
+        {
+          "text": "2. 실체 심사 — 가장 자주 놓치는 부분",
+          "type": "h2"
+        },
+        {
+          "text": "최근 출입국 실무에서 가장 빈번한 보완 요청은 사업 실체(substance) 부족입니다.",
+          "type": "p"
+        },
+        {
+          "text": "임대차계약서, 사무실 사진, 명함, 홈페이지, 거래처 견적/세금계산서, 4대보험 가입 직원 1명 이상 — 이 다섯 가지가 사실상 실체 입증의 표준 패키지입니다.",
+          "type": "callout",
+          "title": "심사관이 실제로 보는 포인트"
+        },
+        {
+          "text": "3. 대표자 체류기간과 갱신 전략",
+          "type": "h2"
+        },
+        {
+          "text": "초기 D-8은 1년 단위로 발급되는 경우가 많고, 사업 실적이 누적되어야 2~3년 단위 연장이 가능합니다.",
+          "type": "p"
+        }
+      ],
+      "keywords": [
+        "D-8 비자",
+        "한국 투자비자",
+        "외국인 투자",
+        "기업투자 비자",
+        "Korea D-8 visa",
+        "Korea investor visa",
+        "Korea business visa",
+        "FDI Korea"
+      ],
+      "titleEn": "Korea D-8 Investor Visa: Capital, Remittance, and Substance Review"
+    },
+    "after": {
+      "title": "한국 D-8 투자비자 기본 요건: 투자 유형·자금 출처·실체 자료",
+      "titleEn": null,
+      "excerpt": "자본금이나 법인 등록만으로 D-8을 보장할 수 없습니다. 신청 유형에 맞는 투자 구조와 자금·업무 자료를 먼저 확인합니다.",
+      "body": [
+        {
+          "type": "h2",
+          "text": "자본금부터 보내기 전에 확인할 것"
+        },
+        {
+          "type": "p",
+          "text": "일반적인 지분투자의 외국인투자 해당성은 통상 투자금액과 의결권 지분 요건으로 검토하지만, 그것만으로 D-8이 허가되지는 않습니다. 세부 자격과 신청인의 역할, 설립·투자 경위를 먼저 구분합니다."
+        },
+        {
+          "type": "h2",
+          "text": "직접 설립 회사는 판결 기준도 확인합니다"
+        },
+        {
+          "type": "p",
+          "text": "서울고법 2025. 3. 27. 선고 2024누52900은 별표 1의2 제11호 가목의 해석상 해당 직접 설립 회사의 적격성을 부정했습니다. 투자기업 등록증과 체류 허가는 별개이며, 다른 창업·벤처 자격이나 D-9는 별도 요건을 확인합니다."
+        },
+        {
+          "type": "h2",
+          "text": "송금만 가능한 것은 아닙니다"
+        },
+        {
+          "type": "p",
+          "text": "KOTRA는 해외 송금과 세관 신고를 거친 외화 휴대 반입을 안내합니다. 투자자의 자금 출처부터 반입·환전·납입·사업 사용까지 연결되는 자료를 준비합니다. 제3자 자금이나 차입이 있다면 계약과 실제 거래를 확인하고 적격성을 개별 검토합니다."
+        },
+        {
+          "type": "h2",
+          "text": "사업 실체는 실제 자료로 설명합니다"
+        },
+        {
+          "type": "p",
+          "text": "임대차, 사업공간 사용, 거래계약, 매출·지출과 실제 업무 자료를 준비합니다. 모든 신청에 직원 한 명 이상이 필수라는 표준 패키지는 사용하지 않습니다. 사업비로 쓴 돈과 투자를 가장한 인출도 구분해야 합니다."
+        },
+        {
+          "type": "h2",
+          "text": "신청·연장 일정"
+        },
+        {
+          "type": "p",
+          "text": "초회 허가나 연장 기간을 일률적으로 보장하지 않습니다. 현재 체류자격과 만료일, 신청 유형, 기존 허가 조건을 확인한 뒤 필요한 자료와 일정을 정합니다."
+        }
+      ],
+      "sources": [
+        {
+          "title": "서울고등법원 2025. 3. 27. 선고 2024누52900 — 판결 원문 / Judgment (Korean)",
+          "url": "https://bigcase.ai/cases/서울고등법원/2024누52900"
+        },
+        {
+          "title": "KOTRA — 2025 Guide to Establishing a Business in Korea (English)",
+          "url": "https://ombudsman.kotra.or.kr/file/ik-en/252025Guide_to_Establishing_a_Business_in_Korea.pdf"
+        },
+        {
+          "title": "외국인투자 촉진법 시행령 제2조 / Foreign Investment Promotion Act Enforcement Decree (Korean)",
+          "url": "https://www.law.go.kr/법령/외국인투자촉진법시행령/제2조"
+        }
+      ],
+      "modifiedAt": "2026-11-10"
+    }
+  },
+  {
+    "slug": "d8-visa-direct-incorporation-pitfalls-en",
+    "before": {
+      "title": "Korean Company Incorporation and D-8 Visa: Why 'Direct Setup' Leads to Rejection",
+      "excerpt": "Even after company formation and foreign investment registration, D-8 visa application can be rejected. Here is why the investment sequence determines your visa, explained by lawyers. Korean, English, Chinese, Japanese consultation available.",
+      "body": [
+        {
+          "text": "There are a significant number of inquiries regarding D-8 visa rejections even after establishing a corporation in South Korea and depositing the investment funds. There is a clear legal reason why this outcome is repeated even after obtaining a Foreign-Invested Enterprise (FIE) registration certificate.",
+          "type": "p"
+        },
+        {
+          "text": "Legal Core",
+          "type": "h2"
+        },
+        {
+          "text": "Under the Foreign Investment Promotion Act, foreign investment generally requires an investment of 100 million KRW or more and the acquisition of 10% or more of voting shares (Article 2 of the Enforcement Decree of the same Act).",
+          "type": "p"
+        },
+        {
+          "text": "However, separate from this, the D-8 (Corporate Investor) residency status is granted to essential core personnel engaged in the management or administration of a 'foreign-invested enterprise' under the Immigration Act.",
+          "type": "p"
+        },
+        {
+          "text": "Recently, courts have repeatedly ruled that the D-8 visa applies only when a foreigner invests in a Korean corporation that was already established or in the process of being established prior to the investment. A company directly established and managed by a foreigner is viewed under the scope of a Trade Management (D-9) visa rather than D-8.",
+          "type": "p"
+        },
+        {
+          "text": "In other words, even if you complete the foreign investment report and incorporation, the immigration review is a completely separate hurdle. It is not the incorporation itself, but 'in which corporation and in what sequence the investment was made' that determines the visa.",
+          "type": "p"
+        },
+        {
+          "text": "What to Check Now",
+          "type": "h2"
+        },
+        {
+          "type": "list",
+          "items": [
+            "First, verify whether your investment structure is an investment in an existing corporation or a direct establishment. If it is a direct establishment, it is necessary to review the D-9 requirements, including import/export performance.",
+            "Second, the foreign investment report must, in principle, be completed prior to the investment (Article 5 of the Foreign Investment Promotion Act).",
+            "Third, since investment remittance must be in the investor's own name, it is advisable to prepare evidence of the remittance path in advance. If you are currently staying in South Korea, you must also plan the application timing by calculating backward from the visa expiration date."
+          ],
+          "ordered": false
+        },
+        {
+          "text": "Reflecting on our experience in handling similar cases, there is a significant difference in results when the visa requirements are reviewed at the investment structure design stage, rather than trying to contest a refusal after the notice has been issued.",
+          "type": "p"
+        },
+        {
+          "text": "Corporate incorporation, foreign investment reporting, and visa acquisition are not separate processes but a single, integrated design. Consultation is available in Korean, English, Chinese, and Japanese. Please request a preliminary review from Kim & Hyun Law Office before executing your investment.",
+          "type": "p"
+        }
+      ],
+      "keywords": [
+        "D-8 Visa",
+        "Company Formation",
+        "Foreign Investment",
+        "Visa Rejection",
+        "Direct Setup"
+      ],
+      "titleEn": null
+    },
+    "after": {
+      "title": "Direct Incorporation and D-8: What Seoul High Court 2024nu52900 Decided",
+      "titleEn": null,
+      "excerpt": "The 2025 judgment did not recognize the directly established company for the D-8 category at issue. Distinguish FIE registration, immigration eligibility and any separate D-9 review.",
+      "body": [
+        {
+          "type": "h2",
+          "text": "The question the court decided"
+        },
+        {
+          "type": "p",
+          "text": "In case 2024nu52900, decided on 27 March 2025, Seoul High Court considered the foreign-invested-enterprise requirement under Annex 1-2, item 11(a) of the Immigration Act Enforcement Decree. It required an enterprise already established or under formation before the foreign investment and rejected the directly established company’s eligibility in that case. The appeal was dismissed."
+        },
+        {
+          "type": "h2",
+          "text": "Why the KOTRA reply did not resolve eligibility"
+        },
+        {
+          "type": "p",
+          "text": "A reply recognizing the possibility of FIE registration under investment rules was not treated as a determination of immigration eligibility. Investment registration and permission for a specific residence activity must be reviewed separately. A general incorporation guide should not be used to contradict the holding."
+        },
+        {
+          "type": "h2",
+          "text": "What the judgment does not establish"
+        },
+        {
+          "type": "p",
+          "text": "It does not mean that every newly established business is barred from every D-8 category. It also does not grant D-9 status: the court left that separate question open. Do not assume that changing the sequence, acquiring shares or choosing D-9 automatically cures a refusal. Each route has its own conditions."
+        },
+        {
+          "type": "h2",
+          "text": "Do not merge different cases"
+        },
+        {
+          "type": "p",
+          "text": "Daegu District Court 2012guhap29 involved an existing restaurant previously operated by another foreign national and the legislation then in force. It is not a second judgment on identical incorporation facts. Its discussion of discretionary review is useful, but the factual and statutory differences must remain visible."
+        },
+        {
+          "type": "h2",
+          "text": "Records for a structure review"
+        },
+        {
+          "type": "p",
+          "text": "Prepare the incorporation and investment dates, pre-investment ownership, share acquisition and payment records, intended visa category, actual duties and any refusal notice. We review those records against the relevant category rather than promise a successful structure. This is public-judgment commentary, not a claim that our firm handled these cases."
+        }
+      ],
+      "sources": [
+        {
+          "title": "서울고등법원 2025. 3. 27. 선고 2024누52900 — 판결 원문 / Judgment (Korean)",
+          "url": "https://bigcase.ai/cases/서울고등법원/2024누52900"
+        },
+        {
+          "title": "대구지방법원 2012. 11. 21. 선고 2012구합29 — 국가법령정보센터 / Judgment (Korean)",
+          "url": "https://www.law.go.kr/LSW/precInfoP.do?precSeq=167380"
+        },
+        {
+          "title": "KOTRA — 2025 Guide to Establishing a Business in Korea (English)",
+          "url": "https://ombudsman.kotra.or.kr/file/ik-en/252025Guide_to_Establishing_a_Business_in_Korea.pdf"
+        }
+      ],
+      "modifiedAt": "2026-11-10"
+    }
+  },
+  {
+    "slug": "d8-visa-guide",
+    "before": {
+      "title": "한국 기업투자 D-8 비자 취득 핵심 가이드",
+      "excerpt": "외국인이 한국에서 법인을 설립하고 투자를 유치하여 발급받는 D-8 비자의 자본금 송금 및 실제 사업장 입증 요건을 살펴봅니다.",
+      "body": [
+        {
+          "text": "D-8 비자는 외국인이 국내에 1억 원 이상을 투자하여 법인을 설립하거나 경영하기 위해 발급받는 대표적인 장기 체류 비자입니다.",
+          "type": "p"
+        },
+        {
+          "text": "1. 자본금 송금 요건",
+          "type": "h2"
+        },
+        {
+          "text": "투자금은 반드시 투자자 본인의 해외 계좌에서 국내 신설 법인 명의의 임시 계좌로 공식 송금되어야 합니다. 제3자 송금이나 현금 휴대 입국은 원천적으로 제한됩니다.",
+          "type": "p"
+        },
+        {
+          "text": "2. 사업장 실체 입증",
+          "type": "h2"
+        },
+        {
+          "text": "가상 오피스나 소호 사무실은 반려 사유가 될 수 있습니다. 실제 사업을 영위할 수 있는 임대차 계약서 및 사무기기 구비 현황 사진이 요구됩니다.",
+          "type": "p"
+        }
+      ],
+      "keywords": [
+        "D-8 비자",
+        "투자비자",
+        "외국인 투자",
+        "법인 설립"
+      ],
+      "titleEn": "Korea D-8 Corporate Investor Visa Guide"
+    },
+    "after": {
+      "title": "D-8 투자비자 신청 전: 법인 설립·자금 반입·사업자료 확인",
+      "titleEn": null,
+      "excerpt": "외국인투자기업 등록과 D-8 심사는 별개입니다. 직접 설립 회사에 관한 판결, 신고한 휴대 반입, 실제 사업자료를 나누어 확인합니다.",
+      "body": [
+        {
+          "type": "h2",
+          "text": "법인 등록만으로 D-8을 받을 수 있나요?"
+        },
+        {
+          "type": "p",
+          "text": "D-8에는 여러 유형이 있습니다. 일반적인 지분투자의 금액·지분 요건을 충족해 외국인투자기업으로 등록했더라도, 신청한 체류자격의 요건을 별도로 심사합니다. 법인 설립을 먼저 마치면 비자가 따라 나온다고 전제해서는 안 됩니다."
+        },
+        {
+          "type": "h2",
+          "text": "직접 설립한 회사에 관한 판결"
+        },
+        {
+          "type": "p",
+          "text": "서울고등법원 2025. 3. 27. 선고 2024누52900은 출입국관리법 시행령 별표 1의2 제11호 가목을 해석하면서 해당 사건의 직접 설립 회사를 외국인투자기업으로 인정하지 않았습니다. 회사가 투자 전에 설립되어 있거나 설립 중이어야 한다는 판단입니다. 다른 창업·벤처 유형이나 D-9에 결론을 일괄 적용하지 않습니다."
+        },
+        {
+          "type": "h2",
+          "text": "현금 휴대 반입은 모두 금지되나요?"
+        },
+        {
+          "type": "p",
+          "text": "아닙니다. KOTRA 안내는 해외 송금뿐 아니라 세관 신고를 거친 외화 휴대 반입도 설명합니다. 반입 신고가 곧 D-8 허가는 아닙니다. 투자자, 자금의 출처, 반입·환전·납입·사용 내역을 이어서 확인할 수 있어야 하며, 제3자 자금이 섞였다면 실제 권리관계와 거래자료를 별도로 검토합니다."
+        },
+        {
+          "type": "h2",
+          "text": "사업장과 업무를 보여 줄 자료"
+        },
+        {
+          "type": "p",
+          "text": "임대차계약서, 공간 사용자료, 거래계약·세금계산서, 사업비 지출자료와 실제 담당 업무를 준비합니다. 공유사무실이라는 이름만으로 허가·불허를 단정하지 않습니다. 직원 고용자료는 실제 고용과 적용 요건에 맞춰 확인하며, 모든 신청에 직원 한 명이 반드시 필요하다고 설명하지 않습니다."
+        },
+        {
+          "type": "h2",
+          "text": "상담 전에 정리할 순서"
+        },
+        {
+          "type": "p",
+          "text": "투자·설립 일정표, 신청하려는 세부 자격, 투자 신고·등록 서류와 은행·세관 자료를 준비하세요. 이미 보완·불허 통지를 받았다면 통지서와 수령일, 체류 만료일도 함께 확인합니다."
+        }
+      ],
+      "sources": [
+        {
+          "title": "서울고등법원 2025. 3. 27. 선고 2024누52900 — 판결 원문 / Judgment (Korean)",
+          "url": "https://bigcase.ai/cases/서울고등법원/2024누52900"
+        },
+        {
+          "title": "KOTRA — 2025 Guide to Establishing a Business in Korea (English)",
+          "url": "https://ombudsman.kotra.or.kr/file/ik-en/252025Guide_to_Establishing_a_Business_in_Korea.pdf"
+        },
+        {
+          "title": "외국인투자 촉진법 시행령 제2조 / Foreign Investment Promotion Act Enforcement Decree (Korean)",
+          "url": "https://www.law.go.kr/법령/외국인투자촉진법시행령/제2조"
+        }
+      ],
+      "modifiedAt": "2026-11-10"
+    }
+  },
+  {
+    "slug": "d8-visa-guide-en",
+    "before": {
+      "title": "Korea D-8 Corporate Investor Visa: Capital and Substance Requirements",
+      "excerpt": "An overview of capital transfer procedures and office substance requirements for obtaining a D-8 investment visa in South Korea.",
+      "body": [
+        {
+          "text": "The D-8 visa is a long-term corporate investment visa for foreign entrepreneurs investing at least 100 million KRW to establish a corporation in Korea.",
+          "type": "p"
+        },
+        {
+          "text": "1. Foreign Capital Remittance",
+          "type": "h2"
+        },
+        {
+          "text": "All investment funds must be remitted directly from the foreign investor's overseas account to a temporary corporate bank account in Korea. Cash carrying is highly restricted.",
+          "type": "p"
+        },
+        {
+          "text": "2. Physical Office Substance",
+          "type": "h2"
+        },
+        {
+          "text": "Virtual offices are generally rejected. You must submit a physical commercial lease contract, photos of the office setup, and equipment configurations.",
+          "type": "p"
+        }
+      ],
+      "keywords": [
+        "D-8 Visa",
+        "Investor Visa",
+        "Korea Incorporation",
+        "FDI Korea"
+      ],
+      "titleEn": "Korea D-8 Corporate Investor Visa Guide"
+    },
+    "after": {
+      "title": "Korea D-8 Investor Visa: Incorporation, Capital and Business Evidence",
+      "titleEn": null,
+      "excerpt": "FIE registration does not establish D-8 eligibility. Review the incorporation judgment, declared hand-carried funds and evidence of actual business activity.",
+      "body": [
+        {
+          "type": "h2",
+          "text": "Does company registration establish D-8 eligibility?"
+        },
+        {
+          "type": "p",
+          "text": "No. D-8 has distinct categories. Meeting the investment amount and shareholding conditions for FIE registration does not settle immigration eligibility. Do not incorporate on the assumption that a visa will follow."
+        },
+        {
+          "type": "h2",
+          "text": "The directly established company judgment"
+        },
+        {
+          "type": "p",
+          "text": "Seoul High Court case 2024nu52900, decided on 27 March 2025, interpreted Annex 1-2, item 11(a) of the Immigration Act Enforcement Decree. It did not recognize the directly established company in that case as a qualifying FIE, requiring an enterprise established or under formation before the foreign investment. Do not extend the holding automatically to other startup or venture D-8 categories, or to D-9."
+        },
+        {
+          "type": "h2",
+          "text": "Are hand-carried funds prohibited?"
+        },
+        {
+          "type": "p",
+          "text": "No. KOTRA describes both overseas remittance and foreign currency carried through customs with a declaration. A customs declaration is not visa approval. Preserve the trail from the investor and source of funds through entry, exchange, payment and business expenditure. Third-party funds require a separate review of ownership and transaction records."
+        },
+        {
+          "type": "h2",
+          "text": "Business evidence"
+        },
+        {
+          "type": "p",
+          "text": "Prepare the lease, evidence of actual use, commercial contracts, invoices, expenditure records and proposed duties. A shared-office label alone does not determine eligibility. Employment records depend on actual staffing and the applicable rules; one employee is not a universal requirement."
+        },
+        {
+          "type": "h2",
+          "text": "Prepare for a review"
+        },
+        {
+          "type": "p",
+          "text": "Bring the incorporation and investment timeline, intended visa category, FIE documents and bank or customs records. If a notice has arrived, include it, its receipt date and your stay expiry date."
+        }
+      ],
+      "sources": [
+        {
+          "title": "서울고등법원 2025. 3. 27. 선고 2024누52900 — 판결 원문 / Judgment (Korean)",
+          "url": "https://bigcase.ai/cases/서울고등법원/2024누52900"
+        },
+        {
+          "title": "KOTRA — 2025 Guide to Establishing a Business in Korea (English)",
+          "url": "https://ombudsman.kotra.or.kr/file/ik-en/252025Guide_to_Establishing_a_Business_in_Korea.pdf"
+        },
+        {
+          "title": "외국인투자 촉진법 시행령 제2조 / Foreign Investment Promotion Act Enforcement Decree (Korean)",
+          "url": "https://www.law.go.kr/법령/외국인투자촉진법시행령/제2조"
+        }
+      ],
+      "modifiedAt": "2026-11-10"
+    }
+  },
+  {
+    "slug": "d8-visa-guide-ja",
+    "before": {
+      "title": "韓国D-8企業投資ビザ取得ガイド：投資資金の送金と事業実態要件",
+      "excerpt": "外国人が韓国で法人を設立し、D-8投資ビザを取得するための資金送金手続きと事務所の実態要件について解説します。",
+      "body": [
+        {
+          "text": "D-8ビザは、外国人が韓国に1億ウォン以上を投資して法人を設立・運営する際に取得する代表的な長期滞在ビザです。",
+          "type": "p"
+        },
+        {
+          "text": "1. 資金の海外送金ルート",
+          "type": "h2"
+        },
+        {
+          "text": "投資資金は必ず投資家本人の海外口座から、韓国の新設法人名義の口座へ直接送金されなければなりません。第三者による送金や現金での持ち込みは認められません。",
+          "type": "p"
+        },
+        {
+          "text": "2. 事業所の実態要件",
+          "type": "h2"
+        },
+        {
+          "text": "バーチャルオフィスは原則として認められません。実際に業務を行うことができる賃貸借契約書や、オフィスの写真・事務機器の設置状況が審査されます。",
+          "type": "p"
+        }
+      ],
+      "keywords": [
+        "D-8ビザ",
+        "投資ビザ",
+        "韓国法人設立",
+        "FDI韓国"
+      ],
+      "titleEn": "Korea D-8 Corporate Investor Visa Guide"
+    },
+    "after": {
+      "title": "韓国D-8投資ビザ：会社設立・資金持込み・事業資料の確認",
+      "titleEn": null,
+      "excerpt": "外国人投資企業登録とD-8の審査は別です。直接設立会社に関する判決、税関申告を伴う外貨持込み、事業資料を確認します。",
+      "body": [
+        {
+          "type": "h2",
+          "text": "会社登録だけでD-8を取得できますか"
+        },
+        {
+          "type": "p",
+          "text": "そうとはいえません。D-8には複数の区分があります。外国人投資企業登録の投資額・持株条件を満たしても、在留資格は別途審査されます。会社を設立すればビザも取得できるとは限りません。"
+        },
+        {
+          "type": "h2",
+          "text": "直接設立した会社についての判決"
+        },
+        {
+          "type": "p",
+          "text": "ソウル高等法院2025年3月27日判決（2024누52900）は、出入国管理法施行令別表1の2第11号イ目を解釈し、当該事件の直接設立会社を対象となる外国人投資企業と認めませんでした。外国人の投資前に設立済み、または設立中の企業であることを求めています。他の創業・ベンチャー型D-8やD-9に結論を一律に適用することはできません。"
+        },
+        {
+          "type": "h2",
+          "text": "現金の持込みはすべて禁止ですか"
+        },
+        {
+          "type": "p",
+          "text": "いいえ。KOTRAは海外送金と、税関申告を伴う外貨の携帯持込みを案内しています。税関申告はビザ許可を意味しません。投資者、資金の出所、持込み、両替、払込み、事業への支出をつなぐ記録を残します。第三者の資金が関係する場合は、権利関係と取引資料を別途検討します。"
+        },
+        {
+          "type": "h2",
+          "text": "事業の実態を示す資料"
+        },
+        {
+          "type": "p",
+          "text": "賃貸借契約、実際の使用状況、取引契約、請求書、支出記録、従事予定の業務を整理します。シェアオフィスという名称だけでは適否を判断できません。雇用資料は実際の雇用と適用要件に応じて確認し、全申請に従業員一名が必須とは扱いません。"
+        },
+        {
+          "type": "h2",
+          "text": "相談前の準備"
+        },
+        {
+          "type": "p",
+          "text": "設立・投資の時系列、申請区分、投資届出・登録書類、銀行・税関資料を準備してください。補完・不許可通知があれば、受領日と在留期限も確認します。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "서울고등법원 2025. 3. 27. 선고 2024누52900 — 판결 원문 / Judgment (Korean)",
+          "url": "https://bigcase.ai/cases/서울고등법원/2024누52900"
+        },
+        {
+          "title": "KOTRA — 2025 Guide to Establishing a Business in Korea (English)",
+          "url": "https://ombudsman.kotra.or.kr/file/ik-en/252025Guide_to_Establishing_a_Business_in_Korea.pdf"
+        },
+        {
+          "title": "외국인투자 촉진법 시행령 제2조 / Foreign Investment Promotion Act Enforcement Decree (Korean)",
+          "url": "https://www.law.go.kr/법령/외국인투자촉진법시행령/제2조"
+        }
+      ],
+      "modifiedAt": "2026-11-10"
+    }
+  },
+  {
+    "slug": "d8-visa-guide-zh",
+    "before": {
+      "title": "韩国D-8企业投资签证指南：资本金汇款与运营合规要点",
+      "excerpt": "详细介绍外国人赴韩设立法人并申请D-8投资签证时，关于境外资金汇款及办公场所实际运营的审查要点。",
+      "body": [
+        {
+          "text": "D-8签证是外国投资者在韩国投资1亿韩元以上设立法人、参与经营管理所取得的核心长期居留签证。",
+          "type": "p"
+        },
+        {
+          "text": "1. 境外资金汇款要点",
+          "type": "h2"
+        },
+        {
+          "text": "投资款必须由投资者本人从境外账户直接电汇至韩国国内银行的法人设立托管账户。通过他人代汇或换汇通常无法通过审查。",
+          "type": "p"
+        },
+        {
+          "text": "2. 办公场所的实质审查",
+          "type": "h2"
+        },
+        {
+          "text": "虚拟办公室很难通过审查。出入境部门通常会要求提交实际商用办公楼租赁合同、办公设施照片以及实际开展业务的证明材料。",
+          "type": "p"
+        }
+      ],
+      "keywords": [
+        "D-8签证",
+        "投资签证",
+        "韩国法人设立",
+        "外商直接投资"
+      ],
+      "titleEn": "Korea D-8 Corporate Investor Visa Guide"
+    },
+    "after": {
+      "title": "韩国D-8投资签证：公司设立、资金入境与经营资料",
+      "titleEn": null,
+      "excerpt": "外国投资企业登记不等于符合D-8条件。分别核对直接设立公司的判决、申报携带外汇入境及实际经营资料。",
+      "body": [
+        {
+          "type": "h2",
+          "text": "完成公司登记就能取得D-8吗？"
+        },
+        {
+          "type": "p",
+          "text": "不能这样推定。D-8有不同类别。满足外国投资企业登记的投资金额和持股条件，不等于满足居留资格。不要以公司成立后自然可以获签为前提安排投资。"
+        },
+        {
+          "type": "h2",
+          "text": "直接设立公司的判决"
+        },
+        {
+          "type": "p",
+          "text": "首尔高等法院2025年3月27日2024누52900判决，解释《出入境管理法施行令》附表1之2第11项甲目，未将该案中外国人直接设立的公司认定为符合条件的外国投资企业。法院要求企业在外国投资之前已设立或处于设立过程中。不能将该判断一概适用于其他创业、风险企业类D-8或D-9。"
+        },
+        {
+          "type": "h2",
+          "text": "携带现金入境是否一律禁止？"
+        },
+        {
+          "type": "p",
+          "text": "不是。KOTRA指南同时介绍境外汇款和经海关申报携带外汇入境。完成海关申报并不意味着签证获批。应保留投资人、资金来源、入境、兑换、出资及经营支出的完整记录。涉及第三方资金时，应另行审查资金权属与交易资料。"
+        },
+        {
+          "type": "h2",
+          "text": "如何证明实际经营？"
+        },
+        {
+          "type": "p",
+          "text": "准备租赁合同、实际使用场所的资料、业务合同、发票、支出凭证及拟承担的工作。不能仅凭“共享办公室”的名称判断是否符合资格。雇员资料应与实际用工和适用条件一致，不能将雇用一人写成所有申请的统一要求。"
+        },
+        {
+          "type": "h2",
+          "text": "咨询前准备"
+        },
+        {
+          "type": "p",
+          "text": "整理设立与投资时间线、申请类别、投资申报登记文件及银行、海关资料。已收到补件或拒签通知的，请同时提供通知、收件日期及居留到期日。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "서울고등법원 2025. 3. 27. 선고 2024누52900 — 판결 원문 / Judgment (Korean)",
+          "url": "https://bigcase.ai/cases/서울고등법원/2024누52900"
+        },
+        {
+          "title": "KOTRA — 2025 Guide to Establishing a Business in Korea (English)",
+          "url": "https://ombudsman.kotra.or.kr/file/ik-en/252025Guide_to_Establishing_a_Business_in_Korea.pdf"
+        },
+        {
+          "title": "외국인투자 촉진법 시행령 제2조 / Foreign Investment Promotion Act Enforcement Decree (Korean)",
+          "url": "https://www.law.go.kr/법령/외국인투자촉진법시행령/제2조"
+        }
+      ],
+      "modifiedAt": "2026-11-10"
+    }
+  },
+  {
+    "slug": "d8-visa-rejection-reasons",
+    "before": {
+      "title": "외국인투자기업 등록 후에도 D-8 비자가 거절되는 5가지 사유",
+      "excerpt": "등록증명서는 D-8 비자를 보장하지 않습니다. 투자금 출처, 독립 사업장 등 법원 판결에서 반복되는 거절 사유 5가지와 불복 절차를 정리했습니다. 한·영·중·일 상담 가능.",
+      "body": [
+        {
+          "text": "외국인투자기업 등록증명서를 받고 사업자등록까지 마쳤는데 D-8 체류자격이 거절되었다면, 서류 한두 장이 부족해서가 아니라 심사의 구조 자체를 놓쳤을 가능성이 큽니다.",
+          "type": "p"
+        },
+        {
+          "text": "법률적 핵심",
+          "type": "h2"
+        },
+        {
+          "text": "체류자격 변경허가는 법무부의 재량행위입니다. 법원은 외국인투자기업 등록이 있어도 출입국 당국이 이에 구속되지 않고 체류자격 요건을 독자적으로 심사할 수 있다고 보며, 최근 판결에서 반복되는 거절 사유는 다음 다섯 가지로 정리됩니다.",
+          "type": "p"
+        },
+        {
+          "type": "list",
+          "items": [
+            "**투자금 출처 불명** — 본인 명의 자금이 원칙이고 제3자 송금은 엄격히 심사됩니다.",
+            "**독립 사업장 미확보** — 타인 사무실 일부를 빌려 쓰는 형태는 인정되지 않는 경향입니다.",
+            "**필수 인력 요건 불충족** — 대표이사 등 직함이 있더라도 실질적으로 조리·배달 등 단순 현장 업무만 수행하는 경우 체류 자격이 불허될 수 있습니다.",
+            "**영업실적 저조** 및 투자금의 입금 직후 인출 행위가 확인된 경우.",
+            "**외국인이 직접 설립한 법인에 대한 투자**의 진정성 의심."
+          ],
+          "ordered": true
+        },
+        {
+          "text": "이는 D-8에 부여되는 체류상 혜택이 큰 만큼 엄격하게 관리되어야 한다는 법원의 일관된 태도에 따른 것입니다. 등록증명서는 출발점일 뿐, 비자를 보장하지 않습니다.",
+          "type": "p"
+        },
+        {
+          "text": "지금 확인하실 것",
+          "type": "h2"
+        },
+        {
+          "type": "list",
+          "items": [
+            "첫째, 본인 명의 송금확인증과 외화매입증명서 등 자금 흐름 증빙을 완벽히 갖춰 두시기 바랍니다.",
+            "둘째, 임대차계약서와 사업장 사진, 공과금 납부 내역으로 독립 사업장의 실체를 입증할 수 있는지 점검이 필요합니다.",
+            "셋째, 투자금은 실제 사업 운영에 적법하게 사용하고 그 금융 거래 내역을 명확히 남겨 두시기 바랍니다.",
+            "넷째, 이미 거절 통지를 받으셨다면 행정심판·행정소송으로 다툴 수 있으나, 처분을 안 날부터 90일 이내 등 불복 기간의 제한이 있습니다."
+          ],
+          "ordered": false
+        },
+        {
+          "text": "불허가 통지를 받은 뒤에야 찾아오시는 경우가 많은데, 처분 사유를 분석해 보면 그 전 단계 또는 불복 절차에서 다툴 수 있는 지점이 있는 사안들이 적지 않습니다.",
+          "type": "p"
+        },
+        {
+          "text": "거절 사유의 분석과 행정심판·행정소송 대리는 변호사의 법률사무 영역입니다. 한국어·영어·중국어·일본어 상담이 가능하니, 통지서를 받으신 단계라면 기간이 지나기 전에 김앤현법률사무소에 검토를 요청해 주시기 바랍니다.",
+          "type": "p"
+        }
+      ],
+      "keywords": [
+        "D-8 비자",
+        "투자비자",
+        "비자 거절",
+        "외국인투자기업"
+      ],
+      "titleEn": "5 Reasons D-8 Visa is Rejected After FDI Registration"
+    },
+    "after": {
+      "title": "외국인투자기업 등록 후 D-8 거절: 판결과 확인할 자료 5가지",
+      "titleEn": null,
+      "excerpt": "서울고법 2024누52900과 대구지법 2012구합29를 구분해 읽습니다. 직접 설립 회사의 적격성, 투자금·사업 자료와 불복 기한을 확인하세요.",
+      "body": [
+        {
+          "type": "h2",
+          "text": "등록증이 있는데도 거절될 수 있는 이유"
+        },
+        {
+          "type": "p",
+          "text": "외국인투자기업 등록과 D-8 체류자격 심사는 별개입니다. 거절 사유가 투자 구조인지, 자금이나 업무 자료의 불일치인지부터 나누어 확인해야 합니다. 아래 다섯 항목은 상담 준비를 위한 점검 목록이며, 거절 빈도 통계나 모든 법원의 공통 결론을 뜻하지 않습니다."
+        },
+        {
+          "type": "h2",
+          "text": "직접 설립 회사: 서울고법 2024누52900"
+        },
+        {
+          "type": "p",
+          "text": "서울고등법원 2025. 3. 27. 선고 2024누52900은 시행령 별표 1의2 제11호 가목상 외국인투자기업이 외국인 투자 전에 설립되어 있거나 설립 중인 기업이어야 한다고 판단하고, 해당 사건에서 외국인이 직접 설립한 회사의 적격성을 부정해 항소를 기각했습니다. 외국인투자기업 등록이 가능하다는 KOTRA 회신만으로 출입국상 자격이 인정된다고 보지 않았습니다. D-9 검토 가능성을 남긴 것이 D-9 허가를 인정한 것은 아닙니다."
+        },
+        {
+          "type": "h2",
+          "text": "기존 음식점 인수: 대구지법 2012구합29"
+        },
+        {
+          "type": "p",
+          "text": "대구지방법원 2012. 11. 21. 선고 2012구합29는 다른 외국인이 운영하던 음식점을 인수한 사건입니다. 신설 법인 사건과 같지 않으며 당시 적용된 별표 1 제17호 가목을 기준으로 읽어야 합니다. 법원은 투자 대상 기업의 요건 등을 검토해 청구를 기각했습니다. 변경허가의 재량도 사실오인이나 비례·평등 원칙 위반이 있으면 위법할 수 있다고 설명했습니다."
+        },
+        {
+          "type": "h2",
+          "text": "상담 전에 확인할 자료 5가지"
+        },
+        {
+          "type": "list",
+          "items": [
+            "설립·투자 순서: 법인 또는 사업의 설립일, 투자일, 지분 취득과 신청한 D-8 세부 유형.",
+            "투자금의 연결: 출처, 송금 또는 세관 신고를 거친 반입, 환전·납입·사용 기록. 휴대 반입이 전면 금지되는 것은 아닙니다.",
+            "사업장의 실제 사용: 임대차, 공간 사용자료와 운영 자료. 공유사무실 여부만으로 결론 내리지 않습니다.",
+            "실제 담당 업무: 직함뿐 아니라 경영·관리 또는 생산·기술 분야의 필수 전문인력 해당성을 보여 주는 자료.",
+            "거절 통지와 기존 제출자료: 사유, 수령일, 체류 만료일을 확인합니다. 사업비 지출이나 낮은 매출 하나만으로 모든 신청이 불허된다고 단정하지 않습니다."
+          ]
+        },
+        {
+          "type": "h2",
+          "text": "재신청과 불복은 기한을 따로 확인합니다"
+        },
+        {
+          "type": "p",
+          "text": "재신청, 행정심판과 행정소송의 가능성은 처분 종류와 사실관계에 따라 검토합니다. 일반적인 취소심판은 안 날부터 90일·처분일부터 180일, 취소소송은 안 날부터 90일·처분일부터 1년의 기간이 문제되며 예외와 행정심판 후 기산 규정이 있습니다. 불복 제기만으로 처분 효력이 정지되거나 체류기간이 자동 연장되지 않습니다."
+        },
+        {
+          "type": "h2",
+          "text": "김앤현에 검토를 요청하실 때"
+        },
+        {
+          "type": "p",
+          "text": "통지서와 투자·설립 일정, 제출한 자료 목록을 준비하세요. 자료의 어떤 부분이 처분 이유와 맞지 않는지, 보완·재신청 또는 불복 검토가 필요한지 설명합니다. 이 글은 공개 판결 해설이며 김앤현의 수행·승소사례가 아닙니다."
+        }
+      ],
+      "sources": [
+        {
+          "title": "서울고등법원 2025. 3. 27. 선고 2024누52900 — 판결 원문 / Judgment (Korean)",
+          "url": "https://bigcase.ai/cases/서울고등법원/2024누52900"
+        },
+        {
+          "title": "대구지방법원 2012. 11. 21. 선고 2012구합29 — 국가법령정보센터 / Judgment (Korean)",
+          "url": "https://www.law.go.kr/LSW/precInfoP.do?precSeq=167380"
+        },
+        {
+          "title": "KOTRA — 2025 Guide to Establishing a Business in Korea (English)",
+          "url": "https://ombudsman.kotra.or.kr/file/ik-en/252025Guide_to_Establishing_a_Business_in_Korea.pdf"
+        },
+        {
+          "title": "행정심판법 제27조 / Administrative Appeals Act: time limits (Korean)",
+          "url": "https://www.law.go.kr/법령/행정심판법/제27조"
+        },
+        {
+          "title": "행정소송법 제20조·제23조 / Administrative Litigation Act (Korean)",
+          "url": "https://www.law.go.kr/법령/행정소송법"
+        }
+      ],
+      "modifiedAt": "2026-11-10"
+    }
+  },
+  {
+    "slug": "d8-visa-rejection-reasons-en",
+    "before": {
+      "title": "5 Common Reasons a D-8 Visa is Rejected Even After FIE Registration",
+      "excerpt": "Even if you obtain the FIE certificate and register a business, your D-8 visa may be rejected. Here are 5 common reasons for rejection based on court precedents, compiled by lawyers. English, Chinese, Japanese consultation available.",
+      "body": [
+        {
+          "text": "Even if you have successfully received a Foreign-Invested Enterprise (FIE) registration certificate and completed your business registration in South Korea, a subsequent rejection of your D-8 residency status is often due to a failure to understand the core immigration review framework rather than missing one or two simple documents.",
+          "type": "p"
+        },
+        {
+          "text": "Legal Core",
+          "type": "h2"
+        },
+        {
+          "text": "A change of visa status is a discretionary act of the Ministry of Justice. Courts hold that even if a foreign-invested enterprise is registered, the immigration authorities are not bound by it and can independently review the visa requirements. The following five reasons for rejection are frequently repeated in recent court rulings:",
+          "type": "p"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Unclear Source of Investment Funds: In principle, the funds must belong to the investor themselves. Third-party remittances are subject to extremely strict review.",
+            "Failure to Secure an Independent Workspace: Leasing a portion of someone else's office is generally not recognized as an independent workspace.",
+            "Disapproval of Essential Personnel: If the representative or staff only performs physical, on-site labor (such as cooking or delivery) rather than management or technical duties, the visa may be denied.",
+            "Poor Business Performance or withdrawing the investment funds immediately after they are deposited.",
+            "Investment in a Corporation Established Directly by a Foreigner."
+          ],
+          "ordered": true
+        },
+        {
+          "text": "What to Check Now",
+          "type": "h2"
+        },
+        {
+          "type": "list",
+          "items": [
+            "First, prepare clear evidence of the fund flow, such as a remittance confirmation in your own name and a foreign currency purchase certificate.",
+            "Second, verify if you can prove the substance of an independent office using the lease agreement, office photos, and utility bill payment records.",
+            "Third, ensure that the investment funds are used for actual business operations and keep detailed transaction records.",
+            "Fourth, if you have already received a rejection notice, you can appeal via administrative appeal or litigation, but strict statutory time limits apply (e.g., within 90 days of knowing the disposition)."
+          ],
+          "ordered": false
+        },
+        {
+          "text": "Many clients seek help only after receiving a refusal notice. However, analyzing the reasons for refusal often reveals points that could have been resolved at an earlier stage or through the appeals process.",
+          "type": "p"
+        },
+        {
+          "text": "Analyzing the reasons for refusal and representing clients in administrative appeals and litigation fall under the legal services of licensed attorneys. Consultation is available in Korean, English, Chinese, and Japanese. If you have received a notice, please request a review from Kim & Hyun Law Office before the deadline expires.",
+          "type": "p"
+        }
+      ],
+      "keywords": [
+        "D-8 Visa",
+        "Investor Visa",
+        "Visa Rejection",
+        "Foreign-Invested Enterprise"
+      ],
+      "titleEn": null
+    },
+    "after": {
+      "title": "D-8 Refusal After FIE Registration: Judgments and Five Document Checks",
+      "titleEn": null,
+      "excerpt": "Distinguish Seoul High Court 2024nu52900 from Daegu District Court 2012guhap29. Review incorporation, funds, business evidence and challenge deadlines.",
+      "body": [
+        {
+          "type": "h2",
+          "text": "Why registration may not resolve a refusal"
+        },
+        {
+          "type": "p",
+          "text": "FIE registration and D-8 immigration eligibility are separate. Identify whether the reason concerns the investment structure or inconsistent funds and work evidence. The five checks below are preparation guidance, not refusal-frequency statistics or a summary of every court’s position."
+        },
+        {
+          "type": "h2",
+          "text": "Direct incorporation: Seoul High Court 2024nu52900"
+        },
+        {
+          "type": "p",
+          "text": "On 27 March 2025, the court interpreted Annex 1-2, item 11(a) as requiring an enterprise established or under formation before foreign investment. It rejected the eligibility of the directly established company in that case and dismissed the appeal. A KOTRA reply about FIE registration did not establish immigration eligibility. Leaving open consideration of D-9 did not mean that D-9 had been approved."
+        },
+        {
+          "type": "h2",
+          "text": "An acquired restaurant: Daegu District Court 2012guhap29"
+        },
+        {
+          "type": "p",
+          "text": "The 21 November 2012 judgment concerned the acquisition of a restaurant previously operated by another foreign national, not the same facts as a newly incorporated company. It applied the then-current Annex 1, item 17(a), examined the enterprise conditions and dismissed the claims. It also explained that discretion remains reviewable for factual error or breaches of proportionality or equality."
+        },
+        {
+          "type": "h2",
+          "text": "Five document checks"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Incorporation and investment sequence: dates, share acquisition and the specific D-8 category sought.",
+            "Fund trail: source, remittance or customs-declared entry, exchange, payment and use. Hand-carrying funds is not universally prohibited.",
+            "Actual business premises: lease, use and operational evidence. A shared-office label alone does not decide the case.",
+            "Actual duties: evidence of essential professional work in management, administration, production or technology, rather than a title alone.",
+            "Refusal and previous submissions: reasons, receipt date and stay expiry. A business expense or low revenue alone does not establish refusal in every application."
+          ]
+        },
+        {
+          "type": "h2",
+          "text": "Reapplication and challenges have separate deadlines"
+        },
+        {
+          "type": "p",
+          "text": "Available routes depend on the decision. The ordinary time limits are 90 days from knowledge and 180 days from the disposition for an administrative appeal, and 90 days from knowledge and one year from the disposition for a cancellation action. Exceptions and rules following an administrative appeal require individual review. Filing does not automatically stay the disposition or extend lawful stay."
+        },
+        {
+          "type": "h2",
+          "text": "Request a document review"
+        },
+        {
+          "type": "p",
+          "text": "Prepare the notice, the investment and incorporation timeline and your submission list. We explain discrepancies and whether supplementation, reapplication or a challenge needs consideration. These are commentaries on public judgments, not claims of cases won or handled by this firm."
+        }
+      ],
+      "sources": [
+        {
+          "title": "서울고등법원 2025. 3. 27. 선고 2024누52900 — 판결 원문 / Judgment (Korean)",
+          "url": "https://bigcase.ai/cases/서울고등법원/2024누52900"
+        },
+        {
+          "title": "대구지방법원 2012. 11. 21. 선고 2012구합29 — 국가법령정보센터 / Judgment (Korean)",
+          "url": "https://www.law.go.kr/LSW/precInfoP.do?precSeq=167380"
+        },
+        {
+          "title": "KOTRA — 2025 Guide to Establishing a Business in Korea (English)",
+          "url": "https://ombudsman.kotra.or.kr/file/ik-en/252025Guide_to_Establishing_a_Business_in_Korea.pdf"
+        },
+        {
+          "title": "행정심판법 제27조 / Administrative Appeals Act: time limits (Korean)",
+          "url": "https://www.law.go.kr/법령/행정심판법/제27조"
+        },
+        {
+          "title": "행정소송법 제20조·제23조 / Administrative Litigation Act (Korean)",
+          "url": "https://www.law.go.kr/법령/행정소송법"
+        }
+      ],
+      "modifiedAt": "2026-11-10"
+    }
+  },
+  {
+    "slug": "d8-visa-rejection-reasons-ja",
+    "before": {
+      "title": "外国人投資企業登録後もD-8ビザが拒否される5つの理由",
+      "excerpt": "外国人投資企業登録証明書の発行や事業者登録を終えても、D-8ビザが拒否されることがあります。判決例で繰り返される5つの拒否理由と不服申立て手続きを弁護士が解説します。韓・英・中・日相談対応。",
+      "body": [
+        {
+          "text": "外国人投資企業登録証明書を受け取り、事業者登録まで終えたにもかかわらず、D-8在留資格の変更が許可されなかった場合、それは書類の不備によるものではなく、審査の基本的な仕組み自体を見落としている可能性が極めて高いです。",
+          "type": "p"
+        },
+        {
+          "text": "法律上の核心ポイント",
+          "type": "h2"
+        },
+        {
+          "text": "在留資格の変更許可は法務省の裁量行為です。裁判所は、外国人投資企業の登録があっても出入国管理局はこれに拘束されず、在留資格の要件を独自に審査できると判断しており、最近の判決で繰り返されている拒否理由は次の5点に整理されます。",
+          "type": "p"
+        },
+        {
+          "type": "list",
+          "items": [
+            "投資資金の出所不明：投資家本人の名義である資金が原則であり、第三者からの送金は厳格に審査されます。",
+            "独立した事業所の未確保：他人の事務所の一部を借りる形態などは、実態がないと判断される傾向にあります。",
+            "必須コア人材の否定：代表者であっても、調理や配達などの現場業務のみを行っている場合は、資格が認められないことがあります。",
+            "営業実績の低迷、または投資金の入金直後の引き出し行為。",
+            "外国人が直接設立した法人に対する投資の真実性疑義。"
+          ],
+          "ordered": true
+        },
+        {
+          "text": "今すぐ確認すべき事項",
+          "type": "h2"
+        },
+        {
+          "type": "list",
+          "items": [
+            "第一に、本人名義の送금確認書や外貨買入証明書など、資金の流れの証明書類を完全に整えておいてください。",
+            "第二に、賃貸借契約書や事業所の写真、光熱費の納付内訳によって、独立した事業所の実態が証明できるか点検が必要です。",
+            "第三に、投資資金は実際の事業運営に使用し、その取引内訳を明記して残すようにしてください。",
+            "第四に、すでに拒否通知を受け取っている場合は、行政審判や行政訴訟で争うことができますが、処分を知った日から90日以内などの不服申立て期間の制限があります。"
+          ],
+          "ordered": false
+        },
+        {
+          "text": "不許可通知を受け取ってから相談に来られるケースが多いですが、処分理由を分析すると、その前段階や不服申立て手続きにおいて十分に争う余地があった事案が少なくありません。",
+          "type": "p"
+        },
+        {
+          "text": "拒否理由の分析や行政審判・行政訴訟の代理は、弁護士の専管業務です。韓国語・英語・中国語・日本語での相談が可能ですので、通知書を受け取られた段階であれば、期限が過ぎる前に金＆賢法律事務所にご相談ください。",
+          "type": "p"
+        }
+      ],
+      "keywords": [],
+      "titleEn": null
+    },
+    "after": {
+      "title": "外国人投資企業登録後のD-8不許可：判決と五つの資料確認",
+      "titleEn": null,
+      "excerpt": "ソウル高等法院2024누52900と大邱地方法院2012구합29を区別し、設立・資金・事業資料と不服申立ての期限を確認します。",
+      "body": [
+        {
+          "type": "h2",
+          "text": "登録後も不許可となり得る理由"
+        },
+        {
+          "type": "p",
+          "text": "外国人投資企業登録とD-8在留資格は別の問題です。投資形態が理由なのか、資金や業務の資料に矛盾があるのかを確認します。以下は相談準備の五項目であり、不許可の頻度統計や全裁判所の共通判断ではありません。"
+        },
+        {
+          "type": "h2",
+          "text": "直接設立会社：2024누52900"
+        },
+        {
+          "type": "p",
+          "text": "ソウル高等法院2025年3月27日判決は、施行令別表1の2第11号イ目につき、外国人の投資前に設立済み、または設立中の企業であることを求めました。当該直接設立会社の該当性を否定して控訴を棄却し、KOTRAの登録可能との回答だけでは在留資格を認めませんでした。D-9を別途検討し得ることと、D-9の許可を認めることは異なります。"
+        },
+        {
+          "type": "h2",
+          "text": "既存飲食店の取得：2012구합29"
+        },
+        {
+          "type": "p",
+          "text": "大邱地方法院2012年11月21日判決は、別の外国人が経営していた飲食店を取得した事案です。新設法人と同じ事実関係ではなく、当時の別表1第17号イ目に基づいて読む必要があります。企業の要件等を検討して請求を棄却し、変更許可の裁量も事実誤認や比例・平等原則違反があれば違法となり得るとしました。"
+        },
+        {
+          "type": "h2",
+          "text": "五つの準備資料"
+        },
+        {
+          "type": "list",
+          "items": [
+            "設立・投資の順序：会社や事業の設立日、投資日、持分取得、申請するD-8区分。",
+            "資金の流れ：出所、送金または税関申告を伴う持込み、両替、払込み、使用記録。携帯持込みが全面禁止されるわけではありません。",
+            "事業所の実態：賃貸借、使用・運営資料。シェアオフィスという名称だけでは判断できません。",
+            "実際の業務：役職名だけでなく、経営・管理または生産・技術分野の必須専門人材に該当することを示す資料。",
+            "不許可通知と提出済み資料：理由、受領日、在留期限。事業費の支出や売上の低さだけで全申請の不許可を断定しません。"
+          ]
+        },
+        {
+          "type": "h2",
+          "text": "再申請と不服申立ての期限"
+        },
+        {
+          "type": "p",
+          "text": "処分に応じて再申請、行政審判、行政訴訟を検討します。一般的な取消審判は知った日から90日・処分日から180日、取消訴訟は知った日から90日・処分日から一年が問題となり、例外や審判後の起算規定があります。申立てだけで処分の効力が停止したり在留期間が自動延長されたりするわけではありません。"
+        },
+        {
+          "type": "h2",
+          "text": "資料検討を依頼するとき"
+        },
+        {
+          "type": "p",
+          "text": "通知書、設立・投資の時系列、提出済み資料一覧を準備してください。補完、再申請、不服申立ての検討事項を確認します。本稿は公開判決の解説であり、当事務所の受任・勝訴事例ではありません。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "서울고등법원 2025. 3. 27. 선고 2024누52900 — 판결 원문 / Judgment (Korean)",
+          "url": "https://bigcase.ai/cases/서울고등법원/2024누52900"
+        },
+        {
+          "title": "대구지방법원 2012. 11. 21. 선고 2012구합29 — 국가법령정보센터 / Judgment (Korean)",
+          "url": "https://www.law.go.kr/LSW/precInfoP.do?precSeq=167380"
+        },
+        {
+          "title": "KOTRA — 2025 Guide to Establishing a Business in Korea (English)",
+          "url": "https://ombudsman.kotra.or.kr/file/ik-en/252025Guide_to_Establishing_a_Business_in_Korea.pdf"
+        },
+        {
+          "title": "행정심판법 제27조 / Administrative Appeals Act: time limits (Korean)",
+          "url": "https://www.law.go.kr/법령/행정심판법/제27조"
+        },
+        {
+          "title": "행정소송법 제20조·제23조 / Administrative Litigation Act (Korean)",
+          "url": "https://www.law.go.kr/법령/행정소송법"
+        }
+      ],
+      "modifiedAt": "2026-11-10"
+    }
+  },
+  {
+    "slug": "d8-visa-rejection-reasons-zh",
+    "before": {
+      "title": "外国人投资企业登记后D-8签证仍遭拒签的5大原因",
+      "excerpt": "即使获得外商投资企业登录证并完成营业执照登记，D-8签证仍可能被拒。律师为您整理了基于法院判例的5大常见拒签原因及申诉程序。提供韩、英、中、日咨询",
+      "body": [
+        {
+          "text": "即便成功拿到了外国人投资企业登记证明书并办理了营业执照，如果D-8居留资格申请遭到拒绝，这通常并不是因为缺少一两张材料，而是因为漏掉了出入境审查的核心逻辑。",
+          "type": "p"
+        },
+        {
+          "text": "法律核心要点",
+          "type": "h2"
+        },
+        {
+          "text": "居留资格变更许可是法务部的自由裁量行为。法院认为，即使存在外国人投资企业登记，出入境管理部门也不受其约束，可以独立审查居留资格要件。在最近的法院判决中，反复出现的拒签原因可归纳为以下五点：",
+          "type": "p"
+        },
+        {
+          "type": "list",
+          "items": [
+            "投资款来源不明：原则上投资款必须是投资者本人的资金，第三方汇款将受到极其严格的审查。",
+            "未确保独立办公场所：租用他人办公室一部分的形式，通常不被认可。",
+            "核心关键人员资格不符：即使是代表，如果只从事料理、配送等现场业务，居留资格可能会被否定。",
+            "营业业绩低迷，或投资款汇入后立即取出的情况。",
+            "对外国人直接设立的法人进行投资的真实性存疑。"
+          ],
+          "ordered": true
+        },
+        {
+          "text": "目前需要确认的事项",
+          "type": "h2"
+        },
+        {
+          "type": "list",
+          "items": [
+            "第一，请备妥本人名义的汇款确认书和外汇收兑证明书等完整的资金流向凭证。",
+            "第二，检查是否能通过租赁合同、办公场所照片和公用事业费用缴纳明细来证明独立办公场所的实际运营。",
+            "第三，投资款必须实际用于商业运营，并留存详细的交易记录。",
+            "第四，如果已经收到拒绝通知，虽然可以通过行政复议或行政诉讼进行抗辩，但存在申诉期限限制（如自得知处分之日起90天内）。"
+          ],
+          "ordered": false
+        },
+        {
+          "text": "许多人在收到不予许可的通知后才来寻求帮助。但分析拒签原因后发现，在之前的阶段或申诉程序中，有很多案件都是存在争取空间的。",
+          "type": "p"
+        },
+        {
+          "text": "拒签原因分析及代理行政复议和行政诉讼属于律师的法定执业范围。我们提供韩语、英语、中文和日语服务。如果您已收到不予许可的通知书，请在法定期限届满前向金&贤律师事务所申请协助审查。",
+          "type": "p"
+        }
+      ],
+      "keywords": [
+        "D-8签证",
+        "投资签证",
+        "签证拒签",
+        "外商投资企业"
+      ],
+      "titleEn": null
+    },
+    "after": {
+      "title": "外国投资企业登记后D-8被拒：判决与五项资料核对",
+      "titleEn": null,
+      "excerpt": "区分首尔高院2024누52900与大邱地院2012구합29，核对设立过程、投资款、经营资料及救济期限。",
+      "body": [
+        {
+          "type": "h2",
+          "text": "为何登记后仍可能被拒"
+        },
+        {
+          "type": "p",
+          "text": "外国投资企业登记与D-8居留资格是两个问题。应先区分拒签针对投资结构，还是资金与工作资料存在矛盾。以下五项是咨询准备清单，不是拒签频率统计，也不是所有法院的一致结论。"
+        },
+        {
+          "type": "h2",
+          "text": "直接设立公司：2024누52900"
+        },
+        {
+          "type": "p",
+          "text": "首尔高等法院2025年3月27日判决解释施行令附表1之2第11项甲目，要求企业在外国投资之前已设立或处于设立中。法院未认可该案直接设立公司的资格并驳回上诉。KOTRA关于可办理外国投资企业登记的答复，不等于符合出入境资格。提及可另行考虑D-9，并不意味着D-9已经获准。"
+        },
+        {
+          "type": "h2",
+          "text": "收购既有餐厅：2012구합29"
+        },
+        {
+          "type": "p",
+          "text": "大邱地方法院2012年11月21日判决涉及收购另一外国人经营的餐厅，与新设法人并非相同事实。应按当时附表1第17项甲目理解。法院审查企业条件等后驳回请求，并说明变更许可虽有裁量，但事实认定错误或违反比例、平等原则仍可能违法。"
+        },
+        {
+          "type": "h2",
+          "text": "五项准备资料"
+        },
+        {
+          "type": "list",
+          "items": [
+            "设立与投资顺序：企业设立、投资和持股取得日期，以及申请的D-8具体类别。",
+            "资金链：来源、汇款或海关申报入境、兑换、出资与使用记录。携带外汇入境并非一律禁止。",
+            "经营场所：租赁、实际使用及经营记录，不能只凭共享办公室的名称判断。",
+            "实际工作：证明从事经营、管理或生产、技术领域必要专业工作的材料，不能只提交职位名称。",
+            "拒签与既往材料：理由、收件日期和居留期限。不能仅凭某笔经营支出或低营业额就断言所有申请都会被拒。"
+          ]
+        },
+        {
+          "type": "h2",
+          "text": "重新申请和救济期限须分别确认"
+        },
+        {
+          "type": "p",
+          "text": "应按处分种类审查重新申请、行政复议性质的行政审判及行政诉讼途径。一般撤销型行政审判涉及知悉后90日及处分后180日；撤销诉讼涉及知悉后90日及处分后一年。例外和行政审判后起算规则须个别核对。提出救济并不自动停止处分效力或延长合法居留。"
+        },
+        {
+          "type": "h2",
+          "text": "委托审查时准备什么"
+        },
+        {
+          "type": "p",
+          "text": "请整理通知、投资设立时间线及已交材料清单，再核对补充、重新申请或救济的必要性。本篇是公开判决解说，并非本所承办或胜诉案例。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "서울고등법원 2025. 3. 27. 선고 2024누52900 — 판결 원문 / Judgment (Korean)",
+          "url": "https://bigcase.ai/cases/서울고등법원/2024누52900"
+        },
+        {
+          "title": "대구지방법원 2012. 11. 21. 선고 2012구합29 — 국가법령정보센터 / Judgment (Korean)",
+          "url": "https://www.law.go.kr/LSW/precInfoP.do?precSeq=167380"
+        },
+        {
+          "title": "KOTRA — 2025 Guide to Establishing a Business in Korea (English)",
+          "url": "https://ombudsman.kotra.or.kr/file/ik-en/252025Guide_to_Establishing_a_Business_in_Korea.pdf"
+        },
+        {
+          "title": "행정심판법 제27조 / Administrative Appeals Act: time limits (Korean)",
+          "url": "https://www.law.go.kr/법령/행정심판법/제27조"
+        },
+        {
+          "title": "행정소송법 제20조·제23조 / Administrative Litigation Act (Korean)",
+          "url": "https://www.law.go.kr/법령/행정소송법"
+        }
+      ],
+      "modifiedAt": "2026-11-10"
+    }
+  },
+  {
+    "slug": "e7-skilled-worker",
+    "before": {
+      "title": "E-7-4 숙련기능인력 점수제 전환 가이드",
+      "excerpt": "E-9 등 단순노무 자격에서 E-7-4 숙련기능인력 점수제로 신분을 전환하기 위한 배점 항목과 기업의 국민 고용 쿼터 제한을 분석합니다.",
+      "body": [
+        {
+          "text": "E-7-4 비자는 E-9(비전문취업), E-10(선원취업), H-2(방문취업) 자격의 외국인 근로자가 숙련성 점수를 충족하여 획득할 수 있는 장기 체류 특정활동 비자입니다.",
+          "type": "p"
+        },
+        {
+          "text": "1. 주요 평가 점수",
+          "type": "h2"
+        },
+        {
+          "text": "평균 소득 점수, 보유 자격증, 학력, 연령, 한국어 능력 등의 배점 요건이 있으며 고득점자 순으로 최종 선발됩니다.",
+          "type": "p"
+        },
+        {
+          "text": "2. 기업의 고용 쿼터 제한",
+          "type": "h2"
+        },
+        {
+          "text": "기업 내 정규직 한국인 고용 인원의 20%(제조업 기준)를 초과하여 외국인을 E-7-4로 고용할 수 없으므로, 소속 기업의 4대보험 가입 명부를 사전에 체크해야 합니다.",
+          "type": "p"
+        }
+      ],
+      "keywords": [
+        "E-7-4 비자",
+        "숙련기능인력",
+        "E-9 비자",
+        "국민 고용 비율"
+      ],
+      "titleEn": "Korea E-7-4 Skilled Worker Visa Guide"
+    },
+    "after": {
+      "title": "E-7-4 숙련기능인력 전환: 점수와 2026년 고용한도 확인",
+      "titleEn": null,
+      "excerpt": "E-7-4는 개인 점수와 사업장 요건을 함께 봅니다. 일률적인 20% 고용한도 대신 2026년 개정과 업종·지역 특례를 확인합니다.",
+      "body": [
+        {
+          "type": "h2",
+          "text": "개인 조건과 사업장 조건을 나누어 확인"
+        },
+        {
+          "type": "p",
+          "text": "E-9·E-10·H-2 경력 등을 바탕으로 E-7-4를 검토할 때에는 체류·근무 기간, 소득·한국어 등 점수, 고용계약과 추천 및 제외 사유를 함께 확인합니다. 단순히 고득점자 순으로 모두 선발된다고 설명할 수 없습니다."
+        },
+        {
+          "type": "h2",
+          "text": "고용한도는 모두 20%가 아닙니다"
+        },
+        {
+          "type": "p",
+          "text": "법무부의 2026년 6월 안내는 일반적인 국민 고용 인원 대비 30% 기준과 특례를 구분합니다. 농축어업에는 최대 50% 특례를 확대했고, 국민 고용 인원이 4인 이하인 해당 소규모 사업장은 비율과 관계없이 2명까지 허용하는 내용을 담고 있습니다. 인구감소지역·뿌리산업 등의 특례와 실제 사업장 기준을 확인해야 합니다."
+        },
+        {
+          "type": "h2",
+          "text": "불가피한 이직의 근속기간"
+        },
+        {
+          "type": "p",
+          "text": "같은 개정은 휴·폐업이나 폭행·임금체불 등으로 불가피하게 이직한 경우 일정 추천·근속 요건에서 이전 직장의 경력을 인정하는 특례를 안내합니다. 모든 자발적 이직에 자동 적용되는 것은 아닙니다."
+        },
+        {
+          "type": "h2",
+          "text": "준비할 자료"
+        },
+        {
+          "type": "p",
+          "text": "체류·취업 이력, 고용계약, 소득 및 한국어 자료, 추천 관련 자료, 사업장의 업종·소재지와 국민 고용 자료를 준비합니다. 이직 특례를 검토한다면 이직 원인과 이전 근무기간의 증빙도 필요합니다."
+        }
+      ],
+      "sources": [
+        {
+          "title": "법무부 — 2026. 6. 1. E-7-4 제도 개선 / Ministry of Justice E-7-4 update (Korean)",
+          "url": "https://www.immigration.go.kr/bbs/moj/182/495359/download.do"
+        }
+      ],
+      "modifiedAt": "2026-11-10"
+    }
+  },
+  {
+    "slug": "e7-skilled-worker-en",
+    "before": {
+      "title": "Korea E-7-4 Skilled Worker Points System and Corporate Quota Guide",
+      "excerpt": "An explanation of the transition from E-9 to E-7-4 skilled worker status, focusing on point calculation methods and corporate hiring quotas.",
+      "body": [
+        {
+          "text": "The E-7-4 visa allows temporary workers (under E-9, E-10, H-2) to transition into a long-term visa by accumulating points based on their technical skills and integration.",
+          "type": "p"
+        },
+        {
+          "text": "1. Point System Criteria",
+          "type": "h2"
+        },
+        {
+          "text": "Points are calculated based on Average Salary, Technical Certifications, Education level, and Korean Language proficiency (TOPIK/KIIP).",
+          "type": "p"
+        },
+        {
+          "text": "2. Corporate Quota Restrictions",
+          "type": "h2"
+        },
+        {
+          "text": "A company cannot employ E-7-4 workers exceeding 20% of its regular Korean workforce. Checking the employer's payroll registration beforehand is critical.",
+          "type": "p"
+        }
+      ],
+      "keywords": [
+        "E-7-4 Visa",
+        "Skilled Worker",
+        "E-9 Visa",
+        "Immigration Quota"
+      ],
+      "titleEn": "Korea E-7-4 Skilled Worker Visa Guide"
+    },
+    "after": {
+      "title": "Korea E-7-4: Points and the 2026 Employer Hiring Limits",
+      "titleEn": null,
+      "excerpt": "Review both worker and employer conditions. A blanket 20% hiring cap is incorrect; check the 2026 changes and industry or regional exceptions.",
+      "body": [
+        {
+          "type": "h2",
+          "text": "Check the worker and employer separately"
+        },
+        {
+          "type": "p",
+          "text": "For workers with relevant E-9, E-10 or H-2 history, review residence and work periods, income and Korean-language points, the employment contract, recommendation and exclusions. Selection cannot be described simply as automatic admission in descending score order."
+        },
+        {
+          "type": "h2",
+          "text": "The cap is not universally 20%"
+        },
+        {
+          "type": "p",
+          "text": "The Ministry of Justice June 2026 update distinguishes a general 30% ratio to Korean employment from exceptions. It extends a maximum 50% exception to agriculture, livestock and fisheries, with up to two E-7-4 workers for those small businesses employing no more than four Koreans, irrespective of the ratio. Check the applicable industry, location and employer calculation."
+        },
+        {
+          "type": "h2",
+          "text": "Unavoidable changes of employer"
+        },
+        {
+          "type": "p",
+          "text": "The update also allows previous service to count for specified recommendation and tenure conditions after unavoidable changes such as closure, assault or unpaid wages. It does not automatically cover every voluntary move."
+        },
+        {
+          "type": "h2",
+          "text": "Documents to prepare"
+        },
+        {
+          "type": "p",
+          "text": "Bring work and residence history, the contract, income and language records, recommendation documents and the employer’s industry, location and Korean employment records. For a transfer exception, document the reason and previous service."
+        }
+      ],
+      "sources": [
+        {
+          "title": "법무부 — 2026. 6. 1. E-7-4 제도 개선 / Ministry of Justice E-7-4 update (Korean)",
+          "url": "https://www.immigration.go.kr/bbs/moj/182/495359/download.do"
+        }
+      ],
+      "modifiedAt": "2026-11-10"
+    }
+  },
+  {
+    "slug": "e7-skilled-worker-ja",
+    "before": {
+      "title": "韓国E-7-4熟練技能人材点数制移行ガイド：評価項目と企業枠制限",
+      "excerpt": "E-9などの単純労務からE-7-4熟練技能人材への在留資格変更に必要な評価項目と、雇用企業の受け入れ枠制限について解説します。",
+      "body": [
+        {
+          "text": "E-7-4ビザは、E-9（非専門就労）やH-2（訪問就労）などの外国人労働者が、技術水準の評価を満たすことで移行できる長期滞在用の特定活動資格です。",
+          "type": "p"
+        },
+        {
+          "text": "1. 点数算定項目",
+          "type": "h2"
+        },
+        {
+          "text": "年間平均所得、保有する技術資格、学歴、年齢、韓国語能力などが点数化され、合計点数の高い順に合格者が決定されます。",
+          "type": "p"
+        },
+        {
+          "text": "2. 企業の受け入れクオータ制限",
+          "type": "h2"
+        },
+        {
+          "text": "企業が雇用できるE-7-4労働者数は、常用雇用の韓国人社員数の20%（製造業基準）を超えることができません。所属企業の4大保険加入者名簿の事前確認が不可欠です。",
+          "type": "p"
+        }
+      ],
+      "keywords": [
+        "E-7-4ビザ",
+        "熟練技能人材",
+        "E-9資格変更",
+        "雇用クオータ"
+      ],
+      "titleEn": "Korea E-7-4 Skilled Worker Visa Guide"
+    },
+    "after": {
+      "title": "韓国E-7-4：点数と2026年の事業所別雇用上限",
+      "titleEn": null,
+      "excerpt": "本人と雇用主の条件を併せて確認します。一律20%の上限ではなく、2026年改正と業種・地域の特例を確認してください。",
+      "body": [
+        {
+          "type": "h2",
+          "text": "本人と事業所の条件を分ける"
+        },
+        {
+          "type": "p",
+          "text": "E-9・E-10・H-2などの経歴から検討する場合、在留・就労期間、所得・韓国語等の点数、雇用契約、推薦、除外事由を確認します。高得点順に自動的に選ばれるとの説明は適切ではありません。"
+        },
+        {
+          "type": "h2",
+          "text": "雇用上限は一律20%ではありません"
+        },
+        {
+          "type": "p",
+          "text": "法務部の2026年6月発表は、一般的な韓国人雇用人数に対する30%基準と特例を区別しています。農畜漁業には最大50%の特例を拡大し、韓国人従業員が四名以下の当該小規模事業所は比率にかかわらず二名まで雇用できるとしています。業種、所在地、事業所の算定条件を確認します。"
+        },
+        {
+          "type": "h2",
+          "text": "やむを得ない転職の勤続期間"
+        },
+        {
+          "type": "p",
+          "text": "休廃業、暴行、賃金未払いなどによるやむを得ない転職では、一定の推薦・勤続要件について前職の勤務期間を認める特例も設けられました。すべての自己都合転職に自動適用されるものではありません。"
+        },
+        {
+          "type": "h2",
+          "text": "準備資料"
+        },
+        {
+          "type": "p",
+          "text": "在留・就労歴、雇用契約、所得・韓国語資料、推薦資料、業種・所在地と韓国人雇用記録を準備します。転職特例では理由と前職の勤務期間の証明も確認します。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "법무부 — 2026. 6. 1. E-7-4 제도 개선 / Ministry of Justice E-7-4 update (Korean)",
+          "url": "https://www.immigration.go.kr/bbs/moj/182/495359/download.do"
+        }
+      ],
+      "modifiedAt": "2026-11-10"
+    }
+  },
+  {
+    "slug": "e7-skilled-worker-zh",
+    "before": {
+      "title": "韩国E-7-4熟练技能人员签证转换：打分项与企业配额限制",
+      "excerpt": "解析从E-9、H-2等非专业就业签证向E-7-4熟练技能打分制签证转换时的评分指标，以及企业内部国民雇佣比例所导致的聘用人数上限。",
+      "body": [
+        {
+          "text": "E-7-4签证是允许持有E-9（非专业就业）、E-10、H-2等签证的外国技术工人，在达到一定熟练度积分后，转换取得的长期特定活动签证。",
+          "type": "p"
+        },
+        {
+          "text": "1. 主要计分评估项",
+          "type": "h2"
+        },
+        {
+          "text": "评定指标包含过去两年的平均所得、持有的技术资格证、学历、年龄以及韩语沟通能力。高分申请者将被优先选拔。",
+          "type": "p"
+        },
+        {
+          "text": "2. 企业雇佣配额（20%原则）",
+          "type": "h2"
+        },
+        {
+          "text": "企业可聘用的E-7-4外国员工总数通常不能超过其常雇韩国籍员工人数的20%。因此，在申请前需确认公司的国民缴税参保名册。",
+          "type": "p"
+        }
+      ],
+      "keywords": [
+        "E-7-4签证",
+        "熟练技能人员",
+        "E-9转E-7-4",
+        "雇佣配额限制"
+      ],
+      "titleEn": "Korea E-7-4 Skilled Worker Visa Guide"
+    },
+    "after": {
+      "title": "韩国E-7-4：个人评分与2026年企业雇用限额",
+      "titleEn": null,
+      "excerpt": "个人与企业条件须共同核对。不能一律套用20%限额，应检查2026年调整及行业、地区特例。",
+      "body": [
+        {
+          "type": "h2",
+          "text": "分别核对个人和企业条件"
+        },
+        {
+          "type": "p",
+          "text": "有相关E-9、E-10或H-2经历的申请人，应核对居留及工作期间、收入和韩语评分、雇用合同、推荐及排除条件。不能简单说成按照高分顺序自动录取。"
+        },
+        {
+          "type": "h2",
+          "text": "雇用限额并非一律20%"
+        },
+        {
+          "type": "p",
+          "text": "法务部2026年6月公告区分通常相对于韩国国民雇用人数的30%标准和特例。农、畜、渔业扩大适用最高50%的特例；上述行业雇用韩国国民不超过四人的小型单位，可不受该比例限制雇用最多两名E-7-4人员。需核对实际行业、地区及企业计算规则。"
+        },
+        {
+          "type": "h2",
+          "text": "不得已更换雇主的工龄"
+        },
+        {
+          "type": "p",
+          "text": "该调整还规定，因停业、关闭、暴力或欠薪等不得已更换雇主时，某些推荐与工龄条件可认可此前工作经历，并非所有自愿跳槽都自动适用。"
+        },
+        {
+          "type": "h2",
+          "text": "准备材料"
+        },
+        {
+          "type": "p",
+          "text": "整理工作与居留经历、雇用合同、收入及韩语记录、推荐材料，以及企业行业、所在地和韩国国民雇用记录。申请转职特例时，应提供原因与此前工龄的证明。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "법무부 — 2026. 6. 1. E-7-4 제도 개선 / Ministry of Justice E-7-4 update (Korean)",
+          "url": "https://www.immigration.go.kr/bbs/moj/182/495359/download.do"
+        }
+      ],
+      "modifiedAt": "2026-11-10"
+    }
+  },
+  {
+    "slug": "f2-points-system",
+    "before": {
+      "title": "F-2-7 점수제 거주비자 핵심 요약 및 득점 전략",
+      "excerpt": "나이, 학력, 한국어 능력, 소득 점수를 기반으로 장기 체류가 가능한 F-2-7 거주비자의 배점표와 KIIP 가점 획득 방법을 설명합니다.",
+      "body": [
+        {
+          "text": "F-2-7 비자는 우수 외국인 인재 유치를 위해 나이, 학력, 한국어 능력, 소득 등을 점수화하여 80점(만점 120점) 이상인 경우 부여하는 거주 체류자격입니다.",
+          "type": "p"
+        },
+        {
+          "text": "1. 주요 배점 기준",
+          "type": "h2"
+        },
+        {
+          "text": "연령(최대 25점), 학력(최대 35점), 한국어 능력(최대 20점), 연간 소득(최대 10점)이 기본 구성이며, 가점과 감점을 적용하여 최종 점수를 산출합니다.",
+          "type": "p"
+        },
+        {
+          "text": "2. KIIP 이수 전략",
+          "type": "h2"
+        },
+        {
+          "text": "사회통합프로그램(KIIP) 5단계 이수 시 최대 10점의 가점이 부여되므로, 소득이나 연령에서 부족한 점수를 보완하는 가장 확실한 방법입니다.",
+          "type": "p"
+        }
+      ],
+      "keywords": [
+        "F-2-7 비자",
+        "점수제 거주",
+        "거주비자",
+        "사회통합프로그램"
+      ],
+      "titleEn": "Korea F-2-7 Points-Based Residence Visa Guide"
+    },
+    "after": {
+      "title": "F-2-7 점수제 거주비자: 최신 배점 확인과 증빙 준비",
+      "titleEn": null,
+      "excerpt": "과거 120점 배점표를 그대로 사용하지 마세요. F-2-7 신청 대상 여부, 현재 점수표, 소득·한국어 증빙과 결격 사유를 함께 확인합니다.",
+      "body": [
+        {
+          "type": "h2",
+          "text": "점수 계산보다 신청 대상 확인이 먼저입니다"
+        },
+        {
+          "type": "p",
+          "text": "F-2-7은 모든 체류자격에서 점수만 채우면 바꿀 수 있는 자격이 아닙니다. 현재 체류자격, 해당 신청 대상군, 필요한 체류·취업 경력과 제외 사유부터 확인합니다. F-2-R 등 다른 거주 유형의 기준과 섞어 계산하지 않습니다."
+        },
+        {
+          "type": "h2",
+          "text": "120점 표가 아닌 현재 기준으로 계산합니다"
+        },
+        {
+          "type": "p",
+          "text": "검토한 공공 안내의 F-2-7 점수표는 총 170점, 기준 80점으로 안내합니다. 연령·학력·한국어·소득 및 가감점을 구분합니다. 과거 학력 35점·소득 10점 표를 재사용하지 말고 신청 시점 법무부 기준과 인정 서류로 다시 계산해야 합니다. 점수 충족이 허가 보장은 아닙니다."
+        },
+        {
+          "type": "h2",
+          "text": "KIIP 점수를 자동으로 더하지 않습니다"
+        },
+        {
+          "type": "p",
+          "text": "TOPIK·사회통합프로그램의 단계, 평가 합격과 이수 여부를 구분하고, 한국어 기본점수와 별도 가점의 인정 조건을 확인합니다. 같은 자료를 중복 계산하거나 5단계라는 이유만으로 일정 가점이 무조건 붙는다고 전제하지 않습니다."
+        },
+        {
+          "type": "h2",
+          "text": "확인할 자료"
+        },
+        {
+          "type": "p",
+          "text": "여권·외국인등록 정보, 체류·취업 이력, 학위증명, 소득금액증명, TOPIK·KIIP 자료와 위반·처분 기록을 준비하세요. 상담에서는 증빙이 있는 점수와 추가 확인이 필요한 점수를 구분합니다."
+        }
+      ],
+      "sources": [
+        {
+          "title": "경기도 외국인일자리포털 — F-2-7 점수 안내 / Public F-2-7 scoring guide (Korean)",
+          "url": "https://job.gg.go.kr/global/intro/visaScore.do?visa=f2r"
+        }
+      ],
+      "modifiedAt": "2026-11-10"
+    }
+  },
+  {
+    "slug": "f2-points-system-core",
+    "before": {
+      "title": "F-2 거주비자 점수제 — 합격선과 가산 전략",
+      "excerpt": "F-2-7(점수제 거주) 비자는 학력·소득·한국어 능력·연령 등 객관 점수의 합이 일정 기준 이상이어야 받을 수 있습니다.",
+      "body": [
+        {
+          "text": "F-2-7은 일정 점수 이상을 얻은 외국인에게 거주 자격을 부여하는 점수제 비자입니다.",
+          "type": "p"
+        },
+        {
+          "text": "1. 점수 항목 구성",
+          "type": "h2"
+        },
+        {
+          "type": "list",
+          "items": [
+            "기본항목: 연령, 학력, 한국어 능력(TOPIK), 소득",
+            "가산항목: 사회봉사, 표창, 한국인 가족 관계, 유학·연수 기간",
+            "감점항목: 출입국법 위반 기록, 세금 체납, 형사기록"
+          ]
+        },
+        {
+          "text": "2. 가장 효율적으로 점수를 올리는 방법",
+          "type": "h2"
+        },
+        {
+          "text": "실무상 단기간에 점수를 끌어올릴 수 있는 항목은 한국어(TOPIK), 사회통합프로그램(KIIP), 소득 입증입니다.",
+          "type": "p"
+        },
+        {
+          "text": "KIIP는 한국어와 사회통합을 동시에 충족시켜 가산이 더 큰 경우가 많습니다.",
+          "type": "callout",
+          "title": "TOPIK과 KIIP 중 어느 쪽?"
+        }
+      ],
+      "keywords": [
+        "F-2 비자",
+        "F-2-7 점수제",
+        "거주비자",
+        "한국 영주권 점수제",
+        "Korea F-2 visa",
+        "Korea residence visa",
+        "points-based visa Korea"
+      ],
+      "titleEn": "Korea F-2 Residence Visa Points System Explained"
+    },
+    "after": {
+      "title": "F-2-7 거주비자 점수 확인: 신청 대상과 증빙부터",
+      "titleEn": null,
+      "excerpt": "점수 합계보다 신청 대상 여부와 인정 가능한 증빙이 먼저입니다. 오래된 가점 목록을 그대로 쓰지 않고 소득·학력·한국어 자료를 대조합니다.",
+      "body": [
+        {
+          "type": "h2",
+          "text": "어떤 기준으로 계산하나요?"
+        },
+        {
+          "type": "p",
+          "text": "공공 안내의 F-2-7 점수표는 총 170점, 기준 80점으로 설명합니다. 실제 신청에서는 현재 체류자격과 대상군, 필요한 경력 및 제외 사유부터 확인하고 신청일 기준 배점표를 적용합니다. 점수만 충족하면 누구나 전환된다고 볼 수 없습니다."
+        },
+        {
+          "type": "h2",
+          "text": "자료별로 인정 여부를 나눕니다"
+        },
+        {
+          "type": "list",
+          "items": [
+            "연령·학력: 여권과 학위증명, 해당 학위의 인정 여부를 확인합니다.",
+            "한국어: TOPIK 성적과 KIIP 단계·이수·평가 결과를 구분합니다.",
+            "소득: 인정되는 기간과 소득금액증명 등 제출 자료를 확인합니다.",
+            "가감점: 해당 고시가 정한 항목과 증명자료에 한하여 적용합니다. 한국인 가족이나 유학 기간이 있다는 이유만으로 가점을 만들지 않습니다."
+          ]
+        },
+        {
+          "type": "h2",
+          "text": "TOPIK과 KIIP 중 무엇을 준비할까요?"
+        },
+        {
+          "type": "p",
+          "text": "현재 성적·이수 자료가 어느 항목으로 인정되는지부터 계산합니다. 한국어 기본점수와 별도 가점은 각각의 조건을 확인하며 자동 중복 계산하지 않습니다. 부족한 항목을 준비할 때에는 신청 가능 시점과 체류 만료일도 함께 고려합니다."
+        }
+      ],
+      "sources": [
+        {
+          "title": "경기도 외국인일자리포털 — F-2-7 점수 안내 / Public F-2-7 scoring guide (Korean)",
+          "url": "https://job.gg.go.kr/global/intro/visaScore.do?visa=f2r"
+        }
+      ],
+      "modifiedAt": "2026-11-10",
+      "keywords": [
+        "F-2 비자",
+        "F-2-7 점수제",
+        "거주비자",
+        "F-2-7 거주 점수제",
+        "Korea F-2 visa",
+        "Korea residence visa",
+        "points-based visa Korea"
+      ]
+    }
+  },
+  {
+    "slug": "f2-points-system-en",
+    "before": {
+      "title": "Korea F-2-7 Points-Based Residence Visa: Scoring Criteria and Strategies",
+      "excerpt": "A complete analysis of the F-2-7 residence visa points system, including scoring categories (age, education, TOPIK, income) and KIIP strategies.",
+      "body": [
+        {
+          "text": "The F-2-7 visa allows high-scoring foreign residents in Korea to change their status to a flexible residence visa if they score 80 points or more out of 120.",
+          "type": "p"
+        },
+        {
+          "text": "1. Basic Scoring Categories",
+          "type": "h2"
+        },
+        {
+          "text": "Points are distributed across Age (max 25), Education (max 35), Korean Language Ability (max 20), and Annual Income (max 10), plus bonus points.",
+          "type": "p"
+        },
+        {
+          "text": "2. The Importance of KIIP",
+          "type": "h2"
+        },
+        {
+          "text": "Completing the Korea Immigration and Integration Program (KIIP) Stage 5 awards up to 10 bonus points, serving as a reliable path to make up for low income scores.",
+          "type": "p"
+        }
+      ],
+      "keywords": [
+        "F-2-7 Visa",
+        "Residence Visa",
+        "Points System",
+        "KIIP Korea"
+      ],
+      "titleEn": "Korea F-2-7 Points-Based Residence Visa Guide"
+    },
+    "after": {
+      "title": "Korea F-2-7 Residence Visa: Check the Current Points and Evidence",
+      "titleEn": null,
+      "excerpt": "Do not reuse the old 120-point table. Check eligibility, the current F-2-7 score sheet, supporting documents and disqualifying factors together.",
+      "body": [
+        {
+          "type": "h2",
+          "text": "Check the eligible group first"
+        },
+        {
+          "type": "p",
+          "text": "A sufficient score does not make every status holder eligible for F-2-7. Check your current status, eligible applicant group, residence or employment history and exclusions. Do not mix F-2-7 with regional F-2-R rules."
+        },
+        {
+          "type": "h2",
+          "text": "Replace the old scoring table"
+        },
+        {
+          "type": "p",
+          "text": "The reviewed public F-2-7 guide describes a 170-point scale and an 80-point threshold. Assess age, education, Korean proficiency, income and adjustments separately. The old education maximum of 35 and income maximum of 10 should not be reused. Apply the Ministry of Justice rules and accepted documents in force when you file. Meeting the score does not guarantee approval."
+        },
+        {
+          "type": "h2",
+          "text": "Do not add KIIP points automatically"
+        },
+        {
+          "type": "p",
+          "text": "Distinguish program level, completion and assessment results. Check the conditions for language points and any separate bonus; do not double-count evidence or assume that a level-five reference automatically earns a fixed bonus."
+        },
+        {
+          "type": "h2",
+          "text": "Documents for review"
+        },
+        {
+          "type": "p",
+          "text": "Prepare residence and employment history, degrees, tax income certificates, TOPIK or KIIP records and any violation or disposition records. We separate documented points from items that still require verification."
+        }
+      ],
+      "sources": [
+        {
+          "title": "경기도 외국인일자리포털 — F-2-7 점수 안내 / Public F-2-7 scoring guide (Korean)",
+          "url": "https://job.gg.go.kr/global/intro/visaScore.do?visa=f2r"
+        }
+      ],
+      "modifiedAt": "2026-11-10"
+    }
+  },
+  {
+    "slug": "f2-points-system-ja",
+    "before": {
+      "title": "韓国F-2-7点数制居住ビザ：配点基準と加点獲得戦略",
+      "excerpt": "年齢、学歴、韓国語能力、所得を基準とするF-2-7居住ビザの配点表と、社会統合プログラム（KIIP）による加点獲得について解説します。",
+      "body": [
+        {
+          "text": "F-2-7ビザは、優秀な外国人材を対象に、年齢、学歴、韓国語能力、所得などを点数化し、80点以上（120点満点）の申請者に付与される居住資格です。",
+          "type": "p"
+        },
+        {
+          "text": "1. 主な配点項目",
+          "type": "h2"
+        },
+        {
+          "text": "年齢（最大25点）、学歴（最大35点）、韓国語能力（最大20点）、年間所得（最大10点）などの基本項目に、加点・減点項目を反映して判定します。",
+          "type": "p"
+        },
+        {
+          "text": "2. KIIP修了によるメリット",
+          "type": "h2"
+        },
+        {
+          "text": "社会統合プログラム（KIIP）第5段階を修了すると、最大10点の加点が付与されます。年齢や所得の配点をカバーするための最も確実な戦略です。",
+          "type": "p"
+        }
+      ],
+      "keywords": [
+        "F-2-7ビザ",
+        "点数制居住ビザ",
+        "社会統合プログラム",
+        "KIIP"
+      ],
+      "titleEn": "Korea F-2-7 Points-Based Residence Visa Guide"
+    },
+    "after": {
+      "title": "韓国F-2-7居住ビザ：現行の配点と証明資料の確認",
+      "titleEn": null,
+      "excerpt": "旧120点の表を使い続けないでください。申請対象、現行配点、所得・韓国語の証明、除外事由を併せて確認します。",
+      "body": [
+        {
+          "type": "h2",
+          "text": "点数より先に申請対象を確認"
+        },
+        {
+          "type": "p",
+          "text": "どの在留資格からでも点数だけでF-2-7へ変更できるわけではありません。現在の資格、対象となる申請者区分、在留・就労歴、除外事由を確認します。地域特化型F-2-Rなどの基準とは分けて扱います。"
+        },
+        {
+          "type": "h2",
+          "text": "旧配点表を更新する"
+        },
+        {
+          "type": "p",
+          "text": "今回確認した公的案内は、F-2-7を総点170点、基準80点として説明しています。年齢、学歴、韓国語、所得、加減点を分けて計算します。学歴最高35点・所得最高10点という旧表は再使用せず、申請時の法務部基準と認められる資料で再計算してください。点数充足は許可の保証ではありません。"
+        },
+        {
+          "type": "h2",
+          "text": "KIIPの点数を自動加算しない"
+        },
+        {
+          "type": "p",
+          "text": "課程の段階、修了、評価試験の結果を区別し、韓国語の基本点と別途加点の条件を確認します。同じ資料の重複計算や、第5段階というだけで一定の加点があるとの判断は避けてください。"
+        },
+        {
+          "type": "h2",
+          "text": "準備資料"
+        },
+        {
+          "type": "p",
+          "text": "在留・就労歴、学位証明、税務上の所得証明、TOPIK・KIIP資料、違反・処分記録を整理します。証明済みの点数と追加確認が必要な項目を分けて検討します。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "경기도 외국인일자리포털 — F-2-7 점수 안내 / Public F-2-7 scoring guide (Korean)",
+          "url": "https://job.gg.go.kr/global/intro/visaScore.do?visa=f2r"
+        }
+      ],
+      "modifiedAt": "2026-11-10"
+    }
+  },
+  {
+    "slug": "f2-points-system-zh",
+    "before": {
+      "title": "韩国F-2-7打分制居住签证：评分标准与高分策略",
+      "excerpt": "详细解析F-2-7居住签证的评分细则，包含年龄、学历、韩语水平和所得的计分方式，并分享KIIP社会统合课程的提分秘诀。",
+      "body": [
+        {
+          "text": "F-2-7签证是针对外国优秀人才，根据年龄、学历、韩语水平、收入等大项进行综合评分，达到80分以上（满分120分）时签发的居住签证。",
+          "type": "p"
+        },
+        {
+          "text": "1. 核心评分板块",
+          "type": "h2"
+        },
+        {
+          "text": "主要评定指标包括年龄（最高25分）、学历（最高35分）、韩语能力（最高20分）和年收入（最高10分）。此外还设有加分项与减分项。",
+          "type": "p"
+        },
+        {
+          "text": "2. 社会统合课程（KIIP）加分",
+          "type": "h2"
+        },
+        {
+          "text": "完成社会统合课程5阶段学习可获得最多10分的加分，这对于因为年龄增长或工作初期收入不足而扣分的申请者来说非常重要。",
+          "type": "p"
+        }
+      ],
+      "keywords": [
+        "F-2-7签证",
+        "打分制居住",
+        "社会统合课程",
+        "韩国居住签证"
+      ],
+      "titleEn": "Korea F-2-7 Points-Based Residence Visa Guide"
+    },
+    "after": {
+      "title": "韩国F-2-7居住签证：现行评分与证明材料核对",
+      "titleEn": null,
+      "excerpt": "不要继续使用旧的120分表。应同时核对申请对象、现行评分、收入与韩语证明及排除条件。",
+      "body": [
+        {
+          "type": "h2",
+          "text": "先核对申请资格，再计算分数"
+        },
+        {
+          "type": "p",
+          "text": "并非持任何居留资格的人达到分数就能转为F-2-7。应先核对现有资格、所属申请群体、居留或就业经历及排除条件。不要混用F-2-R等其他类别的标准。"
+        },
+        {
+          "type": "h2",
+          "text": "更换旧评分表"
+        },
+        {
+          "type": "p",
+          "text": "本次核对的公共指南按总分170分、基准80分介绍F-2-7。年龄、学历、韩语、收入及加减分应分别计算。不要沿用学历最高35分、收入最高10分的旧表，应依申请时法务部标准及认可材料重新核算。达到分数并不保证获批。"
+        },
+        {
+          "type": "h2",
+          "text": "KIIP不能自动重复加分"
+        },
+        {
+          "type": "p",
+          "text": "应区分课程阶段、结业及考试结果，并分别核对韩语基本分与额外加分条件。不要重复计算同一材料，也不要仅因出现“五阶段”字样就认定可获得固定加分。"
+        },
+        {
+          "type": "h2",
+          "text": "准备资料"
+        },
+        {
+          "type": "p",
+          "text": "整理居留及就业经历、学历证明、税务收入证明、TOPIK或KIIP记录，以及违法或处分记录。咨询时区分已有证明的分数和仍需确认的项目。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "경기도 외국인일자리포털 — F-2-7 점수 안내 / Public F-2-7 scoring guide (Korean)",
+          "url": "https://job.gg.go.kr/global/intro/visaScore.do?visa=f2r"
+        }
+      ],
+      "modifiedAt": "2026-11-10"
+    }
+  },
+  {
+    "slug": "f5-permanent-residence-checklist",
+    "before": {
+      "title": "F-5 영주권 신청 전 체크리스트 — 거절 사유의 90%는 사전 점검 가능",
+      "excerpt": "F-5(영주) 비자 거절 사례를 분석하면 대부분 신청 전에 충분히 막을 수 있었던 사유입니다.",
+      "body": [
+        {
+          "text": "F-5는 한국의 영주 자격입니다. 한 번 받으면 갱신 부담이 크게 줄어듭니다.",
+          "type": "p"
+        },
+        {
+          "text": "1. 체류기간 산정을 다시 확인하라",
+          "type": "h2"
+        },
+        {
+          "text": "트랙별 체류기간 요건이 다르고, 출국 기간이 합산에서 어떻게 차감되는지가 가장 흔한 실수입니다.",
+          "type": "p"
+        },
+        {
+          "text": "2. 세금·국민연금·건강보험 완납",
+          "type": "h2"
+        },
+        {
+          "type": "list",
+          "items": [
+            "국세 완납증명서",
+            "지방세 완납증명서",
+            "건강보험 보험료 납부확인서",
+            "국민연금 가입증명서 또는 가입대상 제외 증빙"
+          ]
+        },
+        {
+          "text": "신청 전 분납 약정만 체결되어 있어도 완납 상태로 인정되지 않습니다.",
+          "type": "callout",
+          "title": "체납이 있다면"
+        }
+      ],
+      "keywords": [
+        "F-5 비자",
+        "한국 영주권",
+        "영주권 거절",
+        "Korea permanent residence",
+        "Korea F-5 visa",
+        "Korea PR application"
+      ],
+      "titleEn": "Korea F-5 Permanent Residence Pre-Application Checklist"
+    },
+    "after": {
+      "title": "F-5 영주권 신청 전 체크리스트: 체류이력과 생계유지 자료",
+      "titleEn": null,
+      "excerpt": "F-5 유형별 체류기간, 가족 소득·재산, 납세 상태와 기본소양 증빙을 점검하고 기존 불허 사유에 맞는 준비자료를 정리합니다.",
+      "body": [
+        {
+          "type": "h2",
+          "text": "세부 유형과 체류이력"
+        },
+        {
+          "type": "p",
+          "text": "먼저 신청할 F-5 유형을 정하고 그 유형의 체류·활동 요건을 확인합니다. 출입국사실증명과 체류자격 변경 이력을 비교하여 산정할 기간을 정리합니다. 출국일을 모든 유형에서 같은 방식으로 차감한다고 가정하지 않습니다."
+        },
+        {
+          "type": "h2",
+          "text": "소득과 재산"
+        },
+        {
+          "type": "p",
+          "text": "출입국관리법 제10조의3은 본인 또는 생계를 같이하는 가족의 소득·재산 등에 의한 생계유지를 규정합니다. 인정 가능한 가족, 소득기간과 재산 범위, 완화·면제 여부를 세부 기준과 대조합니다."
+        },
+        {
+          "type": "h2",
+          "text": "납세·보험 자료"
+        },
+        {
+          "type": "p",
+          "text": "국세·지방세 납세증명과 적용되는 보험 납부 자료를 준비하고, 체납·분납·납부유예가 있다면 그 상태를 입증하는 서류도 확인합니다. 분납 약정이 곧 완납은 아니지만, 모든 상황에서 같은 불허 결론이 난다고 단정해서는 안 됩니다."
+        },
+        {
+          "type": "h2",
+          "text": "품행과 기본소양"
+        },
+        {
+          "type": "p",
+          "text": "형사·출입국 처분 이력은 내용과 시기, 해당 기준을 확인합니다. 해외 범죄경력증명의 제출 대상과 인증 방식, 한국어·사회통합 자료 및 면제 가능성도 확인합니다. 기존 거절 통지가 있다면 통지 이유와 맞지 않는 자료부터 검토합니다."
+        }
+      ],
+      "sources": [
+        {
+          "title": "출입국관리법 제10조의3 / Immigration Act: permanent residence (Korean)",
+          "url": "https://www.law.go.kr/법령/출입국관리법/제10조의3"
+        }
+      ],
+      "modifiedAt": "2026-11-10"
+    }
+  },
+  {
+    "slug": "f5-permanent-residency",
+    "before": {
+      "title": "한국 영주권(F-5) 신청 필수 체크리스트와 거절 사유 분석",
+      "excerpt": "GNI 소득 충족 여부, 사회통합프로그램 이수 조건, 해외 범죄경력증명서 아포스티유 제출 등 영주권 심사의 탈락 요인을 분석합니다.",
+      "body": [
+        {
+          "text": "영주권(F-5)은 체류 자격 구분에 상관없이 대한민국에 영구히 거주할 수 있는 권리를 부여하는 가장 안정적인 자격입니다.",
+          "type": "p"
+        },
+        {
+          "text": "1. 소득 요건 (GNI 기준)",
+          "type": "h2"
+        },
+        {
+          "text": "일반적으로 전년도 한국은행 고시 일인당 국민총소득(GNI)의 1배 또는 2배 이상의 생계유지 능력을 입증해야 합니다. 소득세 신고 금액만 인정되므로 사전에 확인이 필요합니다.",
+          "type": "p"
+        },
+        {
+          "text": "2. 해외 범죄경력증명 요건",
+          "type": "h2"
+        },
+        {
+          "text": "본국 정부가 발급한 무범죄증명서에 대해 아포스티유 또는 영사 확인을 받아 제출해야 합니다. 최근 5년 내 중대 범죄 기록이 있을 시 불허됩니다.",
+          "type": "p"
+        }
+      ],
+      "keywords": [
+        "F-5 비자",
+        "영주권 신청",
+        "GNI 소득",
+        "아포스티유"
+      ],
+      "titleEn": "Korea F-5 Permanent Residency Guide"
+    },
+    "after": {
+      "title": "F-5 영주권 신청: 유형별 생계유지·품행·기본소양 확인",
+      "titleEn": null,
+      "excerpt": "F-5 생계유지 요건을 본인 과세소득만으로 단정하지 않습니다. 신청 유형에 따라 가족 소득·재산, 기본소양과 범죄경력 자료를 확인합니다.",
+      "body": [
+        {
+          "type": "h2",
+          "text": "먼저 F-5 세부 유형을 정합니다"
+        },
+        {
+          "type": "p",
+          "text": "출입국관리법 제10조의3은 영주자격자의 활동범위와 체류기간에 제한을 두지 않습니다. 그러나 자격 취득에는 해당 영주 유형과 품행·생계유지·기본소양 요건 등이 적용됩니다. 모든 신청자에게 같은 소득 배수나 체류기간을 적용할 수 없습니다."
+        },
+        {
+          "type": "h2",
+          "text": "과세소득만 인정되는 것은 아닙니다"
+        },
+        {
+          "type": "p",
+          "text": "법은 본인 또는 생계를 같이하는 가족의 소득·재산 등에 의한 생계유지 능력을 정합니다. 인정되는 가족, 소득의 산정기간, 재산 인정 방식과 완화·면제는 세부 유형별 기준으로 확인해야 합니다. 현재 GNI 금액이나 소득 배수는 신청 시점 안내와 함께 확인합니다."
+        },
+        {
+          "type": "h2",
+          "text": "범죄경력과 기본소양은 개별 확인합니다"
+        },
+        {
+          "type": "p",
+          "text": "범죄경력이 있다는 이유만으로 모든 유형을 일률적으로 불허한다고 설명하지 않습니다. 범죄 종류, 처분·형의 내용, 시기와 적용 기준을 검토합니다. 해외 범죄경력증명서의 제출 대상, 발급국·유효기간·인증 방식과 TOPIK·KIIP 등 기본소양 자료도 해당 요건에 맞춰 준비합니다."
+        },
+        {
+          "type": "h2",
+          "text": "상담 전 준비자료"
+        },
+        {
+          "type": "p",
+          "text": "체류자격 변동과 출입국 이력, 가족관계, 소득·재산 증빙, 납세·보험 관련 자료, 기본소양 증빙과 기존 통지를 준비하세요. 필요한 서류와 보완 사유를 해당 F-5 유형에 맞춰 정리합니다."
+        }
+      ],
+      "sources": [
+        {
+          "title": "출입국관리법 제10조의3 / Immigration Act: permanent residence (Korean)",
+          "url": "https://www.law.go.kr/법령/출입국관리법/제10조의3"
+        }
+      ],
+      "modifiedAt": "2026-11-10"
+    }
+  },
+  {
+    "slug": "f5-permanent-residency-en",
+    "before": {
+      "title": "Korea F-5 Permanent Residency Checklist: Income and KIIP Requirements",
+      "excerpt": "Analyzing key criteria for the F-5 permanent residency visa, focusing on GNI income thresholds, criminal history checks, and KIIP requirements.",
+      "body": [
+        {
+          "text": "The Permanent Residency (F-5) visa offers unlimited stay and freedom of employment in South Korea, making it the most secure visa category.",
+          "type": "p"
+        },
+        {
+          "text": "1. Income Verification (GNI)",
+          "type": "h2"
+        },
+        {
+          "text": "Applicants must typically show an annual income equivalent to 1x or 2x the Gross National Income (GNI) per capita announced by the Bank of Korea. Only taxed income qualifies.",
+          "type": "p"
+        },
+        {
+          "text": "2. Criminal Background Checks",
+          "type": "h2"
+        },
+        {
+          "text": "A certified criminal record certificate from your home country, authenticated via Apostille or Embassy legalization, is required. Recent criminal records will lead to rejection.",
+          "type": "p"
+        }
+      ],
+      "keywords": [
+        "F-5 Visa",
+        "Permanent Residency",
+        "GNI Income",
+        "Immigration Korea"
+      ],
+      "titleEn": "Korea F-5 Permanent Residency Guide"
+    },
+    "after": {
+      "title": "Korea F-5 Permanent Residence: Category, Livelihood and Conduct",
+      "titleEn": null,
+      "excerpt": "F-5 livelihood evidence is not limited to personal taxable income. Review the applicable category, family income or assets, conduct and integration requirements.",
+      "body": [
+        {
+          "type": "h2",
+          "text": "Identify the F-5 category"
+        },
+        {
+          "type": "p",
+          "text": "Article 10-3 of the Immigration Act removes activity-scope and stay-period restrictions for F-5 holders. Acquisition nevertheless requires the relevant category and applicable conduct, livelihood and basic-knowledge conditions. There is no single income multiple or residence period for every applicant."
+        },
+        {
+          "type": "h2",
+          "text": "Income is not the only possible evidence"
+        },
+        {
+          "type": "p",
+          "text": "The statute refers to income or property of the applicant or family members sharing their livelihood. Which relatives, income period and assets count, and whether a relaxation or exemption applies, depends on the category. Verify current GNI figures and any income multiple when applying."
+        },
+        {
+          "type": "h2",
+          "text": "Conduct and basic knowledge"
+        },
+        {
+          "type": "p",
+          "text": "Do not treat every criminal record as automatic refusal for every category. Review the offence, disposition or sentence, date and applicable criteria. Check whether a foreign criminal-record certificate is required, and its issuing country, validity and authentication requirements. Match language or KIIP evidence to the relevant conditions."
+        },
+        {
+          "type": "h2",
+          "text": "Prepare your records"
+        },
+        {
+          "type": "p",
+          "text": "Bring status and travel history, family information, income and property evidence, tax and insurance records, integration evidence and previous notices. A category-specific review identifies missing documents without promising approval."
+        }
+      ],
+      "sources": [
+        {
+          "title": "출입국관리법 제10조의3 / Immigration Act: permanent residence (Korean)",
+          "url": "https://www.law.go.kr/법령/출입국관리법/제10조의3"
+        }
+      ],
+      "modifiedAt": "2026-11-10"
+    }
+  },
+  {
+    "slug": "f5-permanent-residency-ja",
+    "before": {
+      "title": "韓国F-5永住権申請チェックリスト：GNI所得基準と要件解説",
+      "excerpt": "韓国の永住権（F-5）申請におけるGNI所得基準、海外犯罪経歴証明書のアポスティーユ提出、審査却下の防止要件について解説します。",
+      "body": [
+        {
+          "text": "永住権（F-5）は、在留期間の延長制限や就労分野の制限がなく、韓国に永久に滞在できる権利を与える最も安定した在留資格です。",
+          "type": "p"
+        },
+        {
+          "text": "1. 生計維持能力（GNI基準）",
+          "type": "h2"
+        },
+        {
+          "text": "一般的に、韓国銀行が告示した前年度の一人当たり国民総所得（GNI）の1倍または2倍以上の年間所得を証明する必要があります。税務署発行の所得証明のみ有効です。",
+          "type": "p"
+        },
+        {
+          "text": "2. 海外の犯罪経歴証明要件",
+          "type": "h2"
+        },
+        {
+          "text": "本国の政府が発行した無犯罪証明書に対し、アポスティーユまたは領事認証を取得して提出する必要があります。過去5年以内の犯罪歴は不許可の要因になります。",
+          "type": "p"
+        }
+      ],
+      "keywords": [
+        "F-5ビザ",
+        "永住権申請",
+        "GNI所得基準",
+        "アポスティーユ"
+      ],
+      "titleEn": "Korea F-5 Permanent Residency Guide"
+    },
+    "after": {
+      "title": "韓国F-5永住申請：区分・生計維持・品行・基本素養",
+      "titleEn": null,
+      "excerpt": "生計維持の証明は本人の課税所得だけに限られません。申請区分に応じ、家族の所得・財産、品行、基本素養を確認します。",
+      "body": [
+        {
+          "type": "h2",
+          "text": "F-5の具体的区分を確認"
+        },
+        {
+          "type": "p",
+          "text": "出入国管理法第10条の3は、永住資格者の活動範囲と在留期間に制限を設けていません。ただし取得には該当区分、品行、生計維持、基本素養などの要件があります。すべての申請者に同じ所得倍率や在留年数を適用することはできません。"
+        },
+        {
+          "type": "h2",
+          "text": "課税所得だけではありません"
+        },
+        {
+          "type": "p",
+          "text": "法律は、本人または生計を共にする家族の所得・財産などによる生計維持能力を定めています。対象家族、所得算定期間、財産の認定方法、緩和・免除は区分別に確認します。GNIの金額や所得倍率も申請時点の基準で確認してください。"
+        },
+        {
+          "type": "h2",
+          "text": "品行と基本素養の個別確認"
+        },
+        {
+          "type": "p",
+          "text": "犯罪歴があれば全区分で自動的に不許可になるとは説明しません。犯罪の種類、処分・刑の内容、時期と適用基準を検討します。外国の犯罪経歴証明書が必要か、発行国・有効期間・認証方法は何かを確認し、韓国語・KIIP等の資料も該当要件に合わせます。"
+        },
+        {
+          "type": "h2",
+          "text": "相談に向けた資料"
+        },
+        {
+          "type": "p",
+          "text": "在留資格と出入国の履歴、家族関係、所得・財産、納税・保険、基本素養の資料と過去の通知を準備し、該当するF-5区分で確認します。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "출입국관리법 제10조의3 / Immigration Act: permanent residence (Korean)",
+          "url": "https://www.law.go.kr/법령/출입국관리법/제10조의3"
+        }
+      ],
+      "modifiedAt": "2026-11-10"
+    }
+  },
+  {
+    "slug": "f5-permanent-residency-zh",
+    "before": {
+      "title": "韩国F-5永住权申请指南：GNI收入标准与常见拒签原因",
+      "excerpt": "归纳总结申请韩国F-5永久居留权的核心要求，涵盖国民总收入（GNI）标准、境外无犯罪证明公证以及社会统合课程合格证书等要点。",
+      "body": [
+        {
+          "text": "永久居留签证（F-5）在韩国不受滞留期限和就业领域的限制，是滞留在韩外国人最稳定、待遇最完善的签证类型。",
+          "type": "p"
+        },
+        {
+          "text": "1. 生计维持能力（GNI所得）审查",
+          "type": "h2"
+        },
+        {
+          "text": "根据具体申请类型，通常需要证明年所得达到韩国银行公布的前一年人均国民总收入（GNI）的1倍或2倍以上。必须提供税务部门开具的所得证明。",
+          "type": "p"
+        },
+        {
+          "text": "2. 境外无犯罪记录公证",
+          "type": "h2"
+        },
+        {
+          "text": "申请人须提交本国签发的无犯罪记录证明，并经过海牙认证（Apostille）或领事认证。过去五年内如有严重刑事犯罪前科，将不予批准。",
+          "type": "p"
+        }
+      ],
+      "keywords": [
+        "F-5签证",
+        "韩国永住权",
+        "GNI收入",
+        "无犯罪记录证明"
+      ],
+      "titleEn": "Korea F-5 Permanent Residency Guide"
+    },
+    "after": {
+      "title": "韩国F-5永住申请：类别、生计能力、品行与基本素养",
+      "titleEn": null,
+      "excerpt": "F-5生计证明并非只限申请人个人应税收入。需按类别核对共同生活家庭的收入或财产、品行及基本素养要求。",
+      "body": [
+        {
+          "type": "h2",
+          "text": "先确定F-5具体类别"
+        },
+        {
+          "type": "p",
+          "text": "《出入境管理法》第10条之3规定永住资格持有人不受活动范围及居留期间限制，但取得资格仍须符合相应类别、品行、生计能力及基本素养等条件。不能对所有申请人套用同一收入倍数或居留年限。"
+        },
+        {
+          "type": "h2",
+          "text": "并非只认可应税收入"
+        },
+        {
+          "type": "p",
+          "text": "法律规定可考察本人或共同维持生计的家庭成员的收入、财产等。哪些家庭成员、哪一期间的收入及哪些财产可被认可，是否可减轻或免除要求，须按具体类别确认。GNI金额及收入倍数也应核对申请时的标准。"
+        },
+        {
+          "type": "h2",
+          "text": "品行与基本素养须个别审查"
+        },
+        {
+          "type": "p",
+          "text": "不能将任何犯罪记录都说成所有类别的自动拒签事由。应核对犯罪性质、处分或刑罚、时间及适用条件。还应确认是否需提交境外犯罪记录证明、签发国家、有效期与认证方式，并准备符合相应条件的韩语或KIIP资料。"
+        },
+        {
+          "type": "h2",
+          "text": "咨询资料"
+        },
+        {
+          "type": "p",
+          "text": "准备居留及出入境记录、家庭关系、收入与财产证明、税务和保险资料、基本素养证明及此前通知，再按具体F-5类别核对。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "출입국관리법 제10조의3 / Immigration Act: permanent residence (Korean)",
+          "url": "https://www.law.go.kr/법령/출입국관리법/제10조의3"
+        }
+      ],
+      "modifiedAt": "2026-11-10"
+    }
+  },
+  {
+    "slug": "foreign-corporate-setup-pitfalls",
+    "before": {
+      "title": "외국인 법인설립 시 자주 생기는 문제 — FDI 신고부터 정관까지",
+      "excerpt": "외국인 법인설립은 한국인 설립과 절차가 비슷해 보이지만, 외국인투자촉진법이 따로 적용됩니다.",
+      "body": [
+        {
+          "text": "외국인이 한국에서 법인을 설립할 때는 일반 상법상 절차에 더해 FDI 신고 절차가 별도로 적용됩니다.",
+          "type": "p"
+        },
+        {
+          "text": "1. 신고 → 송금 → 등기 순서를 반드시 지킬 것",
+          "type": "h2"
+        },
+        {
+          "type": "list",
+          "items": [
+            "외국환은행에 외국인투자 신고",
+            "신고 후 해외 계좌에서 한국 법인 자본금 계좌로 송금",
+            "송금 확인 후 법인 설립 등기",
+            "등기 완료 후 외국인투자기업 등록"
+          ],
+          "ordered": true
+        },
+        {
+          "text": "일단 자본금을 미리 보내두고 신고는 나중에 하는 방식은 외국환거래법 위반이 될 수 있습니다.",
+          "type": "callout",
+          "title": "흔한 실수"
+        }
+      ],
+      "keywords": [
+        "외국인 법인설립",
+        "FDI 신고",
+        "외국인투자촉진법",
+        "Korea company formation foreigner",
+        "FDI Korea filing"
+      ],
+      "titleEn": "Common Pitfalls When a Foreigner Establishes a Korean Corporation"
+    },
+    "after": {
+      "title": "외국인 법인설립: 투자 신고와 비자 심사를 나누어 확인",
+      "titleEn": null,
+      "excerpt": "모든 외국인 법인설립에 같은 FDI 요건을 적용하지 않습니다. 투자 해당성, 신고 시점, 자금 반입과 D-8 적격성을 구분합니다.",
+      "body": [
+        {
+          "type": "h2",
+          "text": "외국인이 설립하면 모두 외국인투자인가요?"
+        },
+        {
+          "type": "p",
+          "text": "상법상 법인설립, 외국인투자촉진법상 외국인투자 해당성, 외국환 신고와 출입국상 체류자격은 서로 구별됩니다. 투자금액·지분과 투자 형태를 확인하고 어떤 신고 체계가 적용되는지 정합니다."
+        },
+        {
+          "type": "h2",
+          "text": "일반적인 절차와 예외"
+        },
+        {
+          "type": "p",
+          "text": "신주 취득 등 일반적인 투자에서는 사전 신고, 자금 반입·납입, 설립 등기, 사업자·투자기업 등록의 흐름을 검토합니다. 기존 주식 취득이나 다른 거래의 사후 신고 예외 등은 거래별로 확인합니다. 모든 거래에 같은 순서와 법률효과를 단정하지 않습니다."
+        },
+        {
+          "type": "h2",
+          "text": "자금 반입 기록"
+        },
+        {
+          "type": "p",
+          "text": "해외 송금 외에도 세관 신고를 거친 외화 휴대 반입이 안내됩니다. 신고·은행·세관 서류를 거래 구조에 맞춰 준비하고, 실제 투자자와 자금의 출처·사용을 연결해 설명합니다."
+        },
+        {
+          "type": "h2",
+          "text": "법인 등기와 D-8은 별개입니다"
+        },
+        {
+          "type": "p",
+          "text": "서울고법 2024누52900은 해당 직접 설립 회사의 D-8 적격성을 인정하지 않았습니다. 일반적인 회사 설립 안내가 그 판단을 대체하지 않습니다. 투자를 실행하기 전에 적용되는 체류자격과 설립·투자 경위도 함께 검토하세요."
+        }
+      ],
+      "sources": [
+        {
+          "title": "KOTRA — 2025 Guide to Establishing a Business in Korea (English)",
+          "url": "https://ombudsman.kotra.or.kr/file/ik-en/252025Guide_to_Establishing_a_Business_in_Korea.pdf"
+        },
+        {
+          "title": "외국인투자 촉진법 시행령 제2조 / Foreign Investment Promotion Act Enforcement Decree (Korean)",
+          "url": "https://www.law.go.kr/법령/외국인투자촉진법시행령/제2조"
+        },
+        {
+          "title": "서울고등법원 2025. 3. 27. 선고 2024누52900 — 판결 원문 / Judgment (Korean)",
+          "url": "https://bigcase.ai/cases/서울고등법원/2024누52900"
+        }
+      ],
+      "modifiedAt": "2026-11-10"
+    }
+  },
+  {
+    "slug": "medical-visa-compliance",
+    "before": {
+      "title": "의료관광 비자 제도와 유치기관의 광고·행정 준법 실무",
+      "excerpt": "외국인 환자 초청을 위한 C-3-3/G-1-10 비자 발급 조건, 보건복지부 유치업체 등록 요건 및 SNS 의료광고 불법 예방 지침을 분석합니다.",
+      "body": [
+        {
+          "text": "외국인 환자의 안전한 국내 유치와 법적 리스크 관리를 위해서는 행정 절차와 보건소 광고 기준을 명밀히 파악해야 합니다.",
+          "type": "p"
+        },
+        {
+          "text": "1. 의료 비자 제도 요건",
+          "type": "h2"
+        },
+        {
+          "text": "단기 치료는 C-3-3(최대 90일), 장기 요양은 G-1-10(최대 1년) 비자가 발급됩니다. 반드시 정부 지정 공식 유치기관의 신원보증 및 초청 서류가 뒷받침되어야 합니다.",
+          "type": "p"
+        },
+        {
+          "text": "2. SNS 광고 컴플라이언스",
+          "type": "h2"
+        },
+        {
+          "text": "SNS상에서 해외 환자를 대상으로 광고를 진행할 때도 의료법 제56조에 따른 사전 심의 대상이 됩니다. '치료 보장', '환불 조건부 알선' 표현은 행정처분으로 이어지므로 준법 검토를 거쳐야 합니다.",
+          "type": "p"
+        }
+      ],
+      "keywords": [
+        "의료관광 비자",
+        "유치기관 등록",
+        "의료광고 심의",
+        "외국인 환자"
+      ],
+      "titleEn": "Korea Medical Tourism Visas and Compliance Guide"
+    },
+    "after": {
+      "title": "의료비자와 외국인환자 유치: 신청 경로·광고심의 구분",
+      "titleEn": null,
+      "excerpt": "의료비자의 직접 신청과 유치기관을 통한 신청은 다릅니다. SNS 광고도 매체·내용·주체에 따라 의료법상 심의와 금지 규정을 나누어 확인합니다.",
+      "body": [
+        {
+          "type": "h2",
+          "text": "모든 의료비자에 유치기관 보증이 필요한가요?"
+        },
+        {
+          "type": "p",
+          "text": "그렇지 않습니다. 한국보건산업진흥원은 환자가 재외공관에 직접 신청하는 방식과 유치기관을 통한 방식을 구분합니다. 직접 신청에는 진단·치료예약·재정 자료 등이 안내됩니다. 신청 경로와 공관의 추가 요구에 맞춰 자료를 준비합니다."
+        },
+        {
+          "type": "h2",
+          "text": "C-3-3과 G-1-10"
+        },
+        {
+          "type": "p",
+          "text": "공식 안내는 단기 치료의 C-3-3을 90일 이내, 장기 치료의 G-1-10을 1년 이내로 설명합니다. 실제 허가 기간과 연장은 치료 필요성, 자료와 개별 심사에 따르며, 해당 기간의 체류가 무조건 보장되는 것은 아닙니다."
+        },
+        {
+          "type": "h2",
+          "text": "광고 금지와 사전심의는 다른 문제입니다"
+        },
+        {
+          "type": "p",
+          "text": "의료법 제56조의 광고 제한과 제57조의 사전심의 요건을 구분해야 합니다. 사전심의는 법령이 정한 매체 등에 적용되므로 모든 SNS 게시물이 일률적으로 같은 대상이라고 설명하지 않습니다. 광고 주체, 매체, 문구, 국내외 노출과 환자 유치 규정을 함께 검토합니다."
+        },
+        {
+          "type": "h2",
+          "text": "검토할 자료"
+        },
+        {
+          "type": "p",
+          "text": "환자 신청은 치료예약과 비용 부담 자료, 기관 자문은 유치 등록 상태, 계약·수수료 구조와 실제 광고 문안을 준비하세요. 특정 표현만으로 항상 동일한 처분이나 면허 취소가 발생한다고 단정하지 않습니다."
+        }
+      ],
+      "sources": [
+        {
+          "title": "한국보건산업진흥원 Medical Korea — Medical Visa (English)",
+          "url": "https://www.medicalkorea.or.kr/en/medicalvisa"
+        },
+        {
+          "title": "의료법 제56조·제57조 / Medical Service Act: advertising (Korean)",
+          "url": "https://www.law.go.kr/법령/의료법/제57조"
+        }
+      ],
+      "modifiedAt": "2026-11-10"
+    }
+  },
+  {
+    "slug": "medical-visa-compliance-en",
+    "before": {
+      "title": "Korea Medical Tourism Visas and Hospital Compliance Requirements",
+      "excerpt": "Understanding the C-3-3/G-1-10 medical visa processes, mandatory agency registration, and compliance guidelines for medical marketing targeting overseas patients.",
+      "body": [
+        {
+          "text": "Legal compliance in hosting international patients involves strict adherence to immigration procedures and advertising standards under the Medical Service Act.",
+          "type": "p"
+        },
+        {
+          "text": "1. Medical Visa Categories",
+          "type": "h2"
+        },
+        {
+          "text": "Short-term treatment uses the C-3-3 visa (up to 90 days), while long-term care relies on the G-1-10 visa (up to 1 year). Both require guarantees from officially registered inviting organizations.",
+          "type": "p"
+        },
+        {
+          "text": "2. SNS Marketing Restrictions",
+          "type": "h2"
+        },
+        {
+          "text": "Any medical marketing targeting foreign patients is subject to pre-review by the Medical Advertisement Committee. Phrases promising surgery outcomes or cash-back brokerage are prohibited.",
+          "type": "p"
+        }
+      ],
+      "keywords": [
+        "Medical Visa",
+        "Agency Registration",
+        "Medical Ad Review",
+        "Immigration Korea"
+      ],
+      "titleEn": "Korea Medical Tourism Visas and Compliance Guide"
+    },
+    "after": {
+      "title": "Korea Medical Visas: Application Routes and Advertising Review",
+      "titleEn": null,
+      "excerpt": "Direct medical-visa applications and facilitator-assisted applications differ. Separate advertising restrictions from media-specific prior review requirements.",
+      "body": [
+        {
+          "type": "h2",
+          "text": "Is a facilitator guarantee always required?"
+        },
+        {
+          "type": "p",
+          "text": "No. KHIDI’s Medical Korea guidance distinguishes applications made directly by patients to a Korean consular office from applications through a facilitator. The direct route lists medical, reservation and financial records. Prepare documents for the chosen route and the consulate’s additional requirements."
+        },
+        {
+          "type": "h2",
+          "text": "C-3-3 and G-1-10"
+        },
+        {
+          "type": "p",
+          "text": "The guidance describes C-3-3 for short-term treatment of up to 90 days and G-1-10 for longer treatment of up to one year. The period actually granted and any extension depend on medical need, documents and individual assessment; the maximum is not an entitlement."
+        },
+        {
+          "type": "h2",
+          "text": "Advertising restrictions versus prior review"
+        },
+        {
+          "type": "p",
+          "text": "Medical Service Act Article 56 restrictions and Article 57 prior review are different questions. Review requirements depend on statutory media and other conditions; not every social-media post can be treated identically. Examine the advertiser, medium, wording, domestic or overseas exposure and patient-attraction rules together."
+        },
+        {
+          "type": "h2",
+          "text": "Prepare for advice"
+        },
+        {
+          "type": "p",
+          "text": "Patients should prepare treatment reservations and funding records. Providers and facilitators should prepare registration information, contracts, fee arrangements and actual advertising copy. No single phrase should be described as automatically causing the same sanction or licence cancellation in every case."
+        }
+      ],
+      "sources": [
+        {
+          "title": "한국보건산업진흥원 Medical Korea — Medical Visa (English)",
+          "url": "https://www.medicalkorea.or.kr/en/medicalvisa"
+        },
+        {
+          "title": "의료법 제56조·제57조 / Medical Service Act: advertising (Korean)",
+          "url": "https://www.law.go.kr/법령/의료법/제57조"
+        }
+      ],
+      "modifiedAt": "2026-11-10"
+    }
+  },
+  {
+    "slug": "medical-visa-compliance-ja",
+    "before": {
+      "title": "韓国医療観光ビザ制度と招致機関の広告・行政コンプライアンス実務",
+      "excerpt": "外国人患者招致に必要なC-3-3/G-1-10ビザ要件、保健福祉部への正式登録、およびSNSでの美容整形広告に対する事前審議コンプライアンスを解説します。",
+      "body": [
+        {
+          "text": "外国人患者を安全に韓国へ招致し、トラブルを未然に防ぐためには、出入国手続きと医療法上の広告基準を遵守する必要があります。",
+          "type": "p"
+        },
+        {
+          "text": "1. 医療観光ビザの基本構成",
+          "type": "h2"
+        },
+        {
+          "text": "短期治療はC-3-3ビザ（最大90日）、長期療養はG-1-10ビザ（最大1年）が該当します。保健福祉部に登録された公式招致機関の身元保証が義務付けられます。",
+          "type": "p"
+        },
+        {
+          "text": "2. SNS上の医療広告規制",
+          "type": "h2"
+        },
+        {
+          "text": "SNSを利用して外国人向けに美容整形等の広告を行う場合も、医療法に基づく事前審議の対象となります。「治療効果の保証」や「キャッシュバックあっせん」などの表記は処分の対象になります。",
+          "type": "p"
+        }
+      ],
+      "keywords": [
+        "医療観光ビザ",
+        "招致機関登録",
+        "医療広告審議",
+        "美容整形返金"
+      ],
+      "titleEn": "Korea Medical Tourism Visas and Compliance Guide"
+    },
+    "after": {
+      "title": "韓国医療ビザと外国人患者誘致：申請経路・広告審議",
+      "titleEn": null,
+      "excerpt": "患者の直接申請と誘致機関を通じた申請は異なります。SNS広告も広告制限と媒体別の事前審議を分けて確認します。",
+      "body": [
+        {
+          "type": "h2",
+          "text": "誘致機関の保証は必ず必要ですか"
+        },
+        {
+          "type": "p",
+          "text": "いいえ。韓国保健産業振興院Medical Koreaは、患者が在外公館へ直接申請する方法と誘致機関を通じる方法を区別しています。直接申請では診断、治療予約、資力等の資料が案内されています。申請経路と公館の追加要求に応じて準備します。"
+        },
+        {
+          "type": "h2",
+          "text": "C-3-3とG-1-10"
+        },
+        {
+          "type": "p",
+          "text": "公式案内では短期治療のC-3-3は90日以内、長期治療のG-1-10は一年以内です。実際の許可期間や延長は治療の必要性、資料、個別審査によって決まり、上限期間が保証されるものではありません。"
+        },
+        {
+          "type": "h2",
+          "text": "広告制限と事前審議を区別する"
+        },
+        {
+          "type": "p",
+          "text": "医療法第56条の広告制限と第57条の事前審議は別の問題です。審議は法令所定の媒体等に適用されるため、すべてのSNS投稿を一律に同じ対象とは扱いません。広告主体、媒体、表現、国内外への露出、患者誘致の規制を併せて検討します。"
+        },
+        {
+          "type": "h2",
+          "text": "準備資料"
+        },
+        {
+          "type": "p",
+          "text": "患者は治療予約と費用負担の資料、機関は誘致登録、契約・手数料の仕組み、実際の広告文案を準備してください。ある表現だけで常に同じ処分や免許取消しになるとは断定しません。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "한국보건산업진흥원 Medical Korea — Medical Visa (English)",
+          "url": "https://www.medicalkorea.or.kr/en/medicalvisa"
+        },
+        {
+          "title": "의료법 제56조·제57조 / Medical Service Act: advertising (Korean)",
+          "url": "https://www.law.go.kr/법령/의료법/제57조"
+        }
+      ],
+      "modifiedAt": "2026-11-10"
+    }
+  },
+  {
+    "slug": "medical-visa-compliance-zh",
+    "before": {
+      "title": "韩国医疗观光签证与招徕机构合规运营实务",
+      "excerpt": "分析用于招徕外国患者的C-3-3/G-1-10医疗签证申请、保健福祉部注册资质要件，以及在社交媒体推广整形项目时的医疗广告预审规范。",
+      "body": [
+        {
+          "text": "合法招徕外国患者不仅涉及签证邀请程序，还必须符合韩国医疗广告法规，防范由于不法中介或虚假宣传导致的停业行政处罚。",
+          "type": "p"
+        },
+        {
+          "text": "1. 医疗签证办理规定",
+          "type": "h2"
+        },
+        {
+          "text": "短期整形或治疗适用C-3-3签证（最长90天），长期疗养适用G-1-10签证（最长1年）。必须由通过保建福祉部正式注册的引荐机构提供保证书进行申请。",
+          "type": "p"
+        },
+        {
+          "text": "2. 社交网络医疗广告审查",
+          "type": "h2"
+        },
+        {
+          "text": "在小红书、微信等社交网络上面向外国患者推广医疗项目时，必须遵守医疗广告事先审查制度。‘保证效果’、‘低价返现吸引患者’等违规表述将面临吊销营业执照风险。",
+          "type": "p"
+        }
+      ],
+      "keywords": [
+        "医疗观光签证",
+        "引荐机构注册",
+        "医疗广告审查",
+        "赴韩整形退款"
+      ],
+      "titleEn": "Korea Medical Tourism Visas and Compliance Guide"
+    },
+    "after": {
+      "title": "韩国医疗签证与患者招徕：申请路径及广告审议",
+      "titleEn": null,
+      "excerpt": "患者直接申请与通过招徕机构申请不同。SNS广告应区分广告限制与特定媒体的事前审议要求。",
+      "body": [
+        {
+          "type": "h2",
+          "text": "医疗签证都需要招徕机构担保吗？"
+        },
+        {
+          "type": "p",
+          "text": "不是。韩国保健产业振兴院Medical Korea指南区分患者向韩国驻外使领馆直接申请和通过招徕机构申请。直接申请列有诊断、治疗预约及经济能力资料，应按申请路径和使领馆追加要求准备。"
+        },
+        {
+          "type": "h2",
+          "text": "C-3-3与G-1-10"
+        },
+        {
+          "type": "p",
+          "text": "官方指南将C-3-3介绍为90日以内的短期治疗，G-1-10为一年以内的长期治疗。实际批准期间及延期取决于治疗需要、资料和个别审查，并非一定可以获得最长期间。"
+        },
+        {
+          "type": "h2",
+          "text": "广告限制与事前审议不同"
+        },
+        {
+          "type": "p",
+          "text": "《医疗法》第56条的广告限制与第57条的事前审议应分开判断。审议适用于法律规定的媒体等条件，不能将所有SNS帖子一概而论。应同时审查广告主体、媒体、文案、境内外传播及患者招徕规则。"
+        },
+        {
+          "type": "h2",
+          "text": "咨询前准备"
+        },
+        {
+          "type": "p",
+          "text": "患者准备治疗预约与费用承担资料；机构准备招徕登记信息、合同、收费安排及实际广告文案。不能仅凭某一表述就断言所有情形均会受到同一处分或吊销执照。"
+        }
+      ],
+      "sources": [
+        {
+          "title": "한국보건산업진흥원 Medical Korea — Medical Visa (English)",
+          "url": "https://www.medicalkorea.or.kr/en/medicalvisa"
+        },
+        {
+          "title": "의료법 제56조·제57조 / Medical Service Act: advertising (Korean)",
+          "url": "https://www.law.go.kr/법령/의료법/제57조"
+        }
+      ],
+      "modifiedAt": "2026-11-10"
+    }
+  },
+  {
+    "slug": "responding-to-immigration-rfe-and-refusal",
+    "before": {
+      "title": "출입국 거절·보완 요청을 받았을 때 대응 — 7일·14일이 결정한다",
+      "excerpt": "출입국 사무소로부터 보완 요청 또는 거절 통지를 받으면 가장 먼저 봐야 할 것은 기한입니다.",
+      "body": [
+        {
+          "text": "출입국·외국인청에서 보완 요청 또는 불허 통지를 받으면, 그 자체는 끝이 아닙니다. 다만 다음 단계에 시간 제한이 매우 짧습니다.",
+          "type": "p"
+        },
+        {
+          "text": "1. 보완 요청을 받았을 때",
+          "type": "h2"
+        },
+        {
+          "type": "list",
+          "items": [
+            "기한 확인 — 통상 7~14일",
+            "요청된 서류의 실질이 무엇인지 파악",
+            "기한 내 제출이 어려우면 사전에 연장 요청 가능"
+          ]
+        },
+        {
+          "text": "2. 거절(불허)을 받았을 때",
+          "type": "h2"
+        },
+        {
+          "text": "거절은 재신청과 이의신청/행정심판 두 갈래입니다.",
+          "type": "p"
+        },
+        {
+          "text": "거절 사유가 서류 부족이면 보완해서 재신청이 빠르고, 판단 자체에 다툼 여지가 있으면 행정심판이 효과적입니다.",
+          "type": "callout",
+          "title": "어느 쪽을 선택해야 하나"
+        }
+      ],
+      "keywords": [
+        "출입국 거절",
+        "비자 거절 대응",
+        "출입국 보완 요청",
+        "Korea visa refusal",
+        "Korea immigration appeal"
+      ],
+      "titleEn": "What To Do When You Receive a Korean Immigration RFE or Refusal"
+    },
+    "after": {
+      "title": "출입국 보완 요청·불허 통지 대응: 제출기한과 불복기간 구분",
+      "titleEn": null,
+      "excerpt": "보완 기한을 일률적으로 7일·14일이라 정하지 않습니다. 통지서의 제출기한, 체류 만료일과 행정심판·소송 기한을 각각 확인합니다.",
+      "body": [
+        {
+          "type": "h2",
+          "text": "보완 요청인지 최종 불허인지 구분"
+        },
+        {
+          "type": "p",
+          "text": "추가 자료를 요구하는 통지와 신청을 거부한 처분은 대응이 다릅니다. 문서 전체와 받은 날짜, 기존 제출 자료 목록을 보관하세요. 보완 제출기한은 실제 통지서를 기준으로 확인하며 모든 사건에 7일 또는 14일을 적용하지 않습니다."
+        },
+        {
+          "type": "h2",
+          "text": "보완 자료는 요청 취지에 맞춥니다"
+        },
+        {
+          "type": "p",
+          "text": "요구 항목별로 기존 자료, 부족한 사실, 추가 증빙을 표로 정리합니다. 기한 내 확보가 어렵다면 담당 기관에 가능한 조치를 확인하고, 연장을 요청했다는 이유만으로 기한이 연장됐다고 전제하지 않습니다."
+        },
+        {
+          "type": "h2",
+          "text": "불허 후 선택할 절차"
+        },
+        {
+          "type": "p",
+          "text": "재신청, 행정심판 또는 행정소송의 가능성과 실익은 처분 종류·사유·증거에 따라 검토합니다. 재신청을 했다고 기존 처분의 불복기간이 멈추지는 않습니다. 국외 비자 발급 거부와 국내 체류자격 변경 불허도 절차와 쟁점을 구분합니다."
+        },
+        {
+          "type": "h2",
+          "text": "일반적인 취소 절차의 기한"
+        },
+        {
+          "type": "p",
+          "text": "취소심판은 원칙적으로 처분을 안 날부터 90일·처분일부터 180일, 취소소송은 안 날부터 90일·처분일부터 1년의 제한이 적용됩니다. 두 기간, 법정 예외와 행정심판 후 기산 규정을 함께 확인해야 하므로 통지서 수령일만으로 일괄 계산하지 않습니다."
+        },
+        {
+          "type": "h2",
+          "text": "체류와 집행정지는 별도입니다"
+        },
+        {
+          "type": "p",
+          "text": "행정심판이나 소송 제기만으로 처분 효력이 정지되거나 체류가 자동 연장되지 않습니다. 현재 체류 만료, 출국 관련 통지와 집행정지 필요성을 별도로 검토합니다. 상담 시 통지서와 날짜가 확인되는 자료를 먼저 준비하세요."
+        }
+      ],
+      "sources": [
+        {
+          "title": "행정심판법 제27조 / Administrative Appeals Act: time limits (Korean)",
+          "url": "https://www.law.go.kr/법령/행정심판법/제27조"
+        },
+        {
+          "title": "행정소송법 제20조·제23조 / Administrative Litigation Act (Korean)",
+          "url": "https://www.law.go.kr/법령/행정소송법"
+        }
+      ],
+      "modifiedAt": "2026-11-10"
+    }
+  }
+]

@@ -17,7 +17,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   if (!visaPublic) return [];
   const core = ['', '/investing-in-korea', '/medical-visa'].flatMap(path => languages.map(locale => ({
     url: `${visaOrigin}/${locale}${path}`,
-    lastModified: path === '' || path === '/investing-in-korea' ? d8Updated : undefined,
+    lastModified: '2026-11-10',
     alternates: {languages: Object.fromEntries(languages.map(code => [code, `${visaOrigin}/${code}${path}`]))},
   })));
   // Anchors are page sections, not separate canonical URLs. Do not invent lastmod dates.
@@ -30,8 +30,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       .filter(([, slug]) => publishedSlugs.has(slug));
     return {
       url: postUrl(post.slug),
-      lastModified: isD8Review(post.slug) ? d8Updated : undefined,
-      // The data model exposes a publication date, not a verified modification date.
+      lastModified: post.modifiedAt ?? (isD8Review(post.slug) ? d8Updated : undefined),
+      // Only documented editorial revisions receive a modification date.
       alternates: {languages: Object.fromEntries(translations.map(([lang, slug]) => [lang, postUrl(slug)]))},
     };
   });
@@ -42,6 +42,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
   return [
     ...core,
+    ...['ko/sns-medical-ad-compliance', 'ko/medical-visa-remedy', 'ko/attraction-registration', 'en/medical-visa-korea', 'zh/refund-dispute', 'ja/refund-dispute'].map(path => ({url: `${visaOrigin}/${path}`, lastModified: '2026-11-10'})),
     ...['ko', 'en'].map(lang => ({
       url: `${visaOrigin}/${lang}/entry-refusal`,
       alternates: {languages: {ko: `${visaOrigin}/ko/entry-refusal`, en: `${visaOrigin}/en/entry-refusal`}},

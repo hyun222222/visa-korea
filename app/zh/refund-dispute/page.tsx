@@ -1,90 +1,35 @@
-"use client";
-import {consultationHref} from "@/lib/brand";
-
-import { useState } from "react";
-import Link from "next/link";
-import { Shield, AlertCircle, ArrowLeft, CheckCircle, FileText, Scale } from "lucide-react";
-
-export default function ChineseRefundDisputePage() {
-    const [complaint, setComplaint] = useState('');
-    const [submitted, setSubmitted] = useState(false);
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        setSubmitted(true);
-    };
-
-    return (
-        <div className="min-h-screen bg-slate-50 text-slate-900 font-sans py-16 px-4 selection:bg-blue-500/10 selection:text-blue-600">
-            <div className="max-w-4xl mx-auto space-y-12">
-                {/* Header Back Button */}
-                <div className="flex justify-between items-center border-b border-slate-200 pb-6">
-                    <Link href="/zh" className="text-slate-500 hover:text-slate-800 transition-colors inline-flex items-center gap-1.5 text-sm font-medium">
-                        <ArrowLeft className="h-4 w-4" /> 返回主页
-                    </Link>
-                    <span className="text-xs text-blue-650 font-bold tracking-wider uppercase bg-blue-50 px-3 py-1 rounded-full border border-blue-100 text-blue-600 shadow-xs">
-                        赴韩整形退款纠纷法律援助
-                    </span>
-                </div>
-
-                {/* Main Hero Summary */}
-                <div className="space-y-4 text-center">
-                    <div className="inline-flex h-12 w-12 rounded-full bg-blue-50 items-center justify-center text-blue-600 mb-2 border border-blue-100 shadow-xs">
-                        <Scale className="h-6 w-6" />
-                    </div>
-                    <h1 className="text-3xl md:text-5xl font-serif font-bold text-slate-900 tracking-tight leading-tight">
-                        韩国整形退款与医疗纠纷解决
-                    </h1>
-                    <p className="text-slate-650 text-lg max-w-2xl mx-auto leading-relaxed">
-                        遭遇非法整形中介？手术效果不满意或产生严重副作用？金&贤律师事务所代理患者向韩国医院索赔，争取全额或部分退款。
-                    </p>
-                </div>
-
-                {/* Legal and Consumer Rights */}
-                <div className="bg-white border border-slate-200 rounded-xl p-8 space-y-6 shadow-sm">
-                    <h2 className="text-xl font-bold text-blue-600 flex items-center gap-2">
-                        <AlertCircle className="h-5 w-5" /> 韩国法律对外国患者退款与中介费的规定
-                    </h2>
-                    <div className="space-y-4 text-sm text-slate-650 leading-relaxed">
-                        <p>
-                            根据韩国《医疗法》及《消费者保护基本法》，医院在术前必须履行**知情同意（说明义务）**。如果医院未如实告知手术并发症、中介手续费比例，或引荐人未在保建福祉部登记，患者有权要求退还手术费。
-                        </p>
-                        <p>
-                            非法招徕患者（无资质黑中介）在韩国属于**严重刑事犯罪**（医疗法第27条第3款）。通过律师函施压，指出医院的违法中介合作行为，是成功迫使医院退款的关键。
-                        </p>
-                        <div className="bg-slate-50 p-4 rounded-lg border border-slate-200 border-l-4 border-l-blue-600">
-                            <span className="block text-xs font-bold uppercase text-slate-500 mb-2">退款维权主要法律依据：</span>
-                            <ul className="list-disc pl-5 space-y-1.5 text-slate-600 text-xs">
-                                <li><strong>说明义务违反：</strong> 术前未充分说明手术风险或收费明细时，合同可依法解除。</li>
-                                <li><strong>非法中介合作：</strong> 医院若与未登记中介合作并支付高额佣金，面临停业处罚，患者可据此施压。</li>
-                                <li><strong>K-Medi 调解：</strong> 代理向韩国医疗纠纷调解仲裁院申请调解，快速达成具有法律效力的和解协议。</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Intake Form */}
-                <div className="bg-white border border-slate-200 rounded-xl p-8 space-y-6 shadow-sm">
-                    <h3 className="text-xl font-bold text-slate-900 text-center">免费在线退款可行性评估</h3>
-                    <p className="text-slate-500 text-xs text-center max-w-lg mx-auto">
-                        请简单描述您的遭遇（如手术项目、支付的手续费金额、目前的副作用等），律师将评估成功退款的概率。
-                    </p>
-
-                    {submitted ? (
-                        <div className="bg-green-50 border border-green-200 rounded-lg p-6 text-center text-green-700 text-sm">
-                            <CheckCircle className="h-8 w-8 mx-auto mb-2 text-green-600" />
-                            提交成功！中文律师将尽快与您联系，提供具体维权建议。
-                        </div>
-                    ) : (
-                        <div className="kh-note"><p>请通过律所主站咨询页面联系。我们将说明咨询方式、费用和材料提交方法。主站咨询页面为英语。</p><a className="kh-button" href={consultationHref("zh")}>咨询指南（英语） ↗</a></div>
-                    )}
-                </div>
-
-                {/* Footnote */}
-                <p className="text-center text-[10px] text-slate-400">
-                    * 金&贤律师事务所保护患者的一切隐私。所有咨询内容绝对保密。
-                </p>
-            </div>
-        </div>
-    );
-}
+import {LegalServicePage, type ServiceCopy} from '@/components/legal-service-page';
+const copy:ServiceCopy = {
+  "title": "韩国整形退款与医疗纠纷：先核对责任和证据",
+  "intro": "对治疗结果不满意、发生副作用或存在中介争议，并不当然产生全额退款权。须分别审查诊疗责任、说明义务、合同与付款关系。",
+  "sections": [
+    [
+      "说明义务与退款并非同一判断",
+      "《医疗法》第24条之2规定了特定手术、输血及全身麻醉的说明与书面同意义务。是否违反说明义务、是否发生应赔偿的损害，以及能否解除合同或退款，须结合事实及民事法律依据分别判断。"
+    ],
+    [
+      "招徕登记与民事责任须区分",
+      "外国患者招徕登记依据专门法律审查。存在无登记招徕疑点，不等于患者可以自动解除治疗合同或获得全额退款。应核对实际行为、各方角色及费用流向。"
+    ],
+    [
+      "保留哪些资料？",
+      "整理预约与广告、合同与同意书、诊疗记录、发票与转账凭证、医院和中介的通信。记录说明时间、治疗过程、症状出现时间和后续诊疗，不修改原始记录。"
+    ],
+    [
+      "如何选择程序？",
+      "根据资料评估协商、医疗纠纷调解或民事诉讼的条件与实益，另行判断是否涉及行政或刑事问题。委托前说明范围与费用，不保证退款比例或解决时间。"
+    ]
+  ],
+  "sources": [
+    [
+      "韩国《医疗法》第24条之2（韩语）",
+      "https://www.law.go.kr/법령/의료법/제24조의2"
+    ],
+    [
+      "外国患者招徕登记法律第6条（韩语）",
+      "https://www.law.go.kr/법령/의료해외진출및외국인환자유치지원에관한법률/제6조"
+    ]
+  ],
+  "lang": "zh"
+};
+export default function Page(){return <LegalServicePage copy={copy}/>;}

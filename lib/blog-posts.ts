@@ -64,6 +64,9 @@ export type BlogBlock =
     | { type: "callout"; title: string; text: string };
 
 export interface BlogPost {
+    /** Date of a documented editorial review; never inferred from a page request. */
+    modifiedAt?: string;
+    sources?: { title: string; url: string }[];
     slug: string;
     title: string;
     titleEn?: string;

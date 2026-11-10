@@ -1,8 +1,9 @@
 import {visaOrigin} from '@/lib/brand';
 import Link from "next/link";
 import type { Metadata } from "next";
+import { ArticleSources } from '@/components/blog/ArticleSources';
 import { notFound, permanentRedirect } from "next/navigation";
-import { Calendar, Clock, ChevronLeft, MessageCircle, ClipboardCheck } from "lucide-react";
+import { Calendar, Clock, ChevronLeft, MessageCircle, Phone } from "lucide-react";
 
 export const dynamic = 'force-dynamic';
 import {
@@ -63,7 +64,7 @@ export async function generateMetadata({ params }: RouteParams): Promise<Metadat
             siteName: "Kim&Hyun Law Office",
             type: "article",
             publishedTime: post.publishedAt,
-            modifiedTime: isD8Review(post.slug) ? d8Updated : undefined,
+            modifiedTime: post.modifiedAt ?? (isD8Review(post.slug) ? d8Updated : undefined),
             authors: [post.author],
             tags: [cat?.label, ...post.keywords].filter(Boolean) as string[],
         },
@@ -99,7 +100,8 @@ export default async function BlogPostPage({ params }: RouteParams) {
                         headline: post.title,
                         description: post.excerpt,
                         datePublished: post.publishedAt,
-                        dateModified: isD8Review(post.slug) ? d8Updated : undefined,
+                        dateModified: post.modifiedAt ?? (isD8Review(post.slug) ? d8Updated : undefined),
+                        citation: post.sources?.map(source => source.url),
                         inLanguage: 'ko',
                         author: {
                             "@type": "Organization",
@@ -175,6 +177,7 @@ export default async function BlogPostPage({ params }: RouteParams) {
                         <BlogBlockRenderer key={i} block={block} />
                     ))}
                 </div>
+                <ArticleSources post={post} />
             </div>
 
             {isD8Review(post.slug) && <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8"><D8ConsultationGuide lang="ko"/></div>}
@@ -186,29 +189,27 @@ export default async function BlogPostPage({ params }: RouteParams) {
                         Next step
                     </p>
                     <h2 className="font-serif text-2xl md:text-3xl font-bold mb-3">
-                        본인 사례에 바로 대입해보세요
+                        신청 자료와 통지 내용을 함께 검토합니다
                     </h2>
                     <p className="text-slate-300 leading-relaxed mb-6">
-                        칼럼은 일반 가이드입니다. 실제 자격·서류·기한은 사례마다 다르므로,
-                        자가 진단 도구로 본인 조건을 먼저 확인하시거나, 변호사에게 직접
-                        상담하시는 것이 가장 안전합니다.
+                        현재 체류자격, 만료일과 투자·고용·가족 자료를 준비하세요. 상담 범위와 비용은 수임 전에 안내합니다.
                     </p>
                     <div className="flex flex-wrap gap-3">
                         <Link
-                            href="/#calculators"
+                            href="tel:+821055346843"
                             className="inline-flex items-center gap-2 px-5 py-3 rounded-md bg-white text-slate-900 font-semibold hover:bg-slate-100 transition-colors"
                         >
-                            <ClipboardCheck className="h-5 w-5" />
-                            비자 가능성 진단받기
+                            <Phone className="h-5 w-5" />
+                            전화 상담
                         </Link>
                         <a
-                            href="https://wa.me/821055346843"
+                            href="https://open.kakao.com/o/saviVYPi"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-2 px-5 py-3 rounded-md bg-green-600 text-white font-semibold hover:bg-green-700 transition-colors"
                         >
                             <MessageCircle className="h-5 w-5" />
-                            WhatsApp 상담하기
+                            카카오톡 상담
                         </a>
                     </div>
                 </div>
