@@ -299,10 +299,10 @@ const CHECKLIST_ITEMS: ChecklistItem[] = [
   },
   {
     id: 2,
-    ko: "신설 법인 설립인지 기존 법인 주식 취득인지 투자 방식을 정했고, 투자자와 실제 업무를 설명할 수 있다.",
-    en: "I have identified whether I will form a new corporation or acquire shares in an existing one, and can explain who will invest and what work I will do.",
-    zh: "已确定是新设法人还是收购现有法人股份，并能说明投资主体和本人拟从事的工作。",
-    ja: "新規法人の設立か既存法人の株式取得かを整理し、投資主体と自分が行う業務を説明できる。",
+    ko: "직접 설립한 회사의 D-8 적격성이 문제 될 수 있음을 확인하고, 설립·투자 경위와 신청 유형을 검토할 자료를 준비했다.",
+    en: "I have records for a review of the incorporation and investment sequence and the proposed D-8 category, including the eligibility issue for a directly established company.",
+    zh: "已准备设立与投资经过及申请类别的审查资料，并了解直接设立公司的D-8资格可能受到争议。",
+    ja: "直接設立した会社のD-8該当性が問題となり得ることを踏まえ、設立・投資の経緯と申請区分を検討する資料を準備した。",
     law: {
       ko: "KOTRA Invest KOREA 기업투자비자 안내",
       en: "KOTRA Invest KOREA: Corporate Investor Visa",

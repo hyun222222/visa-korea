@@ -35,3 +35,15 @@ test('four languages point at their existing canonical articles', () => {
   for(const lang of ['en','zh','ja']) assert.equal(d8Path(lang),`/${lang}/blog/d8-visa-rejection-reasons-${lang}`);
   for(const lang of ['ko','en','zh','ja']) assert.equal(d8Copy[lang].documents.length,4);
 });
+
+
+test('the October erratum cannot reappear from previously saved CMS content', () => {
+  const old = 'Mismatch between the investment structure and the application: establishing a corporation as a foreign investor is not, by itself, a reason for refusal. Check the applicable D-8 category and supporting business records.';
+  const post = {slug:d8Slug('en'), body:[{type:'p',text:old}]};
+  const result = correctD8Post(post).body[0].text;
+  assert.match(result, /2024nu52900/);
+  assert.match(result, /in that case/);
+  assert.match(result, /D-9/);
+  assert.doesNotMatch(result, /not, by itself/);
+  assert.doesNotMatch(d8Copy.en.intro, /not, by itself/);
+});

@@ -9,6 +9,6 @@ const searchTitles:Record<Language,string>={
  zh:'韩国签证与出入境律师 | Korea Visa Law',
  ja:'韓国ビザ・出入国の弁護士 | Korea Visa Law',
 };
-export async function generateMetadata({params}:{params:Promise<{lang:string}>}):Promise<Metadata>{const {lang}=await params;if(!languages.includes(lang as Language))notFound();const t=copy[lang as Language],title=searchTitles[lang as Language];return {title,description:t.intro,alternates:{canonical:visaOrigin+'/'+lang,languages:Object.fromEntries(languages.map(l=>[l,visaOrigin+'/'+l]))},openGraph:{title,description:t.intro,url:visaOrigin+'/'+lang,type:'website'}};}
+export async function generateMetadata({params}:{params:Promise<{lang:string}>}):Promise<Metadata>{const {lang}=await params;if(!languages.includes(lang as Language))notFound();const t=copy[lang as Language],title=searchTitles[lang as Language];return {title,description:t.intro,alternates:{canonical:visaOrigin+'/'+lang,languages:Object.fromEntries(languages.map(l=>[l,visaOrigin+'/'+l]))},openGraph:{title,description:t.intro,url:visaOrigin+'/'+lang,type:'website'},twitter:{card:'summary',title,description:t.intro}};}
 export default async function Page({params}:{params:Promise<{lang:string}>}){const {lang}=await params;if(!languages.includes(lang as Language))notFound();return <VisaHome lang={lang as Language}/>;}
 export function generateStaticParams(){return languages.map(lang=>({lang}));}

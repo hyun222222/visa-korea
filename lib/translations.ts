@@ -13,7 +13,7 @@ export const TRANSLATIONS = {
             badge: "김앤현 법률사무소 · 법무부 출입국대행 기관",
             title: "대한민국 의료관광 비자 및 분쟁구제 지원",
             desc: "외국인 환자의 비자(C-3-3, G-1-10) 신청·거부 구제부터 병원의 SNS 의료광고 심의 및 환자 분쟁까지, 4대 자격사와 출입국대행 등록을 결합한 통합 법률 솔루션.",
-            ctaPatient: "의료비자 · 분쟁 해결 진단",
+            ctaPatient: "의료비자·분쟁 상담 준비",
             ctaHospital: "병원 광고 & 비자 진단",
         },
         trust: {
@@ -65,10 +65,10 @@ export const TRANSLATIONS = {
         },
         services: {
             title: "우선순위 서비스",
-            desc: "객관적인 지표와 통계를 기반으로 가장 확실한 해결책을 제시합니다.",
+            desc: "자료와 적용 절차를 검토하고, 업무 범위와 비용을 수임 전에 설명합니다. 비자 허가나 분쟁 결과를 보장하지 않습니다.",
             list: [
-                { title: "SNS 의료광고 컴플라이언스", desc: "B2B 서비스. 의료법상 SNS 광고 사전심의 및 불법 과장 광고 행정처분 대응 자문.", path: "/ko/sns-medical-ad-compliance", badge: "수요 1위" },
-                { title: "의료비자 거부·연장 행정구제", desc: "설권적 처분으로 거부된 C-3-3/G-1-10 비자의 소명 자료 작성 및 행정심판 대행.", path: "/ko/medical-visa-remedy", badge: "수임 2위" },
+                { title: "SNS 의료광고 컴플라이언스", desc: "B2B 서비스. 의료법상 SNS 광고 사전심의 및 불법 과장 광고 행정처분 대응 자문.", path: "/ko/sns-medical-ad-compliance", badge: "의료광고" },
+                { title: "의료비자 거부·연장 행정구제", desc: "설권적 처분으로 거부된 C-3-3/G-1-10 비자의 소명 자료 작성 및 행정심판 대행.", path: "/ko/medical-visa-remedy", badge: "비자 불허" },
                 { title: "유치업자 등록 및 전자비자", desc: "유치기관 보건복지부 등록 대행 및 우수유치기관 지정을 위한 전략 컨설팅.", path: "/ko/attraction-registration", badge: "추천" },
                 { title: "불법 알선 형사 방어", desc: "의료법 제27조 3항(소개·알선 금지) 위반 혐의에 대한 형사 변호 및 소명.", path: "/ko/patient-attraction-defense" },
                 { title: "수수료 및 세무 설계", desc: "세무사 협업. 외국인 수수료 투명화 및 부가세 사후 환급 일몰 대응 음성화 리스크 방지.", path: "/ko/fee-tax-structuring" },
@@ -77,17 +77,17 @@ export const TRANSLATIONS = {
             ],
         },
         ai: {
-            title: "AI 1차 무료 진단",
-            desc: "법적 규제 리스크와 해결책을 사전에 무료로 자가 진단하세요. (최종 자문은 변호사가 진행합니다)",
+            title: "상담 전 준비자료 안내",
+            desc: "비자 통지서, 진료·예약 자료와 계약·결제 기록을 준비하세요. 개별 법률 검토의 범위와 상담료는 사전에 안내합니다.",
             patientTab: "환자 / 보호자용 진단",
             hospitalTab: "병원 / 유치기관용 진단",
             submit: "진단 결과 보기",
             reset: "다시 진단하기",
-            legalNotice: "※ 본 진단은 일반 법률 정보 제공용이며 정식 법률 자문이 아닙니다. 상세 상담은 변호사 면담이 필요합니다.",
+            legalNotice: "※ 이 안내는 법률·의료 진단이나 비자 허가 판정이 아닙니다. 자료 전달 방법을 안내받기 전에는 여권·진료기록 등 민감한 정보를 보내지 마세요.",
         },
         process: {
             title: "수임 진행 절차",
-            desc: "체계적이고 투명한 5단계 절차를 통해 최선의 결과를 이끌어냅니다.",
+            desc: "상담, 자료 검토, 대응 방안 협의, 위임 업무 수행, 결과 안내 순서로 진행합니다.",
             steps: [
                 { title: "1. 온라인 문의", desc: "WhatsApp, LINE, KakaoTalk 또는 접수 폼을 통한 비대면 문의" },
                 { title: "2. 문서 및 증거 업로드", desc: "보안이 유지되는 채널을 통한 의료 기록, 비자 서류, 계약 문서 공유" },
@@ -122,7 +122,7 @@ export const TRANSLATIONS = {
         },
         disclaimer: {
             title: "법적 면책 고지 (Disclaimer)",
-            text: "본 웹사이트에서 제공되는 모든 정보 및 AI 진단 결과는 대한민국 법령에 기반한 일반적인 참고 자료일 뿐이며, 어떠한 경우에도 정식 법률 자문이나 비자 발급 보장, 치료/환불 결과에 대한 약속을 의미하지 않습니다. 구체적인 사안에 대한 의사결정 전에 반드시 김앤현 법률사무소의 변호사 등 공인된 자격사와의 대면 또는 공식 자문을 거치시기 바랍니다. 관련하여 제공된 건강·의료 정보는 개인정보 보호법에 의거하여 비밀을 엄격하게 유지합니다."
+            text: "본 웹사이트에서 제공되는 모든 정보 및 상담 준비 안내는 대한민국 법령에 기반한 일반적인 참고 자료일 뿐이며, 어떠한 경우에도 정식 법률 자문이나 비자 발급 보장, 치료/환불 결과에 대한 약속을 의미하지 않습니다. 구체적인 사안에 대한 의사결정 전에 반드시 김앤현 법률사무소의 변호사 등 공인된 자격사와의 대면 또는 공식 자문을 거치시기 바랍니다. 관련하여 제공된 건강·의료 정보는 개인정보 보호법에 의거하여 비밀을 엄격하게 유지합니다."
         }
     },
     en: {
@@ -135,9 +135,9 @@ export const TRANSLATIONS = {
         },
         hero: {
             badge: "Kim&Hyun Law Office · Registered Immigration Agency",
-            title: "Korea Medical Visa & Remedy Specialists",
+            title: "Korea Medical Visa & Dispute Legal Support",
             desc: "From visa (C-3-3, G-1-10) application & refusal remedies for foreign patients to hospital compliance and dispute settlement. Integrated solutions combining legal expertise with official immigration registration.",
-            ctaPatient: "Check Visa & Dispute Remedy",
+            ctaPatient: "Prepare Your Consultation",
             ctaHospital: "Hospital Compliance Assessment",
         },
         trust: {
@@ -189,9 +189,9 @@ export const TRANSLATIONS = {
         },
         services: {
             title: "Our Priority Services",
-            desc: "Providing secure outcomes backed by actual litigation and administrative statistics.",
+            desc: "We review the documents, explain available procedures and agree the scope and fees before engagement. Outcomes depend on the facts and the competent authority.",
             list: [
-                { title: "SNS Medical Ad Compliance", desc: "B2B Service. Pre-reviewing SNS marketing under the Medical Service Act to prevent administrative penalties.", path: "/en/hospital-compliance", badge: "Top Demand" },
+                { title: "SNS Medical Ad Compliance", desc: "B2B Service. Pre-reviewing SNS marketing under the Medical Service Act to prevent administrative penalties.", path: "/en/hospital-compliance", badge: "Medical Advertising" },
                 { title: "Visa Refusal & Remedy Support", desc: "Drafting formal complaints and representing administrative appeals against denied C-3-3/G-1-10 visas.", path: "/en/visa-refusal-remedy", badge: "Key Area" },
                 { title: "Agency Registration Consultation", desc: "Guiding health organizations through patient attraction registration and premium agency status.", path: "/en/hospital-compliance", badge: "Recommended" },
                 { title: "Criminal Defense (Illegal Brokerage)", desc: "Legal defense for alleged violations of illegal brokerage or patient attraction under the Medical Service Act.", path: "/en/legal-rights-disputes" },
@@ -201,17 +201,17 @@ export const TRANSLATIONS = {
             ],
         },
         ai: {
-            title: "AI 1st-stage Free Diagnosis",
-            desc: "Pre-assess your legal risks and visa options. (Final decisions are reviewed by attorneys)",
+            title: "Prepare for a Legal Consultation",
+            desc: "Prepare visa notices, treatment or booking records, and contracts or payment records. The scope and fees for individual legal review are explained in advance.",
             patientTab: "For Patients / Guardians",
             hospitalTab: "For Hospitals / Agencies",
             submit: "Get Diagnosis Results",
             reset: "Reset Diagnosis",
-            legalNotice: "* Note: This AI diagnosis is for general information only and does not constitute official legal advice.",
+            legalNotice: "This information is not a legal or medical diagnosis or a visa decision. Ask how to share documents before sending passport or medical records.",
         },
         process: {
             title: "Our Process",
-            desc: "Delivering optimal solutions through a highly structured 5-stage workflow.",
+            desc: "Consultation, document review, discussion of options, agreed representation and outcome reporting.",
             steps: [
                 { title: "1. Online Inquiry", desc: "Reach us easily via WhatsApp, LINE, or our secure online intake forms." },
                 { title: "2. Document Upload", desc: "Share medical records, visa refusal notices, or contracts securely." },
@@ -246,7 +246,7 @@ export const TRANSLATIONS = {
         },
         disclaimer: {
             title: "Legal Disclaimer",
-            text: "All information and AI assessments provided on this website are for general reference only and do not constitute official legal advice, a guarantee of visa issuance, or a promise of surgical/refund outcomes. Please consult Kim&Hyun Law Office directly for professional legal services tailored to your specific case. All medical and personal data is strictly protected under Korean privacy legislation."
+            text: "All information and consultation preparation information provided on this website are for general reference only and do not constitute official legal advice, a guarantee of visa issuance, or a promise of surgical/refund outcomes. Please consult Kim&Hyun Law Office directly for professional legal services tailored to your specific case. All medical and personal data is strictly protected under Korean privacy legislation."
         }
     },
     zh: {
@@ -261,7 +261,7 @@ export const TRANSLATIONS = {
             badge: "金&贤 律师事务所 · 法务部登记出入境代办机构",
             title: "韩国医疗签证拒签申诉与整形退款纠纷解决",
             desc: "面向外国患者的医疗签证(C-3-3、G-1-10)拒签行政救济，以及医疗机构的SNS广告合规与患者退款纠纷解决。融合四大法定资质与出入境特许代办资格的综合法律方案。",
-            ctaPatient: "签证拒签·退款维权在线诊断",
+            ctaPatient: "签证与退款咨询材料准备",
             ctaHospital: "医院广告与签证合规诊断",
         },
         trust: {
@@ -313,10 +313,10 @@ export const TRANSLATIONS = {
         },
         services: {
             title: "优先法律服务项目",
-            desc: "基于客观的行政处罚及诉讼数据，为客户提供最具确定性的法律解决方案。",
+            desc: "审查材料与可适用的程序，并在委托前说明服务范围和费用。不保证签证或纠纷处理结果。",
             list: [
-                { title: "SNS医疗广告合规自查", desc: "B2B服务。依照韩国医疗法审查针对中国患者的微信、小红书广告，预防行政处罚。", path: "/zh/contact", badge: "医院首选" },
-                { title: "医疗签证拒签行政救济", desc: "针对被拒签的C-3-3/G-1-10签证，起草正式申诉材料并代办申诉手续。", path: "/zh/visa-refusal-remedy", badge: "维权高频" },
+                { title: "SNS医疗广告合规自查", desc: "B2B服务。依照韩国医疗法审查针对中国患者的微信、小红书广告，预防行政处罚。", path: "/zh/contact", badge: "医疗广告" },
+                { title: "医疗签证拒签行政救济", desc: "针对被拒签的C-3-3/G-1-10签证，起草正式申诉材料并代办申诉手续。", path: "/zh/visa-refusal-remedy", badge: "签证不许可" },
                 { title: "引荐资质注册与电子签证", desc: "代办保健福祉部引荐机构注册，并为优秀邀请机构的指定提供策略咨询。", path: "/zh/contact", badge: "优秀推荐" },
                 { title: "非法中介刑事辩护", desc: "针对违反《医疗法》第27条第3款（禁止非法招徕与引荐）的指控提供刑事辩护。", path: "/zh/contact" },
                 { title: "中介费与税务合规设计", desc: "与执业税务师合作，透明化代理费结构，规避退税取消及非法隐瞒收入的法律风险。", path: "/zh/contact" },
@@ -325,13 +325,13 @@ export const TRANSLATIONS = {
             ],
         },
         ai: {
-            title: "AI 智能首期免费评估",
-            desc: "在线自测您的签证及纠纷法律风险。（最终评估将由执业律师进行）",
+            title: "法律咨询前的材料准备",
+            desc: "请准备签证通知、诊疗或预约资料、合同及付款记录。个别法律审查的范围和咨询费用会事先说明。",
             patientTab: "患者 / 家属评估入口",
             hospitalTab: "医院 / 引荐机构评估入口",
             submit: "获取评估结果",
             reset: "重新评估",
-            legalNotice: "* 提示：本AI自测仅供一般信息参考，不构成正式的法律意见或保签证发行的承诺。",
+            legalNotice: "本说明并非法律或医疗诊断，也不是签证许可决定。发送护照或病历前，请先确认资料提交方式。",
         },
         process: {
             title: "服务流程",
@@ -370,7 +370,7 @@ export const TRANSLATIONS = {
         },
         disclaimer: {
             title: "法律免责声明",
-            text: "本网站上提供的所有信息和AI评估结果仅供一般参考，不构成正式的法律意见，亦不保证签证的签发或手术及退款的结果。在做出任何法律决策前，请务必直接咨询金&贤律师事务所的执业律师。我们根据韩国《个人信息保护法》对所有患者的病历及个人隐私进行最严格的保密。"
+            text: "本网站上提供的所有信息和咨询准备资料仅供一般参考，不构成正式的法律意见，亦不保证签证的签发或手术及退款的结果。在做出任何法律决策前，请务必直接咨询金&贤律师事务所的执业律师。我们根据韩国《个人信息保护法》对所有患者的病历及个人隐私进行最严格的保密。"
         }
     },
     ja: {
@@ -385,7 +385,7 @@ export const TRANSLATIONS = {
             badge: "金&賢 法律事務所 · 法務部登録出入国代行機関",
             title: "韓国医療ビザ拒否救済＆美容整形返金トラブル解決",
             desc: "外国人患者の医療ビザ(C-3-3、G-1-10)拒否時の行政救済から、医療機関のSNS広告審査および返金トラブルまで。4大国家資格と出入国代行登録を組み合わせたトータル法的ソリューション。",
-            ctaPatient: "ビザ拒否·返金トラブル無料診断",
+            ctaPatient: "ビザ・返金相談の準備資料",
             ctaHospital: "病院広告＆ビザコンプライアンス診断",
         },
         trust: {
@@ -437,10 +437,10 @@ export const TRANSLATIONS = {
         },
         services: {
             title: "最優先サービス",
-            desc: "客観的な指標と判例統計に基づき、最も確実な法的解決策を提示します。",
+            desc: "資料と利用可能な手続きを検討し、業務範囲と費用を受任前に説明します。ビザや紛争の結果は保証しません。",
             list: [
-                { title: "SNS医療広告コンプライアンス", desc: "B2B向け。医療法に基づくSNS広告の事前審議および不法誇大広告処分への事前対策。", path: "/ja/contact", badge: "病院推奨" },
-                { title: "医療ビザ拒否·延長救済", desc: "不許可となったC-3-3/G-1-10ビザの不許可理由書を分析し、法務部へ提出する弁明書の作成代行。", path: "/ja/visa-refusal-remedy", badge: "高頻度" },
+                { title: "SNS医療広告コンプライアンス", desc: "B2B向け。医療法に基づくSNS広告の事前審議および不法誇大広告処分への事前対策。", path: "/ja/contact", badge: "医療広告" },
+                { title: "医療ビザ拒否·延長救済", desc: "不許可となったC-3-3/G-1-10ビザの不許可理由書を分析し、法務部へ提出する弁明書の作成代行。", path: "/ja/visa-refusal-remedy", badge: "ビザ不許可" },
                 { title: "誘致機関登録および電子ビザ", desc: "保健福祉部への外国人患者誘致登録手続き代行および電子ビザ発給要件の適合化アドバイス。", path: "/ja/contact", badge: "おすすめ" },
                 { title: "不法紹介·あっせん刑事防衛", desc: "医療法第27条第3項（紹介·あっせんの禁止）違反容疑に対する刑事弁護および弁明支援。", path: "/ja/contact" },
                 { title: "手数料および税務スキーム設計", desc: "税理士協働。手数料比率の透明化および免税還付終了後の税務調査リスクへの事前対策。", path: "/ja/contact" },
@@ -449,17 +449,17 @@ export const TRANSLATIONS = {
             ],
         },
         ai: {
-            title: "AI 無料1次適性診断",
-            desc: "法的規制リスクと解決策を事前に無料でチェックしてください。（最終判断は弁護士が行います）",
+            title: "法律相談に向けた資料の準備",
+            desc: "ビザの通知書、診療・予約資料、契約・支払記録をご準備ください。個別の法的検討の範囲と相談料は事前にご案内します。",
             patientTab: "患者 / 保護者向け診断",
             hospitalTab: "病院 / 誘致業者向け診断",
             submit: "診断結果を見る",
             reset: "もう一度診断する",
-            legalNotice: "※本診断は一般的な参考情報の提供を目的としており、正式な法律相談ではありません。",
+            legalNotice: "この案内は法的・医学的診断やビザ許可の判定ではありません。旅券・診療記録等の送付前に、資料の共有方法をご確認ください。",
         },
         process: {
             title: "業務進行プロセス",
-            desc: "透明で体系的な5ステップの手順を通じて、最善の解決に導きます。",
+            desc: "相談、資料検討、方針の協議、委任業務の実施、結果のご案内の順に進めます。",
             steps: [
                 { title: "1. オンラインお問い合わせ", desc: "LINE、WhatsApp、またはWEBフォームから簡単にお問い合わせいただけます。" },
                 { title: "2. 必要書類のアップロード", desc: "セキュリティを確保したチャネルで、カルテ、拒否通知書、契約書などを安全に共有します。" },
@@ -494,7 +494,7 @@ export const TRANSLATIONS = {
         },
         disclaimer: {
             title: "免責事項",
-            text: "本ウェブサイト上のすべての情報およびAI診断結果は、一般的な参考情報であり、正式な法律相談やビザ発給の保証、治療結果の約束を意味するものではありません。具体的な意思決定の前に、必ず金&賢法律事務所の弁護士への公式相談を行ってください。また、提供された医療情報は個人情報保護法に基づき厳重に秘密管理されます。"
+            text: "本ウェブサイト上のすべての情報および相談準備の案内は、一般的な参考情報であり、正式な法律相談やビザ発給の保証、治療結果の約束を意味するものではありません。具体的な意思決定の前に、必ず金&賢法律事務所の弁護士への公式相談を行ってください。また、提供された医療情報は個人情報保護法に基づき厳重に秘密管理されます。"
         }
     }
 };
