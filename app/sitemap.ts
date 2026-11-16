@@ -2,7 +2,8 @@ import {languages, visaOrigin, visaPublic, type Language} from '@/lib/brand';
 import type {MetadataRoute} from 'next';
 import {getSupabasePosts} from '@/lib/blog-db';
 import {isD8Review, d8Updated} from '@/lib/d8-search';
-export const revalidate = 3600;
+// Reflect a CMS publication/removal immediately; do not retain a build-time list.
+export const dynamic = 'force-dynamic';
 
 function postLanguage(slug: string): Language {
   return languages.find(lang => lang !== 'ko' && slug.endsWith(`-${lang}`)) ?? 'ko';
