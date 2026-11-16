@@ -17,7 +17,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   if (!visaPublic) return [];
   const core = ['', '/investing-in-korea', '/medical-visa'].flatMap(path => languages.map(locale => ({
     url: `${visaOrigin}/${locale}${path}`,
-    lastModified: '2026-11-10',
+    lastModified: path === '' || (path === '/medical-visa' && (locale === 'ko' || locale === 'en')) ? '2026-11-16' : '2026-11-10',
     alternates: {languages: Object.fromEntries(languages.map(code => [code, `${visaOrigin}/${code}${path}`]))},
   })));
   // Anchors are page sections, not separate canonical URLs. Do not invent lastmod dates.
@@ -37,12 +37,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   });
   const blogIndexes = languages.map(lang => ({
     url: `${visaOrigin}${lang === 'ko' ? '' : `/${lang}`}/blog`,
-    lastModified: d8Updated,
+    lastModified: lang === 'ko' || lang === 'en' ? '2026-11-16' : d8Updated,
     alternates: {languages: Object.fromEntries(languages.map(code => [code, `${visaOrigin}${code === 'ko' ? '' : `/${code}`}/blog`]))},
   }));
   return [
     ...core,
-    ...['ko/sns-medical-ad-compliance', 'ko/medical-visa-remedy', 'ko/attraction-registration', 'en/medical-visa-korea', 'zh/refund-dispute', 'ja/refund-dispute'].map(path => ({url: `${visaOrigin}/${path}`, lastModified: '2026-11-10'})),
+    ...['ko/sns-medical-ad-compliance', 'ko/medical-visa-remedy', 'ko/attraction-registration', 'en/medical-visa-korea', 'zh/refund-dispute', 'ja/refund-dispute'].map(path => ({url: `${visaOrigin}/${path}`, lastModified: path.startsWith('ko/') ? '2026-11-16' : '2026-11-10'})),
     ...['ko', 'en'].map(lang => ({
       url: `${visaOrigin}/${lang}/entry-refusal`,
       alternates: {languages: {ko: `${visaOrigin}/ko/entry-refusal`, en: `${visaOrigin}/en/entry-refusal`}},

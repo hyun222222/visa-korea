@@ -1,4 +1,5 @@
-import {visaOrigin} from '@/lib/brand';
+import {visaOrigin, hubHref} from '@/lib/brand';
+import {consultationCopy} from '@/lib/search-content-review';
 import Link from "next/link";
 import type { Metadata } from "next";
 import { ArticleSources } from '@/components/blog/ArticleSources';
@@ -164,6 +165,7 @@ export default async function BlogPostPage({ params }: RouteParams) {
 
     const post = await getCanonicalPost(lang, slug);
     const t = UI_TEXTS[lang as Lang];
+    const consultation = consultationCopy(post.slug, lang);
 
     const category = getCategoryById(post.category);
 
@@ -273,7 +275,7 @@ export default async function BlogPostPage({ params }: RouteParams) {
                 <ArticleSources post={post} lang={lang} />
             </div>
 
-            {isD8Review(post.slug) && <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8"><D8ConsultationGuide lang={lang as Lang}/></div>}
+            {(isD8Review(post.slug) || post.slug === 'd8-visa-guide-en') && <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8"><D8ConsultationGuide lang={lang as Lang}/></div>}
 
             {/* CTA — Visa diagnosis + WhatsApp */}
             <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
@@ -282,14 +284,14 @@ export default async function BlogPostPage({ params }: RouteParams) {
                         Next step
                     </p>
                     <h2 className="font-serif text-2xl md:text-3xl font-bold mb-3">
-                        {t.ctaTitle}
+                        {consultation?.title ?? t.ctaTitle}
                     </h2>
                     <p className="text-slate-300 leading-relaxed mb-6">
-                        {t.ctaDesc}
+                        {consultation?.description ?? t.ctaDesc}
                     </p>
                     <div className="flex flex-wrap gap-3">
                         <Link
-                            href="tel:+821055346843"
+                            href="tel:01055346843"
                             className="inline-flex items-center gap-2 px-5 py-3 rounded-md bg-white text-slate-900 font-semibold hover:bg-slate-100 transition-colors"
                         >
                             <Phone className="h-5 w-5" />
@@ -308,6 +310,7 @@ export default async function BlogPostPage({ params }: RouteParams) {
                 </div>
             </section>
 
+            {lang === 'en' && <p className="max-w-3xl mx-auto px-4 pb-10 text-sm"><a className="underline" href={hubHref('lawyers/hyunjung/','en')}>Kim Hyun-jung: credentials and background</a> · <a className="underline" href={hubHref('about/','en')}>About Kim & Hyun</a></p>}
             {/* Related posts */}
             {related.length > 0 && (
                 <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">

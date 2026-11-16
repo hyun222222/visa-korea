@@ -14,7 +14,7 @@ const TRANSLATIONS = {
         title: "Korea Visa Law Blog | Immigration & Investment Insights — Kim&Hyun Law Office",
         description: "한국 비자·이민·법인설립 실무 칼럼. D-8 투자비자, F-2/F-5 거주·영주권, 외국인 법인설립, 출입국 거절·보완 대응 등 외국인 투자자와 한국 체류 외국인에게 필요한 법률 콘텐츠를 변호사가 직접 정리합니다.",
         badge: "Korea Visa Law · Insights",
-        header: "한국 비자·이민 실무 칼럼",
+        header: "한국 비자·출입국 칼럼",
         desc: "김앤현 법률사무소가 직접 정리하는 D-8 투자비자, F-2/F-5 거주·영주권, 외국인 법인설립, 출입국 실무 가이드. 현장에서 자주 보는 오해와 거절 사유를 사례 중심으로 풀어드립니다."
     },
     en: {
@@ -95,4 +95,4 @@ export function generateStaticParams() {
     ];
 }
 
-export async function generateMetadata({params}:{params:Promise<{lang:string}>}):Promise<Metadata>{const {lang}=await params;if(!supportedLangs.includes(lang as Lang))notFound();const t=TRANSLATIONS[lang as Lang];return {title:t.header+' | Kim & Hyun',description:t.description,alternates:{canonical:visaOrigin+(lang==='ko'?'/blog':'/'+lang+'/blog'),languages:Object.fromEntries(supportedLangs.map(l=>[l,visaOrigin+(l==='ko'?'/blog':'/'+l+'/blog')]))}};}
+export async function generateMetadata({params}:{params:Promise<{lang:string}>}):Promise<Metadata>{const {lang}=await params;if(!supportedLangs.includes(lang as Lang))notFound();const t=TRANSLATIONS[lang as Lang];return {title:t.header+(lang==='ko'?' | 김앤현 법률사무소':' | Kim & Hyun'),description:t.description,alternates:{canonical:visaOrigin+(lang==='ko'?'/blog':'/'+lang+'/blog'),languages:Object.fromEntries(supportedLangs.map(l=>[l,visaOrigin+(l==='ko'?'/blog':'/'+l+'/blog')]))}};}

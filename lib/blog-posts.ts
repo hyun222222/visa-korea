@@ -9,6 +9,8 @@
  *   나중에 Supabase/CMS로 옮길 때도 같은 타입을 그대로 쓸 수 있게 했음.
  */
 
+import searchArticlesData from './search-articles-20261116.json';
+
 export type BlogCategoryId =
     | "investor"
     | "f-residence"
@@ -87,6 +89,7 @@ export interface BlogPost {
  * Latest-first ordering. Add new posts at the top.
  */
 export const blogPosts: BlogPost[] = [
+    ...searchArticlesData as BlogPost[],
     {
         slug: "d8-investor-visa-basics",
         title: "한국 투자비자 D-8 기본 요건 — 자본금·송금·실체심사",

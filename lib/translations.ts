@@ -11,7 +11,7 @@ export const TRANSLATIONS = {
     },
     "hero": {
       "badge": "김앤현 법률사무소 · 법무부 출입국대행 기관",
-      "title": "대한민국 의료관광 비자 및 분쟁구제 지원",
+      "title": "한국 의료비자 신청·체류·불허 대응",
       "desc": "의료비자 신청·불허 사유, 환자 분쟁과 의료광고의 적용 규정을 자료에 따라 검토합니다. 변호사·세무사·변리사 자격과 출입국민원 대행기관 등록에 관한 확인 정보를 소개합니다.",
       "ctaPatient": "의료비자·분쟁 상담 준비",
       "ctaHospital": "병원 광고 & 비자 진단"
@@ -214,7 +214,7 @@ export const TRANSLATIONS = {
     },
     "hero": {
       "badge": "Kim&Hyun Law Office · Registered Immigration Agency",
-      "title": "Korea Medical Visa & Dispute Legal Support",
+      "title": "Korea Medical Visa: Applications, Stay and Refusal Review",
       "desc": "Review medical visa applications and refusals, patient disputes and medical advertising rules against the relevant records. Attorney, tax and patent qualifications and immigration agency registration are described separately.",
       "ctaPatient": "Prepare Your Consultation",
       "ctaHospital": "Hospital Compliance Assessment"

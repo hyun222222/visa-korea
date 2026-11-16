@@ -1,4 +1,5 @@
-import {visaOrigin} from '@/lib/brand';
+import {visaOrigin, hubHref} from '@/lib/brand';
+import {consultationCopy} from '@/lib/search-content-review';
 import Link from "next/link";
 import type { Metadata } from "next";
 import { ArticleSources } from '@/components/blog/ArticleSources';
@@ -53,7 +54,7 @@ export async function generateMetadata({ params }: RouteParams): Promise<Metadat
     const post = await getCanonicalPost(slug);
     const cat = getCategoryById(post.category);
     return {
-        title: `${post.title} | Korea Visa Law Blog`,
+        title: `${post.title} | 김앤현 법률사무소`,
         description: post.excerpt,
         keywords: post.keywords,
         alternates: { canonical: `/blog/${post.slug}`, languages: await postAlternates(post.slug) },
@@ -81,6 +82,7 @@ export default async function BlogPostPage({ params }: RouteParams) {
     const post = await getCanonicalPost(slug);
 
     const category = getCategoryById(post.category);
+    const consultation = consultationCopy(post.slug, 'ko');
 
     // Fetch related posts from database
     const allPosts = await getSupabasePosts();
@@ -189,14 +191,14 @@ export default async function BlogPostPage({ params }: RouteParams) {
                         Next step
                     </p>
                     <h2 className="font-serif text-2xl md:text-3xl font-bold mb-3">
-                        신청 자료와 통지 내용을 함께 검토합니다
+                        {consultation?.title ?? '신청 자료와 통지 내용을 함께 검토합니다'}
                     </h2>
                     <p className="text-slate-300 leading-relaxed mb-6">
-                        현재 체류자격, 만료일과 투자·고용·가족 자료를 준비하세요. 상담 범위와 비용은 수임 전에 안내합니다.
+                        {consultation?.description ?? '현재 체류자격, 만료일과 투자·고용·가족 자료를 준비하세요. 상담 범위와 비용은 수임 전에 안내합니다.'}
                     </p>
                     <div className="flex flex-wrap gap-3">
                         <Link
-                            href="tel:+821055346843"
+                            href="tel:01055346843"
                             className="inline-flex items-center gap-2 px-5 py-3 rounded-md bg-white text-slate-900 font-semibold hover:bg-slate-100 transition-colors"
                         >
                             <Phone className="h-5 w-5" />
@@ -215,6 +217,7 @@ export default async function BlogPostPage({ params }: RouteParams) {
                 </div>
             </section>
 
+            <p className="max-w-3xl mx-auto px-4 pb-10 text-sm"><a className="underline" href={hubHref('lawyers/hyunjung/','ko')}>김현정 변호사 경력·자격 확인</a> · <a className="underline" href={hubHref('about/','ko')}>김앤현 법률사무소 소개</a></p>
             {/* Related posts */}
             {related.length > 0 && (
                 <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">

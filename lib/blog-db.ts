@@ -3,6 +3,7 @@ import { requireVisaContentAdmin } from './admin-auth';
 import { blogPostsSortedByDate, getPostBySlug, BlogPost, BlogBlock } from './blog-posts';
 import { correctD8Post } from './d8-search';
 import { applyLegalReview } from './blog-legal-review';
+import { applySearchContentReview } from './search-content-review';
 
 /**
  * Parses markdown body into dynamic BlogBlocks.
@@ -108,7 +109,7 @@ export function blocksToMarkdown(blocks: BlogBlock[]): string {
  * Configured production data is authoritative; never resurrect removed static posts.
  */
 export async function getSupabasePosts(): Promise<BlogPost[]> {
-    if (!hasSupabaseConfig) return blogPostsSortedByDate.map(applyLegalReview).map(correctD8Post);
+    if (!hasSupabaseConfig) return blogPostsSortedByDate.map(applyLegalReview).map(correctD8Post).map(applySearchContentReview);
     try {
         const { data, error } = await supabase
             .from('blog_posts')
@@ -125,7 +126,7 @@ export async function getSupabasePosts(): Promise<BlogPost[]> {
             return [];
         }
 
-        return data.map(mapDbPostToBlogPost).map(applyLegalReview).map(correctD8Post);
+        return data.map(mapDbPostToBlogPost).map(applyLegalReview).map(correctD8Post).map(applySearchContentReview);
     } catch (err) {
         console.error("Supabase blog list unavailable");
         return [];
@@ -138,7 +139,7 @@ export async function getSupabasePosts(): Promise<BlogPost[]> {
 export async function getSupabasePostBySlug(slug: string): Promise<BlogPost | undefined> {
     if (!hasSupabaseConfig) {
         const post = getPostBySlug(slug);
-        return post ? correctD8Post(applyLegalReview(post)) : undefined;
+        return post ? applySearchContentReview(correctD8Post(applyLegalReview(post))) : undefined;
     }
     try {
         const { data, error } = await supabase
@@ -156,7 +157,7 @@ export async function getSupabasePostBySlug(slug: string): Promise<BlogPost | un
             return undefined;
         }
 
-        return correctD8Post(applyLegalReview(mapDbPostToBlogPost(data)));
+        return applySearchContentReview(correctD8Post(applyLegalReview(mapDbPostToBlogPost(data))));
     } catch (err) {
         console.error('Supabase blog post unavailable');
         return undefined;
