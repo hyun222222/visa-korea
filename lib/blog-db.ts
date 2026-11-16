@@ -4,6 +4,7 @@ import { blogPostsSortedByDate, getPostBySlug, BlogPost, BlogBlock } from './blo
 import { correctD8Post } from './d8-search';
 import { applyLegalReview } from './blog-legal-review';
 import { applySearchContentReview } from './search-content-review';
+import { blogPublicationDate } from './blog-publication-date';
 
 /**
  * Parses markdown body into dynamic BlogBlocks.
@@ -243,7 +244,7 @@ function mapDbPostToBlogPost(dbPost: any): BlogPost {
         category: dbPost.category,
         keywords: dbPost.keywords || [],
         publishedAt: typeof dbPost.published_at === 'string' 
-            ? dbPost.published_at.split('T')[0] 
+            ? blogPublicationDate(dbPost.published_at)
             : dbPost.published_at,
         readMinutes: dbPost.read_minutes,
         author: dbPost.author,

@@ -3,7 +3,15 @@ import test from 'node:test';
 import fs from 'node:fs';
 import {applySearchContentReview,searchArticles} from '../lib/search-content-review.ts';
 import {applyLegalReview} from '../lib/blog-legal-review.ts';
+import {blogPublicationDate} from '../lib/blog-publication-date.ts';
 const revisions=JSON.parse(fs.readFileSync(new URL('../lib/blog-legal-revisions.json',import.meta.url),'utf8'));
+
+test('CMS timestamp keeps the Korean publication day without rewriting stored history',()=>{
+  assert.equal(blogPublicationDate('2026-11-15T15:00:00+00:00'),'2026-11-16');
+  assert.equal(blogPublicationDate('2026-11-16T00:00:00+09:00'),'2026-11-16');
+  assert.equal(blogPublicationDate('2026-11-16'),'2026-11-16');
+  assert.equal(blogPublicationDate('2026-06-04T03:00:00+00:00'),'2026-06-04');
+});
 
 test('new translations share canonical slug bases and official sources',()=>{
   assert.equal(searchArticles.length,4);
