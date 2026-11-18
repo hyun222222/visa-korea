@@ -1,0 +1,8 @@
+.page { min-height: 100dvh; }
+.content { width: min(100% - 2.5rem, 740px); margin-inline: auto; padding-block: clamp(2.5rem, 7vw, 5.5rem) 1.75rem; }
+.heading { padding-bottom: 1.5rem; }
+.heading a, .section a { color: var(--navy); font-weight: 650; text-decoration: underline; text-underline-offset: 3px; }
+.heading h1 { font-size: clamp(2rem, 5vw, 3.15rem); color: var(--navy); margin-block: .6rem; letter-spacing: -.04em; }
+.section { padding-block: 1.35rem; border-top: 1px solid var(--rule); }
+.section h2 { font-size: 1.2rem; margin-bottom: .75rem; }
+.section p + p { margin-top: .6rem; }

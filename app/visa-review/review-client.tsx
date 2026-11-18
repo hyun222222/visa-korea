@@ -427,7 +427,7 @@ export default function ReviewClient({ language, initialPlan, businessRegistrati
 
         <section className={styles.terms} id="terms">
           <details id="review-agreement"><summary>{t.scopeTitle}</summary><p>{t.scopeText}</p><p>{t.clock}</p><p><strong>{t.outcomeTitle}</strong> {t.outcome}</p></details>
-          <details id="review-refunds"><summary>{t.refundTitle}</summary><p>{terms.refundPolicy}</p><p>{t.refundInstructions}</p></details>
+          <details id="review-refunds"><summary>{t.refundTitle}</summary><p>{terms.refundPolicy}</p><p>{t.refundInstructions}</p><p><a href={`/refund-policy?lang=${language}`}>{t.refundTitle}</a></p></details>
           <details id="privacy"><summary>{t.privacyTitle}</summary>
             <p>{t.privacyController}</p><p>{t.privacyProcessing}</p><p>{t.retention}</p>
             <dl>{t.providers.map(([name, purpose, href]) => <div key={name}><dt><a href={href} rel="noreferrer">{name}</a></dt><dd>{purpose}</dd></div>)}</dl>
@@ -440,6 +440,7 @@ export default function ReviewClient({ language, initialPlan, businessRegistrati
           <span>{t.businessNumber} {businessRegistrationNumber ?? t.businessNumberPending}</span>
           <span>서울특별시 서초구 법원로 16, 정곡빌딩 동관 502호</span>
           <span>{t.forward} <a aria-label={t.emailUs} href="mailto:info@kimnhyun.com">info@kimnhyun.com</a> · <a href="tel:+82234777600">+82 2 3477 7600</a></span>
+          <a href={`/refund-policy?lang=${language}`}>{t.refundTitle}</a>
         </footer>
       </div>
     </div>

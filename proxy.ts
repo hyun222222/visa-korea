@@ -3,11 +3,12 @@ import {languageFromPath,visaPublic} from '@/lib/brand';
 export function proxy(request:NextRequest){
  const pathname=request.nextUrl.pathname;
  const reviewHost=request.nextUrl.hostname==='review.koreavisalaw.com';
- const reviewPage=pathname==='/visa-review'||(reviewHost&&pathname==='/');
+ const refundPolicy=pathname==='/refund-policy';
+ const reviewPage=pathname==='/visa-review'||refundPolicy||(reviewHost&&pathname==='/');
  const lang=request.nextUrl.searchParams.get('lang');
  const headers=new Headers(request.headers);
  headers.delete('x-kimhyun-review');
- headers.set('x-kimhyun-locale',reviewPage?(lang==='ko'||lang==='zh'?lang:'en'):languageFromPath(pathname));
+ headers.set('x-kimhyun-locale',reviewPage?(lang==='ko'||lang==='en'||lang==='zh'?lang:refundPolicy?'ko':'en'):languageFromPath(pathname));
  if(reviewPage) headers.set('x-kimhyun-review','1');
  if(!visaPublic && (request.nextUrl.pathname.startsWith('/api/translate')||request.nextUrl.pathname.startsWith('/admin')||request.nextUrl.pathname==='/board')) return NextResponse.json({message:'This feature remains on the existing site during the design review.'},{status:503,headers:{'X-Robots-Tag':'noindex, nofollow'}});
  if(reviewHost&&pathname==='/'){
