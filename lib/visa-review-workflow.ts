@@ -295,7 +295,7 @@ export async function refundCase(c: ReviewCase, instruction?: RefundInstruction)
   });
   const refund = await refundReviewPayPalCapture({
     orderId: c.payment_order_id!, captureId: c.payment_capture_id!, caseId: c.id, amountCents,
-    refundAmountCents: selected.amount_cents, operationId: selected.id, reason: selected.reason,
+    refundAmountCents: selected.amount_cents, operationId: selected.id,
     refundId: selected.provider_id ?? undefined, reconcileOnly,
   });
   const updated: ReviewRefundOperation = {

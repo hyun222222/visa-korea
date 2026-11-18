@@ -255,12 +255,11 @@ export async function refundReviewPayPalCapture(input: {
   amountCents: number;
   refundAmountCents?: number;
   operationId?: string;
-  reason?: string;
   reconcileOnly?: boolean;
   orderId?: string;
   refundId?: string;
 }) {
-  const { captureId, caseId, amountCents, orderId, refundId, operationId, reason, reconcileOnly } = input;
+  const { captureId, caseId, amountCents, orderId, refundId, operationId, reconcileOnly } = input;
   const refundAmountCents = input.refundAmountCents ?? amountCents;
   checkInput(caseId, amountCents);
   checkInput(caseId, refundAmountCents);
@@ -316,7 +315,6 @@ export async function refundReviewPayPalCapture(input: {
       refund = await client.post<Refund>(`${path}/refund`, {
         amount: usd(refundAmountCents),
         ...(operationId ? {custom_id: operationId} : {}),
-        ...(reason ? {note_to_payer: reason.slice(0, 255)} : {}),
       }, requestId('refund', captureId, caseId, ...(operationId ? [operationId] : [])));
     } catch (error) {
       if (!operationId || !providerId(verifiedOrderId)) throw error;
