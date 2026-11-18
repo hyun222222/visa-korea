@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import ReviewClient from './review-client';
 import { copy, type Language, type Plan } from './review-copy';
+import { reviewBusinessRegistrationNumber } from '@/lib/visa-review-server';
 
 type Params = {
   lang?: string | string[];
@@ -43,6 +44,7 @@ export default async function VisaReviewPage({ searchParams }: Props) {
     <ReviewClient
       language={getLanguage(params)}
       initialPlan={plan}
+      businessRegistrationNumber={reviewBusinessRegistrationNumber()}
       caseOnReturn={single(params.reviewCase)}
       orderOnReturn={single(params.token)}
       cancelledOnReturn={single(params.cancelled) === '1'}

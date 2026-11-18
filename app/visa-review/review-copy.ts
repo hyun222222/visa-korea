@@ -17,7 +17,7 @@ type LanguageCopy = {
   casesTitle: string; casesIntro: string; reload: string; emptyCases: string; status: Record<Status, string>; reference: string; due: string; pay: string;
   cancel: string; refund: string; confirmation: string; cancelled: string; paid: string; returnCancel: string; returnRetry: string; result: string; accepted: string; requestPending: string;
   scopeTitle: string; scopeText: string; refundTitle: string; refundInstructions: string; refundDeclined: string;
-  checkoutExpired: string; representative: string; minorNotice: string; refundHistory: string; refundedAmount: string; refundFailed: string;
+  checkoutExpired: string; representative: string; minorNotice: string; businessNumber: string; businessNumberPending: string;
   privacyTitle: string; privacyController: string; privacyProcessing: string; retention: string; providers: [string, string, string][]; privacyRefusal: string;
   emailUs: string; forward: string; languageLabel: string;
 };
@@ -37,7 +37,7 @@ export const copy: Record<Language, LanguageCopy> = {
     choose: 'Start this review', application: 'Request a review',
     processTitle: 'From application to written answer',
     process: [["Create a case and email the details", "Send your question, relevant dates and any requested masked documents to the office inbox with your case reference."], ["Confirm the terms and pay", "The office confirms scope and complete materials. Accept all three terms before continuing to PayPal."], ["Get the lawyer’s written answer", "We notify you by email. Sign in to read the result in your case."]],
-    clock: 'Your lawyer begins as soon as we confirm payment and all required materials. We send the written review within 24 hours of that confirmation. Deadlines are shown in Korea Standard Time.',
+    clock: 'Your lawyer begins as soon as we confirm payment and all required materials. We send the written review within 24 hours of that confirmation, and at least two hours after payment is confirmed. Deadlines are shown in Korea Standard Time.',
     outcomeTitle: 'This review does not guarantee a visa or permission to stay.',
     outcome: 'Immigration authorities make the final decision.',
     verifyTitle: 'Verify your email', verifyBody: 'This email gives you access to your applications, payment status and written results.',
@@ -56,9 +56,8 @@ export const copy: Record<Language, LanguageCopy> = {
     scopeTitle: 'Review agreement', scopeText: 'The agreed fee covers the selected written review, including a response where the evidence is insufficient to reach a conclusion. Application filing, representation, translations, appeals and government fees fall outside this engagement. The office confirms scope and capacity before payment.',
     refundTitle: 'Cancellation and refunds', refundInstructions: 'You can cancel an unpaid request in My cases. To request a refund, use Request a refund or email the office with your case reference. Check My cases for the outcome.',
     refundDeclined: 'Refund request declined',
-    refundHistory: 'Refund decisions and processing',
-    refundFailed: 'Refund could not be completed · contact the office',
-    refundedAmount: 'Refunded total',
+    businessNumber: 'Business registration no.',
+    businessNumberPending: 'Awaiting confirmation by the office',
     checkoutExpired: 'Your payment window has expired. Contact the office with your case reference to check your options.',
     representative: 'Representative and advertising lawyer · Kim Hyunjung',
     minorNotice: 'If you are a minor, have your legal representative confirm the terms before payment. If they did not consent, you or your legal representative may cancel the contract.',
@@ -90,7 +89,7 @@ export const copy: Record<Language, LanguageCopy> = {
     choose: '이 검토 신청', application: '검토 접수',
     processTitle: '접수부터 검토서 전달까지',
     process: [["접수번호 발급 후 자료 이메일로 보내기", "질문과 중요한 날짜, 필요한 가림 처리 서류를 접수번호와 함께 사무소 이메일로 보내 주세요."], ["수임 확인 후 약관 동의·결제", "사무소가 검토 범위와 자료 완비를 확인합니다. 세 가지 필수 항목에 동의한 뒤 PayPal로 이동합니다."], ["변호사 검토서 확인", "이메일로 완료를 알려드립니다. 본인 이메일로 인증해 서면 답변을 확인하세요."]],
-    clock: '결제와 필수 자료를 모두 확인하면 변호사가 즉시 착수합니다. 그 시점부터 24시간 이내에 서면 검토 결과를 전달합니다. 기한은 한국시간으로 표시됩니다.',
+    clock: '결제와 필수 자료를 모두 확인하면 변호사가 즉시 착수합니다. 그 시점부터 24시간 이내에 서면 검토 결과를 전달합니다. 결과는 결제 확인 후 2시간이 지난 뒤 전달하며, 기한은 한국시간으로 표시됩니다.',
     outcomeTitle: '이 검토는 비자 발급이나 체류허가를 보장하지 않습니다.',
     outcome: '발급·허가 여부는 관할 기관이 결정합니다.',
     verifyTitle: '이메일 인증', verifyBody: '신청 내용, 결제 상태, 서면 검토 결과를 이 이메일로 인증해 확인할 수 있습니다.',
@@ -109,9 +108,8 @@ export const copy: Record<Language, LanguageCopy> = {
     scopeTitle: '검토 범위와 계약', scopeText: '결제 금액은 선택한 범위의 서면검토 비용입니다. 제출된 사실만으로 판단하기 어려운 경우에는 어떤 정보가 더 필요한지 설명합니다. 신청서 작성·대리, 번역, 불복절차와 관청 수수료는 별도입니다. 사무소가 범위와 접수 가능 여부를 확인한 다음 결제합니다.',
     refundTitle: '취소 및 환불', refundInstructions: '미결제 요청은 내 접수 내역에서 취소할 수 있습니다. 환불 요청 버튼을 누르거나 접수번호를 적어 이메일로 문의해 주세요. 처리 결과는 내 접수 내역에서 확인할 수 있습니다.',
     refundDeclined: '환불 요청을 받아들이지 않았습니다',
-    refundHistory: '환불 처리 내역',
-    refundFailed: '환불 처리 실패 · 사무소 확인 필요',
-    refundedAmount: '환불 완료 금액',
+    businessNumber: '사업자등록번호',
+    businessNumberPending: '사무소 확인 필요',
     checkoutExpired: '결제 가능 시간이 지났습니다. 접수번호와 함께 사무소에 문의해 주세요.',
     representative: '대표자 및 광고 주체 김현정 변호사',
     minorNotice: '미성년자는 결제 전에 법정대리인과 약관을 확인해 주세요. 법정대리인이 계약에 동의하지 않으면 미성년자 본인 또는 법정대리인이 계약을 취소할 수 있습니다.',
@@ -143,7 +141,7 @@ export const copy: Record<Language, LanguageCopy> = {
     choose: '申请此项审查', application: '提交审查申请',
     processTitle: '从提交到收到书面意见',
     process: [["取得案件编号并发送邮件", "请将问题、重要日期及所需的已遮盖信息的文件，连同案件编号发送至事务所邮箱。"], ["确认承接、同意条款后付款", "事务所核对审查范围与材料。确认三项必读条款后，可前往 PayPal。"], ["查看律师书面意见", "完成后会发送邮件通知。登录案件页面即可查看。"]],
-    clock: '确认付款和全部所需材料后，律师立即开始审查，并在确认后 24 小时内提供书面答复。截止时间以韩国标准时间显示。',
+    clock: '确认付款和全部所需材料后，律师立即开始审查，并在确认后 24 小时内提供书面答复。书面意见最早于确认收款两小时后交付。截止时间以韩国标准时间显示。',
     outcomeTitle: '本审查不保证获得签证或在韩国停留的许可。',
     outcome: '是否批准由主管机关决定。',
     verifyTitle: '验证电子邮箱', verifyBody: '通过此邮箱验证身份后，可查看申请、付款状态和书面意见。',
@@ -162,9 +160,8 @@ export const copy: Record<Language, LanguageCopy> = {
     scopeTitle: '审查范围与协议', scopeText: '约定费用涵盖所选范围的书面审查。如现有资料不足以作出判断，律师会说明还需要什么。申请代办、代理、翻译、申诉和政府费用另计。事务所先确认范围并接受委托，再通知付款。',
     refundTitle: '取消与退款', refundInstructions: '未付款申请可在我的案件中取消。如需退款，请点击申请退款，或通过邮件联系事务所并注明案件编号。处理结果可在我的案件中查看。',
     refundDeclined: '退款申请未获批准',
-    refundHistory: '退款处理记录',
-    refundFailed: '退款未完成 · 请联系事务所',
-    refundedAmount: '已退款金额',
+    businessNumber: '营业登记号码',
+    businessNumberPending: '待事务所确认',
     checkoutExpired: '付款期限已过。请联系律师事务所并提供案件编号。',
     representative: '事务所代表及广告发布律师 · Kim Hyunjung（김현정）',
     minorNotice: '未成年人请在付款前让法定代理人确认条款。法定代理人未同意合同时，未成年人本人或其法定代理人可以撤销合同。',

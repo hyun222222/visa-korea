@@ -14,13 +14,13 @@ import {
   type ReviewStatus,
 } from '@/lib/visa-review-server';
 import {refundRestrictionConditionsMet} from '@/lib/visa-review-terms';
-import {captureCase, completedRefundCents, refundCase} from '@/lib/visa-review-workflow';
+import {captureCase, refundCase} from '@/lib/visa-review-workflow';
 
 const queueFields = [
   'id', 'email', 'name', 'visa', 'plan', 'amount_cents', 'question', 'counterparty', 'language', 'status',
   'submitted_at', 'paid_at', 'deadline_at', 'checkout_expires_at', 'payment_order_id',
   'payment_consent', 'started_at', 'delivered_at', 'refund_requested_at', 'refund_id',
-  'refund_resolved_at', 'refund_resolution_reason', 'refund_operations', 'result',
+  'refund_resolved_at', 'refund_resolution_reason', 'result',
 ] as const satisfies readonly (keyof ReviewCase)[];
 
 const actions = ['accept', 'decline', 'start', 'deliver', 'files', 'reconcile', 'refund', 'confirm-refund', 'decline-refund'] as const;
@@ -52,12 +52,14 @@ async function requestAction(request: Request) {
   if (!body || typeof body !== 'object' || !actions.includes(body.action)) {
     throw new ReviewError('관리 작업을 선택하세요.');
   }
+  if (body.action === 'refund' &&
+    ['refundAmountCents', 'refundOperationId', 'settlementConfirmed'].some((field) => Object.hasOwn(body, field))) {
+    throw new ReviewError('전액 환불만 지원합니다. 최신 관리자 화면에서 다시 확인하세요.', 422);
+  }
   return {
     caseId: reviewCaseId(body.caseId), action: body.action as Action, result: body.result as unknown,
     reason: body.reason as unknown, refundRequestedAt: body.refundRequestedAt as unknown,
     materialsConfirmed: body.materialsConfirmed === true,
-    refundAmountCents: body.refundAmountCents as unknown, refundOperationId: body.refundOperationId as unknown,
-    settlementConfirmed: body.settlementConfirmed === true,
   };
 }
 
@@ -90,7 +92,7 @@ export async function POST(request: Request) {
   try {
     const operator = await requireAdmin(request);
     verifyReviewOrigin(request);
-    const {caseId, action, result, reason, refundRequestedAt, materialsConfirmed, refundAmountCents, refundOperationId, settlementConfirmed} = await requestAction(request);
+    const {caseId, action, result, reason, refundRequestedAt, materialsConfirmed} = await requestAction(request);
     const c = await loadReviewCase(caseId);
     if (action === 'files') return reviewJson({files: await fileLinks(c.id)});
 
@@ -119,6 +121,10 @@ export async function POST(request: Request) {
         break;
       case 'deliver': {
         requireStatus(c, 'in_review');
+        const paidAt = Date.parse(c.paid_at ?? '');
+        if (!Number.isFinite(paidAt) || Date.now() < paidAt + 2 * 60 * 60 * 1000) {
+          throw new ReviewError('결제 확인 시각부터 2시간이 지난 뒤에 검토 결과를 전달할 수 있습니다.', 409);
+        }
         const opinion = reviewText(result, 20_000);
         if (opinion.length < 20) throw new ReviewError('서면 검토 결과를 20자 이상 입력하세요.');
         saved = await transitionReviewCase(c, {status: 'delivered', result: opinion, delivered_at: new Date().toISOString()});
@@ -131,19 +137,12 @@ export async function POST(request: Request) {
         saved = await captureCase(c, c.payment_order_id);
         break;
       case 'refund':
-        requireStatus(c, 'paid', 'in_review', 'delivered', 'refund_requested', 'refunding', 'partially_refunded', 'refunded');
-        if (typeof refundAmountCents !== 'number' || typeof reason !== 'string') {
-          throw new ReviewError('환불할 금액과 계산 근거를 입력하세요.');
-        }
-        saved = await refundCase(c, {
-          operationId: reviewCaseId(refundOperationId), amountCents: refundAmountCents, reason, settlementConfirmed,
-          initiatedBy: operator.id,
-        });
+        requireStatus(c, 'paid', 'in_review', 'delivered', 'refund_requested');
+        saved = await refundCase(c);
         break;
       case 'confirm-refund':
         requireStatus(c, 'refund_requested', 'refunding');
-        if (c.status === 'refund_requested' && !(c.refund_operations?.some((item) => item.status === 'requested' || item.status === 'pending') ||
-          (!c.refund_operations?.length && c.refund_id))) {
+        if (c.status === 'refund_requested' && !c.refund_id) {
           throw new ReviewError('PayPal에서 대조할 기존 환불 요청이 없습니다.', 409);
         }
         saved = await refundCase(c);
@@ -152,14 +151,12 @@ export async function POST(request: Request) {
         if (typeof reason !== 'string' || !reason.trim() || reason.length > 2_000) {
           throw new ReviewError('의뢰인에게 안내할 환불 거절 사유를 2,000자 이내로 입력하세요.');
         }
-        const pendingRefund = c.refund_operations?.some((item) => item.status === 'requested' || item.status === 'pending');
-        const legacyRefund = !c.refund_operations?.length && c.refund_id;
-        if (!c.refund_requested_at || c.refund_requested_at !== refundRequestedAt || pendingRefund || legacyRefund || c.refunded_at) {
+        if (!c.refund_requested_at || c.refund_requested_at !== refundRequestedAt || c.refund_id || c.refunded_at) {
           throw new ReviewError('현재 환불 요청과 일치하는지 확인하고 새로고침 후 다시 시도하세요.', 409);
         }
 
         const resolutionReason = reason.trim();
-        const resumeStatus = completedRefundCents(c) > 0 ? 'partially_refunded' : c.delivered_at ? 'delivered' : c.started_at ? 'in_review' : 'paid';
+        const resumeStatus = c.delivered_at ? 'delivered' : c.started_at ? 'in_review' : 'paid';
         if (c.refund_resolved_at) {
           requireStatus(c, resumeStatus);
           if (c.refund_resolution_reason !== resolutionReason) {

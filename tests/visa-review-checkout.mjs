@@ -27,7 +27,7 @@ class ReviewError extends Error {
   constructor(message, status) { super(message); this.status = status; }
 }
 
-function checkoutHarness(plan, changes = {}) {
+function checkoutHarness(plan, changes = {}, businessNumber = '000-00-00000') {
   let item = {
     id: 'sample-case', plan, amount_cents: plans[plan].amountCents, status: 'accepted', language: 'ko',
     accepted_at: new Date(Date.now() - 120000).toISOString(),
@@ -41,6 +41,7 @@ function checkoutHarness(plan, changes = {}) {
     'server-only': {},
     './visa-review-server': {
       ReviewError, reviewOrigin: origin, reviewPaymentEnvironment: () => 'sandbox', reviewPlans: plans,
+      reviewBusinessRegistrationNumber: () => businessNumber,
       changeReviewCase: save, loadReviewCase: async () => item,
       transitionReviewCase: async (c, patch) => { events.push('save'); return save(c, patch); },
       notifyReview: async () => {}, sendReviewEmail: async () => {}, paymentTermsReceipt: () => '',
@@ -82,6 +83,12 @@ test('every USD plan requires all three consents before saving and creating an o
   }
 });
 
+test('a new checkout needs the configured business registration number', async () => {
+  const { checkout, events } = checkoutHarness('question', {}, null);
+  await assert.rejects(checkout(consent), { status: 503 });
+  assert.deepEqual(events, []);
+});
+
 test('an old checkout with an invalid consent record cannot initiate a charge or return its old URL', async () => {
   const { checkout, capture, events } = checkoutHarness('question', {
     status: 'checkout', payment_order_id: 'old-order', payment_approval_url: 'https://www.sandbox.paypal.com/checkoutnow?token=old-order',
@@ -113,8 +120,8 @@ test('an existing $50 case keeps its quoted amount and uses the same consent gat
   assert.deepEqual(events, ['save', 'create']);
 });
 
-test('issued orders retain genuine v1 and v2 receipts after the consent wording changes', async () => {
-  for (const version of ['visa-review-payment-2026-11-17-v1', 'visa-review-payment-2026-11-17-v2']) {
+test('issued orders retain genuine v1, v2 and v3 receipts after the consent wording changes', async () => {
+  for (const version of ['visa-review-payment-2026-11-17-v1', 'visa-review-payment-2026-11-17-v2', 'visa-review-payment-2026-11-18-v3']) {
     const receipt = {
       version, language: 'ko', accepted_at: new Date(Date.now() - 60000).toISOString(),
       terms: terms.paymentTermsSnapshot('ko', version),

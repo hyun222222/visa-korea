@@ -13,7 +13,7 @@ create table if not exists public.visa_review_cases (
   language text not null check (language in ('en','ko','zh')),
   status text not null default 'submitted' check (status in (
     'submitted','accepted','checkout','capturing','paid','in_review','delivered',
-    'declined','cancelled','refund_requested','refunding','partially_refunded','refunded'
+    'declined','cancelled','refund_requested','refunding','refunded'
   )),
   terms_version text not null,
   agreement text not null,
@@ -36,7 +36,6 @@ create table if not exists public.visa_review_cases (
   refund_requested_at timestamptz,
   refund_resolved_at timestamptz,
   refund_resolution_reason text,
-  refund_operations jsonb not null default '[]'::jsonb,
   refund_id text unique,
   refunded_at timestamptz
 );
@@ -49,15 +48,8 @@ alter table public.visa_review_cases add constraint visa_review_amount_check
 alter table public.visa_review_cases add column if not exists payment_consent jsonb;
 alter table public.visa_review_cases add column if not exists refund_resolved_at timestamptz;
 alter table public.visa_review_cases add column if not exists refund_resolution_reason text;
-alter table public.visa_review_cases add column if not exists refund_operations jsonb not null default '[]'::jsonb;
-alter table public.visa_review_cases drop constraint if exists visa_review_cases_status_check;
-alter table public.visa_review_cases add constraint visa_review_cases_status_check check (status in (
-  'submitted','accepted','checkout','capturing','paid','in_review','delivered',
-  'declined','cancelled','refund_requested','refunding','partially_refunded','refunded'
-));
-alter table public.visa_review_cases drop constraint if exists visa_review_refund_operations_check;
-alter table public.visa_review_cases add constraint visa_review_refund_operations_check
-  check (jsonb_typeof(refund_operations) = 'array');
+-- Columns and historical statuses from an earlier partial-refund migration are retained.
+-- The application now offers full refunds only. No historical refund data is deleted.
 create index if not exists visa_review_cases_email_idx on public.visa_review_cases (email, submitted_at desc);
 create index if not exists visa_review_cases_queue_idx on public.visa_review_cases (status, deadline_at);
 

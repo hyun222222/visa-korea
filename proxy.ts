@@ -1,12 +1,8 @@
 import {NextRequest,NextResponse} from 'next/server';
 import {languageFromPath,visaPublic} from '@/lib/brand';
-import {legacyReviewLanguage,reviewContentFile} from '@/lib/visa-review-content';
 export function proxy(request:NextRequest){
  const pathname=request.nextUrl.pathname;
- const reviewHost=request.nextUrl.hostname==='review.koreavisalaw.com'||request.headers.get('host')?.split(':')[0]==='review.koreavisalaw.com';
- if(pathname==='/visa-review-content'||pathname.startsWith('/visa-review-content/')){
-   return new NextResponse(null,{status:404,headers:{'X-Robots-Tag':'noindex, nofollow'}});
- }
+ const reviewHost=request.nextUrl.hostname==='review.koreavisalaw.com';
  const reviewPage=pathname==='/visa-review'||(reviewHost&&pathname==='/');
  const lang=request.nextUrl.searchParams.get('lang');
  const headers=new Headers(request.headers);
@@ -22,22 +18,7 @@ export function proxy(request:NextRequest){
    response.headers.set('Referrer-Policy','no-referrer');
    return response;
  }
- if(reviewHost){
-   const language=legacyReviewLanguage(pathname);
-   if(language){
-     const target=new URL('https://review.koreavisalaw.com/');
-     target.searchParams.set('lang',language);
-     target.hash='diagnosis';
-     return NextResponse.redirect(target,308);
-   }
-   const file=reviewContentFile(pathname);
-   if(file){
-     const target=new URL(request.url);
-     target.pathname=file;
-     return NextResponse.rewrite(target);
-   }
- }
- if(reviewHost&&!/^\/api\/visa-review(?:\/|$)/.test(pathname)&&!reviewPage&&!pathname.startsWith('/fonts/')){
+ if(reviewHost&&!pathname.startsWith('/api/visa-review')&&!reviewPage&&!pathname.startsWith('/fonts/')){
    return NextResponse.redirect(new URL(pathname+request.nextUrl.search,'https://koreavisalaw.com'));
  }
  const r=NextResponse.next({request:{headers}});
@@ -49,4 +30,4 @@ export function proxy(request:NextRequest){
  }
  return r;
 }
-export const config={matcher:['/assets/kvl.css','/visa-review-content/:path*','/((?!_next|favicon.ico|.*\\.(?:png|jpg|webp|css|js|woff2)).*)']};
+export const config={matcher:['/((?!_next|favicon.ico|.*\\.(?:png|jpg|webp|css|js|woff2)).*)']};

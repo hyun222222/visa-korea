@@ -18,13 +18,11 @@ type Case = {
   checkoutExpiresAt?: string | null;
   agreement?: string;
   refundDecision?: {resolvedAt: string; reason: string} | null;
-  refundHistory?: {id: string; amountCents: number; reason: string; status: 'requested' | 'pending' | 'completed' | 'failed'; requestedAt: string; completedAt: string | null}[];
-  totalRefundedCents?: number;
 };
 
 type Snapshot = { cases: Case[]; open: boolean; authenticated?: boolean };
 type Payload = Record<string, unknown>;
-type Props = { language: Language; initialPlan: Plan; caseOnReturn?: string; orderOnReturn?: string; cancelledOnReturn: boolean };
+type Props = { language: Language; initialPlan: Plan; businessRegistrationNumber: string | null; caseOnReturn?: string; orderOnReturn?: string; cancelledOnReturn: boolean };
 type Notice = { kind: 'error' | 'message'; text: string };
 type CheckoutConsent = {
   koreanLaw: boolean;
@@ -34,7 +32,7 @@ type CheckoutConsent = {
 
 const api = '/api/visa-review';
 const statusBeforePayment = new Set<Status>(['submitted', 'accepted', 'checkout']);
-const statusAfterPayment = new Set<Status>(['paid', 'in_review', 'delivered', 'partially_refunded']);
+const statusAfterPayment = new Set<Status>(['paid', 'in_review', 'delivered']);
 const locale: Record<Language, string> = { en: 'en-US', ko: 'ko-KR', zh: 'zh-CN' };
 
 async function request<T>(payload?: Payload): Promise<T> {
@@ -132,7 +130,7 @@ function CheckoutForm({ language, amountCents, busy, paying, onPay }: {
   );
 }
 
-export default function ReviewClient({ language, initialPlan, caseOnReturn, orderOnReturn, cancelledOnReturn }: Props) {
+export default function ReviewClient({ language, initialPlan, businessRegistrationNumber, caseOnReturn, orderOnReturn, cancelledOnReturn }: Props) {
   const t = copy[language];
   const terms = paymentTerms[language];
   const [plan, setPlan] = useState(initialPlan);
@@ -416,17 +414,6 @@ export default function ReviewClient({ language, initialPlan, caseOnReturn, orde
                     <strong>{t.refundDeclined}</strong>
                     <p className={styles.refundReason}>{item.refundDecision.reason}</p>
                   </div>}
-                  {(item.totalRefundedCents ?? 0) > 0 && <p>{t.refundedAmount} <strong>{'US$'}{((item.totalRefundedCents ?? 0) / 100).toFixed(2)}</strong></p>}
-                  {!!item.refundHistory?.length && <details className={styles.result}>
-                    <summary>{t.refundHistory}</summary>
-                    {item.refundHistory.map((operation) => (
-                      <div key={operation.id}>
-                        <p>{'US$'}{(operation.amountCents / 100).toFixed(2)} · {operation.status === 'failed' ? t.refundFailed : operation.status === 'completed' ? t.status.refunded : t.status.refund_requested}</p>
-                        <p>{operation.reason}</p>
-                        <p>{formatDeadline(operation.completedAt ?? operation.requestedAt, language)}</p>
-                      </div>
-                    ))}
-                  </details>}
                   {awaitingPayment && !canPay && <p className={styles.notice}>{t.checkoutExpired}</p>}
                   {canPay && <CheckoutForm language={language} amountCents={item.amountCents} busy={!!busy} paying={busy === item.id} onPay={(consent) => pay(item, consent)} />}
                   {(statusBeforePayment.has(item.status) || statusAfterPayment.has(item.status)) && <button type="button" className={styles.textButton} disabled={!!busy} onClick={() => cancel(item)}>{statusBeforePayment.has(item.status) ? t.cancel : t.refund}</button>}
@@ -450,6 +437,7 @@ export default function ReviewClient({ language, initialPlan, caseOnReturn, orde
         <footer className={styles.footer}>
           <strong>김현정 법률사무소</strong>
           <span>{t.representative}</span>
+          <span>{t.businessNumber} {businessRegistrationNumber ?? t.businessNumberPending}</span>
           <span>서울특별시 서초구 법원로 16, 정곡빌딩 동관 502호</span>
           <span>{t.forward} <a aria-label={t.emailUs} href="mailto:info@kimnhyun.com">info@kimnhyun.com</a> · <a href="tel:+82234777600">+82 2 3477 7600</a></span>
         </footer>

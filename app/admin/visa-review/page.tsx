@@ -5,7 +5,6 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { isVisaContentAdmin } from '@/lib/admin-auth';
 import { supabase } from '@/lib/supabase';
 import { refundRestrictionConditionsMet, type PaymentTermsLanguage } from '@/lib/visa-review-terms';
-import type { ReviewRefundOperation } from '@/lib/visa-review-server';
 import styles from './review-admin.module.css';
 
 type ReviewCase = {
@@ -31,14 +30,12 @@ type ReviewCase = {
   refund_id?: string | null;
   refund_resolved_at?: string | null;
   refund_resolution_reason?: string | null;
-  refund_operations?: ReviewRefundOperation[] | null;
   result?: string | null;
   notification_status?: string | null;
 };
 
 type Action = 'accept' | 'decline' | 'start' | 'deliver' | 'refund' | 'files' | 'confirm-refund' | 'decline-refund' | 'reconcile';
-type ActionDetails = { result?: string; reason?: string; refundRequestedAt?: string; materialsConfirmed?: boolean;
-  refundAmountCents?: number; refundOperationId?: string; settlementConfirmed?: boolean };
+type ActionDetails = { result?: string; reason?: string; refundRequestedAt?: string; materialsConfirmed?: boolean };
 type ReviewFile = { name: string; url: string };
 type FileLinks = { files: ReviewFile[]; expiresAt: number };
 type AdminResponse = {
@@ -67,14 +64,13 @@ const statuses: Record<string, string> = {
   cancelled: '취소',
   refund_requested: '환불 처리 대기',
   refunding: 'PayPal 환불 처리 중',
-  partially_refunded: '부분 환불 · 위임 종료',
   refunded: '환불 완료',
   expired: '결제 기한 만료',
 };
 
 const seoulTime = new Intl.DateTimeFormat('ko-KR', {
   dateStyle: 'medium',
-  timeStyle: 'short',
+  timeStyle: 'medium',
   timeZone: 'Asia/Seoul',
 });
 
@@ -97,12 +93,6 @@ function displayAmount(cents: number) {
   return `USD ${(cents / 100).toFixed(2)}`;
 }
 
-function refundAmount(value: string) {
-  const match = /^(0|[1-9]\d*)(?:\.(\d{1,2}))?$/.exec(value);
-  if (!match) return 0;
-  return Number(match[1]) * 100 + Number((match[2] ?? '').padEnd(2, '0'));
-}
-
 type CardProps = {
   item: ReviewCase;
   busy: boolean;
@@ -118,27 +108,16 @@ function ReviewCard({ item, busy, now, links, onAction }: CardProps) {
   const [caseConfirmation, setCaseConfirmation] = useState('');
   const [approved, setApproved] = useState(false);
   const [materialsConfirmed, setMaterialsConfirmed] = useState(false);
-  const [refundValue, setRefundValue] = useState('');
-  const [refundReason, setRefundReason] = useState('');
-  const [refundOperationId, setRefundOperationId] = useState('');
-  const [settlementConfirmed, setSettlementConfirmed] = useState(false);
   const plan = plans[item.plan] ?? item.plan;
   const amount = displayAmount(item.amount_cents);
   const { status } = item;
-  const history = item.refund_operations ?? [];
-  const refundedCents = history.filter((refund) => refund.status === 'completed')
-    .reduce((sum, refund) => sum + refund.amount_cents, 0);
-  const remainingCents = item.amount_cents - refundedCents;
-  const requestedCents = refundAmount(refundValue);
-  const refundValid = Number.isSafeInteger(requestedCents) && requestedCents > 0 && requestedCents <= remainingCents &&
-    Boolean(refundReason.trim()) && (!!item.started_at || requestedCents === remainingCents) &&
-    (requestedCents === remainingCents || settlementConfirmed);
-  const pendingRefund = history.some((refund) => refund.status === 'requested' || refund.status === 'pending');
-  const canRefund = ['paid', 'in_review', 'delivered', 'refund_requested', 'partially_refunded'].includes(status) && !pendingRefund;
-  const legacyRefund = !history.length && Boolean(item.refund_id);
-  const canConfirmRefund = status === 'refunding' || (status === 'refund_requested' && (pendingRefund || legacyRefund));
-  const canDeclineRefund = status === 'refund_requested' && !legacyRefund && !pendingRefund &&
+  const canRefund = ['paid', 'in_review', 'delivered', 'refund_requested'].includes(status);
+  const canConfirmRefund = status === 'refunding' || (status === 'refund_requested' && Boolean(item.refund_id));
+  const canDeclineRefund = status === 'refund_requested' && !item.refund_id &&
     !item.refund_resolved_at && refundRestrictionConditionsMet(item);
+  const paidAt = Date.parse(item.paid_at ?? '');
+  const deliveryOpensAt = Number.isFinite(paidAt) ? paidAt + 2 * 60 * 60 * 1000 : null;
+  const canDeliver = deliveryOpensAt !== null && now >= deliveryOpensAt;
   const deadlineIsActive = status === 'paid' || status === 'in_review';
   const overdue = deadlineIsActive && item.deadline_at && new Date(item.deadline_at).getTime() < now;
 
@@ -146,10 +125,6 @@ function ReviewCard({ item, busy, now, links, onAction }: CardProps) {
     setDeclineRefund(null);
     setCaseConfirmation('');
     setApproved(false);
-    setRefundValue((remainingCents / 100).toFixed(2));
-    setRefundReason('');
-    setRefundOperationId(crypto.randomUUID());
-    setSettlementConfirmed(false);
     setRefundAction(action);
   }
 
@@ -187,9 +162,6 @@ function ReviewCard({ item, busy, now, links, onAction }: CardProps) {
         {item.checkout_expires_at && <div><dt>결제 링크 만료</dt><dd>{displayTime(item.checkout_expires_at)}</dd></div>}
         {item.payment_order_id && <div><dt>PayPal 주문번호</dt><dd>{item.payment_order_id}</dd></div>}
         {item.refund_id && <div><dt>PayPal 환불번호</dt><dd>{item.refund_id}</dd></div>}
-        {history.length > 0 && <div><dt>누적 완료 환불 · 잔액</dt><dd>
-          USD {(refundedCents / 100).toFixed(2)} · USD {(remainingCents / 100).toFixed(2)}
-        </dd></div>}
         {item.notification_status && <div><dt>알림 상태</dt><dd>{item.notification_status}</dd></div>}
       </dl>
 
@@ -209,15 +181,6 @@ function ReviewCard({ item, busy, now, links, onAction }: CardProps) {
         <summary>의뢰인에게 안내한 환불 거절 사유</summary>
         <p className={styles.multiline}>{item.refund_resolution_reason}</p>
       </details>}
-      {history.length > 0 && <details className={styles.details}>
-        <summary>환불 처리 이력</summary>
-        {history.map((refund) => <div key={refund.id}>
-          <p>{displayAmount(refund.amount_cents)} · {refund.status === 'completed' ? '완료' : refund.status === 'pending' ? 'PayPal 처리 중' : refund.status === 'failed' ? '실패 · 재승인 가능' : '대조 필요'}</p>
-          <p className={styles.multiline}>{refund.reason}</p>
-          <p>{displayTime(refund.requested_at)} · {refund.provider_id ?? refund.id}</p>
-        </div>)}
-      </details>}
-
       <div className={styles.actions}>
         {item.question && <button type="button" disabled={busy} onClick={() => onAction(item.id, 'files')}>이전 웹 접수 자료 링크 받기</button>}
         {status === 'submitted' && <button type="button" className={styles.primary} disabled={busy || !materialsConfirmed} onClick={() => onAction(item.id, 'accept', { materialsConfirmed })}>접수 승인 및 결제 안내</button>}
@@ -249,53 +212,42 @@ function ReviewCard({ item, busy, now, links, onAction }: CardProps) {
       {status === 'in_review' && (
         <form className={styles.form} onSubmit={(event) => {
           event.preventDefault();
-          if (result.trim().length >= 20) onAction(item.id, 'deliver', { result: result.trim() });
+          if (canDeliver && result.trim().length >= 20) onAction(item.id, 'deliver', { result: result.trim() });
         }}>
           <label>
             <span>의뢰인에게 전달할 서면 검토 결과</span>
             <textarea value={result} onChange={(event) => setResult(event.target.value)} rows={6} minLength={20} maxLength={20_000} required />
           </label>
-          <button className={styles.primary} disabled={busy || result.trim().length < 20} type="submit">서면 결과 전달</button>
+          <p className={styles.note}>
+            {deliveryOpensAt === null
+              ? '결제 확인 시각을 확인해야 검토 결과를 전달할 수 있습니다.'
+              : '결과 전달 가능 시각 ' + displayTime(new Date(deliveryOpensAt).toISOString()) + ' KST'}
+          </p>
+          <button className={styles.primary} disabled={busy || !canDeliver || result.trim().length < 20} type="submit">서면 결과 전달</button>
         </form>
       )}
 
       {refundAction && amount && canConfirmSelectedAction && (
         <form className={styles.refund} onSubmit={(event) => {
           event.preventDefault();
-          if (!approved || caseConfirmation.trim() !== item.id || (refundAction === 'refund' && !refundValid)) return;
-          onAction(item.id, refundAction, refundAction === 'refund' ? {
-            refundAmountCents: requestedCents, refundOperationId, reason: refundReason.trim(), settlementConfirmed,
-          } : undefined);
+          if (!approved || caseConfirmation.trim() !== item.id) return;
+          onAction(item.id, refundAction);
+          setRefundAction(null);
         }}>
-          <h3>{refundAction === 'refund' ? '환불 금액과 위임 종료 확인' : 'PayPal 환불 상태 대조 확인'}</h3>
+          <h3>{refundAction === 'refund' ? '전액 환불 실행 확인' : 'PayPal 환불 상태 대조 확인'}</h3>
           <p>사건 <strong>{item.id}</strong> · <strong>{amount}</strong></p>
-          {refundAction === 'refund' && <>
-            <p>환불 가능 잔액은 USD {(remainingCents / 100).toFixed(2)}입니다. 부분 환불은 처리한 업무의 계산 근거와 의뢰인 안내를 확인한 뒤 실행하세요. 완료하면 이 위임은 종료됩니다.</p>
-            {!item.started_at && <p>실제 착수 전 취소는 잔액 전액을 환불합니다.</p>}
-            <label><span>이번 환불 금액 · USD</span>
-              <input inputMode="decimal" value={refundValue} onChange={(event) => setRefundValue(event.target.value)}
-                pattern="(0|[1-9][0-9]*)([.][0-9]{1,2})?" required />
-            </label>
-            <label><span>의뢰인에게 안내할 사유와 금액 계산 근거</span>
-              <textarea rows={3} value={refundReason} onChange={(event) => setRefundReason(event.target.value)} maxLength={2_000} required />
-            </label>
-            {requestedCents > 0 && requestedCents < remainingCents && <label className={styles.checkbox}>
-              <input type="checkbox" checked={settlementConfirmed} onChange={(event) => setSettlementConfirmed(event.target.checked)} required />
-              의뢰인이 부분 환불 금액과 위임 종료에 동의한 기록을 확인했습니다.
-            </label>}
-          </>}
           <label>
             <span>확인할 사건 번호를 그대로 입력하세요</span>
             <input value={caseConfirmation} onChange={(event) => setCaseConfirmation(event.target.value)} autoComplete="off" required />
           </label>
           <label className={styles.checkbox}>
             <input type="checkbox" checked={approved} onChange={(event) => setApproved(event.target.checked)} required />
-            {refundAction === 'refund' ? '법정 환불 사유, 금액 계산 및 의뢰인 안내를 확인했고 위 금액 환불과 위임 종료를 승인합니다.' : '사건과 금액을 확인했고 기존 환불 요청의 재확인을 승인합니다.'}
+            {refundAction === 'refund' ? '사건, 금액, 환불 사유를 확인했고 전액 환불을 승인합니다.' : '사건과 금액을 확인했고 기존 환불 요청의 재확인을 승인합니다.'}
           </label>
           <div className={styles.actions}>
             <button type="button" disabled={busy} onClick={() => setRefundAction(null)}>닫기</button>
-            <button type="submit" className={styles.danger} disabled={busy || !approved || caseConfirmation.trim() !== item.id || (refundAction === 'refund' && !refundValid)}>
-              {refundAction === 'refund' ? `USD ${(requestedCents / 100).toFixed(2)} 환불` : '환불 상태 대조'}
+            <button type="submit" className={styles.danger} disabled={busy || !approved || caseConfirmation.trim() !== item.id}>
+              {refundAction === 'refund' ? `${amount} 환불` : '환불 상태 대조'}
             </button>
           </div>
         </form>

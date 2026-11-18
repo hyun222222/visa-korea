@@ -23,7 +23,6 @@ export class PayPalReviewError extends Error {
 
 type Money = { currency_code?: string; value?: string };
 type Link = { rel?: string; href?: string };
-type Refund = { id?: string; status?: string; amount?: Money; custom_id?: string };
 type Capture = {
   id?: string;
   status?: string;
@@ -42,7 +41,7 @@ type Order = {
   purchase_units?: Array<{
     custom_id?: string;
     amount?: Money;
-    payments?: { captures?: Capture[]; refunds?: Refund[] };
+    payments?: { captures?: Capture[] };
   }>;
 };
 
@@ -253,19 +252,13 @@ export async function refundReviewPayPalCapture(input: {
   captureId: string;
   caseId: string;
   amountCents: number;
-  refundAmountCents?: number;
-  operationId?: string;
-  reconcileOnly?: boolean;
   orderId?: string;
   refundId?: string;
 }) {
-  const { captureId, caseId, amountCents, orderId, refundId, operationId, reconcileOnly } = input;
-  const refundAmountCents = input.refundAmountCents ?? amountCents;
+  const { captureId, caseId, amountCents, orderId, refundId } = input;
   checkInput(caseId, amountCents);
-  checkInput(caseId, refundAmountCents);
   if (!providerId(captureId) || (orderId !== undefined && !providerId(orderId)) ||
-    (refundId !== undefined && !providerId(refundId)) || refundAmountCents > amountCents ||
-    (operationId !== undefined && !providerId(operationId))) {
+    (refundId !== undefined && !providerId(refundId))) {
     throw new PayPalReviewError('invalid-input');
   }
   const client = await paymentClient();
@@ -273,7 +266,7 @@ export async function refundReviewPayPalCapture(input: {
   const capture = await client.get<Capture>(path);
   if (capture.id !== captureId || !sameAmount(capture.amount, amountCents) ||
     (capture.custom_id !== undefined && capture.custom_id !== caseId) ||
-    !['COMPLETED', 'PARTIALLY_REFUNDED', 'REFUNDED'].includes(capture.status ?? '')) {
+    !['COMPLETED', 'REFUNDED'].includes(capture.status ?? '')) {
     throw new PayPalReviewError('payment-mismatch');
   }
 
@@ -282,12 +275,10 @@ export async function refundReviewPayPalCapture(input: {
     up?.pathname.match(/^\/v2\/checkout\/orders\/([A-Za-z0-9-]{1,64})$/)?.[1];
   const verifiedOrderId = orderId ?? linkedOrder;
   if (orderId && linkedOrder && orderId !== linkedOrder) throw new PayPalReviewError('payment-mismatch');
-  let recordedRefunds: Refund[] = [];
   if (providerId(verifiedOrderId)) {
     const order = await client.get<Order>(`/v2/checkout/orders/${verifiedOrderId}`);
     const purchaseUnit = verifyOrder(order, verifiedOrderId, caseId, amountCents);
     const captures = purchaseUnit.payments?.captures;
-    recordedRefunds = purchaseUnit.payments?.refunds ?? [];
     if (order.status !== 'COMPLETED' || captures?.length !== 1 || captures[0].id !== captureId ||
       !sameAmount(captures[0].amount, amountCents)) {
       throw new PayPalReviewError('payment-mismatch');
@@ -296,39 +287,14 @@ export async function refundReviewPayPalCapture(input: {
     throw new PayPalReviewError('payment-mismatch');
   }
 
-  async function findRecordedRefund(refunds: Refund[]) {
-    if (!operationId) return undefined;
-    for (const entry of refunds) {
-      if (!providerId(entry.id)) throw new PayPalReviewError('provider-error');
-      const details = await client.get<Refund>(`/v2/payments/refunds/${entry.id}`);
-      if (details.custom_id === operationId) return details;
-    }
-    return undefined;
-  }
-
-  let refund = refundId
+  type Refund = { id?: string; status?: string; amount?: Money };
+  const refund = refundId
     ? await client.get<Refund>(`/v2/payments/refunds/${refundId}`)
-    : await findRecordedRefund(recordedRefunds);
-  if (!refund) {
-    if (reconcileOnly) throw new PayPalReviewError('provider-error');
-    try {
-      refund = await client.post<Refund>(`${path}/refund`, {
-        amount: usd(refundAmountCents),
-        ...(operationId ? {custom_id: operationId} : {}),
-      }, requestId('refund', captureId, caseId, ...(operationId ? [operationId] : [])));
-    } catch (error) {
-      if (!operationId || !providerId(verifiedOrderId)) throw error;
-      const current = await client.get<Order>(`/v2/checkout/orders/${verifiedOrderId}`);
-      const unit = verifyOrder(current, verifiedOrderId, caseId, amountCents);
-      refund = await findRecordedRefund(unit.payments?.refunds ?? []);
-      if (!refund) throw error;
-    }
-  }
-  if (!providerId(refund.id) || !sameAmount(refund.amount, refundAmountCents) ||
-    (operationId !== undefined && refund.custom_id !== operationId) ||
+    : await client.post<Refund>(`${path}/refund`, { amount: usd(amountCents) }, requestId('refund', captureId, caseId));
+  if (!providerId(refund.id) || !sameAmount(refund.amount, amountCents) ||
     (refundId !== undefined && refund.id !== refundId) ||
-    !['COMPLETED', 'PENDING', 'FAILED', 'CANCELLED'].includes(refund.status ?? '')) {
+    (refund.status !== 'COMPLETED' && refund.status !== 'PENDING')) {
     throw new PayPalReviewError('provider-error');
   }
-  return { refundId: refund.id, status: refund.status as 'COMPLETED' | 'PENDING' | 'FAILED' | 'CANCELLED' };
+  return { refundId: refund.id, status: refund.status };
 }

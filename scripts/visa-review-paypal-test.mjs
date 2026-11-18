@@ -37,7 +37,7 @@ function useMock(t) {
     }
   });
 
-  const state = { status: 'APPROVED', captureStatus: 'COMPLETED', amount, caseId, refundStatus: 'COMPLETED', refundRecords: new Map(), refundRequests: new Map() };
+  const state = { status: 'APPROVED', captureStatus: 'COMPLETED', amount, caseId, refundStatus: 'COMPLETED' };
   const requests = [];
   t.mock.method(globalThis, 'fetch', async (rawUrl, init) => {
     const url = new URL(rawUrl);
@@ -72,7 +72,6 @@ function useMock(t) {
           amount: state.amount,
           payments: state.status === 'COMPLETED' ? {
             captures: [{ id: captureId, status: state.captureStatus, amount: state.captureAmount ?? state.amount, update_time: state.capturedAt }],
-            refunds: [...state.refundRecords.values()].map(({id}) => ({id})),
           } : undefined,
         }],
       });
@@ -91,33 +90,11 @@ function useMock(t) {
       });
     }
     if (url.pathname === `${paymentPath}/refund` && method === 'POST') {
-      if (body.custom_id) {
-        const requestKey = headers.get('PayPal-Request-Id');
-        let saved = state.refundRequests.get(requestKey);
-        if (!saved) {
-          saved = {id: 'PARTIAL' + (state.refundRecords.size + 1), status: state.refundStatus, amount: body.amount, custom_id: body.custom_id};
-          state.refundRecords.set(saved.id, saved);
-          state.refundRequests.set(requestKey, saved);
-        }
-        const total = [...state.refundRecords.values()].filter((record) => record.status === 'COMPLETED')
-          .reduce((sum, record) => sum + Number(record.amount.value), 0);
-        state.captureStatus = total >= Number(state.amount.value) ? 'REFUNDED' : total > 0 ? 'PARTIALLY_REFUNDED' : 'COMPLETED';
-        if (state.lostRefundResponse) {
-          state.lostRefundResponse = false;
-          throw new TypeError('Simulated lost refund response');
-        }
-        return Response.json(saved, {status: 201});
-      }
       if (state.refundStatus === 'COMPLETED') state.captureStatus = 'REFUNDED';
       return Response.json({ id: refundId, status: state.refundStatus, amount: state.refundAmount ?? state.amount }, { status: 201 });
     }
     if (url.pathname === `/v2/payments/refunds/${refundId}` && method === 'GET') {
       return Response.json({ id: refundId, status: state.refundStatus, amount: state.refundAmount ?? state.amount });
-    }
-    if (url.pathname.startsWith('/v2/payments/refunds/') && method === 'GET') {
-      const saved = state.refundRecords.get(url.pathname.split('/').at(-1));
-      assert.ok(saved);
-      return Response.json({...saved, status: state.refundStatus, amount: state.refundAmount ?? saved.amount});
     }
     assert.fail(`Unexpected request ${method} ${url.pathname}`);
   });
@@ -274,39 +251,7 @@ function runLocalTests() {
     assert.equal(requests.length, 0);
   });
 
-  test('partial refunds validate the original payment and keep separate operation identities for the remaining balance', async t => {
-    const {requests, state} = useMock(t);
-    state.status = 'COMPLETED';
-    const first = {captureId, caseId, amountCents, refundAmountCents: 3300, operationId: randomUUID(), reason: 'Agreed partial refund'};
-    const second = {...first, refundAmountCents: 6600, operationId: randomUUID()};
-    await refundReviewPayPalCapture(first);
-    assert.equal(state.captureStatus, 'PARTIALLY_REFUNDED');
-    await refundReviewPayPalCapture(first);
-    await refundReviewPayPalCapture(second);
-    const posts = requests.filter((request) => request.path.endsWith('/refund'));
-    assert.equal(posts.length, 2);
-    assert.notEqual(posts[0].requestId, posts[1].requestId);
-    assert.deepEqual(posts.map((request) => request.body.amount), [
-      {currency_code: 'USD', value: '33.00'}, {currency_code: 'USD', value: '66.00'},
-    ]);
-    assert.equal(state.captureStatus, 'REFUNDED');
-    for (const refundAmountCents of [0, -1, 9901, 1.5]) {
-      await assert.rejects(refundReviewPayPalCapture({...first, refundAmountCents}), hasCode('invalid-input'));
-    }
-  });
 
-  test('a lost partial refund response is reconciled from the saved operation without a second payout', async t => {
-    const {requests, state} = useMock(t);
-    state.status = 'COMPLETED';
-    state.lostRefundResponse = true;
-    const input = {captureId, caseId, amountCents, refundAmountCents: 2000, operationId: randomUUID()};
-    const refund = await refundReviewPayPalCapture(input);
-    assert.equal(refund.status, 'COMPLETED');
-    await refundReviewPayPalCapture({...input, reconcileOnly: true});
-    assert.equal(requests.filter((request) => request.path.endsWith('/refund')).length, 1);
-    await assert.rejects(refundReviewPayPalCapture({...input, operationId: randomUUID(), reconcileOnly: true}), hasCode('provider-error'));
-    assert.equal(requests.filter((request) => request.path.endsWith('/refund')).length, 1);
-  });
 }
 
 async function runSandbox([mode, approvalOrderId, testCaseId]) {

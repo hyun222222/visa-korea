@@ -83,7 +83,7 @@ async function cancelCase(c: ReviewCase) {
   if (['submitted', 'accepted', 'checkout'].includes(c.status)) {
     return transitionReviewCase(c, {status: 'cancelled'});
   }
-  if (['paid', 'in_review', 'delivered', 'partially_refunded'].includes(c.status)) {
+  if (['paid', 'in_review', 'delivered'].includes(c.status)) {
     const saved = await transitionReviewCase(c, {
       status: 'refund_requested',
       refund_requested_at: new Date().toISOString(),
