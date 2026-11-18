@@ -1,0 +1,182 @@
+export type Language = 'en' | 'ko' | 'zh';
+export type Plan = 'question' | 'documents' | 'strategy';
+export type Status = 'submitted' | 'accepted' | 'checkout' | 'paid' | 'in_review' | 'delivered' | 'declined' | 'cancelled' | 'refund_requested' | 'partially_refunded' | 'refunded';
+
+export const plans: Plan[] = ['question', 'documents', 'strategy'];
+export const planPrice: Record<Plan, number> = { question: 55, documents: 99, strategy: 330 };
+
+type PlanCopy = { title: string; scope: string; result: string };
+type LanguageCopy = {
+  metaTitle: string; description: string; firm: string; heroTitle: string; heroBody: string; primary: string; casesLink: string; office: string;
+  sampleTitle: string; sampleCase: string; sampleBody: string; sampleNext: string;
+  planTitle: string; planIntro: string; plan: Record<Plan, PlanCopy>; choose: string; application: string;
+  processTitle: string; process: [string, string][]; clock: string; outcomeTitle: string; outcome: string;
+  verifyTitle: string; verifyBody: string; email: string; code: string; sendCode: string; verify: string; resend: string; codeSent: string; verified: string;
+  name: string; emailMaterials: string; emailMaterialsDetail: string; basedOnProvidedFacts: string; mask: string; contractConsent: string; privacyConsent: string; transferConsent: string; submit: string;
+  closed: string; initError: string; genericError: string; submitted: string; working: string;
+  casesTitle: string; casesIntro: string; reload: string; emptyCases: string; status: Record<Status, string>; reference: string; due: string; pay: string;
+  cancel: string; refund: string; confirmation: string; cancelled: string; paid: string; returnCancel: string; returnRetry: string; result: string; accepted: string; requestPending: string;
+  scopeTitle: string; scopeText: string; refundTitle: string; refundInstructions: string; refundDeclined: string;
+  checkoutExpired: string; representative: string; minorNotice: string; businessNumber: string; businessNumberPending: string;
+  privacyTitle: string; privacyController: string; privacyProcessing: string; retention: string; providers: [string, string, string][]; privacyRefusal: string;
+  emailUs: string; forward: string; languageLabel: string;
+};
+
+export const copy: Record<Language, LanguageCopy> = {
+  en: {
+    metaTitle: 'Ask a Korean visa lawyer in writing | Kim Hyunjung Law Office', description: 'A Korean lawyer reviews one visa question for $55. Written eligibility, points and document reviews are also available. Get a reply within 24 hours after payment and complete materials.',
+    firm: 'Kim Hyunjung Law Office', heroTitle: 'One Korean visa question. A lawyer’s answer.', heroBody: 'Ask what a job change, a past overstay or a broker’s claim means for your particular visa. A Korean lawyer reviews your facts under professional confidentiality obligations and sends a written answer.',
+    primary: "Check which review fits", casesLink: 'My cases', office: 'Kim Hyunjung Law Office · Seoul',
+    sampleTitle: 'What you receive · sample', sampleCase: 'Can I take a second job on E-7?', sampleBody: 'The answer depends on your permitted workplace and duties. We would compare your current permission with the kind of work you propose to take on.', sampleNext: 'Before starting, confirm the proposed duties and hiring entity so we can advise which procedure applies.',
+    planTitle: 'Choose what you need checked', planIntro: 'Every tier includes a written answer from a lawyer. Prices are in USD per case.',
+    plan: {
+      question: { title: 'One visa question', scope: 'One applicant and one question in 600 characters. For a past overstay, job loss or change, side work or something a visa broker told you. Text only.', result: 'A conclusion, the rule it rests on and one step you can take now.' },
+      documents: { title: 'Eligibility and points check', scope: 'One visa route, 1–2 files, up to 5 pages total. F-2-7 points, F-5 income and residence, D-10 to E-7, E-7 employer eligibility or D-8 requirements.', result: 'A table marking each requirement as met, unmet or still to verify, with the evidence to gather next.' },
+      strategy: { title: 'Notice or contract opinion', scope: 'One refusal notice, departure notice or D-8 contract before signing. Up to 5 files and 15 pages with supporting material.', result: 'A written opinion explaining the document, your options and their risks, and any deadline we can verify.' },
+    },
+    choose: 'Start this review', application: 'Request a review',
+    processTitle: 'From application to written answer',
+    process: [["Create a case and email the details", "Send your question, relevant dates and any requested masked documents to the office inbox with your case reference."], ["Confirm the terms and pay", "The office confirms scope and complete materials. Accept all three terms before continuing to PayPal."], ["Get the lawyer’s written answer", "We notify you by email. Sign in to read the result in your case."]],
+    clock: 'Your lawyer begins as soon as we confirm payment and all required materials. We send the written review within 24 hours of that confirmation, and at least two hours after payment is confirmed. Deadlines are shown in Korea Standard Time.',
+    outcomeTitle: 'This review does not guarantee a visa or permission to stay.',
+    outcome: 'Immigration authorities make the final decision.',
+    verifyTitle: 'Verify your email', verifyBody: 'This email gives you access to your applications, payment status and written results.',
+    email: 'Email address', code: 'Verification code', sendCode: 'Send verification code', verify: 'Verify email', resend: 'Send a new code', codeSent: 'If the address is eligible, a verification code will be sent. Check spam if it doesn’t arrive.', verified: 'Email verified.',
+    name: 'Applicant’s full name',
+    mask: "Use email for case details and requested documents. Mask identity numbers and third-party information. Ask the office how to send sensitive originals before sharing them. If a file is encrypted, share its password separately by phone.",
+    contractConsent: 'I have read the review scope, timing and cancellation terms and request the selected review.',
+    privacyConsent: 'I consent to the personal data processing described below.',
+    transferConsent: 'I separately consent to the overseas transfers described below.',
+    submit: 'Send for scope confirmation', closed: 'New reviews are temporarily paused. You can still open an existing case.', initError: 'Could not load intake status. Try again.', genericError: 'Could not complete that step. Try again or contact the office.', submitted: "Your case reference is ready. Send the case details to the office from your verified email address.", working: 'Please wait…',
+    casesTitle: 'My cases', casesIntro: 'Verify the email used for your application to see updates or open your written review.', reload: 'Refresh status', emptyCases: 'No cases to display.',
+    status: {submitted:'Waiting for scope confirmation',accepted:'Accepted · ready to pay',checkout:'Waiting for payment',paid:'Payment confirmed',in_review:'Lawyer reviewing',delivered:'Written review available',declined:'Unable to accept',cancelled:'Cancelled',refund_requested:'Refund requested',partially_refunded:'Partially refunded · engagement ended',refunded:'Refunded'},
+    reference: 'Case reference', due: 'Due by', pay: 'Continue to PayPal', cancel: 'Cancel this request', refund: 'Request a refund',
+    confirmation: 'Confirm this cancellation or refund request?', cancelled: 'Your cancellation or refund request has been recorded.', paid: 'Payment confirmed. Check your case for the deadline.',
+    returnCancel: 'PayPal checkout was closed. Check your case before starting a new payment.', returnRetry: 'Verify returned PayPal payment', result: 'Lawyer’s written review', accepted: "Payment becomes available after the office confirms your emailed materials and the review scope.", requestPending: 'We’ll email you when the office has an update.',
+    scopeTitle: 'Review agreement', scopeText: 'The agreed fee covers the selected written review, including a response where the evidence is insufficient to reach a conclusion. Application filing, representation, translations, appeals and government fees fall outside this engagement. The office confirms scope and capacity before payment.',
+    refundTitle: 'Cancellation and refunds', refundInstructions: 'You can cancel an unpaid request in My cases. To request a refund, use Request a refund or email the office with your case reference. Check My cases for the outcome.',
+    refundDeclined: 'Refund request declined',
+    businessNumber: 'Business registration no.',
+    businessNumberPending: 'Awaiting confirmation by the office',
+    checkoutExpired: 'Your payment window has expired. Contact the office with your case reference to check your options.',
+    representative: 'Representative and advertising lawyer · Kim Hyunjung',
+    minorNotice: 'If you are a minor, have your legal representative confirm the terms before payment. If they did not consent, you or your legal representative may cancel the contract.',
+    privacyTitle: 'Privacy and overseas processing', privacyController: 'Controller: 김현정 법률사무소 (Kim Hyunjung Law Office), 502 East Wing, 16 Beobwon-ro, Seocho-gu, Seoul. Contact info@kimnhyun.com to request access, correction, deletion, restriction or withdrawal of consent.', privacyProcessing: "The website processes your name, email, verification, case status, agreement, payment, and review result records. Send case details and documents directly to the office mailbox. New document files and case descriptions are not stored on the website.",
+    retention: "Where applicable, advertising records are kept for six months, contract, withdrawal, payment and service records for five years, and complaint records for three years. Case materials follow the legal and professional retention rules that apply. We delete material when the applicable purpose and retention period end.",
+    providers: [
+      ['Vercel · United States and service network','Connection information and submitted case data are transmitted on access or submission to run the pages and intake API.','https://vercel.com/legal/dpa'],
+      ['Supabase · Tokyo, Japan project','Name, email, case status, payment and review records are stored as you authenticate, submit or access a case. Access is restricted.','https://supabase.com/privacy'],
+      ['Resend · United States','Processes email addresses, authentication and notification information on request to send codes and case notices.','https://resend.com/legal/privacy-policy'],
+      ['PayPal · regions described at checkout','PayPal handles billing information you enter on its site. We receive transaction and verification records.','https://www.paypal.com/kr/legalhub/privacy-full'],
+    ],
+    privacyRefusal: 'Transfers occur over encrypted connections. You may refuse consent and contact the office by phone to discuss another way to request a review.',
+    emailUs: 'Email the office', forward: 'Review and payment inquiries', languageLabel: 'Language',
+    emailMaterials: "Open email draft",
+    emailMaterialsDetail: "From the email address you verified, write to info@kimnhyun.com. Include your case reference, your question and relevant dates. Attach only the masked documents needed for your plan. Opening the draft does not send it.",
+    basedOnProvidedFacts: "The lawyer’s assessment is limited to the facts and materials you provide. If they are incomplete, the lawyer will identify what remains uncertain or what else is needed.",
+  },
+  ko: {
+    metaTitle: '한국 비자 변호사 서면검토 | 김현정 법률사무소', description: '한국 비자에 관한 한 가지 질문은 55달러부터. 체류 요건과 점수, 통지서·계약서도 변호사가 서면으로 검토합니다. 결제와 필수 자료가 확인된 때부터 24시간 이내에 전달합니다.',
+    firm: '김현정 법률사무소', heroTitle: '내 비자에 걸리는 한 가지, 변호사에게 물어보세요.', heroBody: '이직이나 부업, 과거 초과 체류, 비자 업체의 설명이 내 체류에 어떤 영향을 주는지 확인하세요. 변호사가 비밀유지 의무에 따라 사실관계를 검토하고 서면으로 답합니다.',
+    primary: "내 상황에 맞는 검토 찾기", casesLink: '내 접수 내역', office: '김현정 법률사무소 · 서울',
+    sampleTitle: '서면 답변 예시', sampleCase: 'E-7으로 부업을 시작할 수 있나요?', sampleBody: '현재 허가받은 근무처와 직무, 새 일의 내용에 따라 판단이 달라집니다. 현재 허가 범위와 새 일의 직무를 대조합니다.', sampleNext: '일을 시작하기 전에 새 업무 내용과 계약 상대방을 확인하세요. 어떤 절차가 필요한지 판단할 때 쓰입니다.',
+    planTitle: '검토받을 내용을 선택하세요', planIntro: '모든 상품에 변호사의 서면 답변이 포함됩니다. 건별 미국 달러 기준입니다.',
+    plan: {
+      question: { title: '한 가지 질문', scope: '신청인 1명의 질문 1개, 600자 이내. 과거 초과 체류, 실직·이직·부업, 비자 업체 설명 등을 글로 적어주세요.', result: '서면 결론, 적용 근거, 지금 할 일 한 가지를 드립니다.' },
+      documents: { title: '요건·점수 확인', scope: '비자 유형 1개와 자료 1~2개, 총 5쪽 이내. F-2-7 점수, F-5 소득·거주기간, D-10→E-7, E-7 고용주 또는 D-8 요건을 검토합니다.', result: '요건별로 충족·미충족·확인 필요를 표에 표시하고, 다음에 챙길 증빙을 알려드립니다.' },
+      strategy: { title: '통지서·계약서 의견서', scope: '사증 거절통지서, 출국 관련 통지서 또는 서명 전 D-8 계약서 1건. 관련 자료 포함 최대 5개, 총 15쪽을 검토합니다.', result: '문서의 의미, 대응 선택지별 위험, 확인할 수 있는 기한을 서면 의견서에 정리합니다.' },
+    },
+    choose: '이 검토 신청', application: '검토 접수',
+    processTitle: '접수부터 검토서 전달까지',
+    process: [["접수번호 발급 후 자료 이메일로 보내기", "질문과 중요한 날짜, 필요한 가림 처리 서류를 접수번호와 함께 사무소 이메일로 보내 주세요."], ["수임 확인 후 약관 동의·결제", "사무소가 검토 범위와 자료 완비를 확인합니다. 세 가지 필수 항목에 동의한 뒤 PayPal로 이동합니다."], ["변호사 검토서 확인", "이메일로 완료를 알려드립니다. 본인 이메일로 인증해 서면 답변을 확인하세요."]],
+    clock: '결제와 필수 자료를 모두 확인하면 변호사가 즉시 착수합니다. 그 시점부터 24시간 이내에 서면 검토 결과를 전달합니다. 결과는 결제 확인 후 2시간이 지난 뒤 전달하며, 기한은 한국시간으로 표시됩니다.',
+    outcomeTitle: '이 검토는 비자 발급이나 체류허가를 보장하지 않습니다.',
+    outcome: '발급·허가 여부는 관할 기관이 결정합니다.',
+    verifyTitle: '이메일 인증', verifyBody: '신청 내용, 결제 상태, 서면 검토 결과를 이 이메일로 인증해 확인할 수 있습니다.',
+    email: '이메일 주소', code: '인증번호', sendCode: '인증번호 받기', verify: '이메일 인증', resend: '인증번호 다시 받기', codeSent: '인증번호 발송을 요청했습니다. 메일이 보이지 않으면 스팸함을 확인하세요.', verified: '이메일 인증이 완료됐습니다.',
+    name: '신청인 성명',
+    mask: "사건 설명과 필요한 서류는 이메일로 보내 주세요. 신분증 번호와 제3자 정보는 가리고, 민감정보나 원본이 필요하면 먼저 사무소에 제출 방법을 문의해 주세요. 암호화한 파일의 비밀번호는 전화 등 별도 경로로 알려 주세요.",
+    contractConsent: '검토 범위와 기한, 취소 조건을 확인하고 선택한 검토를 신청합니다.',
+    privacyConsent: '아래 개인정보 처리에 동의합니다.',
+    transferConsent: '아래 개인정보 국외 이전에 별도로 동의합니다.',
+    submit: '검토 가능 여부 확인 요청', closed: '새 요청을 일시적으로 받지 않습니다. 기존 접수는 확인할 수 있습니다.', initError: '접수 상태를 불러오지 못했습니다. 다시 시도해주세요.', genericError: '처리하지 못했습니다. 다시 시도하거나 사무소로 문의해주세요.', submitted: "접수번호가 발급됐습니다. 인증한 이메일로 사무소에 사건 내용을 보내 주세요.", working: '처리 중…',
+    casesTitle: '내 접수 내역', casesIntro: '신청에 사용한 이메일을 인증하면 접수 진행 상태와 서면 검토 결과를 볼 수 있습니다.', reload: '상태 새로고침', emptyCases: '표시할 접수가 없습니다.',
+    status: {submitted:'접수 범위 확인 중',accepted:'접수 확정 · 결제 가능',checkout:'결제 대기',paid:'결제 확인',in_review:'변호사 검토 중',delivered:'서면 검토 완료',declined:'접수 불가',cancelled:'취소됨',refund_requested:'환불 요청됨',partially_refunded:'일부 환불 완료 · 위임 종료',refunded:'환불 완료'},
+    reference: '접수번호', due: '검토 완료 기한', pay: 'PayPal 결제하기', cancel: '요청 취소', refund: '환불 요청',
+    confirmation: '취소 또는 환불을 요청하시겠습니까?', cancelled: '취소 또는 환불 요청이 기록됐습니다.', paid: '결제를 확인했습니다. 내 접수 내역에서 기한을 확인하세요.',
+    returnCancel: 'PayPal 결제 화면이 닫혔습니다. 재결제 전 접수 상태를 확인하세요.', returnRetry: 'PayPal 결제 다시 확인', result: '변호사 서면 검토', accepted: "사무소가 이메일 자료와 검토 범위를 확인하면 이곳에서 결제할 수 있습니다.", requestPending: '진행 상태가 바뀌면 이메일로 알려드립니다.',
+    scopeTitle: '검토 범위와 계약', scopeText: '결제 금액은 선택한 범위의 서면검토 비용입니다. 제출된 사실만으로 판단하기 어려운 경우에는 어떤 정보가 더 필요한지 설명합니다. 신청서 작성·대리, 번역, 불복절차와 관청 수수료는 별도입니다. 사무소가 범위와 접수 가능 여부를 확인한 다음 결제합니다.',
+    refundTitle: '취소 및 환불', refundInstructions: '미결제 요청은 내 접수 내역에서 취소할 수 있습니다. 환불 요청 버튼을 누르거나 접수번호를 적어 이메일로 문의해 주세요. 처리 결과는 내 접수 내역에서 확인할 수 있습니다.',
+    refundDeclined: '환불 요청을 받아들이지 않았습니다',
+    businessNumber: '사업자등록번호',
+    businessNumberPending: '사무소 확인 필요',
+    checkoutExpired: '결제 가능 시간이 지났습니다. 접수번호와 함께 사무소에 문의해 주세요.',
+    representative: '대표자 및 광고 주체 김현정 변호사',
+    minorNotice: '미성년자는 결제 전에 법정대리인과 약관을 확인해 주세요. 법정대리인이 계약에 동의하지 않으면 미성년자 본인 또는 법정대리인이 계약을 취소할 수 있습니다.',
+    privacyTitle: '개인정보 처리와 국외 이전', privacyController: '개인정보처리자 김현정 법률사무소. 서울 서초구 법원로 16 정곡빌딩 동관 502호. info@kimnhyun.com으로 열람·정정·삭제·처리정지·동의 철회를 요청할 수 있습니다.', privacyProcessing: "웹에서는 신청인 성명·이메일, 인증·접수 상태·계약·결제·검토 결과를 처리합니다. 사건 설명과 서류는 사무소 이메일에서 접수하며 새 서류 파일과 사건 설명은 홈페이지에 보관하지 않습니다.",
+    retention: "해당하는 경우 표시·광고 기록은 6개월, 계약·청약철회 및 결제·용역 공급 기록은 5년, 불만·분쟁 처리 기록은 3년 보관합니다. 사건 자료는 적용되는 법령 및 업무상 보존 의무에 따라 처리하고 목적과 보존기간이 지나면 파기합니다.",
+    providers: [
+      ['Vercel · 미국 및 서비스 네트워크','접속과 자료 제출 때 웹 요청, 접속 및 제출 정보를 처리해 페이지와 접수 기능을 제공합니다.','https://vercel.com/legal/dpa'],
+      ['Supabase · 일본 도쿄 프로젝트','인증, 자료 제출 및 조회 때 성명, 이메일, 접수 상태, 결제·검토 기록을 접근이 제한된 저장소에 보관합니다.','https://supabase.com/privacy'],
+      ['Resend · 미국','인증번호와 진행 알림 발송을 위해 요청 시 이메일 주소와 인증·알림 정보를 처리합니다.','https://resend.com/legal/privacy-policy'],
+      ['PayPal · 결제 화면에 안내된 국가','결제 화면에 입력한 결제정보는 PayPal이 처리합니다. 사무소는 거래번호와 결제 확인 기록을 받습니다.','https://www.paypal.com/kr/legalhub/privacy-full'],
+    ],
+    privacyRefusal: '정보는 암호화된 통신망으로 이전됩니다. 동의를 거부하는 경우 전화로 대체 접수 방법을 문의할 수 있습니다.',
+    emailUs: '사무소 이메일', forward: '검토·결제 문의', languageLabel: '언어',
+    emailMaterials: "사무소에 보낼 이메일 작성",
+    emailMaterialsDetail: "인증한 이메일 주소로 info@kimnhyun.com에 보내 주세요. 메일 제목에 접수번호를 넣고 질문과 주요 날짜를 적어 주세요. 상품 범위에서 필요한 서류만 가려서 첨부합니다. 버튼은 메일 작성 화면을 열며, 직접 발송해야 접수됩니다.",
+    basedOnProvidedFacts: "변호사는 의뢰인이 제공한 사실과 자료의 범위에서 판단합니다. 자료가 부족하면 확인할 수 없는 부분과 추가로 필요한 자료를 서면으로 안내합니다.",
+  },
+  zh: {
+    metaTitle: '韩国签证律师书面审查 | 김현정 법률사무소', description: '55 美元向韩国律师咨询一个签证问题。亦可核查居留条件、积分、通知书或合同。确认付款且所需资料齐全后 24 小时内书面回复。',
+    firm: '김현정 법률사무소', heroTitle: '一个韩国签证问题，律师书面回答。', heroBody: '换工作、兼职、过去逾期停留或中介的说法，会怎样影响您的签证？韩国律师遵守职业保密义务，审查您的具体情况并书面答复。',
+    primary: "查看适合您的审查服务", casesLink: '我的案件', office: '韩国律师事务所 · 首尔',
+    sampleTitle: '书面答复示例', sampleCase: '持 E-7 签证能兼职吗？', sampleBody: '结论取决于目前获准的工作单位、工作职责及拟从事的兼职内容。律师会对照现有许可与拟从事的工作。', sampleNext: '开始兼职前，请确认工作内容与签约方，以便判断适用的手续。',
+    planTitle: '选择您要审查的内容', planIntro: '每项服务均由律师书面回复。按案件收费，价格以美元计。',
+    plan: {
+      question: { title: '一个签证问题', scope: '一位申请人和一个问题，600 字以内。适用于过去逾期停留、失业、换工作、兼职或核实中介说法。只需填文字。', result: '提供书面结论、适用依据和眼下可做的一件事。' },
+      documents: { title: '条件及积分核查', scope: '一类签证及一至两份材料，合计最多五页。适用于 F-2-7 积分、F-5 收入与居留时间、D-10 转 E-7、E-7 雇主条件或 D-8 条件。', result: '逐项列明符合、不符合或待核实，并指出需补充的证据。' },
+      strategy: { title: '通知书或合同书面意见', scope: '一份拒签通知、离境通知或待签署的 D-8 合同。含相关材料最多五份、合计十五页。', result: '书面说明文件的含义、各应对方案的风险及可以核实的期限。' },
+    },
+    choose: '申请此项审查', application: '提交审查申请',
+    processTitle: '从提交到收到书面意见',
+    process: [["取得案件编号并发送邮件", "请将问题、重要日期及所需的已遮盖信息的文件，连同案件编号发送至事务所邮箱。"], ["确认承接、同意条款后付款", "事务所核对审查范围与材料。确认三项必读条款后，可前往 PayPal。"], ["查看律师书面意见", "完成后会发送邮件通知。登录案件页面即可查看。"]],
+    clock: '确认付款和全部所需材料后，律师立即开始审查，并在确认后 24 小时内提供书面答复。书面意见最早于确认收款两小时后交付。截止时间以韩国标准时间显示。',
+    outcomeTitle: '本审查不保证获得签证或在韩国停留的许可。',
+    outcome: '是否批准由主管机关决定。',
+    verifyTitle: '验证电子邮箱', verifyBody: '通过此邮箱验证身份后，可查看申请、付款状态和书面意见。',
+    email: '电子邮箱', code: '验证码', sendCode: '发送验证码', verify: '验证邮箱', resend: '重新发送验证码', codeSent: '已请求发送验证码。未收到时，请检查垃圾邮件。', verified: '邮箱已验证。',
+    name: '申请人姓名',
+    mask: "请通过邮件提供案件说明和必要材料。请遮盖证件号码和第三方信息。发送敏感资料或原件前，请向事务所询问提交方式。加密附件的密码请通过电话等其他渠道告知。",
+    contractConsent: '我已阅读审查范围、时间及取消条款，同意申请所选服务。',
+    privacyConsent: '我同意按下述说明处理个人资料。',
+    transferConsent: '我另行同意按下述说明跨境传输个人资料。',
+    submit: '提交以确认审查范围', closed: '暂不接受新申请。您仍可查询现有案件。', initError: '无法读取受理状态，请重试。', genericError: '无法完成该步骤。请重试或联系事务所。', submitted: "案件编号已生成。请使用经验证的邮箱向事务所发送案件说明。", working: '请稍候…',
+    casesTitle: '我的案件', casesIntro: '验证提交申请时使用的邮箱，即可查看付款状态和律师的书面意见。', reload: '刷新状态', emptyCases: '没有可显示的案件。',
+    status: {submitted:'等待确认审查范围',accepted:'已承接 · 可付款',checkout:'等待付款',paid:'付款已确认',in_review:'律师审查中',delivered:'书面意见可查看',declined:'无法承接',cancelled:'已取消',refund_requested:'已申请退款',partially_refunded:'已部分退款 · 委托已结束',refunded:'已退款'},
+    reference: '案件编号', due: '审查截止时间', pay: '通过 PayPal 付款', cancel: '取消此申请', refund: '申请退款',
+    confirmation: '确认提交取消或退款请求？', cancelled: '已记录您的取消或退款请求。', paid: '付款已确认。请在案件页面查看截止时间。',
+    returnCancel: 'PayPal 支付页面已关闭。重新付款前请查看案件状态。', returnRetry: '重新确认 PayPal 付款', result: '律师书面意见', accepted: "事务所确认邮件材料和审查范围后，即可在此付款。", requestPending: '状态更新后，我们会通过邮件通知您。',
+    scopeTitle: '审查范围与协议', scopeText: '约定费用涵盖所选范围的书面审查。如现有资料不足以作出判断，律师会说明还需要什么。申请代办、代理、翻译、申诉和政府费用另计。事务所先确认范围并接受委托，再通知付款。',
+    refundTitle: '取消与退款', refundInstructions: '未付款申请可在我的案件中取消。如需退款，请点击申请退款，或通过邮件联系事务所并注明案件编号。处理结果可在我的案件中查看。',
+    refundDeclined: '退款申请未获批准',
+    businessNumber: '营业登记号码',
+    businessNumberPending: '待事务所确认',
+    checkoutExpired: '付款期限已过。请联系律师事务所并提供案件编号。',
+    representative: '事务所代表及广告发布律师 · Kim Hyunjung（김현정）',
+    minorNotice: '未成年人请在付款前让法定代理人确认条款。法定代理人未同意合同时，未成年人本人或其法定代理人可以撤销合同。',
+    privacyTitle: '个人信息处理与跨境传输', privacyController: '处理者为 김현정 법률사무소（金贤贞律师事务所），韩国首尔瑞草区法院路16号正谷大厦东馆502室。可通过 info@kimnhyun.com 申请查阅、更正、删除、限制处理或撤回同意。', privacyProcessing: "网站处理申请人姓名、邮箱、验证记录、案件状态、协议、付款和审查结果。案件说明和文件直接发送至事务所邮箱。网站不保存新提交的案件说明或文件。",
+    retention: "适用时，广告记录保存六个月，合同、撤回、付款及服务记录保存五年，投诉与争议处理记录保存三年。案件材料按适用法律和律师业务留存义务处理，处理目的与保留期间结束后销毁。",
+    providers: [
+      ['Vercel · 美国及其服务网络','在访问和提交时处理网页请求、连接信息和提交数据，提供页面与受理接口。','https://vercel.com/legal/dpa'],
+      ['Supabase · 日本东京项目','在验证、提交和访问时保存姓名、邮箱、案件状态、付款和审查记录，并限制访问权限。','https://supabase.com/privacy'],
+      ['Resend · 美国','按请求处理邮箱和验证或通知数据，用于发送验证码和案件通知。','https://resend.com/legal/privacy-policy'],
+      ['PayPal · 结账页面所列地区','PayPal 处理您在其页面填写的付款数据。事务所接收交易编号及验证记录。','https://www.paypal.com/kr/legalhub/privacy-full'],
+    ],
+    privacyRefusal: '信息通过加密连接传输。您可拒绝同意，并致电事务所询问其他申请方式。',
+    emailUs: '事务所邮箱', forward: '审查及付款咨询', languageLabel: '语言',
+    emailMaterials: "打开邮件草稿",
+    emailMaterialsDetail: "请用已验证的邮箱发送至 info@kimnhyun.com。邮件主题请注明案件编号，并说明问题和重要日期。仅附上本方案所需且已遮盖相关信息的资料。打开草稿后请自行发送。",
+    basedOnProvidedFacts: "律师仅根据您提供的事实和材料作出评估。材料不足时，书面意见将说明仍待确认的事项或需要补充的材料。",
+  },
+};
