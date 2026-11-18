@@ -107,17 +107,22 @@ test('a new checkout needs the configured business registration number', async (
 });
 
 test('a new case can pay directly after consent and receives material instructions with no deadline yet', async () => {
+  const directConsent = { ...consent, privacyConsent: true, transferConsent: true };
   const { checkout, capture, events, notifications } = checkoutHarness('question', {
     status: 'submitted', accepted_at: null, terms_version: server.reviewTermsVersion,
   });
-  await assert.rejects(checkout({ ...consent, noVisaGuarantee: false }), { status: 422 });
+  await assert.rejects(checkout({ ...directConsent, noVisaGuarantee: false }), { status: 422 });
+  await assert.rejects(checkout({ ...directConsent, transferConsent: false }), { status: 422 });
   assert.deepEqual(events, []);
-  await checkout(consent);
-  await checkout(consent);
+  await checkout(directConsent);
+  await checkout(directConsent);
   const paid = await capture('new-order');
   assert.equal(paid.status, 'paid');
   assert.equal(paid.accepted_at, null);
   assert.equal(paid.deadline_at, null);
+  assert.equal(paid.payment_consent.intake.agreement_version, server.reviewTermsVersion);
+  assert.equal(paid.payment_consent.intake.personal_data_processing, true);
+  assert.equal(paid.payment_consent.intake.overseas_transfer, true);
   assert.deepEqual(events, ['save', 'create', 'save', 'charge']);
   assert.equal(notifications[0].event, 'paid');
   assert.match(notifications[1].text, /info@kimnhyun\.com/);
@@ -276,7 +281,8 @@ test('no-OTP checkout rejects unexpected inputs, missing consent and cross-origi
     assert.equal((await post({ ...input, [field]: false })).status, 422);
   }
   assert.equal((await post({ ...input, termsVersion: 'expired' })).status, 422);
-  assert.equal((await post({ ...input, question: 'pasted private information', amountCents: 1 })).status, 422);
+  assert.equal((await post({ ...input, amountCents: 1 })).status, 422);
+  assert.equal((await post({ ...input, question: 'pasted private information' })).status, 422);
   assert.equal((await post(input, '', 'https://another.example')).status, 403);
   assert.deepEqual(inserts, []);
   assert.deepEqual(notifications, []);
@@ -301,6 +307,8 @@ test('each plan creates and verifies only its fixed USD payment, then enables au
     assert.ok(Date.parse(inserts[0].checkout_expires_at) > Date.now());
     assert.equal(providerCalls[0].amountCents, amountCents);
     assert.equal(providerCalls[0].caseId, pending.case.id);
+    assert.equal(cases.get(pending.case.id).payment_consent.intake.personal_data_processing, true);
+    assert.equal(cases.get(pending.case.id).payment_consent.intake.overseas_transfer, true);
     assert.equal(notifications.length, 0);
     const session = await (await get(cookie)).json();
     assert.equal(session.authenticated, false);

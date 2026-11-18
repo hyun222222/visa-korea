@@ -60,6 +60,13 @@ function activeCheckout(c: ReviewCase) {
   }
 }
 
+function hasIntakeConsent(c: ReviewCase) {
+  if (!usesPayFirstReview(c)) return true;
+  const consent = c.payment_consent?.intake;
+  return consent?.agreement_version === c.terms_version &&
+    consent.personal_data_processing === true && consent.overseas_transfer === true;
+}
+
 function checkoutUrls(c: ReviewCase, request: Request, language: ReviewLanguage) {
   const url = new URL(request.url);
   const base = new URL(url.origin);
@@ -77,6 +84,10 @@ export async function beginCheckout(c: ReviewCase, request: Request, input: Reco
     const fallback = isPaymentTermsLanguage(input.language) ? input.language : c.language;
     throw new ReviewError(paymentTerms[fallback].missingConsent, 422);
   }
+  const payFirst = usesPayFirstReview(c);
+  if (payFirst && (input.privacyConsent !== true || input.transferConsent !== true)) {
+    throw new ReviewError('Confirm the personal data and overseas transfer notices.', 422);
+  }
   activeCheckout(c);
   if (!reviewIntakeFlagOpen()) throw new ReviewError('Online intake is currently unavailable.', 503);
   if (!reviewBusinessRegistrationNumber()) {
@@ -84,13 +95,14 @@ export async function beginCheckout(c: ReviewCase, request: Request, input: Reco
   }
   const amountCents = amountFor(c);
   const environment = paymentEnvironment(c);
-  if (!hasRecordedPaymentConsent(c.payment_consent) || c.payment_consent.version !== paymentTermsVersion ||
+  if (!hasRecordedPaymentConsent(c.payment_consent) || !hasIntakeConsent(c) || c.payment_consent.version !== paymentTermsVersion ||
     c.status !== 'checkout' || !c.payment_environment) {
     // Terms and order belong together. Earlier checkout links must not carry a new consent.
     c = await transitionReviewCase(c, {
       status: 'checkout', payment_environment: environment,
       payment_consent: {
         version: paymentTermsVersion, language, accepted_at: new Date().toISOString(), terms: paymentTermsSnapshot(language),
+        ...(payFirst ? {intake: {agreement_version: c.terms_version, personal_data_processing: true, overseas_transfer: true}} : {}),
       },
       payment_order_id: null, payment_approval_url: null,
     });
@@ -203,7 +215,7 @@ export async function captureCase(c: ReviewCase, orderId: string): Promise<Revie
     throw new ReviewError('This payment does not match the case.', 409);
   }
   if (paidStatuses.includes(c.status) && c.payment_capture_id) return c;
-  const hasConsent = hasRecordedPaymentConsent(c.payment_consent);
+  const hasConsent = hasRecordedPaymentConsent(c.payment_consent) && hasIntakeConsent(c);
   if (!hasConsent && c.status !== 'capturing') {
     throw new ReviewError(paymentTerms[c.language].missingConsent, 422);
   }
