@@ -41,6 +41,7 @@
 .hero .lead { margin: 1.25rem 0 1.7rem; font-size: clamp(1rem, 1.75vw, 1.21rem); color: #e0e7fd; max-width: 52ch; }
 .heroNote { color: #d6def6; margin-top: 1rem; font-size: .86rem; max-width: 48ch; }
 .heroNote strong { color: #fff; }
+.marketHero .container { grid-template-columns: minmax(0, 770px); }
 
 .primary, .secondary {
   display: inline-flex;
@@ -114,8 +115,9 @@
 .textButton { width: fit-content; padding: 0; border: 0; background: transparent; color: var(--navy); text-decoration: underline; text-underline-offset: .17em; font-size: .84rem; font-weight: 630; cursor: pointer; }
 .textButton:hover { color: var(--blue); }
 
-.caseIntro { display: flex; justify-content: space-between; align-items: baseline; gap: .7rem; }
 .casePanel > button { margin-top: .8rem; }
+.formPanel > button { margin-top: .8rem; }
+.directActions { display: flex; flex-wrap: wrap; gap: .55rem 1rem; margin-top: .8rem; }
 .quiet { color: var(--muted); font-size: .84rem; }
 .case { margin-top: 1rem; border-top: 1px solid var(--rule); padding-top: 1rem; }
 .case h3 { margin-top: .55rem; font-size: 1rem; }

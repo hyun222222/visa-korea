@@ -1,7 +1,9 @@
 import {languages, visaOrigin, visaPublic, type Language} from '@/lib/brand';
 import type {MetadataRoute} from 'next';
+import {headers} from 'next/headers';
 import {getSupabasePosts} from '@/lib/blog-db';
 import {isD8Review, d8Updated} from '@/lib/d8-search';
+import {reviewMarketAlternates, reviewMarketsInOrder, reviewMarketUrl} from '@/lib/visa-review-locales';
 // Reflect a CMS publication/removal immediately; do not retain a build-time list.
 export const dynamic = 'force-dynamic';
 
@@ -16,6 +18,9 @@ function postUrl(slug: string) {
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   if (!visaPublic) return [];
+  if ((await headers()).get('x-kimhyun-review-host') === '1') {
+    return reviewMarketsInOrder.map(locale => ({url: reviewMarketUrl(locale), alternates: {languages: reviewMarketAlternates}}));
+  }
   const core = ['', '/investing-in-korea', '/medical-visa'].flatMap(path => languages.map(locale => ({
     url: `${visaOrigin}/${locale}${path}`,
     lastModified: path === '' || (path === '/medical-visa' && (locale === 'ko' || locale === 'en')) ? '2026-11-16' : '2026-11-10',

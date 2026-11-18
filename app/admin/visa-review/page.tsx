@@ -18,14 +18,18 @@ type ReviewCase = {
   counterparty?: string | null;
   language: string;
   status: string;
+  payFirst: boolean;
   submitted_at?: string | null;
   paid_at?: string | null;
+  materials_submitted_at?: string | null;
   deadline_at?: string | null;
   checkout_expires_at?: string | null;
   payment_order_id?: string | null;
+  payment_environment?: 'live' | 'sandbox' | null;
   payment_consent?: {version: string; language: PaymentTermsLanguage; accepted_at: string; terms: string} | null;
   started_at?: string | null;
   delivered_at?: string | null;
+  result_emailed_at?: string | null;
   refund_requested_at?: string | null;
   refund_id?: string | null;
   refund_resolved_at?: string | null;
@@ -34,7 +38,7 @@ type ReviewCase = {
   notification_status?: string | null;
 };
 
-type Action = 'accept' | 'decline' | 'start' | 'deliver' | 'refund' | 'files' | 'confirm-refund' | 'decline-refund' | 'reconcile';
+type Action = 'accept' | 'decline' | 'start' | 'deliver' | 'send-result-email' | 'refund' | 'files' | 'confirm-refund' | 'decline-refund' | 'reconcile';
 type ActionDetails = { result?: string; reason?: string; refundRequestedAt?: string; materialsConfirmed?: boolean };
 type ReviewFile = { name: string; url: string };
 type FileLinks = { files: ReviewFile[]; expiresAt: number };
@@ -42,6 +46,7 @@ type AdminResponse = {
   cases?: ReviewCase[];
   case?: ReviewCase;
   files?: ReviewFile[];
+  message?: string;
   warning?: string;
   error?: string;
 };
@@ -111,6 +116,12 @@ function ReviewCard({ item, busy, now, links, onAction }: CardProps) {
   const plan = plans[item.plan] ?? item.plan;
   const amount = displayAmount(item.amount_cents);
   const { status } = item;
+  const awaitingMaterials = item.payFirst && status === 'paid';
+  const awaitingLegacyApproval = !item.payFirst && status === 'submitted';
+  const statusLabel = awaitingMaterials ? '자료·이해충돌 확인 대기'
+    : item.payFirst && status === 'submitted' ? '결제 대기'
+    : item.payFirst && status === 'delivered' ? '서면 결과 등록'
+    : statuses[status] ?? status;
   const canRefund = ['paid', 'in_review', 'delivered', 'refund_requested'].includes(status);
   const canConfirmRefund = status === 'refunding' || (status === 'refund_requested' && Boolean(item.refund_id));
   const canDeclineRefund = status === 'refund_requested' && !item.refund_id &&
@@ -138,7 +149,7 @@ function ReviewCard({ item, busy, now, links, onAction }: CardProps) {
           <h2>{item.name}</h2>
           <p className={styles.caseId}>{item.id}</p>
         </div>
-        <span className={styles.status}>{statuses[status] ?? status}</span>
+        <span className={styles.status}>{statusLabel}{item.payment_environment === 'sandbox' && ' · Sandbox 테스트'}</span>
       </div>
 
       <dl className={styles.fields}>
@@ -148,8 +159,10 @@ function ReviewCard({ item, busy, now, links, onAction }: CardProps) {
         <div><dt>이해관계자</dt><dd>{item.counterparty || '—'}</dd></div>
         <div><dt>접수 시각</dt><dd>{displayTime(item.submitted_at)}</dd></div>
         <div><dt>결제 시각</dt><dd>{displayTime(item.paid_at)}</dd></div>
+        {item.payFirst && <div><dt>웹에서 자료를 보낸 시각</dt><dd>{displayTime(item.materials_submitted_at)}</dd></div>}
         <div><dt>실제 검토 착수</dt><dd>{displayTime(item.started_at)}</dd></div>
         {item.delivered_at && <div><dt>결과 전달 시각</dt><dd>{displayTime(item.delivered_at)}</dd></div>}
+        {item.payFirst && item.delivered_at && <div><dt>결과 이메일 발송 요청</dt><dd>{item.result_emailed_at ? displayTime(item.result_emailed_at) : '미확인'}</dd></div>}
         {item.refund_requested_at && <div><dt>환불 요청 시각</dt><dd>{displayTime(item.refund_requested_at)}</dd></div>}
         {item.refund_resolved_at && <div><dt>환불 요청 거절 시각</dt><dd>{displayTime(item.refund_resolved_at)}</dd></div>}
         {item.payment_consent && <div><dt>결제 약관 동의</dt><dd>
@@ -169,7 +182,8 @@ function ReviewCard({ item, busy, now, links, onAction }: CardProps) {
         <summary>신청 내용 보기</summary>
         <p className={styles.multiline}>{item.question}</p>
       </details>}
-      {status === 'submitted' && <label className={styles.checkbox}>
+      {awaitingMaterials && <p className={styles.note}>사무소 메일함에서 접수번호로 자료를 확인하세요. 검토에 착수하면 회신 기한이 24시간 뒤로 설정됩니다. 수임할 수 없는 경우 환불 검토에서 전액 환불을 진행하세요.</p>}
+      {(awaitingLegacyApproval || awaitingMaterials) && <label className={styles.checkbox}>
         <input type="checkbox" checked={materialsConfirmed} onChange={(event) => setMaterialsConfirmed(event.target.checked)} />
         필요한 자료가 이메일에 들어왔고, 검토 범위와 이해충돌을 확인했습니다.
       </label>}
@@ -183,10 +197,11 @@ function ReviewCard({ item, busy, now, links, onAction }: CardProps) {
       </details>}
       <div className={styles.actions}>
         {item.question && <button type="button" disabled={busy} onClick={() => onAction(item.id, 'files')}>이전 웹 접수 자료 링크 받기</button>}
-        {status === 'submitted' && <button type="button" className={styles.primary} disabled={busy || !materialsConfirmed} onClick={() => onAction(item.id, 'accept', { materialsConfirmed })}>접수 승인 및 결제 안내</button>}
-        {['submitted', 'accepted'].includes(status) && <button type="button" disabled={busy} onClick={() => onAction(item.id, 'decline')}>수임 불가 처리</button>}
+        {awaitingLegacyApproval && <button type="button" className={styles.primary} disabled={busy || !materialsConfirmed} onClick={() => onAction(item.id, 'accept', { materialsConfirmed })}>접수 승인 및 결제 안내</button>}
+        {(awaitingLegacyApproval || status === 'accepted') && <button type="button" disabled={busy} onClick={() => onAction(item.id, 'decline')}>수임 불가 처리</button>}
         {['checkout', 'capturing'].includes(status) && <button type="button" disabled={busy} onClick={() => onAction(item.id, 'reconcile')}>PayPal 결제 상태 대조</button>}
-        {status === 'paid' && <button type="button" className={styles.primary} disabled={busy} onClick={() => onAction(item.id, 'start')}>자료 확인 및 검토 착수</button>}
+        {status === 'paid' && <button type="button" className={styles.primary} disabled={busy || (awaitingMaterials && !materialsConfirmed)} onClick={() => onAction(item.id, 'start', { materialsConfirmed })}>자료 확인 및 검토 착수</button>}
+        {item.payFirst && status === 'delivered' && item.result && !item.result_emailed_at && <button type="button" disabled={busy} onClick={() => onAction(item.id, 'send-result-email')}>결과 이메일 발송 재시도</button>}
         {canRefund && <button type="button" disabled={busy || !amount} onClick={() => openRefund('refund')}>환불 검토</button>}
         {canConfirmRefund && <button type="button" disabled={busy || !amount} onClick={() => openRefund('confirm-refund')}>PayPal 환불 상태 대조</button>}
         {canDeclineRefund && <button type="button" disabled={busy} onClick={() => {
@@ -223,7 +238,7 @@ function ReviewCard({ item, busy, now, links, onAction }: CardProps) {
               ? '결제 확인 시각을 확인해야 검토 결과를 전달할 수 있습니다.'
               : '결과 전달 가능 시각 ' + displayTime(new Date(deliveryOpensAt).toISOString()) + ' KST'}
           </p>
-          <button className={styles.primary} disabled={busy || !canDeliver || result.trim().length < 20} type="submit">서면 결과 전달</button>
+          <button className={styles.primary} disabled={busy || !canDeliver || result.trim().length < 20} type="submit">{item.payFirst ? '서면 결과 등록 및 이메일 발송' : '서면 결과 전달'}</button>
         </form>
       )}
 
@@ -401,7 +416,7 @@ export default function VisaReviewAdmin() {
       const updated = response.case;
       if (updated) setCases((previous) => previous.map((item) => item.id === updated.id ? updated : item));
       else await load(epoch);
-      if (relevant(epoch)) setMessage(response.warning || '사건 상태를 갱신했습니다.');
+      if (relevant(epoch)) setMessage(response.warning || response.message || '사건 상태를 갱신했습니다.');
     });
   }
 

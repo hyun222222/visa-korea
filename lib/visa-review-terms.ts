@@ -4,6 +4,11 @@ export type PaymentConsentRecord = {
   language: PaymentTermsLanguage;
   accepted_at: string;
   terms: string;
+  intake?: {
+    agreement_version: string;
+    personal_data_processing: true;
+    overseas_transfer: true;
+  };
 };
 
 const previousPaymentTermsVersion = 'visa-review-payment-2026-11-17-v1';

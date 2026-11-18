@@ -39,7 +39,7 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
 export default async function VisaReviewPage({ searchParams }: Props) {
   const params = await searchParams;
   const choice = single(params.plan);
-  const plan: Plan = choice === 'documents' || choice === 'strategy' ? choice : 'question';
+  const plan: Plan = choice === 'documents' || choice === '99' ? 'documents' : choice === 'strategy' || choice === '330' ? 'strategy' : 'question';
   return (
     <ReviewClient
       language={getLanguage(params)}
