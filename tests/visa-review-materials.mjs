@@ -10,6 +10,21 @@ const fixture = 'MATERIALS-MOCK-QUESTION';
 const {outputText} = ts.transpileModule(readFileSync('app/api/visa-review/materials/route.ts', 'utf8'), {
   compilerOptions: {target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.CommonJS},
 });
+const {outputText: serverOutput} = ts.transpileModule(readFileSync('lib/visa-review-server.ts', 'utf8'), {
+  compilerOptions: {target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.CommonJS},
+});
+
+function serverPolicy(env, mail = []) {
+  const exports = {};
+  vm.runInNewContext(serverOutput, {
+    exports, require: () => ({}), process: {env}, AbortSignal,
+    fetch: async (_url, options) => {
+      mail.push(JSON.parse(options.body));
+      return {ok: true};
+    },
+  });
+  return exports;
+}
 
 class ReviewError extends Error {
   constructor(message, status = 400) {
@@ -18,9 +33,10 @@ class ReviewError extends Error {
   }
 }
 
-function harness({mailSucceeds = true, enabled = true, deferMail} = {}) {
+function harness({mailSucceeds = true, enabled = true, deferMail, env = {}, caseEnvironment = 'sandbox'} = {}) {
   let row = {id: caseId, status: 'paid', plan: 'question', email: 'applicant@example.invalid', payment_capture_id: 'mock-capture',
-    materials_submission_started_at: null, materials_submitted_at: null};
+    payment_environment: caseEnvironment, materials_submission_started_at: null, materials_submitted_at: null};
+  const {reviewMaterialsSubmissionEnabled} = serverPolicy(env);
   const updates = [];
   const emails = [];
   const transition = async (current, changes) => {
@@ -38,7 +54,7 @@ function harness({mailSucceeds = true, enabled = true, deferMail} = {}) {
     publicReviewCase: c => ({id: c.id, materialsSubmittedAt: c.materials_submitted_at}),
     ReviewError, reviewCaseId: value => value, reviewConfigured: () => true,
     reviewFailure: e => Response.json({error: e.message}, {status: e.status ?? 502}),
-    reviewJson: data => Response.json(data), reviewMaterialsSubmissionEnabled: () => enabled,
+    reviewJson: data => Response.json(data), reviewMaterialsSubmissionEnabled: c => enabled && reviewMaterialsSubmissionEnabled(c),
     reviewOffice: 'Office', reviewText: (value, max) => {
       if (typeof value !== 'string' || !value.trim() || value.trim().length > max) throw new ReviewError('Invalid input');
       return value.trim();
@@ -116,4 +132,51 @@ test('claims block double submission and a mail failure leaves no submission tim
   assert.equal(h.emails.length, 1);
   assert.equal(h.updates[1].materials_submission_started_at, null);
   assert.equal(Object.hasOwn(h.updates[1], 'materials_submitted_at'), false);
+});
+
+test('materials must match the deployment payment environment even with a valid token', async () => {
+  const preview = harness({caseEnvironment: 'live', env: {
+    VERCEL_ENV: 'preview', VISA_REVIEW_PAYPAL_ENV: 'sandbox', VISA_REVIEW_RESEND_CONTENT_APPROVED: 'true',
+  }});
+  assert.equal((await preview.post()).status, 403);
+  assert.deepEqual(preview.emails, []);
+  assert.deepEqual(preview.updates, []);
+
+  const production = harness({caseEnvironment: 'live', env: {
+    VERCEL_ENV: 'production', VISA_REVIEW_PAYPAL_ENV: 'live', VISA_REVIEW_RESEND_CONTENT_APPROVED: 'true',
+  }});
+  assert.equal((await production.post()).status, 200);
+  assert.equal(production.emails.length, 1);
+});
+
+test('result emails require the case payment environment and the appropriate deployment approval', async () => {
+  const result = 'Synthetic written review test result.';
+  const delivered = {id: caseId, status: 'delivered', email: 'applicant@example.invalid', language: 'ko',
+    delivered_at: new Date().toISOString(), result};
+  const approved = {VISA_REVIEW_RESEND_CONTENT_APPROVED: 'true'};
+  const trial = {VISA_REVIEW_TRIAL: 'true'};
+  const checks = [
+    {environment: 'preview', mode: 'sandbox', caseMode: 'sandbox', sent: true},
+    {environment: 'preview', mode: 'sandbox', caseMode: 'live', flags: approved, sent: false},
+    {environment: 'preview', mode: 'sandbox', caseMode: null, sent: false},
+    {environment: 'preview', mode: 'live', caseMode: 'live', flags: approved, sent: false},
+    {environment: 'preview', mode: 'live', caseMode: 'live', flags: trial, sent: false},
+    {environment: 'preview', mode: 'live', caseMode: 'live', flags: {...approved, ...trial}, sent: true},
+    {environment: 'production', mode: 'sandbox', caseMode: 'sandbox', flags: approved, sent: false},
+    {environment: 'production', mode: undefined, caseMode: 'live', flags: approved, sent: false},
+    {environment: 'production', mode: 'live', caseMode: 'live', sent: false},
+    {environment: 'production', mode: 'live', caseMode: 'sandbox', flags: approved, sent: false},
+    {environment: 'production', mode: 'live', caseMode: 'live', flags: approved, sent: true},
+  ];
+  for (const {environment, mode, caseMode, flags, sent} of checks) {
+    const mail = [];
+    const {notifyReview} = serverPolicy({VERCEL_ENV: environment, VISA_REVIEW_PAYPAL_ENV: mode, ...flags}, mail);
+    const warning = await notifyReview({...delivered, payment_environment: caseMode}, 'result_email');
+    assert.equal(mail.length, Number(sent), `${environment}/${mode}/${caseMode}`);
+    assert.equal(Boolean(warning), !sent);
+    if (sent) {
+      assert.equal(mail[0].to, delivered.email);
+      assert.ok(mail[0].text.includes(result));
+    }
+  }
 });

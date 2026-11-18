@@ -101,8 +101,12 @@ export function reviewPaymentEnvironment() {
   return process.env.VISA_REVIEW_PAYPAL_ENV?.trim() === 'live' ? 'live' : 'sandbox';
 }
 
-export function reviewMaterialsSubmissionEnabled() {
-  return reviewPaymentEnvironment() === 'sandbox' || process.env.VISA_REVIEW_RESEND_CONTENT_APPROVED === 'true';
+export function reviewMaterialsSubmissionEnabled(c?: Pick<ReviewCase, 'payment_environment'>) {
+  const environment = reviewPaymentEnvironment();
+  if (c && c.payment_environment !== environment) return false;
+  if (environment === 'sandbox') return process.env.VERCEL_ENV !== 'production';
+  return process.env.VISA_REVIEW_RESEND_CONTENT_APPROVED === 'true' &&
+    (process.env.VERCEL_ENV !== 'preview' || process.env.VISA_REVIEW_TRIAL === 'true');
 }
 
 export function reviewIntakeFlagOpen() {
@@ -262,7 +266,7 @@ export async function notifyReview(c: ReviewCase, event: ReviewEvent) {
     refund_declined: 'Visa review: refund request update / 비자 서면검토 환불 요청 처리',
     refunded: 'Visa review: refund confirmed / 비자 서면검토 환불 완료',
   };
-  if (event === 'result_email' && (!reviewMaterialsSubmissionEnabled() || !c.delivered_at || !c.result)) {
+  if (event === 'result_email' && (!reviewMaterialsSubmissionEnabled(c) || !c.delivered_at || !c.result)) {
     return '검토 결과를 저장했습니다. 결과 본문을 이메일로 보내려면 전송 설정을 확인해 주세요.';
   }
   const office = ['submitted', 'paid', 'refund_requested'].includes(event);

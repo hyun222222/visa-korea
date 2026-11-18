@@ -106,7 +106,7 @@ export async function POST(request: NextRequest) {
     }
     const form = await boundedForm(request);
     const c = await loadReviewCase(reviewCaseId(form.get('caseId')));
-    if (!verifyMaterialsToken(request, c, form.get('token'))) {
+    if (!verifyMaterialsToken(request, c, form.get('token')) || !reviewMaterialsSubmissionEnabled(c)) {
       throw new ReviewError('The materials submission is not available for this case.', 403);
     }
     if (Date.now() - Date.parse(c.materials_submission_started_at ?? '') < transmissionLease) {
