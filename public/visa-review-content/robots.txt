@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin
+Disallow: /visa-review
+Sitemap: https://review.koreavisalaw.com/sitemap.xml

@@ -1,0 +1,17 @@
+.situations { border-top: 1px solid var(--rule); }
+.situation {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(12rem, max-content);
+  align-items: center;
+  gap: .85rem 2.4rem;
+  padding-block: 1.25rem;
+  border-bottom: 1px solid var(--rule);
+}
+.situation h3 { color: var(--navy); font-size: 1.1rem; line-height: 1.35; }
+.situation p { margin-top: .35rem; font-size: .91rem; color: var(--muted); }
+.situation .action { display: grid; justify-items: start; gap: .45rem; }
+.action p { margin: 0; font-weight: 680; color: var(--navy); }
+
+@media (max-width: 680px) {
+  .situation { grid-template-columns: minmax(0, 1fr); }
+}

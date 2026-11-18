@@ -1,0 +1,68 @@
+.page {
+  width: min(calc(100% - 2rem), 68rem);
+  margin: 3rem auto 5rem;
+  color: #192a36;
+}
+
+.pageHeader,
+.cardHeader,
+.actions {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: .75rem;
+  flex-wrap: wrap;
+}
+
+.pageHeader h1 { margin: 0; font-size: clamp(1.8rem, 4vw, 2.5rem); }
+.note, .caseId { color: #526470; font-size: .9rem; }
+.cases { display: grid; gap: 1rem; margin-top: 1.25rem; }
+
+.card {
+  min-width: 0;
+  padding: clamp(1rem, 3vw, 1.5rem);
+  border: 1px solid #d6dee2;
+  border-radius: .75rem;
+  background: #fff;
+  overflow-wrap: anywhere;
+}
+
+.cardHeader h2 { margin: 0 0 .25rem; font-size: 1.25rem; }
+.caseId { margin: 0; }
+.status { background: #e8eef0; color: #213b49; border-radius: 2rem; padding: .3rem .75rem; font-size: .88rem; font-weight: 600; }
+.fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 12.5rem), 1fr)); gap: .75rem 1rem; margin: 1.3rem 0; }
+.fields dt { color: #526470; font-size: .84rem; }
+.fields dd { margin: .15rem 0 0; }
+.details { border-top: 1px solid #d6dee2; padding: .75rem 0; }
+.details summary { cursor: pointer; font-weight: 600; }
+.multiline { white-space: pre-wrap; }
+.actions { justify-content: flex-start; }
+
+.page button {
+  min-height: 2.75rem;
+  padding: .45rem .8rem;
+  border: 1px solid #b6c4ca;
+  border-radius: .35rem;
+  background: #fff;
+  color: #193646;
+  cursor: pointer;
+}
+
+.page button.primary { background: #164356; color: #fff; border-color: #164356; }
+.page button.danger { background: #8a322b; color: #fff; border-color: #8a322b; }
+.page button:disabled { cursor: default; opacity: .55; }
+.page a { color: #174e70; text-decoration: underline; }
+.overdue { color: #9a3328; font-weight: 600; }
+
+.form, .refund { display: grid; justify-items: start; gap: .75rem; margin-top: 1.25rem; }
+.refund { padding: 1rem; border: 1px solid #dfbbb3; border-radius: .4rem; background: #fcf5f2; }
+.refund h3, .refund p { margin: 0; }
+.form label, .refund label { display: grid; gap: .35rem; width: 100%; }
+.form label span, .refund label span { font-weight: 600; }
+.form textarea, .refund textarea, .refund input:not([type='checkbox']) { width: 100%; padding: .5rem; border: 1px solid #a7b5bc; border-radius: .3rem; background: #fff; color: inherit; box-sizing: border-box; }
+.refund label.checkbox { display: flex; align-items: flex-start; gap: .5rem; }
+
+.page :is(button, a, input, textarea, summary):focus-visible {
+  outline: 2px solid #387692;
+  outline-offset: 2px;
+}

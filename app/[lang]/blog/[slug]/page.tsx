@@ -3,6 +3,7 @@ import {consultationCopy} from '@/lib/search-content-review';
 import Link from "next/link";
 import type { Metadata } from "next";
 import { ArticleSources } from '@/components/blog/ArticleSources';
+import { VisaReviewCta } from '@/components/blog/VisaReviewCta';
 import { notFound, permanentRedirect } from "next/navigation";
 import { Calendar, Clock, ChevronLeft, MessageCircle, Phone } from "lucide-react";
 
@@ -275,6 +276,7 @@ export default async function BlogPostPage({ params }: RouteParams) {
                 <ArticleSources post={post} lang={lang} />
             </div>
 
+            <VisaReviewCta slug={post.slug} lang={lang as Lang} />
             {(isD8Review(post.slug) || post.slug === 'd8-visa-guide-en') && <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8"><D8ConsultationGuide lang={lang as Lang}/></div>}
 
             {/* CTA — Visa diagnosis + WhatsApp */}
