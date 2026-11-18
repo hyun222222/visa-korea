@@ -298,6 +298,8 @@ export default function DirectReview({language, plan, clientId, materialsEnabled
       </> : paymentReady && clientId ? <>
         <p>{t.plan[plan].scope}</p>
         <p>{materialsEnabled ? t.directPaymentIntro : t.directPaymentEmailIntro}</p>
+        <p>{t.clock}</p>
+        <p>{t.directScopeExclusions}</p>
         <form ref={form} className={styles.form} onSubmit={(event) => event.preventDefault()} onChange={(event) => setReady(event.currentTarget.checkValidity())}>
           <label>{t.email}<input type="email" name="email" autoComplete="email" maxLength={254} required readOnly={waiting} /><small>{t.directEmailHelp}</small></label>
           <fieldset className={styles.paymentTerms} disabled={waiting}>
@@ -312,7 +314,10 @@ export default function DirectReview({language, plan, clientId, materialsEnabled
             {fields.map(([name, label]) => <label key={name} className={styles.check}><input type="checkbox" name={name} required /><span>{label}</span></label>)}
           </fieldset>
           {ready ? <PayPalButtons clientId={clientId} language={language} createOrder={createOrder} onApprove={onApprove}
-            onCancel={cancelPayment} onError={paymentError} /> : <p className={styles.quiet}>{t.directEnablePayment}</p>}
+            onCancel={cancelPayment} onError={paymentError} /> : <>
+              <button type="button" className={styles.primary} aria-describedby="review-payment-requirements" disabled>{t.pay}</button>
+              <p className={styles.quiet} id="review-payment-requirements">{t.directEnablePayment}</p>
+            </>}
         </form>
       </> : <p className={styles.notice}>{t.closed}</p>}
       {paid && !canSend && paymentReady && <button type="button" className={styles.textButton} disabled={waiting}

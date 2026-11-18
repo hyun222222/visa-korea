@@ -16,7 +16,7 @@ type LanguageCopy = {
   closed: string; initError: string; genericError: string; working: string;
   casesTitle: string; casesIntro: string; reload: string; emptyCases: string; status: Record<Status, string>; reference: string; due: string; pay: string;
   payFirstNotice: string; payFirstPaid: string; paidAwaitingMaterials: string;
-  directPaymentIntro: string; directPaymentEmailIntro: string; directEmailHelp: string; directEnablePayment: string; directPaymentError: string; directCaptureError: string; directResumePayment: string;
+  directPaymentIntro: string; directPaymentEmailIntro: string; directScopeExclusions: string; directEmailHelp: string; directEnablePayment: string; directPaymentError: string; directCaptureError: string; directResumePayment: string;
   directPaid: string; directAfterPayment: string; directPaidAt: string; directMaterialsIntro: string; directQuestion: string; directFiles: string;
   directFileLimits: string; directMask: string; directFilesInvalid: string; directSendMaterials: string; directMaterialsFailed: string; directFallback: string;
   directCopyReference: string; directReferenceCopied: string; directReferenceCopyFailed: string; directStartAnother: string; directMaterialsSent: string;
@@ -61,7 +61,8 @@ export const copy: Record<Language, LanguageCopy> = {
     directPaymentIntro: 'Pay through PayPal and then send your question and any supporting documents from this page. We will refund your full payment if the office cannot take the case.',
     directPaymentEmailIntro: 'After paying through PayPal, email your question and any supporting documents to the office using the case reference shown here. We will refund the full payment if the office cannot take the case.',
     directEmailHelp: 'We’ll send your payment confirmation and written answer to this address. Check it before paying.',
-    directEnablePayment: 'Enter your email and check all five items to show the PayPal button.',
+    directScopeExclusions: 'This written review excludes application filing, attendance, administrative objections and representation in litigation.',
+    directEnablePayment: 'Enter your email and confirm all five items to enable PayPal checkout.',
     directPaymentError: 'Could not start PayPal checkout. Check your details and try again.',
     directCaptureError: 'We could not confirm the payment yet. If you approved it in PayPal, use Verify returned PayPal payment to check the existing order.',
     directResumePayment: 'You have an existing PayPal order. Continue that payment or verify it if you already approved it in PayPal.',
@@ -130,7 +131,8 @@ export const copy: Record<Language, LanguageCopy> = {
     directPaymentIntro: 'PayPal 결제를 마친 뒤 이 페이지에서 질문과 필요한 자료를 사무소에 보내 주세요. 사무소가 검토를 맡을 수 없으면 결제 금액 전액을 환불합니다.',
     directPaymentEmailIntro: 'PayPal 결제를 마친 뒤 이 화면에 표시되는 접수번호를 적어 질문과 필요한 자료를 사무소에 이메일로 보내 주세요. 사무소가 검토를 맡을 수 없으면 결제 금액 전액을 환불합니다.',
     directEmailHelp: '이 주소로 결제 확인과 서면 답변을 보내 드립니다. 결제 전에 주소를 한 번 더 확인해 주세요.',
-    directEnablePayment: '이메일을 입력하고 필수 항목 다섯 가지를 확인하면 PayPal 버튼이 표시됩니다.',
+    directScopeExclusions: '이 서면검토에는 신청 대행, 출석, 이의신청, 소송 대리가 포함되지 않습니다.',
+    directEnablePayment: '이메일을 입력하고 필수 항목 다섯 가지를 확인하면 PayPal 버튼이 활성화됩니다.',
     directPaymentError: 'PayPal 결제를 시작하지 못했습니다. 입력 내용을 확인하고 다시 시도해 주세요.',
     directCaptureError: '아직 결제를 확인하지 못했습니다. PayPal에서 이미 승인했다면 ‘PayPal 결제 다시 확인’으로 기존 결제를 확인해 주세요.',
     directResumePayment: '진행 중인 PayPal 주문이 있습니다. 이어서 결제하거나, PayPal에서 이미 승인했다면 결제를 다시 확인해 주세요.',
@@ -199,6 +201,7 @@ export const copy: Record<Language, LanguageCopy> = {
     directPaymentIntro: '通过 PayPal 付款后，请在本页面向事务所提交问题和所需资料。若事务所无法承接，将全额退款。',
     directPaymentEmailIntro: '通过 PayPal 付款后，请按本页显示的案件编号向事务所发送邮件，提供问题和所需资料。如事务所无法承接，将全额退款。',
     directEmailHelp: '我们会将付款确认和书面意见发至此邮箱，请在付款前核对地址。',
+    directScopeExclusions: '书面审查不包括申请代办、出席、提出异议或诉讼代理。',
     directEnablePayment: '填写邮箱并确认五项必读内容后，即可使用 PayPal 按钮。',
     directPaymentError: '无法启动 PayPal 付款。请核对输入并重试。',
     directCaptureError: '暂时无法确认付款。如已在 PayPal 批准付款，请点击“重新确认 PayPal 付款”核对已有订单。',
