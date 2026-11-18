@@ -114,8 +114,9 @@
 .textButton { width: fit-content; padding: 0; border: 0; background: transparent; color: var(--navy); text-decoration: underline; text-underline-offset: .17em; font-size: .84rem; font-weight: 630; cursor: pointer; }
 .textButton:hover { color: var(--blue); }
 
-.caseIntro { display: flex; justify-content: space-between; align-items: baseline; gap: .7rem; }
 .casePanel > button { margin-top: .8rem; }
+.formPanel > button { margin-top: .8rem; }
+.directActions { display: flex; flex-wrap: wrap; gap: .55rem 1rem; margin-top: .8rem; }
 .quiet { color: var(--muted); font-size: .84rem; }
 .case { margin-top: 1rem; border-top: 1px solid var(--rule); padding-top: 1rem; }
 .case h3 { margin-top: .55rem; font-size: 1rem; }

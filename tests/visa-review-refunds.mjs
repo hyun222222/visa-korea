@@ -31,8 +31,9 @@ function load(file, imports = {}) {
 }
 
 const terms = load('lib/visa-review-terms.ts');
+const {reviewTermsVersion, usesPayFirstReview} = load('lib/visa-review-server.ts');
 
-function harness(overrides = {}) {
+function harness(overrides = {}, {resultEmailWarning} = {}) {
   const paidAt = new Date(currentTime - twoHours).toISOString();
   let current = {
     id: caseId, name: 'Sample Applicant', email: 'sample@example.invalid', language: 'ko',
@@ -51,6 +52,7 @@ function harness(overrides = {}) {
   const notices = [];
   const server = {
     ReviewError, reviewPlans: {question: {amountCents: 5500}}, reviewPaymentEnvironment: () => 'sandbox',
+    usesPayFirstReview,
     reviewText: (value, max) => typeof value === 'string' ? value.trim().slice(0, max) : '',
     reviewCaseId: value => value,
     loadReviewCase: async () => structuredClone(current),
@@ -62,7 +64,10 @@ function harness(overrides = {}) {
       current = {...current, ...changes, updated_at: new Date(currentTime).toISOString()};
       return structuredClone(current);
     },
-    notifyReview: async (_c, event) => {notices.push(event);},
+    notifyReview: async (_c, event) => {
+      notices.push(event);
+      if (event === 'result_email') return resultEmailWarning;
+    },
     verifyReviewOrigin: request => {
       if (request.headers.get('origin') !== origin) throw new ReviewError('Invalid origin', 403);
     },
@@ -92,6 +97,7 @@ function harness(overrides = {}) {
   });
   return {
     calls, notices, snapshot: () => structuredClone(current),
+    enableResultEmail: () => {resultEmailWarning = undefined;},
     refund: () => workflow.refundCase(structuredClone(current)),
     post: (action, fields = {}, authorization = 'Bearer office-admin', requestOrigin = origin) => route.POST(new Request(origin + '/api/visa-review/admin', {
       method: 'POST', headers: {origin: requestOrigin, 'content-type': 'application/json', ...(authorization ? {authorization} : {})},
@@ -132,6 +138,59 @@ test('delivery requires an authorized office administrator and same-origin reque
 test('payment alone does not permit delivery before the review is started', async () => {
   const h = harness({status: 'paid', started_at: null});
   assert.equal((await h.post('deliver')).status, 409);
+});
+
+test('pay-first cases start the 24-hour review window when the office confirms materials', async () => {
+  const h = harness({
+    terms_version: reviewTermsVersion, status: 'paid', accepted_at: null, started_at: null, deadline_at: null,
+  });
+  assert.equal((await h.post('start')).status, 400);
+  assert.equal(h.snapshot().deadline_at, null);
+
+  const response = await h.post('start', {materialsConfirmed: true});
+  assert.equal(response.status, 200);
+  assert.equal((await response.json()).case.payFirst, true);
+  const saved = h.snapshot();
+  assert.equal(saved.status, 'in_review');
+  assert.equal(saved.started_at, new Date(currentTime).toISOString());
+  assert.equal(saved.accepted_at, saved.started_at);
+  assert.equal(saved.accepted_by, 'office-admin');
+  assert.equal(saved.deadline_at, new Date(currentTime + 24 * 60 * 60 * 1000).toISOString());
+});
+
+test('pay-first review cannot start without a confirmed charge', async () => {
+  const h = harness({
+    terms_version: reviewTermsVersion, status: 'paid', payment_capture_id: null, started_at: null, deadline_at: null,
+  });
+  assert.equal((await h.post('start', {materialsConfirmed: true})).status, 409);
+  assert.equal(h.snapshot().started_at, null);
+  assert.equal(h.snapshot().deadline_at, null);
+});
+
+test('legacy review retains its deadline when the office starts work', async () => {
+  const deadlineAt = new Date(currentTime + twoHours).toISOString();
+  const h = harness({status: 'paid', started_at: null, deadline_at: deadlineAt});
+  const response = await h.post('start');
+  assert.equal(response.status, 200);
+  assert.equal((await response.json()).case.payFirst, false);
+  assert.equal(h.snapshot().deadline_at, deadlineAt);
+});
+
+test('pay-first result remains available after email failure and retry records only an accepted email', async () => {
+  const h = harness({terms_version: reviewTermsVersion, result_emailed_at: null}, {resultEmailWarning: '이메일을 보내지 못했습니다.'});
+  const delivery = await h.post('deliver');
+  assert.equal(delivery.status, 200);
+  assert.equal((await delivery.json()).warning, '이메일을 보내지 못했습니다.');
+  assert.equal(h.snapshot().status, 'delivered');
+  assert.ok(h.snapshot().result);
+  assert.equal(h.snapshot().result_emailed_at, null);
+  assert.deepEqual(h.notices, ['result_email']);
+
+  h.enableResultEmail();
+  assert.equal((await h.post('send-result-email')).status, 200);
+  assert.equal(h.snapshot().result_emailed_at, new Date(currentTime).toISOString());
+  assert.equal((await h.post('send-result-email')).status, 200);
+  assert.deepEqual(h.notices, ['result_email', 'result_email']);
 });
 
 test('full refunds remain available before two hours and after a legacy early delivery', async () => {

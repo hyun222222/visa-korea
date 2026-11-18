@@ -29,9 +29,12 @@ create table if not exists public.visa_review_cases (
   payment_capture_id text unique,
   payment_consent jsonb,
   paid_at timestamptz,
+  materials_submission_started_at timestamptz,
+  materials_submitted_at timestamptz,
   deadline_at timestamptz,
   started_at timestamptz,
   delivered_at timestamptz,
+  result_emailed_at timestamptz,
   result text,
   refund_requested_at timestamptz,
   refund_resolved_at timestamptz,
@@ -46,6 +49,9 @@ alter table public.visa_review_cases add constraint visa_review_amount_check
       or (plan = 'documents' and amount_cents = 9900)
       or (plan = 'strategy' and amount_cents = 33000));
 alter table public.visa_review_cases add column if not exists payment_consent jsonb;
+alter table public.visa_review_cases add column if not exists materials_submission_started_at timestamptz;
+alter table public.visa_review_cases add column if not exists materials_submitted_at timestamptz;
+alter table public.visa_review_cases add column if not exists result_emailed_at timestamptz;
 alter table public.visa_review_cases add column if not exists refund_resolved_at timestamptz;
 alter table public.visa_review_cases add column if not exists refund_resolution_reason text;
 -- Columns and historical statuses from an earlier partial-refund migration are retained.
