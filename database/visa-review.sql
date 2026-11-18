@@ -44,6 +44,7 @@ create table if not exists public.visa_review_cases (
 );
 alter table public.visa_review_cases drop constraint if exists visa_review_cases_check;
 alter table public.visa_review_cases drop constraint if exists visa_review_amount_check;
+-- Keep earlier prices in historical records. The payment workflow enforces the current prices for new charges.
 alter table public.visa_review_cases add constraint visa_review_amount_check
   check ((plan = 'question' and amount_cents in (5000, 5500))
       or (plan = 'documents' and amount_cents = 9900)

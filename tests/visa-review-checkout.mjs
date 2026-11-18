@@ -21,6 +21,7 @@ function load(file, imports = {}, env = {}) {
 
 const terms = load('lib/visa-review-terms.ts');
 const crypto = { createHmac, randomUUID, timingSafeEqual };
+const {PayPalReviewError} = load('lib/visa-review-paypal.ts');
 const server = load('lib/visa-review-server.ts', { 'node:crypto': crypto, 'next/server': { NextResponse } }, {
   VISA_REVIEW_SESSION_SECRET: 'test-only-visa-review-signing-secret-32-bytes',
 });
@@ -37,7 +38,7 @@ class ReviewError extends Error {
   constructor(message, status) { super(message); this.status = status; }
 }
 
-function checkoutHarness(plan, changes = {}, businessNumber = '000-00-00000') {
+function checkoutHarness(plan, changes = {}, businessNumber = '000-00-00000', {paymentAlreadyCaptured = true} = {}) {
   let item = {
     id: 'sample-case', plan, amount_cents: plans[plan].amountCents, status: 'accepted', language: 'ko',
     accepted_at: new Date(Date.now() - 120000).toISOString(),
@@ -64,17 +65,30 @@ function checkoutHarness(plan, changes = {}, businessNumber = '000-00-00000') {
     },
     './visa-review-terms': terms,
     './visa-review-paypal': {
+      PayPalReviewError,
       reviewPaymentReady: () => true,
       createReviewPayPalOrder: async ({ amountCents, idempotencyKey }) => {
         events.push('create');
         assert.ok(terms.hasRecordedPaymentConsent(item.payment_consent));
-        assert.equal(amountCents, changes.amount_cents ?? plans[plan].amountCents);
+        assert.equal(amountCents, plans[plan].amountCents);
         assert.ok(idempotencyKey.includes(item.payment_consent.accepted_at));
         return { orderId: 'new-order', approvalUrl: 'https://www.sandbox.paypal.com/checkoutnow?token=new-order' };
       },
-      captureReviewPayPalOrder: async ({ existingOnly }) => {
+      captureReviewPayPalOrder: async ({existingOnly, orderId, caseId, amountCents}) => {
         events.push(existingOnly ? 'read-existing-payment' : 'charge');
+        assert.equal(orderId, item.payment_order_id);
+        assert.equal(caseId, item.id);
+        assert.equal(amountCents, item.amount_cents);
+        if (existingOnly && !paymentAlreadyCaptured) throw new PayPalReviewError('not-approved');
         return { captureId: 'capture-id' };
+      },
+      refundReviewPayPalCapture: async ({orderId, captureId, caseId, amountCents}) => {
+        events.push('refund');
+        assert.equal(orderId, item.payment_order_id);
+        assert.equal(captureId, item.payment_capture_id);
+        assert.equal(caseId, item.id);
+        assert.equal(amountCents, item.amount_cents);
+        return {refundId: 'full-refund', status: 'COMPLETED'};
       },
     },
   });
@@ -83,6 +97,7 @@ function checkoutHarness(plan, changes = {}, businessNumber = '000-00-00000') {
     notifications,
     checkout: input => workflow.beginCheckout(item, request, input),
     capture: id => workflow.captureCase(item, id),
+    refund: () => workflow.refundCase(item),
   };
 }
 
@@ -167,11 +182,39 @@ test('a legacy capture retry without valid consent can only reconcile an already
   assert.deepEqual(events, ['save', 'read-existing-payment']);
 });
 
-test('an existing $50 case keeps its quoted amount and uses the same consent gate', async () => {
+test('an old $50 case cannot create a PayPal order', async () => {
   const { checkout, events } = checkoutHarness('question', { amount_cents: 5000 });
-  await assert.rejects(checkout({ ...consent, koreanLaw: false }), { status: 422 });
-  await checkout(consent);
-  assert.deepEqual(events, ['save', 'create']);
+  await assert.rejects(checkout(consent), {status: 409, message: /earlier price/});
+  assert.deepEqual(events, []);
+});
+
+const earlierPriceOrder = {
+  status: 'checkout', amount_cents: 5000, payment_order_id: 'old-order', payment_environment: 'sandbox',
+  payment_approval_url: 'https://www.sandbox.paypal.com/checkoutnow?token=old-order',
+  payment_consent: {
+    version: terms.paymentTermsVersion, language: 'ko', accepted_at: new Date(Date.now() - 60000).toISOString(),
+    terms: terms.paymentTermsSnapshot('ko'),
+  },
+};
+
+test('an issued $50 checkout cannot reopen its old link or charge an approved order', async () => {
+  const {checkout, capture, events} = checkoutHarness('question', earlierPriceOrder, undefined, {paymentAlreadyCaptured: false});
+  await assert.rejects(checkout(consent), {status: 409, message: /earlier price/});
+  assert.deepEqual(events, []);
+  await assert.rejects(capture('old-order'), {status: 409, message: /earlier price/});
+  assert.deepEqual(events, ['save', 'read-existing-payment']);
+});
+
+test('a completed $50 payment can be reconciled and fully refunded at the recorded amount', async () => {
+  const {capture, refund, events} = checkoutHarness('question', {...earlierPriceOrder, status: 'capturing'});
+  const paid = await capture('old-order');
+  assert.equal(paid.status, 'paid');
+  assert.equal(paid.amount_cents, 5000);
+  assert.equal(paid.payment_capture_id, 'capture-id');
+  const refunded = await refund();
+  assert.equal(refunded.status, 'refunded');
+  assert.equal(refunded.refund_id, 'full-refund');
+  assert.deepEqual(events, ['save', 'read-existing-payment', 'save', 'refund']);
 });
 
 test('issued orders retain genuine v1, v2 and v3 receipts after the consent wording changes', async () => {
@@ -183,7 +226,7 @@ test('issued orders retain genuine v1, v2 and v3 receipts after the consent word
     assert.equal(terms.hasRecordedPaymentConsent(receipt), true);
     assert.equal(terms.hasRecordedPaymentConsent({ ...receipt, terms: terms.paymentTermsSnapshot('ko') }), false);
     const { capture, events } = checkoutHarness('question', {
-      status: 'checkout', amount_cents: 5000, payment_order_id: 'existing-order', payment_environment: 'sandbox',
+      status: 'checkout', payment_order_id: 'existing-order', payment_environment: 'sandbox',
       payment_consent: receipt,
     });
     await capture('existing-order');

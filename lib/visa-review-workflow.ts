@@ -29,12 +29,13 @@ import {hasRecordedPaymentConsent, isPaymentTermsLanguage, paymentTerms, payment
 
 export const reviewDayMs = 24 * 60 * 60 * 1000;
 const paymentLease = 75_000;
+const inactivePrice = 'This checkout uses an earlier price. Start a new request at the current price.';
 
-function amountFor(c: ReviewCase) {
-  const amount = reviewPlans[c.plan]?.amountCents;
-  if (c.plan === 'question' && c.amount_cents === 5000) return c.amount_cents;
-  if (!amount || c.amount_cents !== amount) throw new ReviewError('The case amount could not be verified.', 409);
-  return amount;
+function recordedPaymentAmount(c: ReviewCase) {
+  if (!Number.isSafeInteger(c.amount_cents) || c.amount_cents <= 0) {
+    throw new ReviewError('The case amount could not be verified.', 409);
+  }
+  return c.amount_cents;
 }
 
 function paymentEnvironment(c: ReviewCase) {
@@ -93,7 +94,8 @@ export async function beginCheckout(c: ReviewCase, request: Request, input: Reco
   if (!reviewBusinessRegistrationNumber()) {
     throw new ReviewError('Online checkout is unavailable until the office registration details are confirmed.', 503);
   }
-  const amountCents = amountFor(c);
+  const amountCents = reviewPlans[c.plan]?.amountCents;
+  if (!amountCents || c.amount_cents !== amountCents) throw new ReviewError(inactivePrice, 409);
   const environment = paymentEnvironment(c);
   if (!hasRecordedPaymentConsent(c.payment_consent) || !hasIntakeConsent(c) || c.payment_consent.version !== paymentTermsVersion ||
     c.status !== 'checkout' || !c.payment_environment) {
@@ -127,6 +129,7 @@ export async function beginCheckout(c: ReviewCase, request: Request, input: Reco
   const current = await loadReviewCase(c.id);
   activeCheckout(current);
   if (current.payment_order_id && current.payment_approval_url && current.payment_environment === environment &&
+    current.amount_cents === amountCents &&
     hasRecordedPaymentConsent(current.payment_consent) && current.payment_consent.accepted_at === consent.accepted_at) {
     return {approvalUrl: current.payment_approval_url, orderId: current.payment_order_id, reviewCase: current};
   }
@@ -229,17 +232,19 @@ export async function captureCase(c: ReviewCase, orderId: string): Promise<Revie
   if (!c.payment_environment || (!payFirst && !c.accepted_at)) {
     throw new ReviewError('The checkout setup could not be verified.', 409);
   }
-  const amountCents = amountFor(c);
+  const amountCents = recordedPaymentAmount(c);
+  const hasCurrentPrice = amountCents === reviewPlans[c.plan]?.amountCents;
   paymentEnvironment(c);
   c = await transitionReviewCase(c, {status: 'capturing'});
 
   let payment: Awaited<ReturnType<typeof captureReviewPayPalOrder>>;
   try {
-    // Legacy captures can be reconciled, but cannot initiate a new charge without consent.
-    payment = await captureReviewPayPalOrder({orderId, caseId: c.id, amountCents, existingOnly: !hasConsent});
+    // Reconcile an existing PayPal capture only when the price or consent cannot authorize a new charge.
+    payment = await captureReviewPayPalOrder({orderId, caseId: c.id, amountCents, existingOnly: !hasConsent || !hasCurrentPrice});
   } catch (error) {
     if (error instanceof PayPalReviewError && error.code === 'not-approved') {
       await changeReviewCase(c, {status: 'checkout'});
+      if (!hasCurrentPrice) throw new ReviewError(inactivePrice, 409);
       throw new ReviewError(hasConsent ? 'Approve the order in PayPal and try again.' : paymentTerms[c.language].missingConsent, 409);
     }
     if (error instanceof PayPalReviewError && error.code === 'capture-pending') {
@@ -280,7 +285,7 @@ export async function refundCase(c: ReviewCase): Promise<ReviewCase> {
     if (c.refund_id) return c;
     throw new ReviewError('PayPal is processing the refund. Refresh in a moment.', 409);
   }
-  const amountCents = amountFor(c);
+  const amountCents = recordedPaymentAmount(c);
   paymentEnvironment(c);
   const {id: caseId, payment_order_id: orderId, payment_capture_id: captureId} = c;
   c = await transitionReviewCase(c, {
