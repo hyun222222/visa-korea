@@ -108,7 +108,7 @@ async function createDirectOrder(request: NextRequest, input: Record<string, unk
   }
 }
 
-async function captureDirectOrder(request: NextRequest, input: Record<string, unknown>) {
+async function captureDirectOrder(request: NextRequest, input: Record<string, unknown>, existingOnly: boolean) {
   if (Object.keys(input).some((key) => key !== 'action' && key !== 'caseId' && key !== 'orderId')) {
     throw new ReviewError('Invalid payment confirmation fields.', 422);
   }
@@ -116,7 +116,7 @@ async function captureDirectOrder(request: NextRequest, input: Record<string, un
   if (reviewDirectCaseId(request) !== caseId) throw new ReviewError('Case unavailable.', 404);
   const c = await loadDirectCase(request);
   if (!c) throw new ReviewError('Case unavailable.', 404);
-  const paid = await captureCase(c, reviewText(input.orderId, 64));
+  const paid = await captureCase(c, reviewText(input.orderId, 64), {existingOnly});
   return setReviewDirectCase(reviewJson({case: publicReviewCase(paid), materialsToken: getMaterialsToken(paid)}), request, paid.id);
 }
 
@@ -186,7 +186,9 @@ export async function POST(request: NextRequest) {
     if (input.action === 'send-code') return await sendCode(request, input);
     if (input.action === 'verify-code') return await verifyCode(request, input);
     if (input.action === 'create-direct-order') return await createDirectOrder(request, input);
-    if (input.action === 'capture-direct-order') return await captureDirectOrder(request, input);
+    if (input.action === 'capture-direct-order' || input.action === 'confirm-existing-direct-payment') {
+      return await captureDirectOrder(request, input, input.action === 'confirm-existing-direct-payment');
+    }
     if (input.action === 'submit') throw new ReviewError('New reviews start from the PayPal checkout. Reload this page to continue.', 410);
     const caseId = reviewCaseId(input.caseId);
     if (input.action === 'cancel' && reviewDirectCaseId(request) === caseId) {

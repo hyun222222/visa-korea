@@ -104,7 +104,7 @@ export default function AdminDashboardPage() {
 
     const fetchPosts = async () => {
         setLoading(true);
-        const data = await getSupabasePosts();
+        const data = await getSupabasePosts({ includeCodePublishedGuide: false });
         setPosts(data);
         setLoading(false);
     };

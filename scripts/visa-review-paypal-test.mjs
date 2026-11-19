@@ -219,6 +219,16 @@ function runLocalTests() {
     await assert.rejects(captureReviewPayPalOrder({ orderId, caseId, amountCents }), hasCode('payment-mismatch'));
   });
 
+  test('declined and failed captures are terminal and are never captured again', async t => {
+    const {requests, state} = useMock(t);
+    state.status = 'COMPLETED';
+    for (const status of ['DECLINED', 'FAILED']) {
+      state.captureStatus = status;
+      await assert.rejects(captureReviewPayPalOrder({orderId, caseId, amountCents}), hasCode('capture-failed'));
+    }
+    assert.equal(requests.filter(r => r.path.endsWith('/capture')).length, 0);
+  });
+
   test('refund verifies case, capture and USD total, supports retries and checks provider status', async t => {
     const { requests, state } = useMock(t);
     state.status = 'COMPLETED';

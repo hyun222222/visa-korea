@@ -6,7 +6,7 @@ import { runInNewContext } from 'node:vm';
 import { NextRequest, NextResponse } from 'next/server.js';
 import ts from 'typescript';
 
-function load(file, imports = {}, env = {}) {
+function load(file, imports = {}, env = {}, info = () => {}) {
   const source = readFileSync(new URL('../' + file, import.meta.url), 'utf8');
   const { outputText } = ts.transpileModule(source, {
     compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
@@ -14,6 +14,7 @@ function load(file, imports = {}, env = {}) {
   const exports = {};
   runInNewContext(outputText, {
     exports, require: name => imports[name], Buffer, URL,
+    console: { info },
     process: { env: { VISA_REVIEW_OPEN: 'true', ...env } },
   });
   return exports;
@@ -38,7 +39,7 @@ class ReviewError extends Error {
   constructor(message, status) { super(message); this.status = status; }
 }
 
-function checkoutHarness(plan, changes = {}, businessNumber = '000-00-00000', {paymentAlreadyCaptured = true} = {}) {
+function checkoutHarness(plan, changes = {}, businessNumber = '000-00-00000', {paymentAlreadyCaptured = true, captureError} = {}) {
   let item = {
     id: 'sample-case', plan, amount_cents: plans[plan].amountCents, status: 'accepted', language: 'ko',
     accepted_at: new Date(Date.now() - 120000).toISOString(),
@@ -47,6 +48,7 @@ function checkoutHarness(plan, changes = {}, businessNumber = '000-00-00000', {p
     ...changes,
   };
   const events = [];
+  const logs = [];
   const notifications = [];
   const save = async (_c, patch) => (item = { ...item, ...patch });
   const workflow = load('lib/visa-review-workflow.ts', {
@@ -79,6 +81,7 @@ function checkoutHarness(plan, changes = {}, businessNumber = '000-00-00000', {p
         assert.equal(orderId, item.payment_order_id);
         assert.equal(caseId, item.id);
         assert.equal(amountCents, item.amount_cents);
+        if (captureError) throw captureError;
         if (existingOnly && !paymentAlreadyCaptured) throw new PayPalReviewError('not-approved');
         return { captureId: 'capture-id' };
       },
@@ -91,12 +94,14 @@ function checkoutHarness(plan, changes = {}, businessNumber = '000-00-00000', {p
         return {refundId: 'full-refund', status: 'COMPLETED'};
       },
     },
-  });
+  }, {}, (event, entry) => logs.push({event, ...entry}));
   return {
     events,
+    logs,
     notifications,
+    current: () => item,
     checkout: input => workflow.beginCheckout(item, request, input),
-    capture: id => workflow.captureCase(item, id),
+    capture: (id, options) => workflow.captureCase(item, id, options),
     refund: () => workflow.refundCase(item),
   };
 }
@@ -217,6 +222,31 @@ test('a completed $50 payment can be reconciled and fully refunded at the record
   assert.deepEqual(events, ['save', 'read-existing-payment', 'save', 'refund']);
 });
 
+test('expired checkouts can recover a finalized capture without charging an approved order', async () => {
+  const expired = {...earlierPriceOrder, amount_cents: 5500, checkout_expires_at: new Date(Date.now() - 1000).toISOString()};
+  const unchecked = checkoutHarness('question', expired, undefined, {paymentAlreadyCaptured: false});
+  await assert.rejects(unchecked.capture('old-order'), {status: 409, message: /expired/});
+  assert.deepEqual(unchecked.events, ['save', 'read-existing-payment']);
+  assert.equal(unchecked.current().status, 'checkout');
+  const settled = checkoutHarness('question', expired);
+  const paid = await settled.capture('old-order');
+  assert.equal(paid.payment_capture_id, 'capture-id');
+  assert.equal(settled.current().status, 'paid');
+  assert.deepEqual(settled.events, ['save', 'read-existing-payment']);
+});
+
+test('a terminal capture failure leaves checkout and logs only non-identifying diagnostics', async () => {
+  const failure = new PayPalReviewError('capture-failed', 422);
+  failure.message = 'Private provider detail for customer@example.invalid';
+  const capture = checkoutHarness('question', {...earlierPriceOrder, amount_cents: 5500}, undefined, {captureError: failure});
+  await assert.rejects(capture.capture('old-order'), {status: 409, message: /could not capture/});
+  assert.equal(capture.current().status, 'checkout');
+  assert.deepEqual(capture.logs, [
+    {event: 'visa-review-payment', phase: 'capture', outcome: 'attempted', environment: 'sandbox', plan: 'question'},
+    {event: 'visa-review-payment', phase: 'capture', outcome: 'failed', environment: 'sandbox', plan: 'question', reason: 'capture-failed', providerStatus: 422},
+  ]);
+});
+
 test('issued orders retain genuine v1, v2 and v3 receipts after the consent wording changes', async () => {
   for (const version of ['visa-review-payment-2026-11-17-v1', 'visa-review-payment-2026-11-17-v2', 'visa-review-payment-2026-11-18-v3']) {
     const receipt = {
@@ -234,7 +264,7 @@ test('issued orders retain genuine v1, v2 and v3 receipts after the consent word
   }
 });
 
-function directRouteHarness({ failFirstOrder = false, open = true } = {}) {
+function directRouteHarness({ failFirstOrder = false, open = true, paymentAlreadyCaptured = true } = {}) {
   const cases = new Map();
   const inserts = [];
   const notifications = [];
@@ -273,6 +303,7 @@ function directRouteHarness({ failFirstOrder = false, open = true } = {}) {
     './visa-review-server': reviewServer,
     './visa-review-terms': terms,
     './visa-review-paypal': {
+      PayPalReviewError,
       reviewPaymentReady: () => true,
       createReviewPayPalOrder: async (order) => {
         providerCalls.push({ action: 'create', ...order });
@@ -281,6 +312,7 @@ function directRouteHarness({ failFirstOrder = false, open = true } = {}) {
       },
       captureReviewPayPalOrder: async (order) => {
         providerCalls.push({ action: 'capture', ...order });
+        if (order.existingOnly && !paymentAlreadyCaptured) throw new PayPalReviewError('not-approved');
         return { captureId: 'capture-id' };
       },
     },
@@ -406,6 +438,31 @@ test('provider failures leave a signed case for retry and never recover other ca
   assert.notEqual((await otherBrowser.json()).case.id, inserts[0].id);
   assert.equal(inserts.length, 2);
   assert.deepEqual(notifications, []);
+});
+
+test('the PayPal return can only recover a matching existing capture through the originating signed session', async () => {
+  for (const paymentAlreadyCaptured of [false, true]) {
+    const {providerCalls, notifications, post} = directRouteHarness({paymentAlreadyCaptured});
+    const created = await post(orderPayload('question'));
+    const {case: review, orderId} = await created.json();
+    const cookie = responseCookie(created);
+    const confirm = {action: 'confirm-existing-direct-payment', caseId: review.id, orderId};
+    assert.equal((await post(confirm)).status, 404);
+    assert.equal((await post({...confirm, orderId: 'wrong-order'}, cookie)).status, 409);
+    assert.equal(providerCalls.length, 1);
+    const response = await post(confirm, cookie);
+    assert.equal(providerCalls.length, 2);
+    assert.equal(providerCalls[1].existingOnly, true);
+    assert.equal(response.status, paymentAlreadyCaptured ? 200 : 409);
+    assert.equal(notifications.length, paymentAlreadyCaptured ? 2 : 0);
+    if (paymentAlreadyCaptured) {
+      const recovered = await response.json();
+      assert.equal(recovered.case.status, 'paid');
+      assert.ok(recovered.materialsToken);
+      assert.equal((await post(confirm, cookie)).status, 200);
+      assert.equal(providerCalls.length, 2);
+    }
+  }
 });
 
 test('the disabled direct checkout exposes no SDK configuration and creates no case', async () => {

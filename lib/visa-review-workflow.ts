@@ -31,6 +31,20 @@ export const reviewDayMs = 24 * 60 * 60 * 1000;
 const paymentLease = 75_000;
 const inactivePrice = 'This checkout uses an earlier price. Start a new request at the current price.';
 
+function recordPaymentAttempt(
+  c: ReviewCase,
+  phase: 'create' | 'capture' | 'confirm-existing',
+  outcome: 'attempted' | 'verified' | 'incomplete' | 'failed',
+  error?: unknown,
+) {
+  const provider = error instanceof PayPalReviewError ? error : undefined;
+  console.info('visa-review-payment', {
+    phase, outcome, environment: c.payment_environment, plan: c.plan,
+    ...(error !== undefined ? {reason: provider?.code ?? 'unexpected'} : {}),
+    ...(provider?.providerStatus !== undefined ? {providerStatus: provider.providerStatus} : {}),
+  });
+}
+
 function recordedPaymentAmount(c: ReviewCase) {
   if (!Number.isSafeInteger(c.amount_cents) || c.amount_cents <= 0) {
     throw new ReviewError('The case amount could not be verified.', 409);
@@ -116,12 +130,17 @@ export async function beginCheckout(c: ReviewCase, request: Request, input: Reco
   if (c.payment_order_id && c.payment_approval_url) {
     return {approvalUrl: c.payment_approval_url, orderId: c.payment_order_id, reviewCase: c};
   }
+  recordPaymentAttempt(c, 'create', 'attempted');
   const {orderId, approvalUrl} = await createReviewPayPalOrder({
     ...checkoutUrls(c, request, consent.language),
     caseId: c.id,
     amountCents,
     idempotencyKey: consent.version + '/' + consent.accepted_at,
+  }).catch(error => {
+    recordPaymentAttempt(c, 'create', 'failed', error);
+    throw error;
   });
+  recordPaymentAttempt(c, 'create', 'verified');
 
   // A checkout link is exposed only for an order that was saved on this case.
   const saved = await changeReviewCase(c, {payment_order_id: orderId, payment_approval_url: approvalUrl});
@@ -213,20 +232,22 @@ function leaseIsActive(c: ReviewCase) {
   return Date.now() - Date.parse(c.updated_at) < paymentLease;
 }
 
-export async function captureCase(c: ReviewCase, orderId: string): Promise<ReviewCase> {
+export async function captureCase(c: ReviewCase, orderId: string, {existingOnly = false} = {}): Promise<ReviewCase> {
   if (!c.payment_order_id || orderId !== c.payment_order_id) {
     throw new ReviewError('This payment does not match the case.', 409);
   }
   if (paidStatuses.includes(c.status) && c.payment_capture_id) return c;
   const hasConsent = hasRecordedPaymentConsent(c.payment_consent) && hasIntakeConsent(c);
-  if (!hasConsent && c.status !== 'capturing') {
+  if (!hasConsent && c.status !== 'capturing' && !existingOnly) {
     throw new ReviewError(paymentTerms[c.language].missingConsent, 422);
   }
+  const wasCheckout = c.status === 'checkout';
+  const expired = !(Date.parse(c.checkout_expires_at ?? '') > Date.now());
   if (c.status === 'capturing') {
     if (leaseIsActive(c)) throw new ReviewError('PayPal is checking this payment. Refresh in a moment.', 409);
   } else {
-    if (c.status !== 'checkout') throw new ReviewError('This case is not available for payment.', 409);
-    activeCheckout(c);
+    if (!wasCheckout) throw new ReviewError('This case is not available for payment.', 409);
+    if (!expired && !existingOnly) activeCheckout(c);
   }
   const payFirst = usesPayFirstReview(c);
   if (!c.payment_environment || (!payFirst && !c.accepted_at)) {
@@ -234,24 +255,37 @@ export async function captureCase(c: ReviewCase, orderId: string): Promise<Revie
   }
   const amountCents = recordedPaymentAmount(c);
   const hasCurrentPrice = amountCents === reviewPlans[c.plan]?.amountCents;
+  const confirmOnly = existingOnly || expired || !hasConsent || !hasCurrentPrice;
+  const phase = confirmOnly ? 'confirm-existing' : 'capture';
   paymentEnvironment(c);
   c = await transitionReviewCase(c, {status: 'capturing'});
 
   let payment: Awaited<ReturnType<typeof captureReviewPayPalOrder>>;
+  recordPaymentAttempt(c, phase, 'attempted');
   try {
-    // Reconcile an existing PayPal capture only when the price or consent cannot authorize a new charge.
-    payment = await captureReviewPayPalOrder({orderId, caseId: c.id, amountCents, existingOnly: !hasConsent || !hasCurrentPrice});
+    payment = await captureReviewPayPalOrder({orderId, caseId: c.id, amountCents, existingOnly: confirmOnly});
   } catch (error) {
+    const incomplete = error instanceof PayPalReviewError &&
+      (error.code === 'not-approved' || error.code === 'capture-pending');
+    recordPaymentAttempt(c, phase, incomplete ? 'incomplete' : 'failed', error);
     if (error instanceof PayPalReviewError && error.code === 'not-approved') {
       await changeReviewCase(c, {status: 'checkout'});
       if (!hasCurrentPrice) throw new ReviewError(inactivePrice, 409);
+      if (expired) throw new ReviewError('The checkout window has expired and PayPal reports no completed payment.', 409);
+      if (existingOnly) throw new ReviewError('PayPal has no completed payment to recover. Return to the original checkout or confirm the existing order there.', 409);
       throw new ReviewError(hasConsent ? 'Approve the order in PayPal and try again.' : paymentTerms[c.language].missingConsent, 409);
+    }
+    if (error instanceof PayPalReviewError && error.code === 'capture-failed') {
+      await changeReviewCase(c, {status: 'checkout'});
+      throw new ReviewError('PayPal declined the payment or could not capture it. Cancel this unpaid request before starting a new order.', 409);
     }
     if (error instanceof PayPalReviewError && error.code === 'capture-pending') {
       throw new ReviewError('PayPal has not confirmed the payment yet. Check again shortly.', 409);
     }
+    if (confirmOnly && wasCheckout) await changeReviewCase(c, {status: 'checkout'});
     throw error;
   }
+  recordPaymentAttempt(c, phase, 'verified');
   const paidAt = payment.capturedAt ?? new Date().toISOString();
   const deadlineAt = payFirst
     ? null

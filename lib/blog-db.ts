@@ -5,6 +5,16 @@ import { correctD8Post } from './d8-search';
 import { applyLegalReview } from './blog-legal-review';
 import { applySearchContentReview } from './search-content-review';
 import { blogPublicationDate } from './blog-publication-date';
+import { addD8RemittanceReview, e7TerminationGuide } from './visa-practice-guides';
+
+function reviewPublishedBlogPost(post: BlogPost) {
+    return addD8RemittanceReview(applySearchContentReview(correctD8Post(applyLegalReview(post))));
+}
+
+function includePublishedPracticeGuide(posts: BlogPost[]) {
+    return [e7TerminationGuide, ...posts.filter(post => post.slug !== e7TerminationGuide.slug)]
+        .sort((first, second) => second.publishedAt.localeCompare(first.publishedAt));
+}
 
 /**
  * Parses markdown body into dynamic BlogBlocks.
@@ -106,11 +116,10 @@ export function blocksToMarkdown(blocks: BlogBlock[]): string {
     }).join('\n\n');
 }
 
-/**
- * Configured production data is authoritative; never resurrect removed static posts.
- */
-export async function getSupabasePosts(): Promise<BlogPost[]> {
-    if (!hasSupabaseConfig) return blogPostsSortedByDate.map(applyLegalReview).map(correctD8Post).map(applySearchContentReview);
+/** CMS posts are authoritative. The independent E-7 guide is published with the site. */
+export async function getSupabasePosts({ includeCodePublishedGuide = true } = {}): Promise<BlogPost[]> {
+    const includeGuide = (posts: BlogPost[]) => includeCodePublishedGuide ? includePublishedPracticeGuide(posts) : posts;
+    if (!hasSupabaseConfig) return includeGuide(blogPostsSortedByDate.map(reviewPublishedBlogPost));
     try {
         const { data, error } = await supabase
             .from('blog_posts')
@@ -120,27 +129,26 @@ export async function getSupabasePosts(): Promise<BlogPost[]> {
 
         if (error) {
             console.error("Supabase blog list unavailable");
-            return [];
+            return includeGuide([]);
         }
 
         if (!data || data.length === 0) {
-            return [];
+            return includeGuide([]);
         }
 
-        return data.map(mapDbPostToBlogPost).map(applyLegalReview).map(correctD8Post).map(applySearchContentReview);
+        return includeGuide(data.map(mapDbPostToBlogPost).map(reviewPublishedBlogPost));
     } catch (err) {
         console.error("Supabase blog list unavailable");
-        return [];
+        return includeGuide([]);
     }
 }
 
-/**
- * The static review content is used only when no database is configured.
- */
+/** Static CMS fallback content is used only when no database is configured. */
 export async function getSupabasePostBySlug(slug: string): Promise<BlogPost | undefined> {
+    if (slug === e7TerminationGuide.slug) return e7TerminationGuide;
     if (!hasSupabaseConfig) {
         const post = getPostBySlug(slug);
-        return post ? applySearchContentReview(correctD8Post(applyLegalReview(post))) : undefined;
+        return post ? reviewPublishedBlogPost(post) : undefined;
     }
     try {
         const { data, error } = await supabase
@@ -158,7 +166,7 @@ export async function getSupabasePostBySlug(slug: string): Promise<BlogPost | un
             return undefined;
         }
 
-        return applySearchContentReview(correctD8Post(applyLegalReview(mapDbPostToBlogPost(data))));
+        return reviewPublishedBlogPost(mapDbPostToBlogPost(data));
     } catch (err) {
         console.error('Supabase blog post unavailable');
         return undefined;
