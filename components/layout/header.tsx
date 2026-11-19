@@ -2,9 +2,12 @@
 import {usePathname} from 'next/navigation';
 import {KakaoLink} from '@/components/contact-actions';
 import {useState} from 'react';
-import {languageFromPath,languages,labels,hubHref,consultationHref} from '@/lib/brand';
+import {languageFromPath,languages,labels,hubHref,visaPublic} from '@/lib/brand';
+
+const writtenReviewLabel = {ko:'서면검토',en:'Written review',zh:'书面咨询',ja:'書面相談'};
+
 export function Header(){
  const pathname=usePathname()||'/',lang=languageFromPath(pathname),t=labels[lang];const [open,setOpen]=useState(false);
- const nav=[...((lang==='ko'||lang==='en')?[[`/${lang}/entry-refusal`,lang==='ko'?'입국불허':'Entry refusal']]:[]),[`/${lang}#about`,t.about],[`/${lang}#calculators`,t.check],[`/${lang}/medical-visa`,t.medical],[`/${lang}/investing-in-korea`,t.invest],[lang==='ko'?'/blog':`/${lang}/blog`,t.blog]];
+ const nav=[...(visaPublic?[[`/${lang}#written-review`,writtenReviewLabel[lang]]]:[]),...((lang==='ko'||lang==='en')?[[`/${lang}/entry-refusal`,lang==='ko'?'입국불허':'Entry refusal']]:[]),[`/${lang}#about`,t.about],[`/${lang}#calculators`,t.check],[`/${lang}/medical-visa`,t.medical],[`/${lang}/investing-in-korea`,t.invest],[lang==='ko'?'/blog':`/${lang}/blog`,t.blog]];
  return <><div className="kh-family"><span>SEOUL · KIM & HYUN LAW OFFICE</span><a href={hubHref('',lang)}>{t.firm} ↗</a></div><header className="kh-header"><a className="kh-brand" href={`/${lang}`}><strong>{t.name}</strong><span>{t.area}</span></a><button className="kh-toggle" aria-expanded={open} aria-controls="visa-nav" onClick={()=>setOpen(!open)} aria-label={lang==='ko'?'메뉴 열기':'Menu'}>☰</button><nav id="visa-nav" className={open?'is-open':''}>{nav.map(([href,label])=><a key={href} href={href} onClick={()=>setOpen(false)}>{label}</a>)}</nav><details className="kh-languages"><summary>{lang.toUpperCase()}</summary><div>{languages.map(l=><a key={l} href={`/${l}`} lang={l}>{({ko:'한국어',en:'English',zh:'中文',ja:'日本語'})[l]}</a>)}</div></details>{!pathname.startsWith('/admin')&&<KakaoLink lang={lang}/>}</header></>;
 }
