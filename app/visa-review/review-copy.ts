@@ -222,7 +222,7 @@ export const copy: Record<Language, LanguageCopy> = {
     directStartAnother: '申请另一项审查', directMaterialsSent: '资料已发送至事务所',
     confirmation: '确认提交取消或退款请求？', cancelled: '已记录您的取消或退款请求。', paid: '付款已确认。请在案件页面查看截止时间。',
     returnCancel: 'PayPal 支付页面已关闭。重新付款前请查看案件状态。', returnRetry: '重新确认 PayPal 付款', result: '律师书面意见', accepted: "事务所确认邮件材料和审查范围后，即可在此付款。", requestPending: '状态更新后，我们会通过邮件通知您。',
-    scopeTitle: '审查范围与协议', scopeText: '约定费用涵盖所选范围的书面审查。如现有资料不足以作出判断，律师会说明需要补充的资料。申请代办、代理、翻译、申诉和政府费用另计。新申请请在付款后发送资料。事务所随后确认资料及是否可以承接，如无法承接将全额退款。',
+    scopeTitle: '审查范围与协议', scopeText: '约定费用涵盖所选范围的书面审查。如现有资料不足以作出判断，律师会说明需要补充的资料。本次委托不包含代办申请、代理、翻译、行政救济或政府规费。新申请请在付款后发送资料。事务所随后确认资料及是否可以承接，如无法承接将全额退款。',
     refundTitle: '取消与退款', refundInstructions: '未付款申请可在我的案件中取消。如需退款，请点击申请退款，或通过邮件联系事务所并注明案件编号。处理结果可在我的案件中查看。',
     refundDeclined: '退款申请未获批准',
     businessNumber: '营业登记号码',
