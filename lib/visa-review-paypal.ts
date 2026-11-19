@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
 
-type ErrorCode = 'unavailable' | 'invalid-input' | 'payment-mismatch' | 'not-approved' | 'capture-pending' | 'provider-error';
+type ErrorCode = 'unavailable' | 'invalid-input' | 'payment-mismatch' | 'not-approved' | 'capture-pending' | 'capture-failed' | 'provider-error';
 
 export class PayPalReviewError extends Error {
   readonly code: ErrorCode;
@@ -13,6 +13,7 @@ export class PayPalReviewError extends Error {
       'payment-mismatch': 'This payment could not be verified for the visa review.',
       'not-approved': 'This payment has not been approved and completed.',
       'capture-pending': 'PayPal has not confirmed the payment yet.',
+      'capture-failed': 'PayPal declined the payment or could not capture it.',
       'provider-error': 'PayPal could not complete the request.',
     }[code]);
     this.name = 'PayPalReviewError';
@@ -209,6 +210,9 @@ function verifyCapture(order: Order, orderId: string, caseId: string, amountCent
   const purchaseUnit = verifyOrder(order, orderId, caseId, amountCents);
   const captures = purchaseUnit.payments?.captures;
   const capture = captures?.[0];
+  if (capture?.status === 'DECLINED' || capture?.status === 'FAILED') {
+    throw new PayPalReviewError('capture-failed');
+  }
   if (order.status !== 'COMPLETED' || capture?.status !== 'COMPLETED') {
     throw new PayPalReviewError('capture-pending');
   }
@@ -228,8 +232,10 @@ export async function captureReviewPayPalOrder(input: { orderId: string; caseId:
   const client = await paymentClient();
   const path = `/v2/checkout/orders/${orderId}`;
   const order = await client.get<Order>(path);
-  verifyOrder(order, orderId, caseId, amountCents);
-  if (order.status === 'COMPLETED') return verifyCapture(order, orderId, caseId, amountCents);
+  const unit = verifyOrder(order, orderId, caseId, amountCents);
+  if (order.status === 'COMPLETED' || unit.payments?.captures?.length) {
+    return verifyCapture(order, orderId, caseId, amountCents);
+  }
   if (existingOnly || order.status !== 'APPROVED') throw new PayPalReviewError('not-approved');
 
   let captureError: unknown;
@@ -243,7 +249,8 @@ export async function captureReviewPayPalOrder(input: { orderId: string; caseId:
     const completed = await client.get<Order>(path);
     return verifyCapture(completed, orderId, caseId, amountCents);
   } catch (error) {
-    if (error instanceof PayPalReviewError && error.code === 'payment-mismatch') throw error;
+    if (error instanceof PayPalReviewError &&
+      (error.code === 'payment-mismatch' || error.code === 'capture-failed')) throw error;
     throw captureError ?? error;
   }
 }

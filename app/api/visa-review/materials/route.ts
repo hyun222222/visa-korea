@@ -1,4 +1,5 @@
 import type {NextRequest} from 'next/server';
+import {reviewAttachmentLimits, reviewAttachmentMaxBytes} from '@/lib/visa-review-attachments';
 import {verifyMaterialsToken} from '@/lib/visa-review-direct';
 import {
   changeReviewCase,
@@ -21,7 +22,6 @@ import {
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
-const fileLimit = 4_000_000;
 const requestLimit = 4_400_000;
 const transmissionLease = 90_000;
 const officeMailbox = 'info@kimnhyun.com';
@@ -74,13 +74,17 @@ async function emailAttachment(file: File) {
   return {filename: (stem || 'document') + '.' + extension, content: bytes.toString('base64'), content_type: contentType};
 }
 
-async function uploadedFiles(form: FormData) {
+async function uploadedFiles(form: FormData, plan: ReviewCase['plan']) {
   const files = form.getAll('files');
-  if (files.length > 5 || files.some((file) => typeof file === 'string')) {
-    throw new ReviewError('Provide up to five PDF, JPG or PNG attachments.', 422);
+  const limit = reviewAttachmentLimits[plan];
+  if (files.length > limit) {
+    throw new ReviewError(limit === 0 ? 'This review accepts text only.' : `Provide at most ${limit} attachments for this review.`, 422);
   }
-  const attachments = files as File[];
-  if (attachments.reduce((total, file) => total + file.size, 0) > fileLimit) {
+  const attachments = files.map((file) => {
+    if (typeof file === 'string' || file.size === 0) throw new ReviewError('Provide PDF, JPG or PNG attachments.', 422);
+    return file;
+  });
+  if (attachments.reduce((total, file) => total + file.size, 0) > reviewAttachmentMaxBytes) {
     throw new ReviewError('Attachments must total 4 MB or less.', 413);
   }
   return Promise.all(attachments.map(emailAttachment));
@@ -114,7 +118,7 @@ export async function POST(request: NextRequest) {
     }
     const name = reviewText(form.get('name'), 120);
     const question = reviewText(form.get('question'), c.plan === 'question' ? 600 : 6000);
-    const attachments = await uploadedFiles(form);
+    const attachments = await uploadedFiles(form, c.plan);
     const claimed = await transitionReviewCase(c, {materials_submission_started_at: new Date().toISOString()});
     try {
       await sendReviewEmail(officeMailbox, '[' + reviewOffice + '] 비자 서면검토 자료 ' + c.id,

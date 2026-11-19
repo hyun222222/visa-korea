@@ -2,6 +2,7 @@
 
 import Script from 'next/script';
 import {useEffect, useRef, useState, type FormEvent, type MouseEvent} from 'react';
+import {reviewAttachmentLimits, reviewAttachmentMaxBytes} from '@/lib/visa-review-attachments';
 import {paymentTerms, paymentTermsVersion} from '@/lib/visa-review-terms';
 import {copy, paypalEligibility, planPrice, type Language, type Plan} from './review-copy';
 import type {Case} from './review-client';
@@ -34,8 +35,11 @@ type Notice = {kind: 'error' | 'message'; text: string};
 
 const locale: Record<Language, string> = {en: 'en_US', ko: 'ko_KR', zh: 'zh_CN'};
 const allowedTypes = new Set(['application/pdf', 'image/jpeg', 'image/png']);
-const maxFileBytes = 4_000_000;
-const maxFiles = 5;
+
+function validAttachmentSelection(files: readonly File[], maxFiles: number) {
+  return files.length <= maxFiles && files.every(file => file.size > 0 && allowedTypes.has(file.type)) &&
+    files.reduce((total, file) => total + file.size, 0) <= reviewAttachmentMaxBytes;
+}
 
 function PayPalButtons({clientId, language, createOrder, onApprove, onCancel, onError}: PayPalCallbacks & {clientId: string; language: Language}) {
   const mount = useRef<HTMLDivElement>(null);
@@ -114,6 +118,7 @@ export default function DirectReview({language, plan, clientId, materialsEnabled
     : null;
   const checkoutCase = activeCase && (activeCase.paidAt || recoveryOrder || checkoutStartedHere) ? activeCase : null;
   const selectedPlan = checkoutCase?.plan ?? plan;
+  const maxFiles = reviewAttachmentLimits[selectedPlan];
   const paymentReady = Boolean(clientId);
   const canSend = activeCase?.status === 'paid' && !activeCase.materialsSubmittedAt;
   const fields = [
@@ -210,9 +215,9 @@ export default function DirectReview({language, plan, clientId, materialsEnabled
     event.preventDefault();
     if (!canSend || !session.materialsToken || inFlight.current) return;
     const data = new FormData(event.currentTarget);
-    const files = data.getAll('files').filter((item): item is File => item instanceof File && item.size > 0);
-    if (files.length > maxFiles || files.some((file) => !allowedTypes.has(file.type)) || files.reduce((sum, file) => sum + file.size, 0) > maxFileBytes) {
-      failure(t.directFilesInvalid);
+    const files = data.getAll('files').filter((item): item is File => item instanceof File && (item.name !== '' || item.size > 0));
+    if (!validAttachmentSelection(files, maxFiles)) {
+      failure(t.directFilesInvalid(maxFiles));
       return;
     }
     data.delete('files');
@@ -276,12 +281,21 @@ export default function DirectReview({language, plan, clientId, materialsEnabled
           <p>{t.directMaterialsIntro}</p>
           <label>{t.name}<input name="name" autoComplete="name" maxLength={120} required disabled={waiting} /></label>
           <label>{t.directQuestion}<textarea name="question" rows={5} maxLength={activeCase.plan === 'question' ? 600 : 6000} required disabled={waiting} /></label>
-          <label>{t.directFiles}<input type="file" name="files" multiple accept="application/pdf,image/jpeg,image/png,.pdf,.jpg,.jpeg,.png" disabled={waiting} /><small>{t.directFileLimits}</small></label>
+          {maxFiles > 0 ? <label>{t.directFiles}
+            <input type="file" name="files" multiple accept="application/pdf,image/jpeg,image/png,.pdf,.jpg,.jpeg,.png" disabled={waiting}
+              onChange={(event) => {
+                const input = event.currentTarget;
+                input.setCustomValidity(validAttachmentSelection(Array.from(input.files ?? []), maxFiles) ? '' : t.directFilesInvalid(maxFiles));
+                input.reportValidity();
+              }} />
+            <small>{t.directFileLimits(maxFiles)}</small>
+          </label> : <p className={styles.quiet}>{t.directFileLimits(maxFiles)}</p>}
           <p className={styles.quiet}>{t.directMask}</p>
           <button type="submit" className={styles.primary} disabled={waiting}>{waiting ? t.working : t.directSendMaterials}</button>
         </form>}
         {canSend && (fallback || !materialsEnabled || !session.materialsToken) && <div className={styles.notice}>
-          <p>{t.directFallback}</p>
+          <p>{t.directFallback} {t.directFileLimits(maxFiles)}</p>
+          {maxFiles > 0 && <p className={styles.quiet}>{t.directMask}</p>}
           <button type="button" className={styles.textButton} onClick={() => void copyReference(activeCase.id)}>{t.directCopyReference}</button>
           {' · '}
           <a className={styles.textButton} href={'mailto:info@kimnhyun.com?subject=' + encodeURIComponent('Visa review / ' + activeCase.id)}>{t.emailUs}</a>

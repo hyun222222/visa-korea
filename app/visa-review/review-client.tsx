@@ -9,6 +9,7 @@ import {request} from './review-request';
 import ReviewSituations from './review-situations';
 import styles from './review.module.css';
 import {reviewMarketPath} from '@/lib/visa-review-locales';
+import {koreanReviewTopicUrl} from '@/lib/visa-review-ko-topics';
 
 export type Case = {
   id: string;
@@ -145,6 +146,8 @@ export default function ReviewClient({ language, initialPlan, businessRegistrati
   const directReturn = Boolean(caseOnReturn && snapshot?.directCase?.id === caseOnReturn);
   const alreadyPaid = currentCase && (statusAfterPayment.has(currentCase.status) || currentCase.status === 'refund_requested' || currentCase.status === 'refunded');
   const needsReturnCheck = authenticated && caseOnReturn && orderOnReturn && !directReturn && !returnedChecked && !cancelledOnReturn && !alreadyPaid;
+  const needsDirectReturnCheck = directReturn && !returnedChecked && !cancelledOnReturn && !!orderOnReturn &&
+    snapshot?.directOrderId === orderOnReturn && snapshot.directCase?.status === 'checkout';
 
   const refresh = useCallback(async () => {
     const state = await request<Snapshot>();
@@ -179,28 +182,35 @@ export default function ReviewClient({ language, initialPlan, businessRegistrati
 
   const confirmReturnedPayment = useCallback(() => {
     if (!caseOnReturn || !orderOnReturn || cancelledOnReturn) return;
+    if (directReturn && !needsDirectReturnCheck) return;
     void action('capture', async () => {
-      const {case: paidCase} = await request<{case: Case}>({action: 'capture', caseId: caseOnReturn, orderId: orderOnReturn});
-      setSnapshot((existing) => existing && {...existing, cases: existing.cases.map((item) => item.id === paidCase.id ? paidCase : item)});
+      const {case: paidCase, materialsToken} = await request<{case: Case; materialsToken?: string | null}>({
+        action: directReturn ? 'confirm-existing-direct-payment' : 'capture', caseId: caseOnReturn, orderId: orderOnReturn,
+      });
+      if (directReturn) {
+        updateDirectSession({directCase: paidCase, directOrderId: orderOnReturn, materialsToken: materialsToken ?? null});
+      } else {
+        setSnapshot((existing) => existing && {...existing, cases: existing.cases.map((item) => item.id === paidCase.id ? paidCase : item)});
+      }
       setReturnedChecked(true);
       const clean = new URL(window.location.href);
       ['reviewCase', 'token', 'PayerID', 'cancelled'].forEach((key) => clean.searchParams.delete(key));
-      clean.hash = 'cases';
+      clean.hash = directReturn ? 'apply' : 'cases';
       window.history.replaceState(window.history.state, '', clean);
-      setNotice({kind: 'message', text: paidCase.payFirst ? t.payFirstPaid : t.paid});
-      document.getElementById('cases')?.scrollIntoView();
+      setNotice({kind: 'message', text: directReturn ? t.directPaid : paidCase.payFirst ? t.payFirstPaid : t.paid});
+      document.getElementById(directReturn ? 'apply' : 'cases')?.scrollIntoView();
       await refresh().catch(() => setLoadFailed(true));
     });
-  }, [action, cancelledOnReturn, caseOnReturn, orderOnReturn, refresh, t.paid, t.payFirstPaid]);
+  }, [action, cancelledOnReturn, caseOnReturn, directReturn, needsDirectReturnCheck, orderOnReturn, refresh, t.directPaid, t.paid, t.payFirstPaid, updateDirectSession]);
 
   useEffect(() => {
-    if (!needsReturnCheck || busy || startedCapture.current) return;
+    if ((!needsReturnCheck && !needsDirectReturnCheck) || busy || startedCapture.current) return;
     const timer = window.setTimeout(() => {
       startedCapture.current = true;
       confirmReturnedPayment();
     }, 0);
     return () => window.clearTimeout(timer);
-  }, [busy, confirmReturnedPayment, needsReturnCheck]);
+  }, [busy, confirmReturnedPayment, needsDirectReturnCheck, needsReturnCheck]);
 
   function selectPlan(selected: Plan) {
     setPlan(selected);
@@ -265,6 +275,7 @@ export default function ReviewClient({ language, initialPlan, businessRegistrati
           <nav className={styles.utility} aria-label={t.languageLabel}>
             <a href="#cases" onClick={() => openNotice('cases')}>{t.casesLink}</a>
             <a href={reviewMarketPath(language === 'zh' ? 'zh' : 'en')}>{language === 'ko' ? '해외 고객 안내' : language === 'zh' ? '其他语言' : 'Other languages'}</a>
+            {language === 'ko' && <a href={koreanReviewTopicUrl('visa-status-check')}>체류자격별 안내</a>}
             <span className={styles.language}>
               {([['en', 'English'], ['ko', '한국어'], ['zh', '简体中文']] as const).map(([key, label]) => (
                 <a key={key} href={languageHref(key)} lang={key === 'zh' ? 'zh-CN' : key} aria-current={key === language ? 'page' : undefined}>{label}</a>
