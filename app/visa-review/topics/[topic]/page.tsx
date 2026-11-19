@@ -47,12 +47,6 @@ const articles: Record<KoreanReviewTopic, TopicContent> = {
 const planByTier: Record<string, Plan> = {55: 'question', 99: 'documents', 330: 'strategy'};
 type Props = {params: Promise<{topic: string}>};
 
-export const dynamicParams = false;
-
-export function generateStaticParams() {
-  return koreanReviewTopicSlugs.map(topic => ({topic}));
-}
-
 export async function generateMetadata({params}: Props): Promise<Metadata> {
   const {topic} = await params;
   if (!isKoreanReviewTopic(topic)) notFound();
