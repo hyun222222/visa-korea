@@ -1,0 +1,40 @@
+.scenarios {
+  margin-block-end: 2rem;
+}
+
+.scenarios h3 {
+  color: var(--navy);
+  font-size: 1.2rem;
+}
+
+.scenarios ul {
+  margin: .65rem 0 0;
+  padding: 0;
+  list-style: none;
+  border-bottom: 1px solid var(--rule);
+}
+
+.scenarios li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .45rem 1rem;
+  padding-block: .7rem;
+  border-top: 1px solid var(--rule);
+}
+
+.scenarios li p {
+  flex: 1 1 24rem;
+}
+
+.scenarioPlans {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .35rem .55rem;
+  font-size: .875rem;
+}
+
+.scenarioPlans span {
+  display: inline-block;
+  color: var(--muted);
+}

@@ -9,6 +9,7 @@ import {request} from './review-request';
 import ReviewSituations from './review-situations';
 import styles from './review.module.css';
 import {reviewMarketPath} from '@/lib/visa-review-locales';
+import {koreanReviewTopicUrl} from '@/lib/visa-review-ko-topics';
 
 export type Case = {
   id: string;
@@ -274,6 +275,7 @@ export default function ReviewClient({ language, initialPlan, businessRegistrati
           <nav className={styles.utility} aria-label={t.languageLabel}>
             <a href="#cases" onClick={() => openNotice('cases')}>{t.casesLink}</a>
             <a href={reviewMarketPath(language === 'zh' ? 'zh' : 'en')}>{language === 'ko' ? '해외 고객 안내' : language === 'zh' ? '其他语言' : 'Other languages'}</a>
+            {language === 'ko' && <a href={koreanReviewTopicUrl('visa-status-check')}>체류자격별 안내</a>}
             <span className={styles.language}>
               {([['en', 'English'], ['ko', '한국어'], ['zh', '简体中文']] as const).map(([key, label]) => (
                 <a key={key} href={languageHref(key)} lang={key === 'zh' ? 'zh-CN' : key} aria-current={key === language ? 'page' : undefined}>{label}</a>

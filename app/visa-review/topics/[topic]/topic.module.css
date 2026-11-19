@@ -1,0 +1,64 @@
+.topic {
+  word-break: keep-all;
+}
+
+.lead {
+  color: #e0e7fd;
+  font-size: clamp(1rem, 1.75vw, 1.18rem);
+  margin-top: 1.4rem;
+}
+
+.lead p + p { margin-top: .35rem; }
+
+.reading { max-width: 850px; }
+
+.reading section {
+  border-bottom: 1px solid var(--rule);
+  padding-block: clamp(1.5rem, 5vw, 2.6rem);
+}
+
+.reading h2 {
+  color: var(--navy);
+  font-size: clamp(1.25rem, 3.5vw, 1.72rem);
+  letter-spacing: -.035em;
+  margin-bottom: .8rem;
+}
+
+.reading p + p { margin-top: .6rem; }
+.reading :is(ul, ol) { margin-block: .65rem 0; padding-inline-start: 1.5rem; }
+.reading ul { list-style: disc; }
+.reading ol { list-style: decimal; }
+.reading li + li { margin-top: .4rem; }
+.reading small { display: block; color: var(--muted); font-size: .85rem; margin-top: .15rem; }
+
+.facts, .questions { margin: 0; display: grid; gap: .85rem; }
+.facts { grid-template-columns: repeat(auto-fit, minmax(min(100%, 235px), 1fr)); }
+.facts > div, .questions > div, .compare > div {
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: .9rem 1rem;
+  background: #fff;
+  min-width: 0;
+}
+.reading dt, .reading h3 { font-weight: 700; color: var(--navy); margin-bottom: .35rem; }
+.steps strong { color: var(--navy); }
+.table { max-width: 100%; overflow-x: auto; }
+.table table { width: 100%; min-width: 520px; border-collapse: collapse; background: #fff; }
+.table :is(th, td) { border: 1px solid var(--rule); padding: .65rem .8rem; text-align: left; vertical-align: top; }
+.table thead { background: #e9eef9; color: var(--navy); }
+.table tbody th { background: #f7f8fb; }
+
+.compare { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .85rem; margin: .5rem 0; }
+.reading section.cta { border: 1px solid #aab5d6; border-radius: 7px; background: #edf1fc; padding: clamp(1rem, 4vw, 1.7rem); margin-block: 1.25rem 0; }
+.cta a { margin-top: 1rem; }
+
+.topics { padding-block: 1.5rem; }
+.reading .topics ul { display: flex; flex-wrap: wrap; gap: .5rem .8rem; list-style: none; padding: 0; }
+.reading .topics li { margin: 0; }
+.topics a { padding: .25rem .5rem; display: inline-block; text-decoration: underline; color: var(--navy); }
+.topics a[aria-current] { font-weight: 700; background: #e5eafb; border-radius: 4px; }
+
+@media (max-width: 580px) {
+  .compare { grid-template-columns: minmax(0, 1fr); }
+  .topic header nav { gap: .5rem; }
+}

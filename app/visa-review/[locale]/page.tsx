@@ -2,45 +2,44 @@ import type {Metadata} from 'next';
 import {notFound} from 'next/navigation';
 import {isReviewMarket, reviewMarketAlternates, reviewMarketPath, reviewMarkets, reviewMarketsInOrder, reviewMarketUrl} from '@/lib/visa-review-locales';
 import {reviewBusinessRegistrationNumber, reviewIntakeOpen, reviewOffice, reviewPlans} from '@/lib/visa-review-server';
-import {paymentTerms} from '@/lib/visa-review-terms';
 import {khmerReview} from '../international-khmer';
 import {internationalReview} from '../international-content';
-import {copy, paypalEligibility, plans} from '../review-copy';
+import {copy, paypalEligibility, plans, type Plan} from '../review-copy';
 import styles from '../review.module.css';
+import {plansByScenario, saleScenarios} from '../sale-scenarios';
+import saleStyles from './sale.module.css';
 
 const landing = {
   ...internationalReview,
   km: khmerReview,
   en: {
-    title: 'Korean visa written review by a lawyer',
-    description: copy.en.description,
+    title: 'Korea Visa Denied? E-7, D-10, F-6 Written Review by a Korean Lawyer',
+    description: 'Korea visa denied? A Korean lawyer reviews refusal reasons, re-entry, E-7 job changes, D-10 status and F-6 refusals. Get a written reply by email.',
     lead: copy.en.heroBody,
     choose: copy.en.planTitle,
     plans: plans.map(plan => copy.en.plan[plan]),
     timeTitle: 'Receive a written reply by email',
     time: copy.en.clock,
-    scope: `${copy.en.outcomeTitle} ${copy.en.outcome} ${copy.en.directScopeExclusions}`,
+    scope: copy.en.directScopeExclusions,
     payment: paypalEligibility.en,
     checkout: 'Continue to checkout',
     policy: copy.en.refundTitle,
-    refund: `${paymentTerms.en.refundPolicy} We issue a full refund if the office cannot take the case.`,
     checkoutLanguage: 'Checkout and terms are in English.',
     closed: copy.en.closed,
     materials: copy.en.process[1][1],
   },
   zh: {
-    title: '韩国签证律师书面审查',
-    description: copy.zh.description,
+    title: '韩国签证拒签、遣返后再入境 | 韩国律师书面审查',
+    description: '韩国签证拒签、机场拒关或遣返后想再入境？韩国律师可审查拒签原因、E-7换工作及D-8汇款前的申请条件，并通过电子邮件提供书面答复。',
     lead: copy.zh.heroBody,
     choose: copy.zh.planTitle,
     plans: plans.map(plan => copy.zh.plan[plan]),
     timeTitle: '通过电子邮件收到书面意见',
     time: copy.zh.clock,
-    scope: `${copy.zh.outcomeTitle} ${copy.zh.outcome} ${copy.zh.directScopeExclusions}`,
+    scope: copy.zh.directScopeExclusions,
     payment: paypalEligibility.zh,
     checkout: '前往付款页面',
     policy: copy.zh.refundTitle,
-    refund: `${paymentTerms.zh.refundPolicy} 如事务所无法承接，将全额退款。`,
     checkoutLanguage: '付款页面及服务条款提供简体中文。',
     closed: copy.zh.closed,
     materials: copy.zh.process[1][1],
@@ -55,7 +54,7 @@ export async function generateMetadata({params}: Props): Promise<Metadata> {
   const {title, description} = landing[locale];
   const canonical = reviewMarketUrl(locale);
   return {
-    title: `${title} | ${reviewOffice}`,
+    title: {absolute: title},
     description,
     alternates: {canonical, languages: reviewMarketAlternates},
     openGraph: {title, description, url: canonical, type: 'website', siteName: reviewOffice},
@@ -66,13 +65,15 @@ export default async function ReviewMarketPage({params}: Props) {
   const {locale} = await params;
   if (!isReviewMarket(locale)) notFound();
   const text = landing[locale];
+  const scenarios = saleScenarios[locale];
   const market = reviewMarkets[locale];
   const business = reviewBusinessRegistrationNumber();
   const open = await reviewIntakeOpen();
   const policyUrl = `/refund-policy?lang=${market.checkout}`;
+  const checkoutUrl = (plan: Plan) => `/visa-review?lang=${market.checkout}&plan=${plan}#apply`;
 
   return (
-    <div className={styles.site}>
+    <div className={styles.site} lang={market.tag}>
       <header className={styles.masthead}>
         <div className={styles.container}>
           <a className={styles.firm} href="#plans">{reviewOffice}</a>
@@ -100,6 +101,27 @@ export default async function ReviewMarketPage({params}: Props) {
           <p>{text.payment}</p>
           {open ? <p>{text.checkoutLanguage}</p> : <p><strong>{text.closed}</strong></p>}
         </div>
+        <section className={saleStyles.scenarios} aria-labelledby="review-scenarios">
+          <h3 id="review-scenarios">{scenarios.heading}</h3>
+          <ul>
+            {plansByScenario.map((scenarioPlans, index) => (
+              <li key={scenarios.situations[index]}>
+                <p>{scenarios.situations[index]}</p>
+                <div className={saleStyles.scenarioPlans}>
+                  {scenarioPlans.map(plan => {
+                    const title = text.plans[plans.indexOf(plan)].title;
+                    const price = `US$${reviewPlans[plan].amountCents / 100}`;
+                    return open ? (
+                      <a className={styles.secondary} key={plan} href={checkoutUrl(plan)}>{title} · {price}</a>
+                    ) : (
+                      <span key={plan}>{title} · {price}</span>
+                    );
+                  })}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
         <div className={styles.plans}>
           {plans.map((plan, index) => {
             const offer = text.plans[index];
@@ -109,7 +131,7 @@ export default async function ReviewMarketPage({params}: Props) {
                 <p className={styles.price}><small>USD</small> {reviewPlans[plan].amountCents / 100}</p>
                 <p>{offer.scope}</p>
                 <p className={styles.planOutcome}>{offer.result}</p>
-                {open && <a className={styles.secondary} href={`/visa-review?lang=${market.checkout}&plan=${plan}#apply`}>{text.checkout}</a>}
+                {open && <a className={styles.secondary} href={checkoutUrl(plan)}>{text.checkout}</a>}
               </article>
             );
           })}
@@ -123,13 +145,6 @@ export default async function ReviewMarketPage({params}: Props) {
           <p>{text.scope}</p>
         </div>
       </section>
-      <section className={`${styles.container} ${styles.section}`}>
-        <div className={styles.sectionIntro}>
-          <h2>{text.policy}</h2>
-          <p>{text.refund}</p>
-          <p><a href={policyUrl} hrefLang={market.checkout}>{text.policy}</a></p>
-        </div>
-      </section>
       <footer className={`${styles.container} ${styles.footer}`}>
         <strong>{reviewOffice}</strong>
         <span>{copy[market.checkout].representative}</span>
@@ -137,6 +152,7 @@ export default async function ReviewMarketPage({params}: Props) {
         <address>502 East Wing, 16 Beobwon-ro, Seocho-gu, Seoul</address>
         <a href="mailto:info@kimnhyun.com">info@kimnhyun.com</a>
         <a href="tel:+82234777600">+82 2 3477 7600</a>
+        <a href={policyUrl} hrefLang={market.checkout}>{text.policy}</a>
       </footer>
     </div>
   );
