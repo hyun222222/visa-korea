@@ -12,5 +12,5 @@ export default async function RootLayout({children}:{children:React.ReactNode}){
  const lang=requestHeaders.get('x-kimhyun-locale')||'ko';
  const review=requestHeaders.get('x-kimhyun-review')==='1';
  const schema={'@context':'https://schema.org','@type':'LegalService','@id':visaOrigin+'/#office',name:'Kim & Hyun Law Office',url:visaOrigin,telephone:'+82-2-3477-7600',email:'info@kimnhyun.com',address:{'@type':'PostalAddress',streetAddress:'502, East Wing, Jeonggok Building, 16 Beobwon-ro',addressLocality:'Seocho-gu, Seoul',addressCountry:'KR'}};
- return <html lang={lang}><head><link rel="stylesheet" href="/fonts/pretendard/font.css"/>{!review&&<script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(schema).replace(/</g,'\\u003c')}}/>}</head><body>{!review&&<Header/>}<main>{children}</main>{!review&&<Footer/>}</body></html>;
+ return <html lang={lang}><head><link rel="stylesheet" href="/fonts/pretendard/font.css"/>{!review&&<script src="/law-helper-loader.js" defer/>}{!review&&<script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(schema).replace(/</g,'\\u003c')}}/>}</head><body>{!review&&<Header/>}<main>{children}</main>{!review&&<Footer/>}</body></html>;
 }
