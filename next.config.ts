@@ -1,6 +1,19 @@
 import type { NextConfig } from "next";
+import {koreanGuideHubPath, koreanReviewTopicSlugs} from "./lib/visa-review-ko-topics";
 
 const nextConfig: NextConfig = {
+  async rewrites() {
+    return {
+      beforeFiles: [
+        {source: koreanGuideHubPath, destination: '/visa-review/topics'},
+        ...koreanReviewTopicSlugs.map(slug => ({
+          source: `/ko/${slug}`, destination: `/visa-review/topics/${slug}`,
+        })),
+      ],
+      afterFiles: [],
+      fallback: [],
+    };
+  },
   images: {
     unoptimized: true,
   },

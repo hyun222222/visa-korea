@@ -1,9 +1,11 @@
+import {shareMetadata} from '@/lib/share-metadata';
 import {visaOrigin, hubHref} from '@/lib/brand';
 import {consultationCopy} from '@/lib/search-content-review';
 import Link from "next/link";
 import type { Metadata } from "next";
 import { ArticleSources } from '@/components/blog/ArticleSources';
 import { VisaReviewCta } from '@/components/blog/VisaReviewCta';
+import { koreanReviewTopics, koreanReviewTopicUrl, type KoreanReviewTopic } from '@/lib/visa-review-ko-topics';
 import { notFound, permanentRedirect } from "next/navigation";
 import { Calendar, Clock, ChevronLeft, MessageCircle, Phone } from "lucide-react";
 
@@ -18,6 +20,22 @@ import {isD8Review, d8Updated} from '@/lib/d8-search';
 
 const postLanguage = (slug: string) => /-(en|zh|ja)$/.exec(slug)?.[1] ?? 'ko';
 const canonicalPostPath = (slug: string) => `${postLanguage(slug) === 'ko' ? '' : `/${postLanguage(slug)}`}/blog/${slug}`;
+
+const relatedReviewGuides: Partial<Record<string, KoreanReviewTopic[]>> = {
+    'd8-investor-visa-basics': ['d8-visa'],
+    'd8-visa-guide': ['d8-visa'],
+    'd8-visa-direct-incorporation-pitfalls': ['d8-visa'],
+    'd8-visa-rejection-reasons': ['d8-visa', 'visa-refusal'],
+    'foreign-corporate-setup-pitfalls': ['d8-visa'],
+    'e7-skilled-worker': ['e7-visa', 'e7-job-loss', 'd10-visa'],
+    'f2-points-system': ['f2-7-visa'],
+    'f2-points-system-core': ['f2-7-visa'],
+    'f5-permanent-residency': ['f5-visa'],
+    'f5-permanent-residence-checklist': ['f5-visa'],
+    'f6-marriage-visa-refusal-reapplication': ['visa-refusal', 'visa-status-check'],
+    'responding-to-immigration-rfe-and-refusal': ['visa-refusal', 'visa-status-check'],
+    'deportation-order-objection': ['reentry'],
+};
 
 async function getCanonicalPost(slug: string) {
     const post = await getSupabasePostBySlug(slug);
@@ -59,22 +77,17 @@ export async function generateMetadata({ params }: RouteParams): Promise<Metadat
         description: post.excerpt,
         keywords: post.keywords,
         alternates: { canonical: `/blog/${post.slug}`, languages: await postAlternates(post.slug) },
-        openGraph: {
+        ...shareMetadata({
             title: post.title,
             description: post.excerpt,
             url: `${visaOrigin}/blog/${post.slug}`,
-            siteName: "Kim&Hyun Law Office",
-            type: "article",
-            publishedTime: post.publishedAt,
-            modifiedTime: post.modifiedAt ?? (isD8Review(post.slug) ? d8Updated : undefined),
-            authors: [post.author],
-            tags: [cat?.label, ...post.keywords].filter(Boolean) as string[],
-        },
-        twitter: {
-            card: "summary_large_image",
-            title: post.title,
-            description: post.excerpt,
-        },
+            article: {
+                publishedTime: post.publishedAt,
+                modifiedTime: post.modifiedAt ?? (isD8Review(post.slug) ? d8Updated : undefined),
+                authors: [post.author],
+                tags: [cat?.label, ...post.keywords].filter(Boolean) as string[],
+            },
+        }),
     };
 }
 
@@ -84,6 +97,7 @@ export default async function BlogPostPage({ params }: RouteParams) {
 
     const category = getCategoryById(post.category);
     const consultation = consultationCopy(post.slug, 'ko');
+    const reviewGuides = relatedReviewGuides[post.slug];
 
     // Fetch related posts from database
     const allPosts = await getSupabasePosts();
@@ -181,6 +195,16 @@ export default async function BlogPostPage({ params }: RouteParams) {
                     ))}
                 </div>
                 <ArticleSources post={post} />
+                {reviewGuides && (
+                    <nav aria-label="이 글과 관련된 비자 안내" className="mt-8 border-t border-slate-200 pt-5">
+                        <h2 className="text-lg font-semibold">이 경우에 함께 읽을 비자 안내</h2>
+                        <ul className="mt-3 space-y-2">
+                            {reviewGuides.map(topic => (
+                                <li key={topic}><a className="text-blue-800 underline underline-offset-4" href={koreanReviewTopicUrl(topic)}>{koreanReviewTopics[topic]} 안내</a></li>
+                            ))}
+                        </ul>
+                    </nav>
+                )}
             </div>
 
             <VisaReviewCta slug={post.slug} lang="ko" />

@@ -1,3 +1,4 @@
+import {shareMetadata} from '@/lib/share-metadata';
 import {visaOrigin, hubHref} from '@/lib/brand';
 import {consultationCopy} from '@/lib/search-content-review';
 import Link from "next/link";
@@ -138,26 +139,21 @@ export async function generateMetadata({ params }: RouteParams): Promise<Metadat
     const cat = getCategoryById(post.category);
     const resolvedCatLabel = cat ? getCategoryLabel(cat, lang) : "";
     return {
-        title: `${post.title} | Korea Visa Law Blog`,
+        title: post.title,
         description: post.excerpt,
         keywords: post.keywords,
         alternates: { canonical: canonicalPostPath(post.slug), languages: await postAlternates(post.slug) },
-        openGraph: {
+        ...shareMetadata({
             title: post.title,
             description: post.excerpt,
             url: `${visaOrigin}/${lang}/blog/${post.slug}`,
-            siteName: "Kim&Hyun Law Office",
-            type: "article",
-            publishedTime: post.publishedAt,
-            modifiedTime: post.modifiedAt ?? (isD8Review(post.slug) ? d8Updated : undefined),
-            authors: [post.author],
-            tags: [resolvedCatLabel, ...post.keywords].filter(Boolean) as string[],
-        },
-        twitter: {
-            card: "summary_large_image",
-            title: post.title,
-            description: post.excerpt,
-        },
+            article: {
+                publishedTime: post.publishedAt,
+                modifiedTime: post.modifiedAt ?? (isD8Review(post.slug) ? d8Updated : undefined),
+                authors: [post.author],
+                tags: [resolvedCatLabel, ...post.keywords].filter(Boolean) as string[],
+            },
+        }),
     };
 }
 

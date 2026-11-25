@@ -1,4 +1,4 @@
-import {visaOrigin} from '@/lib/brand';
+import {blogIndexPath, localizedAlternates, shareMetadata} from '@/lib/share-metadata';
 import type { Metadata } from "next";
 import { getSupabasePosts } from "@/lib/blog-db";
 import { BlogIndexClient } from "@/components/blog/BlogIndexClient";
@@ -95,4 +95,16 @@ export function generateStaticParams() {
     ];
 }
 
-export async function generateMetadata({params}:{params:Promise<{lang:string}>}):Promise<Metadata>{const {lang}=await params;if(!supportedLangs.includes(lang as Lang))notFound();const t=TRANSLATIONS[lang as Lang];return {title:t.header+(lang==='ko'?' | 김앤현 법률사무소':' | Kim & Hyun'),description:t.description,alternates:{canonical:visaOrigin+(lang==='ko'?'/blog':'/'+lang+'/blog'),languages:Object.fromEntries(supportedLangs.map(l=>[l,visaOrigin+(l==='ko'?'/blog':'/'+l+'/blog')]))}};}
+export async function generateMetadata({params}: {params: Promise<{lang: string}>}): Promise<Metadata> {
+    const {lang} = await params;
+    if (!supportedLangs.includes(lang as Lang)) notFound();
+    const language = lang as Lang;
+    const t = TRANSLATIONS[language];
+    const title = t.header + (language === 'ko' ? ' | 김앤현 법률사무소' : ' | Kim & Hyun');
+    const url = blogIndexPath(language);
+    return {
+        title, description: t.description,
+        alternates: {canonical: url, languages: localizedAlternates(blogIndexPath)},
+        ...shareMetadata({title, description: t.description, url}),
+    };
+}

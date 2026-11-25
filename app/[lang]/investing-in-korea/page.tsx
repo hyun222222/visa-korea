@@ -1,3 +1,4 @@
+import {localizedAlternates, shareMetadata} from '@/lib/share-metadata';
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import InvestingClientPage from "@/components/investing/InvestingClientPage";
@@ -5,6 +6,13 @@ import {D8FeaturedGuide} from '@/components/blog/D8Guide';
 
 const supportedLangs = ["ko", "en", "zh", "ja"] as const;
 type Lang = typeof supportedLangs[number];
+
+const introductions = {
+  ko: "외국인투자 신고부터 법인 등록, D-8 비자 신청까지 단계별로 확인하세요. 신설법인과 기존 주식 취득에 필요한 서류를 나누어 정리했습니다.",
+  en: "Follow the steps from foreign investment notification to company registration and a D-8 visa application. Check which documents to prepare for a new company or a purchase of existing shares.",
+  zh: "从外国人投资申报、公司登记到申请D-8签证，逐步了解各环节。可分别查看新设公司和收购现有股份所需的文件。",
+  ja: "外国人投資の届出から法人登記、D-8ビザ申請までの流れを確認できます。新会社の設立と既存株式の取得に必要な書類を分けて紹介します。",
+};
 
 interface Props {
   params: Promise<{ lang: string }>;
@@ -21,25 +29,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     ja: "韓国投資：手続きとD-8ビザガイド | 金＆賢 法律事務所"
   };
 
-  const descriptions = {
-    ko: "외국인투자 신고부터 법인 등록, D-8 비자까지의 실무 흐름을 정리했습니다. 본 페이지는 일반적인 법률 정보이며 개별 법률자문이 아닙니다.",
-    en: "A practical overview of how foreign investment in Korea works — from notification to company registration and the D-8 visa.",
-    zh: "外国人投资申报、法人设立登记到D-8签证的实务流程指南。本页面为一般法律信息，不构成法律咨询。",
-    ja: "外国人投資申告から法人設立登記、D-8ビザまでの実務プロセスガイド。本ページは一般的な法律情報であり、個別の法律相談ではありません。"
-  };
-
+  if (!supportedLangs.includes(lang)) notFound();
+  const title = titles[lang];
+  const description = introductions[lang];
+  const url = `/${lang}/investing-in-korea`;
   return {
-    title: titles[lang] || titles.en,
-    description: descriptions[lang] || descriptions.en,
-    alternates: {
-      canonical: `/${lang}/investing-in-korea`,
-      languages: {
-        ko: "/ko/investing-in-korea",
-        en: "/en/investing-in-korea",
-        zh: "/zh/investing-in-korea",
-        ja: "/ja/investing-in-korea"
-      }
-    }
+    title, description,
+    alternates: {canonical: url, languages: localizedAlternates(code => `/${code}/investing-in-korea`)},
+    ...shareMetadata({title, description, url}),
   };
 }
 
@@ -51,7 +48,7 @@ export default async function LocalizedPage({ params }: Props) {
     notFound();
   }
 
-  return <InvestingClientPage lang={lang} featuredGuide={<D8FeaturedGuide lang={lang}/>}/>;
+  return <InvestingClientPage lang={lang} introduction={introductions[lang]} featuredGuide={<D8FeaturedGuide lang={lang}/>}/>;
 }
 
 export function generateStaticParams() {

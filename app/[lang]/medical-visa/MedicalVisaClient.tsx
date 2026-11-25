@@ -5,17 +5,25 @@ import Link from "next/link";
 import {
     Scale, Shield, BookOpen, FileText, HelpCircle,
     CheckCircle, ArrowRight,
-    Phone, Globe, Sparkles
+    Phone, Sparkles
 } from "lucide-react";
-import { motion } from "framer-motion";
 import {
     TRANSLATIONS,
     SupportedLang
 } from "@/lib/translations";
 
+const guideLabels = {
+    ko: {prepare: "신청 자료 확인", read: "관련 안내 읽기"},
+    en: {prepare: "Check application routes and evidence", read: "Read the guide"},
+    zh: {prepare: "核对申请材料", read: "查看相关指南"},
+    ja: {prepare: "申請資料を確認する", read: "関連ガイドを読む"},
+};
+
 export default function MedicalVisaClient({ lang }: { lang: string }) {
     const currentLang = (TRANSLATIONS[lang as SupportedLang] ? lang : "ko") as SupportedLang;
     const t = TRANSLATIONS[currentLang];
+    const preparationLink = currentLang === "en" ? "/en/medical-visa-korea" : "#ai-diagnostic";
+    const links = guideLabels[currentLang];
 
     return (
         <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-blue-500/10 selection:text-blue-600">
@@ -23,35 +31,23 @@ export default function MedicalVisaClient({ lang }: { lang: string }) {
             <section className="relative overflow-hidden py-20 md:py-28 bg-gradient-to-b from-white via-slate-50 to-slate-100 border-b border-slate-200">
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-500/5 via-transparent to-transparent pointer-events-none" />
                 <div className="max-w-7xl mx-auto px-4 text-center relative z-10">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
+                    <div
                         className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-xs font-semibold uppercase tracking-wider mb-6"
                     >
                         <Sparkles className="h-3.5 w-3.5" />
                         Korea Medical Visa Solution Center
-                    </motion.div>
-                    <motion.h1
-                        initial={{ opacity: 0, y: 25 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.1 }}
+                    </div>
+                    <h1
                         className="text-4xl md:text-6xl font-serif font-bold text-slate-900 tracking-tight leading-tight max-w-5xl mx-auto mb-6"
                     >
                         {t.hero.title}
-                    </motion.h1>
-                    <motion.p
-                        initial={{ opacity: 0, y: 25 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.2 }}
+                    </h1>
+                    <p
                         className="text-lg md:text-xl text-slate-650 max-w-3xl mx-auto leading-relaxed mb-10 font-light"
                     >
                         {t.hero.desc}
-                    </motion.p>
-                    <motion.div
-                        initial={{ opacity: 0, y: 25 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.3 }}
+                    </p>
+                    <div
                         className="flex flex-col sm:flex-row justify-center items-center gap-4"
                     >
                         <a href="#ai-diagnostic" className="w-full sm:w-auto px-8 py-4 bg-blue-650 hover:bg-blue-700 text-white font-bold rounded-lg transition-all shadow-[0_4px_14px_rgba(37,99,235,0.25)] flex items-center justify-center gap-2 bg-blue-600">
@@ -60,7 +56,7 @@ export default function MedicalVisaClient({ lang }: { lang: string }) {
                         <a href="#services" className="w-full sm:w-auto px-8 py-4 bg-white border border-slate-205 text-slate-700 hover:text-slate-900 hover:bg-slate-50 rounded-lg transition-colors font-semibold flex items-center justify-center border-slate-200">
                             {t.hero.ctaHospital}
                         </a>
-                    </motion.div>
+                    </div>
                 </div>
             </section>
 
@@ -108,8 +104,8 @@ export default function MedicalVisaClient({ lang }: { lang: string }) {
                                 <h3 className="text-xl font-bold text-slate-900 mb-3">{t.visa.c33.title}</h3>
                                 <p className="text-sm text-slate-600 leading-relaxed mb-6">{t.visa.c33.desc}</p>
                             </div>
-                            <Link href={`/${currentLang}`} className="text-blue-600 font-semibold hover:text-blue-700 transition-colors inline-flex items-center gap-1.5 text-sm">
-                                자세히 보기 <ArrowRight className="h-3.5 w-3.5" />
+                            <Link href={preparationLink} className="text-blue-600 font-semibold hover:text-blue-700 transition-colors inline-flex items-center gap-1.5 text-sm">
+                                {links.prepare} <ArrowRight className="h-3.5 w-3.5" />
                             </Link>
                         </div>
                         <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:border-blue-200 hover:shadow-md transition-all flex flex-col justify-between">
@@ -117,8 +113,8 @@ export default function MedicalVisaClient({ lang }: { lang: string }) {
                                 <h3 className="text-xl font-bold text-slate-900 mb-3">{t.visa.g110.title}</h3>
                                 <p className="text-sm text-slate-600 leading-relaxed mb-6">{t.visa.g110.desc}</p>
                             </div>
-                            <Link href={`/${currentLang}`} className="text-blue-600 font-semibold hover:text-blue-700 transition-colors inline-flex items-center gap-1.5 text-sm">
-                                자세히 보기 <ArrowRight className="h-3.5 w-3.5" />
+                            <Link href={preparationLink} className="text-blue-600 font-semibold hover:text-blue-700 transition-colors inline-flex items-center gap-1.5 text-sm">
+                                {links.prepare} <ArrowRight className="h-3.5 w-3.5" />
                             </Link>
                         </div>
                         <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:border-blue-200 hover:shadow-md transition-all flex flex-col justify-between">
@@ -126,8 +122,8 @@ export default function MedicalVisaClient({ lang }: { lang: string }) {
                                 <h3 className="text-xl font-bold text-slate-900 mb-3">{t.visa.regist.title}</h3>
                                 <p className="text-sm text-slate-600 leading-relaxed mb-6">{t.visa.regist.desc}</p>
                             </div>
-                            <Link href={`/${currentLang}#contact`} className="text-blue-600 font-semibold hover:text-blue-700 transition-colors inline-flex items-center gap-1.5 text-sm">
-                                자세히 보기 <ArrowRight className="h-3.5 w-3.5" />
+                            <Link href={currentLang === "ko" ? "/ko/attraction-registration" : "#contact"} className="text-blue-600 font-semibold hover:text-blue-700 transition-colors inline-flex items-center gap-1.5 text-sm">
+                                {currentLang === "ko" ? "유치기관 등록·갱신 안내" : t.nav.contact} <ArrowRight className="h-3.5 w-3.5" />
                             </Link>
                         </div>
                         <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:border-blue-200 hover:shadow-md transition-all flex flex-col justify-between">
@@ -135,8 +131,8 @@ export default function MedicalVisaClient({ lang }: { lang: string }) {
                                 <h3 className="text-xl font-bold text-slate-900 mb-3">{t.visa.electronic.title}</h3>
                                 <p className="text-sm text-slate-600 leading-relaxed mb-6">{t.visa.electronic.desc}</p>
                             </div>
-                            <Link href={`/${currentLang}#contact`} className="text-blue-600 font-semibold hover:text-blue-700 transition-colors inline-flex items-center gap-1.5 text-sm">
-                                자세히 보기 <ArrowRight className="h-3.5 w-3.5" />
+                            <Link href="#contact" className="text-blue-600 font-semibold hover:text-blue-700 transition-colors inline-flex items-center gap-1.5 text-sm">
+                                {t.nav.contact} <ArrowRight className="h-3.5 w-3.5" />
                             </Link>
                         </div>
                     </div>
@@ -207,8 +203,8 @@ export default function MedicalVisaClient({ lang }: { lang: string }) {
                                     <p className="text-xs text-slate-600 leading-relaxed mb-6">{serv.desc}</p>
                                 </div>
                                 {serv.path && (
-                                    <Link href={`/${currentLang}#contact`} className="text-blue-600 hover:text-blue-700 font-semibold transition-colors inline-flex items-center gap-1 text-xs">
-                                        서비스 알아보기 <ArrowRight className="h-3 w-3" />
+                                    <Link href={serv.path.startsWith("/") ? serv.path : "#contact"} className="text-blue-600 hover:text-blue-700 font-semibold transition-colors inline-flex items-center gap-1 text-xs">
+                                        {serv.path.startsWith("/") ? <>{serv.title} · {links.read}</> : t.nav.contact} <ArrowRight className="h-3 w-3" />
                                     </Link>
                                 )}
                             </div>

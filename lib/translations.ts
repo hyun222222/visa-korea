@@ -186,7 +186,7 @@ export const TRANSLATIONS = {
     },
     "contactForm": {
       "title": "법률 상담 신청",
-      "desc": "안전하고 비밀이 보장되는 1:1 창구를 통해 신속히 답변해 드리겠습니다.",
+      "desc": "처음 문의할 때는 연락처와 상담 주제만 알려 주세요. 여권이나 진료기록 등 민감한 자료는 담당 변호사에게 제출 방법을 안내받은 뒤 보내 주세요.",
       "name": "성함 / 기관명 *",
       "email": "이메일 주소 *",
       "phone": "연락처 (국가번호 포함) *",
@@ -389,7 +389,7 @@ export const TRANSLATIONS = {
     },
     "contactForm": {
       "title": "Submit Consultation Request",
-      "desc": "Your data is protected under attorney-client privilege. We will respond promptly.",
+      "desc": "For your first inquiry, give your contact details and the topic. Wait for a lawyer’s instructions before sending a passport, medical records or other sensitive documents.",
       "name": "Name / Institution *",
       "email": "Email Address *",
       "phone": "Phone (with country code) *",
@@ -417,7 +417,7 @@ export const TRANSLATIONS = {
     },
     "hero": {
       "badge": "金&贤 律师事务所 · 法务部登记出入境代办机构",
-      "title": "韩国医疗签证拒签申诉与整形退款纠纷解决",
+      "title": "韩国医疗签证被拒或整形退款发生争议，该核对什么？",
       "desc": "根据资料审查医疗签证申请与拒签、患者纠纷及医疗广告规则。律师、税务师、专利代理师资格与出入境代办登记分别说明。",
       "ctaPatient": "签证与退款咨询材料准备",
       "ctaHospital": "医院广告与签证合规诊断"
@@ -593,7 +593,7 @@ export const TRANSLATIONS = {
     },
     "contactForm": {
       "title": "预约法律咨询",
-      "desc": "您的所有咨询均受律师执业保密条款保护。我们将尽快与您联系。",
+      "desc": "首次联系时，请只提供联系方式和咨询事项。护照、病历等敏感资料，请在律师说明提交方式后再发送。",
       "name": "姓名 / 机构名称 *",
       "email": "电子邮箱 *",
       "phone": "联络电话 (含国家代码) *",
@@ -621,7 +621,7 @@ export const TRANSLATIONS = {
     },
     "hero": {
       "badge": "金&賢 法律事務所 · 法務部登録出入国代行機関",
-      "title": "韓国医療ビザ拒否救済＆美容整形返金トラブル解決",
+      "title": "韓国の医療ビザが不許可になったとき、美容医療の返金でもめたときに確認すること",
       "desc": "資料に基づき医療ビザの申請・不許可、患者の紛争、医療広告の規制を検討します。弁護士・税務士・弁理士の資格と出入国民願代行登録は区別してご案内します。",
       "ctaPatient": "ビザ・返金相談の準備資料",
       "ctaHospital": "病院広告＆ビザコンプライアンス診断"
@@ -797,7 +797,7 @@ export const TRANSLATIONS = {
     },
     "contactForm": {
       "title": "法律相談の申込み",
-      "desc": "守秘義務に基づき、お客様の個人情報は厳重に保護されます。お気軽にご相談ください。",
+      "desc": "最初のお問い合わせでは、連絡先とご相談の概要をお知らせください。パスポートや診療記録などは、担当弁護士が提出方法をご案内してからお送りください。",
       "name": "お名前 / 貴社名 *",
       "email": "メールアドレス *",
       "phone": "電話番号 (国番号含む) *",

@@ -11,6 +11,9 @@
 .lead p + p { margin-top: .35rem; }
 
 .reading { max-width: 850px; }
+.reading a:not([class]) { color: var(--navy); text-decoration: underline; text-underline-offset: .18em; }
+.breadcrumb { display: flex; align-items: baseline; flex-wrap: wrap; gap: .3rem .6rem; padding-block: 1.25rem; font-size: .92rem; }
+.related { margin-block: 1.25rem; }
 
 .reading section {
   border-bottom: 1px solid var(--rule);
