@@ -224,7 +224,7 @@ export default async function BlogPostPage({ params }: RouteParams) {
                     </p>
                     <div className="flex flex-wrap gap-3">
                         <Link
-                            href="tel:01055346843"
+                            href="tel:+821055346843"
                             className="inline-flex items-center gap-2 px-5 py-3 rounded-md bg-white text-slate-900 font-semibold hover:bg-slate-100 transition-colors"
                         >
                             <Phone className="h-5 w-5" />

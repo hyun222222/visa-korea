@@ -24,11 +24,22 @@ test('new translations share canonical slug bases and official sources',()=>{
 test('review sources attach only to matched CMS content, preserving later administrator edits',()=>{
   for(const p of searchArticles){
     const db={...p,sources:undefined,modifiedAt:undefined};
-    const reviewed=applySearchContentReview(db);assert.ok(reviewed.sources.length);assert.equal(reviewed.modifiedAt,'2026-11-16');
+    const reviewed=applySearchContentReview(db);assert.ok(reviewed.sources.length);
+    assert.equal(reviewed.modifiedAt,p.slug==='deportation-order-objection-en'?'2026-11-26':'2026-11-16');
     assert.equal(reviewed.publishedAt,p.publishedAt);
     const changed={...db,title:'Later editorial change'};assert.equal(applySearchContentReview(changed),changed);
     const reordered={...db,body:db.body.map(b=>Object.fromEntries(Object.entries(b).reverse()))};assert.ok(applySearchContentReview(reordered).sources.length);
   }
+});
+test('English deportation listing identifies the order while preserving the reviewed body and later CMS edits',()=>{
+  const post=searchArticles.find(p=>p.slug==='deportation-order-objection-en');
+  const updated=applySearchContentReview(post);
+  assert.match(updated.title,/Deportation Order in Korea/);
+  assert.match(updated.excerpt,/deportation order or a departure order/);
+  assert.deepEqual(updated.body,post.body);
+  assert.deepEqual(applySearchContentReview(updated),updated);
+  const newer={...post,excerpt:'Office update'};
+  assert.equal(applySearchContentReview(newer),newer);
 });
 test('D8 search-title update retains the judicial correction and never restores old text',()=>{
   const r=revisions.find(r=>r.slug==='d8-visa-guide-en');

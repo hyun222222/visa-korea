@@ -3,7 +3,7 @@ import type {Metadata} from 'next';
 import {notFound} from 'next/navigation';
 import {languages,type Language} from '@/lib/brand';
 const medicalCopy = {
-  ko:['한국 의료비자 신청·체류·불허 대응','치료 목적 사증 신청과 국내 체류, 불허 통지의 종류를 구분하고 치료 계획·비용·통지서 등 검토 자료를 안내합니다.'],
+  ko:['한국 의료비자 신청·체류 연장·불허 대응','한국에서 치료받기 위해 비자를 신청하거나 치료가 길어져 체류를 연장할 때 필요한 자료를 확인하세요. 치료계획서, 비용 부담 자료, 불허 통지서를 어느 단계에서 살펴보는지 안내합니다.'],
   en:['Korea Medical Visa: Applications, Stay and Refusal Review','Distinguish consular visa applications, domestic stay decisions and refusal notices. Prepare treatment plans, funding records and the notice for legal review.'],
   zh:['韩国医疗签证与治疗目的居留','说明以治疗为目的的入境、居留准备和法律咨询程序。'],
   ja:['韓国の医療ビザと治療目的の滞在','治療目的の入国・滞在準備と法律相談の手続きをご案内します。']

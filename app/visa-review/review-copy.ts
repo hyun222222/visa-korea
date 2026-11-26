@@ -22,6 +22,7 @@ type LanguageCopy = {
   casesTitle: string; casesIntro: string; reload: string; emptyCases: string; status: Record<Status, string>; reference: string; due: string; pay: string;
   payFirstNotice: string; payFirstPaid: string; paidAwaitingMaterials: string;
   directPaymentIntro: string; directPaymentEmailIntro: string; directScopeExclusions: string; directEmailHelp: string; directEnablePayment: string; directPaymentError: string; directCaptureError: string; directResumePayment: string;
+  directCheckStatus: string; directFinishApproved: (amount: string) => string; directStatusOnly: string; directStatusUnconfirmed: string;
   directPaid: string; directAfterPayment: string; directPaidAt: string; directMaterialsIntro: string; directQuestion: string; directFiles: string;
   directFileLimits: (maxFiles: number) => string; directMask: string; directFilesInvalid: (maxFiles: number) => string; directSendMaterials: string; directMaterialsFailed: string; directFallback: string;
   directCopyReference: string; directReferenceCopied: string; directReferenceCopyFailed: string; directStartAnother: string; directMaterialsSent: string;
@@ -69,8 +70,12 @@ export const copy: Record<Language, LanguageCopy> = {
     directScopeExclusions: 'This written review excludes application filing, attendance, administrative objections and representation in litigation.',
     directEnablePayment: 'Enter your email and confirm all five items to enable PayPal checkout.',
     directPaymentError: 'Could not start PayPal checkout. Check your details and try again.',
-    directCaptureError: 'We could not confirm the payment yet. If you approved it in PayPal, use Verify returned PayPal payment to check the existing order.',
-    directResumePayment: 'You have an existing PayPal order. Continue that payment or verify it if you already approved it in PayPal.',
+    directCaptureError: 'We could not confirm your payment. Check the status of this order before trying again.',
+    directResumePayment: 'If you closed PayPal before approving, use the PayPal button to continue this order. If you already approved it, check the payment status first.',
+    directCheckStatus: 'Check payment status',
+    directFinishApproved: amount => 'Complete my approved payment of USD ' + amount,
+    directStatusOnly: 'Payment for this order is closed. You can still check its payment status here.',
+    directStatusUnconfirmed: 'We could not verify a completed payment. If PayPal shows a charge, contact info@kimnhyun.com with your case reference before paying again.',
     directPaid: 'PayPal payment confirmed.', directAfterPayment: 'Send your materials', directPaidAt: 'Payment time',
     directMaterialsIntro: 'Send your question and any relevant dates.',
     directQuestion: 'Question and case details', directFiles: 'Supporting files', directFileLimits: (maxFiles) => maxFiles === 0 ? 'Text only. Please write your question without attachments.' : `PDF, JPG or PNG. Up to ${maxFiles} files, 4 MB in total.`,
@@ -139,8 +144,12 @@ export const copy: Record<Language, LanguageCopy> = {
     directScopeExclusions: '이 서면검토에는 신청 대행, 출석, 이의신청, 소송 대리가 포함되지 않습니다.',
     directEnablePayment: '이메일을 입력하고 필수 항목 다섯 가지를 확인하면 PayPal 버튼이 활성화됩니다.',
     directPaymentError: 'PayPal 결제를 시작하지 못했습니다. 입력 내용을 확인하고 다시 시도해 주세요.',
-    directCaptureError: '아직 결제를 확인하지 못했습니다. PayPal에서 이미 승인했다면 ‘PayPal 결제 다시 확인’으로 기존 결제를 확인해 주세요.',
-    directResumePayment: '진행 중인 PayPal 주문이 있습니다. 이어서 결제하거나, PayPal에서 이미 승인했다면 결제를 다시 확인해 주세요.',
+    directCaptureError: '아직 결제를 확인하지 못했습니다. 다시 결제하기 전에 이 주문의 결제 상태를 조회해 주세요.',
+    directResumePayment: '승인 전에 PayPal 창을 닫았다면 PayPal 버튼으로 같은 주문을 이어가세요. 이미 승인했다면 먼저 결제 상태를 조회해 주세요.',
+    directCheckStatus: '결제 상태 조회',
+    directFinishApproved: amount => 'PayPal에서 승인한 ' + amount + '달러 결제 확정',
+    directStatusOnly: '이 주문의 결제창은 닫혔습니다. 기존 결제 상태는 여기서 조회할 수 있습니다.',
+    directStatusUnconfirmed: '결제 완료 여부를 확인하지 못했습니다. PayPal에 청구 내역이 보인다면 다시 결제하기 전에 접수번호를 적어 info@kimnhyun.com으로 문의해 주세요.',
     directPaid: 'PayPal 결제를 확인했습니다.', directAfterPayment: '질문과 자료 제출', directPaidAt: '결제 시각',
     directMaterialsIntro: '질문과 중요 날짜를 적어 주세요.',
     directQuestion: '질문과 사건 설명', directFiles: '첨부 자료', directFileLimits: (maxFiles) => maxFiles === 0 ? '첨부 없이 질문을 글로 적어 주세요.' : `PDF, JPG, PNG만 가능합니다. 최대 ${maxFiles}개, 합계 4MB까지 첨부할 수 있습니다.`,
@@ -209,8 +218,12 @@ export const copy: Record<Language, LanguageCopy> = {
     directScopeExclusions: '书面审查不包括申请代办、出席、提出异议或诉讼代理。',
     directEnablePayment: '填写邮箱并确认五项必读内容后，即可使用 PayPal 按钮。',
     directPaymentError: '无法启动 PayPal 付款。请核对输入并重试。',
-    directCaptureError: '暂时无法确认付款。如已在 PayPal 批准付款，请点击“重新确认 PayPal 付款”核对已有订单。',
-    directResumePayment: '已有一个 PayPal 订单。请继续该笔付款，或在 PayPal 已批准付款的情况下重新确认。',
+    directCaptureError: '暂时无法确认付款。再次付款前，请先查询这笔订单的付款状态。',
+    directResumePayment: '如果在授权付款前关闭了 PayPal，可点击 PayPal 按钮继续支付同一笔订单。如果已经授权，请先查询付款状态。',
+    directCheckStatus: '查询付款状态',
+    directFinishApproved: amount => '完成已在 PayPal 授权的 ' + amount + ' 美元付款',
+    directStatusOnly: '此订单的付款窗口已关闭。您仍可在这里查询付款状态。',
+    directStatusUnconfirmed: '暂时无法确认付款是否完成。如果 PayPal 显示已扣款，请先将案件编号发送至 info@kimnhyun.com 核实，以免重复付款。',
     directPaid: '已确认 PayPal 付款。', directAfterPayment: '提交问题和资料', directPaidAt: '付款时间',
     directMaterialsIntro: '请填写问题及重要日期。',
     directQuestion: '问题与案件说明', directFiles: '附件', directFileLimits: (maxFiles) => maxFiles === 0 ? '此项审查仅接受文字，不接受附件。' : `仅支持 PDF、JPG 或 PNG 文件，最多 ${maxFiles} 份，总大小不超过 4 MB。`,

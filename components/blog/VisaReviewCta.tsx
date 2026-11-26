@@ -26,7 +26,7 @@ const action = {
   ja: '匿名セルフチェックを始める（英語）',
 };
 
-const directGuideOffers: Record<string, {language: 'en' | 'zh'; plan: Plan; title: string; detail: string; button: string}> = {
+const directGuideOffers: Record<string, {language: 'en' | 'zh' | 'ja'; plan: Plan; title: string; detail: string; button: string}> = {
   [e7TerminationGuideSlug]: {
     language: 'en', plan: 'question',
     title: 'Ask a lawyer about your E-7 termination or D-10 application',
@@ -39,10 +39,23 @@ const directGuideOffers: Record<string, {language: 'en' | 'zh'; plan: Plan; titl
     detail: '提交一种签证方案及最多两份资料，合计不超过五页。律师将逐项列出已满足、尚未满足及需要确认的要件，并指出需要补充的证明。',
     button: '申请D-8书面核对',
   },
+  'f5-permanent-residency-zh': {
+    language: 'zh', plan: 'documents',
+    title: '我的收入和居留时间符合韩国 F-5 永居申请条件吗？',
+    detail: '律师为一位申请人核对一种 F-5 永居类别。可提交最多两份材料，共不超过五页。您会收到一份条件核对表，列明哪些条件已满足、哪些尚未满足、哪些还需要补充证明。',
+    button: '申请 F-5 条件书面核对',
+  },
+  'f2-points-system-ja': {
+    language: 'ja', plan: 'documents',
+    title: '韓国のF-2-7ビザで、自分の所得や韓国語の成績は何点になりますか？',
+    detail: '申請者1名のF-2-7について、弁護士が資料をもとに加点・減点の項目を確認します。資料は2点まで、合計5ページ以内です。どの要件を満たし、どこで追加の証明が必要かを一覧表でお送りします。申込画面と利用規約は英語です。',
+    button: 'F-2-7の書面確認を申し込む',
+  },
 };
 
 export function VisaReviewCta({ slug, lang }: { slug: string; lang: Language | 'ja' }) {
   if (process.env.VISA_REVIEW_OPEN !== 'true') return null;
+  const language = lang === 'ja' ? 'en' : lang;
   const offer = directGuideOffers[slug];
   if (offer?.language === lang) {
     return (
@@ -50,8 +63,8 @@ export function VisaReviewCta({ slug, lang }: { slug: string; lang: Language | '
         <div className="rounded-lg border border-slate-200 bg-white p-5 sm:p-6" lang={offer.language}>
           <h2 className="font-semibold text-slate-900">{offer.title}</h2>
           <p className="mt-2 text-sm leading-relaxed text-slate-700">{offer.detail}</p>
-          <a hrefLang={offer.language}
-            href={`https://review.koreavisalaw.com/visa-review?lang=${offer.language}&plan=${offer.plan}#apply`}
+          <a hrefLang={language}
+            href={`https://review.koreavisalaw.com/visa-review?lang=${language}&plan=${offer.plan}#apply`}
             className="mt-4 inline-flex min-h-11 items-center rounded-md border border-slate-900 bg-slate-900 px-3 text-sm font-semibold text-white hover:bg-slate-700 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-slate-900">
             {offer.button} · {'US$'}{planPrice[offer.plan]}
           </a>
@@ -63,7 +76,6 @@ export function VisaReviewCta({ slug, lang }: { slug: string; lang: Language | '
   if (!situation) return null;
 
   const plan = situationPlans[situation];
-  const language = lang === 'ja' ? 'en' : lang;
   const details = reviewSituations[language][situation];
 
   return (

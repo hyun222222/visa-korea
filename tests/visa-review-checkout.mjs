@@ -4,16 +4,20 @@ import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
 import { runInNewContext } from 'node:vm';
 import { NextRequest, NextResponse } from 'next/server.js';
+import * as React from 'react';
+import * as jsxRuntime from 'react/jsx-runtime';
+import { renderToStaticMarkup } from 'react-dom/server';
 import ts from 'typescript';
 
 function load(file, imports = {}, env = {}, info = () => {}) {
   const source = readFileSync(new URL('../' + file, import.meta.url), 'utf8');
   const { outputText } = ts.transpileModule(source, {
-    compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
+    fileName: file,
+    compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, jsx: ts.JsxEmit.ReactJSX },
   });
   const exports = {};
   runInNewContext(outputText, {
-    exports, require: name => imports[name], Buffer, URL,
+    exports, require: name => imports[name], Buffer, URL, URLSearchParams,
     console: { info },
     process: { env: { VISA_REVIEW_OPEN: 'true', ...env } },
   });
@@ -472,4 +476,49 @@ test('the disabled direct checkout exposes no SDK configuration and creates no c
   assert.equal(response.paypalClientId, null);
   assert.equal((await post(orderPayload('question'))).status, 503);
   assert.deepEqual(inserts, []);
+});
+
+test('the recovery screen checks status without charging and offers explicit completion only for an open order', () => {
+  const {copy} = load('app/visa-review/review-copy.ts');
+  const calls = [];
+  const buttons = new Map();
+  const renderJsx = (type, props, key) => {
+    if (type === 'button') buttons.set(props.children, props.onClick);
+    return jsxRuntime.jsx(type, props, key);
+  };
+  const {default: DirectReview} = load('app/visa-review/review-direct.tsx', {
+    react: React,
+    'react/jsx-runtime': {...jsxRuntime, jsx: renderJsx},
+    'next/script': {default: () => null},
+    '@/lib/visa-review-attachments': load('lib/visa-review-attachments.ts'),
+    '@/lib/visa-review-terms': terms,
+    './review-copy': {copy},
+    './review.module.css': {default: {}},
+    './review-request': {request: (input) => { calls.push(input.action); return new Promise(() => {}); }},
+  });
+  const session = {directOrderId: 'order-one', materialsToken: null,
+    directCase: {id: 'recovery-case', status: 'checkout', plan: 'documents', amountCents: 9900}};
+  function render(language, expiresIn, clientId = 'test-client') {
+    buttons.clear();
+    session.directCase.checkoutExpiresAt = new Date(Date.now() + expiresIn).toISOString();
+    return renderToStaticMarkup(React.createElement(DirectReview, {
+      session, language, plan: 'question', materialsEnabled: false, clientId, onSession: () => {},
+    }));
+  }
+  for (const lang of ['en', 'ko', 'zh']) {
+    const t = copy[lang];
+    const complete = t.directFinishApproved('99.00');
+    assert.ok(render(lang, 60_000).includes(t.directResumePayment));
+    buttons.get(t.directCheckStatus)();
+    assert.equal(calls.at(-1), 'confirm-existing-direct-payment');
+    render(lang, 60_000);
+    buttons.get(complete)();
+    assert.equal(calls.at(-1), 'capture-direct-order');
+    for (const [ttl, clientId] of [[-60_000, 'test-client'], [60_000, null]]) {
+      assert.ok(render(lang, ttl, clientId).includes(t.directStatusOnly));
+      assert.equal(buttons.has(complete), false);
+      buttons.get(t.directCheckStatus)();
+      assert.equal(calls.at(-1), 'confirm-existing-direct-payment');
+    }
+  }
 });
