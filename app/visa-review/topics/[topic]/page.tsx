@@ -1,48 +1,15 @@
+import {shareMetadata} from '@/lib/share-metadata';
 import type {Metadata} from 'next';
 import {notFound} from 'next/navigation';
-import d10 from '@/content/visa-review-ko/d10-visa.json';
-import d8 from '@/content/visa-review-ko/d8-visa.json';
-import e7Loss from '@/content/visa-review-ko/e7-job-loss.json';
-import e7 from '@/content/visa-review-ko/e7-visa.json';
-import f27 from '@/content/visa-review-ko/f2-7-visa.json';
-import f4 from '@/content/visa-review-ko/f4-visa.json';
-import f5 from '@/content/visa-review-ko/f5-visa.json';
-import reentry from '@/content/visa-review-ko/reentry.json';
-import refusal from '@/content/visa-review-ko/visa-refusal.json';
-import status from '@/content/visa-review-ko/visa-status-check.json';
-import {isKoreanReviewTopic, koreanReviewTopics, koreanReviewTopicSlugs, koreanReviewTopicUrl, type KoreanReviewTopic} from '@/lib/visa-review-ko-topics';
+import {articles, type CompareSide} from '@/lib/visa-review-guide-content';
+import {guideLinks} from '@/lib/visa-review-guide-links';
+import {ReviewJsonLd} from '@/components/review-json-ld';
+import {isKoreanReviewTopic, koreanReviewTopics, koreanReviewTopicSlugs, koreanReviewTopicUrl, koreanGuideHubUrl} from '@/lib/visa-review-ko-topics';
 import {visaReviewOrigin} from '@/lib/visa-review-locales';
 import {copy, planPrice, type Plan} from '../../review-copy';
 import {reviewBusinessRegistrationNumber} from '@/lib/visa-review-server';
 import review from '../../review.module.css';
 import styles from './topic.module.css';
-
-type CompareSide = {title: string; items: string[]};
-type CaseSide = CompareSide & {ref: string};
-type TopicContent = {
-  verified_on: string;
-  eyebrow: string;
-  title: string;
-  meta_description: string;
-  lead: string[];
-  situations: string[];
-  facts: {label: string; value: string; basis?: string}[];
-  flow: {title: string; steps: {name: string; desc: string}[]};
-  table: {title: string; head: string[]; rows: string[][]};
-  versus: {title: string; left: CompareSide; right: CompareSide; first?: boolean};
-  cases?: {title: string; left: CaseSide; right: CaseSide; point?: string};
-  depends: {title: string; items: string[]};
-  risks: {text: string; basis?: string}[];
-  checks: string[];
-  hook: {tier: string; text: string};
-  faq: {q: string; a: string}[];
-};
-
-const articles: Record<KoreanReviewTopic, TopicContent> = {
-  'd10-visa': d10, 'd8-visa': d8, 'e7-job-loss': e7Loss, 'e7-visa': e7,
-  'f2-7-visa': f27, 'f4-visa': f4, 'f5-visa': f5, reentry,
-  'visa-refusal': refusal, 'visa-status-check': status,
-};
 
 const planByTier: Record<string, Plan> = {55: 'question', 99: 'documents', 330: 'strategy'};
 type Props = {params: Promise<{topic: string}>};
@@ -56,7 +23,7 @@ export async function generateMetadata({params}: Props): Promise<Metadata> {
     title: `${article.title} | 김현정 법률사무소`,
     description: article.meta_description,
     alternates: {canonical: url},
-    openGraph: {type: 'article', title: article.title, description: article.meta_description, url, locale: 'ko_KR'},
+    ...shareMetadata({title: article.title, description: article.meta_description, url, locale: 'ko_KR', article: {}}),
   };
 }
 
@@ -73,6 +40,8 @@ export default async function KoreanReviewTopicPage({params}: Props) {
   if (!isKoreanReviewTopic(topic)) notFound();
   const article = articles[topic];
   const {flow, table, versus, cases, depends} = article;
+  const url = koreanReviewTopicUrl(topic);
+  const {sources, related} = guideLinks[topic];
   const plan = planByTier[article.hook.tier];
   const planLabel = `${copy.ko.plan[plan].title} · US$${planPrice[plan]}`;
   const checkout = `${visaReviewOrigin}/visa-review?lang=ko&plan=${plan}#apply`;
@@ -83,11 +52,33 @@ export default async function KoreanReviewTopicPage({params}: Props) {
   </section>;
   return (
     <div className={`${review.site} ${styles.topic}`}>
+      <ReviewJsonLd data={{'@graph': [
+        {
+          '@type': 'Article', '@id': url + '#article', url, mainEntityOfPage: url,
+          headline: article.title, description: article.meta_description, inLanguage: 'ko',
+          publisher: {'@type': 'Organization', name: '김현정 법률사무소'},
+          citation: sources.map(({label, url}) => ({'@type': 'CreativeWork', name: label, url})),
+        },
+        {
+          '@type': 'FAQPage', '@id': url, url, inLanguage: 'ko', lastReviewed: article.verified_on,
+          mainEntity: article.faq.map(({q, a}) => ({
+            '@type': 'Question', name: q, acceptedAnswer: {'@type': 'Answer', text: a},
+          })),
+          breadcrumb: {'@id': url + '#breadcrumb'},
+        },
+        {
+          '@type': 'BreadcrumbList', '@id': url + '#breadcrumb',
+          itemListElement: [
+            {'@type': 'ListItem', position: 1, name: '한국 비자·체류 안내', item: koreanGuideHubUrl},
+            {'@type': 'ListItem', position: 2, name: koreanReviewTopics[topic], item: url},
+          ],
+        },
+      ]}}/>
       <header className={review.masthead}>
         <div className={review.container}>
           <a className={review.firm} href={`${visaReviewOrigin}/?lang=ko`}>김현정 법률사무소</a>
           <nav className={review.utility} aria-label="주제 안내">
-            <a href="#topics">체류자격별 안내</a>
+            <a href={koreanGuideHubUrl}>한국 비자·체류 안내</a>
             <a href={checkout}>서면검토 신청</a>
           </nav>
         </div>
@@ -100,12 +91,18 @@ export default async function KoreanReviewTopicPage({params}: Props) {
               <p className={review.eyebrow}>{article.eyebrow}</p>
               <h1>{article.title}</h1>
               <div className={styles.lead}>{article.lead.map(line => <p key={line}>{line}</p>)}</div>
-              <p className={review.heroNote}>원고 확인 <time dateTime={article.verified_on}>{article.verified_on}</time></p>
+              <p className={review.heroNote}>김현정 법률사무소 · 자료 기준일 <time dateTime={article.verified_on}>{article.verified_on}</time></p>
             </div>
           </div>
         </header>
 
         <div className={`${review.container} ${styles.reading}`}>
+          <nav aria-label="현재 위치" className={styles.breadcrumb}>
+            <a href={koreanGuideHubUrl}>한국 비자·체류 안내</a>
+            <span aria-hidden="true">›</span>
+            <span aria-current="page">{koreanReviewTopics[topic]}</span>
+          </nav>
+          {topic === 'visa-status-check' && <p><a href={sources[0].url}>{sources[0].label}</a></p>}
           <section>
             <h2>이런 상황이라면</h2>
             <Items items={article.situations}/>
@@ -152,6 +149,10 @@ export default async function KoreanReviewTopicPage({params}: Props) {
             <h2>신청 전 확인 항목</h2>
             <Items items={article.checks}/>
           </section>
+          <section>
+            <h2>공식 자료</h2>
+            <ul>{sources.map(({label, url}) => <li key={url}><a href={url}>{label}</a></li>)}</ul>
+          </section>
           <section className={styles.cta}>
             <h2>내 상황을 변호사에게 서면으로 검토받기</h2>
             <p>{article.hook.text}</p>
@@ -162,6 +163,7 @@ export default async function KoreanReviewTopicPage({params}: Props) {
             <h2>자주 묻는 질문</h2>
             <dl className={styles.questions}>{article.faq.map(({q, a}) => <div key={q}><dt>{q}</dt><dd>{a}</dd></div>)}</dl>
           </section>
+          <p className={styles.related}>함께 읽기 · <a href={related.url}>{related.label}</a></p>
         </div>
       </article>
 

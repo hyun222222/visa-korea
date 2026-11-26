@@ -188,3 +188,36 @@ body{margin:0;color:#202c39;background:#f6f7f8;font-family:Pretendard,"Noto Sans
 .airport-kakao-help strong{color:#202c39;user-select:all;}
 .airport-contact small{display:block;margin-top:12px;color:#526474;font-size:.82rem;line-height:1.6;}
 @media(max-width:420px){.airport-contact-links a,.airport-contact-links button{flex:1 1 auto;padding:9px 12px;min-width:88px;}.airport-contact{margin:24px 0;}}
+
+@media (max-width: 420px) {
+  .kh-header {
+    flex-wrap: wrap;
+    gap: 6px 10px;
+    padding: 10px 16px;
+  }
+  .kh-header > .kh-kakao-link {
+    margin-left: auto;
+    padding-inline: 10px;
+  }
+  .kh-visa-home-hero {
+    padding: 26px 16px 32px;
+  }
+  .kh-visa-home-hero .kh-eyebrow {
+    margin-bottom: 12px;
+  }
+  .kh-visa-home-hero h1 {
+    font-size: clamp(1.85rem, 8vw, 2.15rem);
+    line-height: 1.25;
+    white-space: normal;
+  }
+  .kh-visa-home-hero p {
+    margin: 14px 0;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  .kh-visa-home-hero .kh-button {
+    min-height: 44px;
+    padding: 10px 14px;
+    line-height: 1.5;
+  }
+}

@@ -4,7 +4,7 @@ import {headers} from 'next/headers';
 import {getSupabasePosts} from '@/lib/blog-db';
 import {isD8Review, d8Updated} from '@/lib/d8-search';
 import {reviewMarketAlternates, reviewMarketsInOrder, reviewMarketUrl} from '@/lib/visa-review-locales';
-import {koreanReviewTopicSlugs, koreanReviewTopicUrl} from '@/lib/visa-review-ko-topics';
+import {koreanGuideHubUrl, koreanReviewTopicSlugs, koreanReviewTopicUrl} from '@/lib/visa-review-ko-topics';
 // Reflect a CMS publication/removal immediately; do not retain a build-time list.
 export const dynamic = 'force-dynamic';
 
@@ -20,15 +20,18 @@ function postUrl(slug: string) {
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   if (!visaPublic) return [];
   if ((await headers()).get('x-kimhyun-review-host') === '1') {
+    // The guide source links, storefront guidance and public index changed in this revision.
+    const discoveryRevision = '2026-11-25';
     return [
-      ...reviewMarketsInOrder.map(locale => ({url: reviewMarketUrl(locale), alternates: {languages: reviewMarketAlternates}})),
-      ...koreanReviewTopicSlugs.map(slug => ({url: koreanReviewTopicUrl(slug)})),
+      {url: koreanGuideHubUrl, lastModified: discoveryRevision},
+      ...reviewMarketsInOrder.map(locale => ({url: reviewMarketUrl(locale), lastModified: discoveryRevision, alternates: {languages: reviewMarketAlternates}})),
+      ...koreanReviewTopicSlugs.map(slug => ({url: koreanReviewTopicUrl(slug), lastModified: discoveryRevision})),
     ];
   }
   const core = ['', '/investing-in-korea', '/medical-visa'].flatMap(path => languages.map(locale => ({
     url: `${visaOrigin}/${locale}${path}`,
     lastModified: path === '' || (path === '/medical-visa' && (locale === 'ko' || locale === 'en')) ? '2026-11-16' : '2026-11-10',
-    alternates: {languages: Object.fromEntries(languages.map(code => [code, `${visaOrigin}/${code}${path}`]))},
+    alternates: {languages: {...Object.fromEntries(languages.map(code => [code, `${visaOrigin}/${code}${path}`])), 'x-default': `${visaOrigin}/en${path}`}},
   })));
   // Anchors are page sections, not separate canonical URLs. Do not invent lastmod dates.
   const posts = await getSupabasePosts();
@@ -48,14 +51,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const blogIndexes = languages.map(lang => ({
     url: `${visaOrigin}${lang === 'ko' ? '' : `/${lang}`}/blog`,
     lastModified: lang === 'ko' || lang === 'en' ? '2026-11-16' : d8Updated,
-    alternates: {languages: Object.fromEntries(languages.map(code => [code, `${visaOrigin}${code === 'ko' ? '' : `/${code}`}/blog`]))},
+    alternates: {languages: {...Object.fromEntries(languages.map(code => [code, `${visaOrigin}${code === 'ko' ? '' : `/${code}`}/blog`])), 'x-default': `${visaOrigin}/en/blog`}},
   }));
   return [
     ...core,
+    {url: `${visaOrigin}/en/visa-refusal-remedy`},
     ...['ko/sns-medical-ad-compliance', 'ko/medical-visa-remedy', 'ko/attraction-registration', 'en/medical-visa-korea', 'zh/refund-dispute', 'ja/refund-dispute'].map(path => ({url: `${visaOrigin}/${path}`, lastModified: path.startsWith('ko/') ? '2026-11-16' : '2026-11-10'})),
     ...['ko', 'en'].map(lang => ({
       url: `${visaOrigin}/${lang}/entry-refusal`,
-      alternates: {languages: {ko: `${visaOrigin}/ko/entry-refusal`, en: `${visaOrigin}/en/entry-refusal`}},
+      alternates: {languages: {ko: `${visaOrigin}/ko/entry-refusal`, en: `${visaOrigin}/en/entry-refusal`, 'x-default': `${visaOrigin}/en/entry-refusal`}},
     })),
     ...blogIndexes,
     ...postEntries,

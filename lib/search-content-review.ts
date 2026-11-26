@@ -4,6 +4,10 @@ import type { BlogPost } from './blog-posts';
 
 export const searchArticles = articlesData as BlogPost[];
 export const searchContentUpdated = '2026-11-16';
+const englishDeportationListing = {
+  title: 'Received a Deportation Order in Korea? How to Object',
+  excerpt: 'Was it a deportation order or a departure order? Check when the seven-day objection period applies, which documents to gather and how to request a stay of removal.',
+};
 type ReviewedText = Pick<BlogPost, 'title' | 'excerpt' | 'body'>;
 function snapshot(post: ReviewedText) {
   return JSON.stringify([post.title, post.excerpt, post.body.map(b => b.type === 'list'
@@ -14,8 +18,15 @@ function snapshot(post: ReviewedText) {
 // the exact reviewed text; future administrator edits are not silently replaced.
 export function applySearchContentReview(post: BlogPost): BlogPost {
   const article = searchArticles.find(item => item.slug === post.slug);
-  if (article && snapshot(post) === snapshot(article)) {
-    return {...post, sources: article.sources, modifiedAt: searchContentUpdated};
+  if (article) {
+    if (article.slug === 'deportation-order-objection-en') {
+      const revised = {...article, ...englishDeportationListing};
+      if ([snapshot(article), snapshot(revised)].includes(snapshot(post))) {
+        return {...post, ...englishDeportationListing, sources: article.sources, modifiedAt: '2026-11-26'};
+      }
+    } else if (snapshot(post) === snapshot(article)) {
+      return {...post, sources: article.sources, modifiedAt: searchContentUpdated};
+    }
   }
   if (post.slug === 'd8-visa-guide-en') {
     const reviewed = legalRevisions.find(item => item.slug === post.slug)?.after as (ReviewedText & Pick<BlogPost, 'sources'>) | undefined;

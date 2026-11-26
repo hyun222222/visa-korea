@@ -193,7 +193,7 @@ export default function BoardPage() {
 
                     {/* Sync Status Badge */}
                     <div className="flex items-center gap-3">
-                        <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold backdrop-blur border ${
+                        {isAdmin && <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold backdrop-blur border ${
                             isLocalStorageMode 
                                 ? "bg-amber-950/40 text-amber-400 border-amber-500/30" 
                                 : "bg-emerald-950/40 text-emerald-400 border-emerald-500/30"
@@ -209,7 +209,7 @@ export default function BoardPage() {
                                     <span>서버 연동 모드 (PostgreSQL)</span>
                                 </>
                             )}
-                        </div>
+                        </div>}
                         
                         {isAdmin && (
                             <Button 

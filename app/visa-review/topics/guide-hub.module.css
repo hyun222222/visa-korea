@@ -1,0 +1,8 @@
+.hub { word-break: keep-all; }
+.groups { max-width: 54rem; padding-block: clamp(1.6rem, 5vw, 3.75rem); }
+.groups section + section { margin-top: clamp(2rem, 5vw, 3rem); }
+.groups h2 { color: var(--navy); font-size: clamp(1.3rem, 3vw, 1.75rem); line-height: 1.35; }
+.groups ul { list-style: none; margin: .8rem 0 0; padding: 0; border-top: 1px solid var(--rule); }
+.groups li { padding-block: 1rem; border-bottom: 1px solid var(--rule); }
+.groups li a { display: inline-block; color: var(--navy); font-weight: 680; text-decoration: underline; text-underline-offset: .22em; }
+.groups li p { margin-top: .4rem; color: var(--muted); }

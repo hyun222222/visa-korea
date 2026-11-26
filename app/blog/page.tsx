@@ -1,16 +1,18 @@
-import {visaOrigin} from '@/lib/brand';
+import {blogIndexPath, localizedAlternates, shareMetadata} from '@/lib/share-metadata';
 import type { Metadata } from "next";
 import { getSupabasePosts } from "@/lib/blog-db";
 import { BlogIndexClient } from "@/components/blog/BlogIndexClient";
 import {D8FeaturedGuide} from '@/components/blog/D8Guide';
 import {d8Slug} from '@/lib/d8-search';
+import {koreanGuideHubUrl} from '@/lib/visa-review-ko-topics';
 
 export const dynamic = 'force-dynamic';
 
+const title = '한국 비자·출입국 칼럼 | 김앤현 법률사무소';
+const description = '한국 비자·이민·법인설립 실무 칼럼. D-8 투자비자, F-2/F-5 거주·영주권, 외국인 법인설립, 출입국 거절·보완 대응 등 외국인 투자자와 한국 체류 외국인에게 필요한 법률 콘텐츠를 변호사가 직접 정리합니다.';
+
 export const metadata: Metadata = {
-    title: "한국 비자·출입국 칼럼 | 김앤현 법률사무소",
-    description:
-        "한국 비자·이민·법인설립 실무 칼럼. D-8 투자비자, F-2/F-5 거주·영주권, 외국인 법인설립, 출입국 거절·보완 대응 등 외국인 투자자와 한국 체류 외국인에게 필요한 법률 콘텐츠를 변호사가 직접 정리합니다.",
+    title, description,
     keywords: [
         "한국 비자 블로그",
         "한국 이민 변호사 블로그",
@@ -22,15 +24,8 @@ export const metadata: Metadata = {
         "Korea immigration lawyer blog",
         "Seoul immigration attorney",
     ],
-    alternates: { canonical: "/blog" },
-    openGraph: {
-        title: "한국 비자·출입국 칼럼 | 김앤현 법률사무소",
-        description:
-            "한국 비자·이민·법인설립 실무를 변호사가 직접 정리하는 법률 칼럼.",
-        url: `${visaOrigin}/blog`,
-        siteName: "Kim&Hyun Law Office",
-        type: "website",
-    },
+    alternates: {canonical: '/blog', languages: localizedAlternates(blogIndexPath)},
+    ...shareMetadata({title, description, url: '/blog'}),
 };
 
 export default async function BlogIndexPage() {
@@ -53,6 +48,7 @@ export default async function BlogIndexPage() {
                         외국인 법인설립, 출입국 실무 가이드. 현장에서 자주 보는
                         오해와 거절 사유를 사례 중심으로 풀어드립니다.
                     </p>
+                    <a className="mt-4 inline-block text-blue-800 underline underline-offset-4" href={koreanGuideHubUrl}>취업·투자·영주·불허 등 상황별 비자 안내 10편 보기</a>
                 </div>
             </section>
 

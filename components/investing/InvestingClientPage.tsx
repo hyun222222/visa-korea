@@ -1,12 +1,9 @@
 "use client";
 
-import { useState, useEffect, type ReactNode } from "react";
-import Link from "next/link";
+import { useState, type ReactNode } from "react";
 import { 
-  Building2, 
   Coins, 
   Scale, 
-  FileText, 
   Shield, 
   FileCheck,
   CheckSquare,
@@ -17,6 +14,13 @@ import { FadeIn } from "@/components/ui/animate-wrapper";
 import { consultationHref } from "@/lib/brand";
 
 type Lang = "ko" | "en" | "zh" | "ja";
+
+const kotraGuideLabel = {
+  ko: "KOTRA 기업투자(D-8) 비자 안내 (영어)",
+  en: "KOTRA guide to the D-8 corporate investor visa",
+  zh: "KOTRA 企业投资（D-8）签证指南（英文）",
+  ja: "KOTRA 企業投資（D-8）ビザの案内（英語）",
+};
 
 interface ChecklistItem {
   id: number;
@@ -35,8 +39,6 @@ interface ChecklistItem {
 const TRANSLATIONS = {
   ko: {
     title: "한국 투자 절차와 D-8 비자 가이드",
-    subtitle: "Investing in Korea: Process & D-8 Visa",
-    intro: "외국인투자 신고부터 법인 등록, D-8 비자까지의 실무 흐름을 정리했습니다. 본 페이지는 일반적인 법률 정보이며 개별 법률자문이 아닙니다.",
     
     // Section 1
     sec1Title: "투자 절차 한눈에",
@@ -59,7 +61,6 @@ const TRANSLATIONS = {
     
     // Section 4
     sec4Title: "변호사에게 문의",
-    sec4Sub: "Ask an attorney",
     sec4Desc: "상황을 간략히 보내주시면 김현정 변호사가 검토 후, 유료 상담이 필요한 경우 비용을 개별 안내드립니다. 모든 문의는 김현정 변호사가 개별 검토하며, 상담은 한국 출입국·투자법에 한정되고 결과를 보장하지 않습니다.",
     btnRequest: "상담 신청",
     btnWhatsApp: "WhatsApp",
@@ -70,8 +71,6 @@ const TRANSLATIONS = {
   },
   en: {
     title: "Investing in Korea: Process & D-8 Visa",
-    subtitle: "Korea Investment Guide",
-    intro: "A practical overview of how foreign investment in Korea works — from notification to company registration and the D-8 visa. This page is general legal information, not legal advice.",
     
     // Section 1
     sec1Title: "The Process at a Glance",
@@ -94,7 +93,6 @@ const TRANSLATIONS = {
     
     // Section 4
     sec4Title: "Ask an attorney",
-    sec4Sub: "변호사에게 문의",
     sec4Desc: "Send a brief message describing your situation. Attorney Kim Hyun-jung will review it and, where a paid consultation is appropriate, advise you of the fee individually. All inquiries are reviewed individually by Kim Hyun-jung. Consultations are limited to Korean immigration and investment law and do not guarantee any outcome.",
     btnRequest: "Request a Consultation",
     btnWhatsApp: "WhatsApp",
@@ -105,8 +103,6 @@ const TRANSLATIONS = {
   },
   zh: {
     title: "投资韩国：流程与D-8签证指南",
-    subtitle: "韩国投资指南",
-    intro: "外国人投资申报、法人设立登记到D-8签证的实务流程指南。本页面为一般法律信息，不构成法律咨询。",
     
     // Section 1
     sec1Title: "投资流程一览",
@@ -129,7 +125,6 @@ const TRANSLATIONS = {
     
     // Section 4
     sec4Title: "咨询韩国执业律师",
-    sec4Sub: "Ask an attorney",
     sec4Desc: "请简要发送您的具体情况。金贤正律师在评估后，如需有偿咨询，将单独向您通知费用。所有咨询均由金贤正律师个案审查，且仅限于韩国出入境与投资法，不保证任何结果。",
     btnRequest: "申请咨询",
     btnWhatsApp: "WhatsApp",
@@ -140,8 +135,6 @@ const TRANSLATIONS = {
   },
   ja: {
     title: "韓国投資：手続きとD-8ビザガイド",
-    subtitle: "韓国投資ガイド",
-    intro: "外国人投資申告から法人設立登記、D-8ビザまでの実務プロセスガイド。本ページは一般的な法律情報であり、個別の法律相談ではありません。",
     
     // Section 1
     sec1Title: "投資プロセス一覧",
@@ -164,7 +157,6 @@ const TRANSLATIONS = {
     
     // Section 4
     sec4Title: "韓国の資格を持つ弁護士に相談する",
-    sec4Sub: "Ask an attorney",
     sec4Desc: "状況を簡単にお送りいただければ、金賢正弁護士が検討の上、有料相談が必要な場合は費用を個別にご案内いたします。すべての問い合わせは金賢正弁護士が個別に確認し、相談は韓国の出入国・投資法に限定され、結果を保証するものではありません。",
     btnRequest: "相談を申し込む",
     btnWhatsApp: "WhatsApp",
@@ -179,93 +171,121 @@ const PROCESS_STEPS = [
   {
     num: 1,
     ko: { title: "외국인투자 해당성 확인", desc: "일반적인 주식 취득 투자는 1억 원 이상과 의결권 지분 10% 이상을 기준으로 봅니다. 10% 미만 지분 취득과 임원 파견·선임 관련 예외 등은 투자 형태별로 확인합니다.", law: "외국인투자촉진법 시행령 제2조" },
-    en: { title: "Confirm Qualifications", desc: "For ordinary equity investment, review the KRW 100M minimum and 10% voting-share condition. Check applicable exceptions for a smaller equity holding with executive participation and other investment forms.", law: "Foreign Investment Promotion Act Decree Art. 2" }
+    en: { title: "Confirm Qualifications", desc: "For ordinary equity investment, review the KRW 100M minimum and 10% voting-share condition. Check applicable exceptions for a smaller equity holding with executive participation and other investment forms.", law: "Foreign Investment Promotion Act Decree Art. 2" },
+    zh: { title: "核对投资条件", desc: "一般股权投资通常需投资至少1亿韩元，并持有至少10%的表决权。持股比例较低但派遣或选任高管等情形，需按具体投资方式核对例外条件。", law: "《外国人投资促进法》施行令第2条" },
+    ja: { title: "投資に該当する条件を確認", desc: "一般的な株式取得では、投資額1億ウォン以上、議決権のある持分10％以上が基準です。持分が10％未満でも役員を派遣・選任する場合など、投資形態に応じて例外を確認します。", law: "外国人投資促進法施行令第2条" }
   },
   {
     num: 2,
     ko: { title: "외국인투자 신고", desc: "원칙적으로 해외 투자 자금을 송금하기 전에 KOTRA 또는 외국환은행에 사전 신고해야 합니다.", law: "외국인투자촉진법 제5조" },
-    en: { title: "File Investment Notification", desc: "In principle, notify KOTRA or a foreign exchange bank before remitting investment funds.", law: "Foreign Investment Promotion Act Art. 5" }
+    en: { title: "File Investment Notification", desc: "In principle, notify KOTRA or a foreign exchange bank before remitting investment funds.", law: "Foreign Investment Promotion Act Art. 5" },
+    zh: { title: "申报外国人投资", desc: "原则上应在从境外汇款前，向大韩贸易投资振兴公社（KOTRA）或外汇银行申报。", law: "《外国人投资促进法》第5条" },
+    ja: { title: "外国人投資を届け出る", desc: "原則として海外から送金する前に、KOTRAまたは外国為替銀行に届け出ます。", law: "外国人投資促進法第5条" }
   },
   {
     num: 3,
     ko: { title: "투자자금 반입 및 납입", desc: "해외 송금 또는 세관 신고를 거친 외화 휴대 반입 등 적법한 경로를 확인합니다. 투자자와 자금의 출처·반입·납입·사용을 연결하는 자료를 보관합니다.", law: "KOTRA 외국인투자 안내" },
-    en: { title: "Remit & Deposit Capital", desc: "Review overseas remittance or declared hand-carried foreign currency, as applicable. Preserve records linking the investor, source, entry, payment and use of funds.", law: "KOTRA investment guide" }
+    en: { title: "Remit & Deposit Capital", desc: "Review overseas remittance or declared hand-carried foreign currency, as applicable. Preserve records linking the investor, source, entry, payment and use of funds.", law: "KOTRA investment guide" },
+    zh: { title: "汇入并缴付投资资金", desc: "根据实际情况核对境外汇款或向海关申报后携带外币入境等途径。保存能将投资人、资金来源、入境过程、缴付及用途相互印证的记录。", law: "KOTRA外国人投资指南" },
+    ja: { title: "資金を持ち込み、払い込む", desc: "海外送金や税関申告を伴う外貨の携帯持込みなど、実際に利用する方法を確認します。投資家と資金の出所・持込み・払込み・使途を結びつける記録を残してください。", law: "KOTRA外国人投資ガイド" }
   },
   {
     num: 4,
     ko: { title: "법인 설립 또는 기존주식 취득", desc: "회사 형태와 설립 절차에 따른 등기 기산일·기한을 확인합니다. 법인 설립과 출입국상 투자비자 요건은 별개입니다.", law: "상법 제317조" },
-    en: { title: "Incorporate or Acquire Shares", desc: "Check the registration deadline and its trigger for the company type and incorporation procedure. Incorporation and immigration eligibility are separate questions.", law: "Commercial Act Art. 317" }
+    en: { title: "Incorporate or Acquire Shares", desc: "Check the registration deadline and its trigger for the company type and incorporation procedure. Incorporation and immigration eligibility are separate questions.", law: "Commercial Act Art. 317" },
+    zh: { title: "设立公司或收购现有股份", desc: "按公司形式和设立程序核对登记期限及起算日。公司设立和出入境部门对D-8资格的审查各有条件。", law: "《商法》第317条" },
+    ja: { title: "法人を設立するか、既存株式を取得する", desc: "会社形態と設立手続に応じて登記期限と起算日を確認します。法人設立と出入国管理上のD-8資格は、それぞれ要件が異なります。", law: "商法第317条" }
   },
   {
     num: 5,
     ko: { title: "외국인투자기업 등록", desc: "자금 납입 및 법인 설립 등 투자가 모두 완료된 날부터 60일 이내에 등록해야 합니다.", law: "외국인투자촉진법 제21조 · 시행령 제27조" },
-    en: { title: "Register the Foreign-Invested Company", desc: "Register within 60 days of completing the entire investment transaction.", law: "Foreign Investment Promotion Act Art. 21" }
+    en: { title: "Register the Foreign-Invested Company", desc: "Register within 60 days of completing the entire investment transaction.", law: "Foreign Investment Promotion Act Art. 21" },
+    zh: { title: "办理外商投资企业登记", desc: "自完成出资、设立公司等全部投资手续之日起60日内办理登记。", law: "《外国人投资促进法》第21条及施行令第27条" },
+    ja: { title: "外国人投資企業として登録する", desc: "払込みや法人設立など、一連の投資が完了した日から60日以内に登録します。", law: "外国人投資促進法第21条・施行令第27条" }
   },
   {
     num: 6,
     ko: { title: "D-8 체류자격 신청 (선택)", desc: "외국인투자기업 등록 완료 후 비자를 별도 신청합니다. 등록만으로 비자 발급이 보장되지 않으며 엄격한 별도 심사가 진행됩니다.", law: "출입국관리법 제24조" },
-    en: { title: "Apply for D-8 Visa", desc: "Company registration alone does not guarantee a visa. Government authorities will conduct a strict, separate assessment.", law: "Immigration Control Act Art. 24" }
+    en: { title: "Apply for D-8 Visa", desc: "Company registration alone does not guarantee a visa. Government authorities will conduct a strict, separate assessment.", law: "Immigration Control Act Art. 24" },
+    zh: { title: "申请D-8居留资格", desc: "外国人投资企业登记完毕后，如需D-8资格，应另行申请。出入境部门会单独审查该申请。", law: "《出入境管理法》第24条" },
+    ja: { title: "D-8の在留資格を申請する", desc: "外国人投資企業の登録後、D-8の在留資格が必要な場合は別途申請します。資格の可否は出入国当局が個別に審査します。", law: "出入国管理法第24条" }
   }
 ];
 
 const DOCS_NEW = [
   {
-    stage: { ko: "투자 신고 (Notification)", en: "Notification" },
+    stage: { ko: "투자 신고", en: "Notification", zh: "投资申报", ja: "投資申告" },
     docs: {
       ko: "외국인투자 신고서, 여권 사본, 대리인 신청 시 위임장",
-      en: "Foreign investment notification form, Passport copy, Power of Attorney (if filed by agent)"
+      en: "Foreign investment notification form, Passport copy, Power of Attorney (if filed by agent)",
+      zh: "外国人投资申报书、护照复印件；由代理人申报时另附授权书",
+      ja: "外国人投資申告書、旅券の写し。代理人が申告する場合は委任状"
     }
   },
   {
-    stage: { ko: "자금 반입 (Funds)", en: "Funds" },
+    stage: { ko: "자금 반입", en: "Funds", zh: "资金入境", ja: "資金の持込み" },
     docs: {
       ko: "외화매입·예치증명서, 송금내역, 휴대 반입 시 세관 신고자료 등 실제 반입 경로의 증빙",
-      en: "FX purchase/deposit certificate, transfer records and customs declaration for hand-carried funds, as applicable"
+      en: "FX purchase/deposit certificate, transfer records and customs declaration for hand-carried funds, as applicable",
+      zh: "购汇或存款证明、汇款记录，以及携带资金入境时的海关申报文件等实际资金入境凭证",
+      ja: "外貨の買取・預入証明書、送金記録、携帯持込み時の税関申告書など実際の資金移動を示す資料"
     }
   },
   {
-    stage: { ko: "법인 설립 (Incorporation)", en: "Incorporation" },
+    stage: { ko: "법인 설립", en: "Incorporation", zh: "公司设立", ja: "法人設立" },
     docs: {
       ko: "정관, 주식인수증, 주금납입 보관증명서, 임원취임승낙서, 창립총회의사록",
-      en: "Articles of incorporation, share subscription proof, capital deposit certificate, directors' acceptance letters, inaugural meeting minutes"
+      en: "Articles of incorporation, share subscription proof, capital deposit certificate, directors' acceptance letters, inaugural meeting minutes",
+      zh: "公司章程、认股证明、股款缴存证明、董事就任同意书、创立大会会议记录",
+      ja: "定款、株式引受証、株金払込金保管証明書、役員の就任承諾書、創立総会議事録"
     }
   },
   {
-    stage: { ko: "기업 등록 (Registration)", en: "Registration" },
+    stage: { ko: "기업 등록", en: "Registration", zh: "企业登记", ja: "企業登録" },
     docs: {
       ko: "외국인투자기업 등록신청서, 법인 등기사항증명서, 사업자등록증 사본, 주주명부 원본",
-      en: "Foreign-invested company registration form, Corporate registry extract, Business registration certificate, Shareholder register"
+      en: "Foreign-invested company registration form, Corporate registry extract, Business registration certificate, Shareholder register",
+      zh: "外商投资企业登记申请书、公司登记事项证明、营业登记证复印件、股东名册原件",
+      ja: "外国人投資企業登録申請書、法人の登記事項証明書、事業者登録証の写し、株主名簿の原本"
     }
   }
 ];
 
 const DOCS_EXISTING = [
   {
-    stage: { ko: "투자 신고 (Notification)", en: "Notification" },
+    stage: { ko: "투자 신고", en: "Notification", zh: "投资申报", ja: "投資申告" },
     docs: {
       ko: "외국인투자 신고서 (기존주식 취득용), 주식양수도 합의서 (사전 신고가 원칙이나 일부 사후신고 가능)",
-      en: "Foreign investment notification form (for share acquisition), Share transfer agreement (prior notification generally required, with statutory exceptions for post-acquisition notification)"
+      en: "Foreign investment notification form (for share acquisition), Share transfer agreement (prior notification generally required, with statutory exceptions for post-acquisition notification)",
+      zh: "外国人投资申报书（收购现有股份用）、股份转让协议。原则上须事前申报，法定例外可在收购后申报",
+      ja: "外国人投資申告書（既存株式取得用）、株式譲渡契約書。原則は事前申告ですが、法令上の例外では事後に申告できます"
     }
   },
   {
-    stage: { ko: "구주 매수 (Acquisition)", en: "Acquisition" },
+    stage: { ko: "구주 매수", en: "Acquisition", zh: "收购现有股份", ja: "既存株式取得" },
     docs: {
       ko: "주식매매계약서, 대금지급 송금증빙, 주식 양도소득세 신고 증빙, 주주명부 정리 서류",
-      en: "Share purchase agreement, Proof of payment transfer, Share transfer tax filing proof, Updated shareholder register"
+      en: "Share purchase agreement, Proof of payment transfer, Share transfer tax filing proof, Updated shareholder register",
+      zh: "股份买卖合同、价款汇款凭证、股份转让所得税申报凭证、更新股东名册所需文件",
+      ja: "株式売買契約書、送金による代金支払いの証明、株式譲渡所得税の申告書控え、株主名簿の更新書類"
     }
   },
   {
-    stage: { ko: "자금 송금 (Remittance)", en: "Remittance" },
+    stage: { ko: "자금 송금", en: "Remittance", zh: "汇款", ja: "送金" },
     docs: {
       ko: "송금인 및 거래 내역이 확인되는 외화매입증명서 또는 은행 송금확인증",
-      en: "FX purchase / deposit certificate showing the remitter and clear transaction details"
+      en: "FX purchase / deposit certificate showing the remitter and clear transaction details",
+      zh: "载有汇款人及交易明细的购汇证明或银行汇款回执",
+      ja: "送金人と取引内容が分かる外貨買取証明書または銀行の送金証明書"
     }
   },
   {
-    stage: { ko: "기업 등록 (Registration)", en: "Registration" },
+    stage: { ko: "기업 등록", en: "Registration", zh: "企业登记", ja: "企業登録" },
     docs: {
       ko: "외국인투자기업 등록신청서, 법인 등기사항증명서, 사업자등록증 사본, 주주명부 원본",
-      en: "Foreign-invested company registration form, Corporate registry extract, Business registration certificate, Shareholder register"
+      en: "Foreign-invested company registration form, Corporate registry extract, Business registration certificate, Shareholder register",
+      zh: "外商投资企业登记申请书、公司登记事项证明、营业登记证复印件、股东名册原件",
+      ja: "外国人投資企業登録申請書、法人の登記事項証明書、事業者登録証の写し、株主名簿の原本"
     }
   }
 ];
@@ -351,13 +371,12 @@ const CHECKLIST_ITEMS: ChecklistItem[] = [
   }
 ];
 
-export default function InvestingClientPage({ lang, featuredGuide }: { lang: Lang; featuredGuide?: ReactNode }) {
+export default function InvestingClientPage({ lang, introduction, featuredGuide }: { lang: Lang; introduction: string; featuredGuide?: ReactNode }) {
   const currentLang = lang;
   const t = TRANSLATIONS[currentLang];
   
   const [docTab, setDocTab] = useState<"new" | "existing">("new");
   const [checkedItems, setCheckedItems] = useState<boolean[]>([false, false, false, false, false, false]);
-  const [resultVisible, setResultVisible] = useState(false);
 
   const checkedCount = checkedItems.filter(Boolean).length;
   const hasInvestmentStructure = checkedItems[2];
@@ -367,14 +386,6 @@ export default function InvestingClientPage({ lang, featuredGuide }: { lang: Lan
     next[index] = !next[index];
     setCheckedItems(next);
   };
-
-  useEffect(() => {
-    if (checkedItems.some(Boolean)) {
-      setResultVisible(true);
-    } else {
-      setResultVisible(false);
-    }
-  }, [checkedItems]);
 
   const getResultText = (count: number) => {
     switch (currentLang) {
@@ -400,7 +411,7 @@ export default function InvestingClientPage({ lang, featuredGuide }: { lang: Lan
       default:
         return (
           <>
-            You've noted <strong className="text-indigo-400 text-lg font-bold">{count}</strong> of 6 factors. These are points that often matter in a D-8 case, but they are not a pass/fail test — the authorities assess every application individually. The most reliable next step is to have a licensed attorney review your specific situation.
+            You selected <strong className="text-indigo-400 text-lg font-bold">{count}</strong> of 6 factors. These points can help you prepare for a review. The immigration authorities assess each application individually.
           </>
         );
     }
@@ -425,20 +436,17 @@ export default function InvestingClientPage({ lang, featuredGuide }: { lang: Lan
       {/* Hero Header */}
       <div className="relative bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 text-white border-b border-slate-800">
         <div className="max-w-7xl mx-auto py-20 px-4 sm:py-24 sm:px-6 lg:px-8">
-          <FadeIn className="text-center max-w-4xl mx-auto space-y-6">
+          <div className="text-center max-w-4xl mx-auto space-y-6">
             <div className="inline-flex items-center justify-center p-3 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 mb-2">
               <Coins className="h-10 w-10 text-indigo-400" />
             </div>
-            <p className="text-xs uppercase tracking-widest text-indigo-400 font-bold">
-              {t.subtitle}
-            </p>
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold tracking-tight text-white leading-tight">
               {t.title}
             </h1>
             <p className="text-slate-300 text-base sm:text-lg leading-relaxed font-light max-w-2xl mx-auto">
-              {t.intro}
+              {introduction}
             </p>
-          </FadeIn>
+          </div>
         </div>
       </div>
 
@@ -455,39 +463,28 @@ export default function InvestingClientPage({ lang, featuredGuide }: { lang: Lan
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {PROCESS_STEPS.map((step) => {
-              const stepTitle = currentLang === "ko" ? step.ko.title : step.en.title;
-              const stepDesc = currentLang === "ko" ? step.ko.desc : step.en.desc;
-              const stepLaw = currentLang === "ko" ? step.ko.law : step.en.law;
-              
-              const secondaryTitle = currentLang === "ko" ? step.en.title : step.ko.title;
-              const secondaryDesc = currentLang === "ko" ? step.en.desc : step.ko.desc;
+              const { title, desc, law } = step[currentLang];
 
               return (
-                <FadeIn key={step.num} delay={step.num * 0.05} className="flex flex-col bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all duration-300 relative group">
+                <article key={step.num} className="flex flex-col bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all duration-300 relative group">
                   <div className="flex justify-between items-start mb-4">
                     <span className="inline-flex items-center justify-center h-8 px-3 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 font-bold text-xs">
                       {t.stepBadge} {step.num}
                     </span>
                     <span className="text-[10px] text-slate-400 font-medium bg-slate-50 px-2 py-0.5 rounded border border-slate-100 font-mono">
-                      {stepLaw}
+                      {law}
                     </span>
                   </div>
                   
                   <div className="space-y-2 flex-grow">
                     <h3 className="text-lg font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">
-                      {stepTitle}
+                      {title}
                     </h3>
-                    <p className="text-xs text-slate-400 font-medium italic">
-                      {secondaryTitle}
-                    </p>
                     <p className="text-sm text-slate-600 leading-relaxed pt-2">
-                      {stepDesc}
-                    </p>
-                    <p className="text-xs text-slate-400 leading-relaxed font-light">
-                      {secondaryDesc}
+                      {desc}
                     </p>
                   </div>
-                </FadeIn>
+                </article>
               );
             })}
           </div>
@@ -532,12 +529,10 @@ export default function InvestingClientPage({ lang, featuredGuide }: { lang: Lan
                   {(docTab === "new" ? DOCS_NEW : DOCS_EXISTING).map((row, idx) => (
                     <tr key={idx} className="hover:bg-slate-50/40 transition-colors">
                       <td className="py-4 pr-4 align-top">
-                        <div className="font-bold text-slate-800 text-sm">{currentLang === "ko" ? row.stage.ko : row.stage.en}</div>
-                        <div className="text-[11px] text-slate-400 font-light mt-0.5">{currentLang === "ko" ? row.stage.en : row.stage.ko}</div>
+                        <div className="font-bold text-slate-800 text-sm">{row.stage[currentLang]}</div>
                       </td>
                       <td className="py-4 align-top">
-                        <div className="text-slate-700 text-sm leading-relaxed">{currentLang === "ko" ? row.docs.ko : row.docs.en}</div>
-                        <div className="text-[11px] text-slate-400 leading-relaxed font-light mt-1">{currentLang === "ko" ? row.docs.en : row.docs.ko}</div>
+                        <div className="text-slate-700 text-sm leading-relaxed">{row.docs[currentLang]}</div>
                       </td>
                     </tr>
                   ))}
@@ -550,10 +545,6 @@ export default function InvestingClientPage({ lang, featuredGuide }: { lang: Lan
         {/* Section 3: Quick Self-Check */}
         <section className="space-y-8 max-w-3xl mx-auto">
           <div className="text-center space-y-2">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-xs font-semibold text-slate-600">
-              <span className="w-1.5 h-1.5 rounded-full bg-indigo-600 animate-pulse" />
-              {currentLang === "ko" ? "김앤현 법률사무소 · Kim & Hyun Law Office" : "Kim & Hyun Law Office · 김앤현 법률사무소"}
-            </div>
             <h2 className="text-2xl sm:text-3xl font-serif font-bold text-slate-900">{t.sec3Title}</h2>
             <p className="text-slate-500 text-sm max-w-2xl mx-auto">
               {t.sec3Sub}
@@ -566,30 +557,21 @@ export default function InvestingClientPage({ lang, featuredGuide }: { lang: Lan
             <div className="flex gap-3 bg-indigo-50/60 border border-indigo-100 rounded-xl p-4 text-xs text-indigo-900 leading-relaxed font-light">
               <Shield className="h-4.5 w-4.5 text-indigo-500 shrink-0 mt-0.5" />
               <div>
-                <span className="font-bold block mb-1">
-                  {currentLang === "ko" ? "안내 / Notice" : "Notice / 안내"}
-                </span>
                 <p className="font-semibold text-slate-800">
                   {t.checkEmphasis}
-                </p>
-                <p className="text-[10px] text-slate-400 mt-1">
-                  {currentLang === "ko" 
-                    ? "No answer here approves or denies a visa. Each case is decided individually by the Korean authorities based on the full facts."
-                    : "본 체크는 비자를 승인하거나 거부하지 않습니다. 실제 판단은 행정청이 사안 전체를 보고 개별적으로 합니다."
-                  }
                 </p>
               </div>
             </div>
 
             <div className="space-y-4 pt-2">
               {CHECKLIST_ITEMS.map((item, idx) => {
-                const itemText = item[currentLang] || item.en;
-                const lawRef = item.law[currentLang] || item.law.en;
-                const secondaryText = currentLang === "ko" ? item.en : item.ko;
+                const itemText = item[currentLang];
+                const lawRef = item.law[currentLang];
 
                 return (
                   <button 
                     key={item.id}
+                    aria-pressed={checkedItems[idx]}
                     onClick={() => toggleCheck(idx)}
                     className={`w-full flex items-start text-left gap-4 p-4 rounded-xl border transition-all duration-200 ${checkedItems[idx] ? "bg-indigo-50/40 border-indigo-200 shadow-sm" : "border-slate-100 hover:border-slate-200 bg-slate-50/30"}`}
                   >
@@ -601,17 +583,14 @@ export default function InvestingClientPage({ lang, featuredGuide }: { lang: Lan
                       )}
                     </div>
                     <div className="space-y-1 flex-grow">
-                      <div className="flex justify-between items-start gap-4">
+                      <div className="flex flex-col items-start gap-2 sm:flex-row sm:justify-between sm:gap-4">
                         <p className={`text-sm font-semibold transition-colors ${checkedItems[idx] ? "text-indigo-900" : "text-slate-800"}`}>
                           {itemText}
                         </p>
-                        <span className="text-[9px] text-slate-400 font-mono shrink-0 bg-slate-100/60 px-1.5 py-0.5 rounded border border-slate-200/40">
+                        <span className="max-w-full text-xs text-slate-600 bg-slate-100/60 px-1.5 py-0.5 rounded border border-slate-200/40 sm:max-w-[45%]">
                           {lawRef}
                         </span>
                       </div>
-                      <p className="text-[11px] text-slate-400 font-light">
-                        {secondaryText}
-                      </p>
                     </div>
                   </button>
                 );
@@ -623,12 +602,12 @@ export default function InvestingClientPage({ lang, featuredGuide }: { lang: Lan
             </div>
 
             {/* Verification result box (displays count only, complying with ad regulations) */}
-            {resultVisible && (
+            {checkedCount > 0 && (
               <FadeIn className="bg-slate-900 text-white rounded-xl p-6 border border-slate-800 space-y-4">
                 <div className="flex items-center gap-2 border-b border-slate-800 pb-3">
                   <FileCheck className="h-5 w-5 text-indigo-400" />
                   <span className="text-xs uppercase font-bold tracking-wider text-slate-400">
-                    {currentLang === "ko" ? "자가진단 결과 / Self-Check Results" : "Self-Check Results / 자가진단 결과"}
+                    {t.sec3Title}
                   </span>
                 </div>
                 
@@ -655,9 +634,6 @@ export default function InvestingClientPage({ lang, featuredGuide }: { lang: Lan
           
           <div className="relative p-8 sm:p-12 text-center space-y-6 max-w-2xl mx-auto">
             <div className="space-y-1">
-              <span className="text-[10px] sm:text-xs uppercase font-bold tracking-widest text-indigo-400">
-                {t.sec4Sub}
-              </span>
               <h2 className="text-2xl sm:text-3xl font-serif font-bold text-white">
                 {t.sec4Title}
               </h2>
@@ -699,7 +675,7 @@ export default function InvestingClientPage({ lang, featuredGuide }: { lang: Lan
               </p>
               <p className="text-xs leading-relaxed">
                 <a href="https://www.investkorea.org/ik-en/cntnts/i-358/web.do" target="_blank" rel="noopener noreferrer" className="underline">
-                  KOTRA Invest KOREA — Corporate Investor Visa (D-8)
+                  {kotraGuideLabel[currentLang]}
                 </a>
               </p>
             </div>

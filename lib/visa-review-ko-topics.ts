@@ -1,5 +1,8 @@
 import {visaReviewOrigin} from './visa-review-locales';
 
+export const koreanGuideHubPath = '/ko/visa-guides';
+export const koreanGuideHubUrl = visaReviewOrigin + koreanGuideHubPath;
+
 export const koreanReviewTopics = {
   'e7-job-loss': 'E-7 해고·퇴직',
   'd10-visa': 'D-10 구직',

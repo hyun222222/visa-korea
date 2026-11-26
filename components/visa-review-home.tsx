@@ -1,5 +1,5 @@
 import {visaPublic, type Language} from '@/lib/brand';
-import {koreanReviewTopicUrl} from '@/lib/visa-review-ko-topics';
+import {koreanGuideHubUrl} from '@/lib/visa-review-ko-topics';
 import {reviewMarkets, reviewMarketsInOrder, reviewMarketUrl, visaReviewOrigin} from '@/lib/visa-review-locales';
 import styles from './visa-review-home.module.css';
 
@@ -48,7 +48,7 @@ export function VisaReviewHome({lang}: {lang: Language}) {
         <p>{text.description}</p>
         <div className={styles.actions}>
           <a className={styles.primary} href={startUrl}>{text.start}</a>
-          {lang === 'ko' && <a className={styles.topics} href={`${koreanReviewTopicUrl('visa-status-check')}#topics`}>{copy.ko.topics}</a>}
+          {lang === 'ko' && <a className={styles.topics} href={koreanGuideHubUrl}>{copy.ko.topics}</a>}
         </div>
       </div>
       <nav className={styles.languages} aria-label={text.languages}>

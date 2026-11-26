@@ -117,6 +117,7 @@ export default function DirectReview({language, plan, clientId, materialsEnabled
     ? {caseId: activeCase.id, orderId: session.directOrderId}
     : null;
   const checkoutCase = activeCase && (activeCase.paidAt || recoveryOrder || checkoutStartedHere) ? activeCase : null;
+  const canContinueOrder = Boolean(clientId && recoveryOrder && Date.parse(activeCase?.checkoutExpiresAt ?? '') > Date.now());
   const selectedPlan = checkoutCase?.plan ?? plan;
   const maxFiles = reviewAttachmentLimits[selectedPlan];
   const paymentReady = Boolean(clientId);
@@ -170,11 +171,11 @@ export default function DirectReview({language, plan, clientId, materialsEnabled
     return recoveryOrder.orderId;
   }
 
-  async function captureOrder(caseId: string, orderId: string) {
+  async function confirmOrder(action: 'capture-direct-order' | 'confirm-existing-direct-payment', caseId: string, orderId: string) {
     setPaymentWaiting(true);
     setNotice(null);
     try {
-      const result = await request<{case: Case; materialsToken: string | null}>({action: 'capture-direct-order', caseId, orderId});
+      const result = await request<{case: Case; materialsToken: string | null}>({action, caseId, orderId});
       onSession({directCase: result.case, directOrderId: orderId, materialsToken: result.materialsToken});
       pending.current = null;
       setFallback(false);
@@ -183,7 +184,7 @@ export default function DirectReview({language, plan, clientId, materialsEnabled
       setNotice({kind: 'message', text: t.directPaid});
     } catch {
       setCheckoutStartedHere(false);
-      failure(t.directCaptureError);
+      failure(action === 'confirm-existing-direct-payment' ? t.directStatusUnconfirmed : t.directCaptureError);
     } finally {
       setPaymentWaiting(false);
     }
@@ -205,10 +206,17 @@ export default function DirectReview({language, plan, clientId, materialsEnabled
     const order = pending.current;
     if (!order || order.orderId !== orderID) {
       setPaymentWaiting(false);
+      setCheckoutStartedHere(false);
       failure(t.directCaptureError);
       return;
     }
-    await captureOrder(order.caseId, order.orderId);
+    await confirmOrder('capture-direct-order', order.caseId, order.orderId);
+  }
+
+  function checkExistingOrder(action: 'confirm-existing-direct-payment' | 'capture-direct-order') {
+    if (!recoveryOrder || inFlight.current) return;
+    if (action === 'capture-direct-order' && !canContinueOrder) return;
+    void confirmOrder(action, recoveryOrder.caseId, recoveryOrder.orderId);
   }
 
   async function sendMaterials(event: FormEvent<HTMLFormElement>) {
@@ -303,10 +311,12 @@ export default function DirectReview({language, plan, clientId, materialsEnabled
         {['paid', 'in_review', 'delivered'].includes(activeCase.status) && <button type="button" className={styles.textButton} disabled={waiting} onClick={() => void requestCancellation(activeCase.id)}>{t.refund}</button>}
       </> : activeCase && recoveryOrder ? <>
         <p className={styles.caseReference}>{t.reference} <code>{activeCase.id}</code></p>
-        <p>{t.directResumePayment}</p>
-        {clientId && Date.parse(activeCase.checkoutExpiresAt ?? '') > Date.now() && <PayPalButtons clientId={clientId} language={language} createOrder={resumeOrder} onApprove={onApprove} onCancel={cancelPayment} onError={paymentError} />}
+        <p>{canContinueOrder ? t.directResumePayment : t.directStatusOnly}</p>
+        {canContinueOrder && clientId && <PayPalButtons clientId={clientId} language={language} createOrder={resumeOrder} onApprove={onApprove} onCancel={cancelPayment} onError={paymentError} />}
         <div className={styles.directActions}>
-          <button type="button" className={styles.textButton} disabled={waiting} onClick={() => void captureOrder(recoveryOrder.caseId, recoveryOrder.orderId)}>{t.returnRetry}</button>
+          <button type="button" className={styles.textButton} disabled={waiting} onClick={() => checkExistingOrder('confirm-existing-direct-payment')}>{t.directCheckStatus}</button>
+          {canContinueOrder && <button type="button" className={styles.textButton} disabled={waiting}
+            onClick={() => checkExistingOrder('capture-direct-order')}>{t.directFinishApproved((activeCase.amountCents / 100).toFixed(2))}</button>}
           <button type="button" className={styles.textButton} disabled={waiting} onClick={() => void requestCancellation(activeCase.id)}>{t.cancel}</button>
         </div>
       </> : paymentReady && clientId ? <>
